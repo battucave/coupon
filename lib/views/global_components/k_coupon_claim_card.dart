@@ -1,0 +1,176 @@
+import 'package:flutter/material.dart';
+import 'package:logan/constant/asset_path.dart';
+import 'package:logan/views/styles/b_style.dart';
+
+import 'k_button.dart';
+
+class KCouponClaimCard extends StatefulWidget {
+  const KCouponClaimCard(
+      {Key? key, this.percent, this.color, this.date, this.image, this.name, this.buttonText, this.couponDetails = false, this.onPressed})
+      : super(key: key);
+
+  final String? name;
+  final String? image;
+  final Color? color;
+  final int? percent;
+  final String? date;
+  final String? buttonText;
+  final Function()? onPressed;
+  final bool couponDetails;
+
+  @override
+  State<KCouponClaimCard> createState() => _KCouponClaimCardState();
+}
+
+class _KCouponClaimCardState extends State<KCouponClaimCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: KColor.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [BoxShadow(color: KColor.silver.withOpacity(0.2), blurRadius: 4, spreadRadius: 2)]),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              decoration: BoxDecoration(
+                  color: widget.color, borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+              child: Row(
+                children: [
+                  Image.asset(widget.image!, height: 55, width: 55),
+                  SizedBox(width: KSize.getWidth(context, 10)),
+                  Expanded(
+                    child: Text(
+                      widget.name!,
+                      style: KTextStyle.headline4.copyWith(fontSize: 18),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  widget.couponDetails
+                      ? Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      text: '${widget.percent}% ',
+                                      style: KTextStyle.headline4.copyWith(fontSize: 30, color: KColor.orange),
+                                      children: <TextSpan>[
+                                        TextSpan(text: 'OFF', style: KTextStyle.headline4.copyWith(fontSize: 18, color: KColor.orange)),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: KSize.getHeight(context, 20),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Valid Until: ',
+                                      style: KTextStyle.headline2.copyWith(fontSize: 16, color: KColor.black),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: widget.date,
+                                            style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.black.withOpacity(0.3))),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Image.asset(AssetPath.couponSuccess, height: 75, width: 135)
+                          ],
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text: '${widget.percent}% ',
+                                style: KTextStyle.headline4.copyWith(fontSize: 30, color: KColor.orange),
+                                children: <TextSpan>[
+                                  TextSpan(text: 'OFF', style: KTextStyle.headline4.copyWith(fontSize: 18, color: KColor.orange)),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: KSize.getHeight(context, 20),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: 'Valid Until: ',
+                                style: KTextStyle.headline2.copyWith(fontSize: 16, color: KColor.black),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: widget.date, style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.black.withOpacity(0.3))),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                  SizedBox(
+                    height: KSize.getHeight(context, 20),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: 'Requirements: ',
+                      style: KTextStyle.headline2.copyWith(fontSize: 16, color: KColor.black),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text:
+                                'Must be 18 years or older, must buy \$15 or more in merchandise, must have a moustache, must be able to touch your nose to your toes, must pay in red-headed children',
+                            style: KTextStyle.headline2.copyWith(height: 25 / 14, fontSize: 14, color: KColor.black.withOpacity(0.3))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            widget.couponDetails
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 22)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            child: Text(
+                          "Redeem Code",
+                          style: KTextStyle.headline2.copyWith(fontSize: 18, height: 25 / 18, color: KColor.orange),
+                        )),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 33), vertical: KSize.getHeight(context, 8)),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: KColor.blue),
+                          child: Text(
+                            "Coupon ${widget.percent}%",
+                            style: KTextStyle.headline2.copyWith(fontSize: 18, height: 25 / 18),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : Container(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 22),
+              child: KButton(
+                isCoupon: true,
+                text: widget.buttonText,
+                onPressed: widget.onPressed,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
