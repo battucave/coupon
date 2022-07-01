@@ -4,7 +4,8 @@ import 'package:logan/views/styles/k_colors.dart';
 
 class KArrowGoButton extends StatefulWidget {
   final Function()? onpressed;
-  const KArrowGoButton({Key? key, this.onpressed}) : super(key: key);
+  final bool isLoading;
+  const KArrowGoButton({Key? key, this.onpressed,this.isLoading=false}) : super(key: key);
 
   @override
   State<KArrowGoButton> createState() => _KArrowGoButtonState();
@@ -18,7 +19,8 @@ class _KArrowGoButtonState extends State<KArrowGoButton> {
       child: Container(
         decoration: const BoxDecoration(color: KColor.primary, shape: BoxShape.circle),
         padding: const EdgeInsets.all(23),
-        child: Image.asset(AssetPath.arrowGo, height: 17, width: 30),
+        child: !widget.isLoading?Image.asset(AssetPath.arrowGo, height: 17, width: 30):
+        const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(KColor.white)),
       ),
     );
   }

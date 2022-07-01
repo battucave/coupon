@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:logan/constant/asset_path.dart';
+import 'package:logan/controllers/login_controller.dart';
+import 'package:logan/controllers/register_controller.dart';
 import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/global_components/k_arrow_go_button.dart';
 import 'package:logan/views/global_components/k_bottom_navigation_bar.dart';
@@ -7,6 +10,8 @@ import 'package:logan/views/global_components/k_social_media_button.dart';
 import 'package:logan/views/global_components/k_text_field.dart';
 import 'package:logan/views/screens/auth/forgot_password_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
+import 'package:get/get.dart';
+import 'package:get/route_manager.dart';
 
 class LoginScreen extends StatefulWidget {
   final bool isSignupScreen;
@@ -22,12 +27,37 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
 
+  var registerController=Get.put(RegisterController());
+  var loginController=Get.put(LoginController());
+  bool isLoading=false;
+
   @override
   void initState() {
     super.initState();
     isSignupScreen = widget.isSignupScreen;
   }
+  @override
+  void dispose() {
+    super.dispose();
+     isLoading=false;
+  }
 
+  ///Show message to user according to api response statuscode
+  void snackMessage( String  msg){
+    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void stopLoading( ){
+    setState(() {
+      isLoading=false;
+    });
+  }
+  void startLoading( ){
+    setState(() {
+      isLoading=true;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onTap: () {
                                     setState(() {
                                       isSignupScreen = true;
+                                      isLoading=false;
                                     });
                                   },
                                   child: Column(
@@ -93,6 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onTap: () {
                                     setState(() {
                                       isSignupScreen = false;
+                                      isLoading=false;
                                     });
                                   },
                                   child: Column(
@@ -121,21 +153,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                         hintText: "Email Address",
                                         prefixIcon: Image.asset(AssetPath.mailIcon, height: 16, width: 22),
                                         keyboardType: TextInputType.emailAddress,
-                                        controller: emailController,
+                                        controller: registerController.emailController,
                                       ),
                                       SizedBox(height: KSize.getHeight(context, 30)),
                                       KTextField(
                                         hintText: "Phone Number",
                                         prefixIcon: Image.asset(AssetPath.phone, height: 20, width: 20),
                                         keyboardType: TextInputType.phone,
-                                        controller: phoneController,
+                                        controller: registerController.phoneController,
+
                                       ),
                                       SizedBox(height: KSize.getHeight(context, 30)),
                                       KTextField(
                                         passWordField: true,
                                         hintText: "Password",
                                         prefixIcon: Image.asset(AssetPath.lockIcon, height: 20, width: 16),
-                                        controller: passwordController,
+                                        controller: registerController.passwordController,
                                       ),
                                       SizedBox(height: KSize.getHeight(context, 85)),
                                     ],
@@ -146,14 +179,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                         hintText: "Email Address",
                                         prefixIcon: Image.asset(AssetPath.mailIcon, height: 16, width: 22),
                                         keyboardType: TextInputType.emailAddress,
-                                        controller: emailController,
+                                        controller: loginController.emailController,
                                       ),
                                       SizedBox(height: KSize.getHeight(context, 30)),
                                       KTextField(
                                         passWordField: true,
                                         hintText: "Password",
                                         prefixIcon: Image.asset(AssetPath.lockIcon, height: KSize.getHeight(context, 20), width: 16),
-                                        controller: passwordController,
+                                        controller: loginController.passwordController,
                                       ),
                                       SizedBox(height: KSize.getHeight(context, 10)),
                                       Align(
@@ -177,8 +210,46 @@ class _LoginScreenState extends State<LoginScreen> {
                       Positioned(
                         bottom: -25,
                         child: KArrowGoButton(
-                          onpressed: () {
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KBottomNavigationBar()));
+                          isLoading:isLoading ,
+                          onpressed: () async{
+
+                         setState(() {
+                              isLoading=true;
+                         });
+
+                         if(isSignupScreen){
+                           var registerResult= await registerController.Register();
+                           if(registerResult==200 || registerResult==201){
+
+                             Navigator.pushReplacement(
+                                 context,
+                                 MaterialPageRoute(
+                                     builder: (context) =>
+                                     const LoginScreen()));
+                             snackMessage("Successful registration");
+                           }else{
+                             stopLoading();
+                             snackMessage("User Already Registered!");
+                           }
+
+                         }else{
+                           var result=await loginController.Login();
+                           if(result==200 || result==201){//To know if login is success from api
+                             stopLoading();
+                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KBottomNavigationBar()));
+                           }else{
+                             if(result==418){
+                               stopLoading();
+                               snackMessage("Incorrect username or password");
+                             }else{
+                               stopLoading();
+                               snackMessage("User not found");
+                             }
+
+                           }
+                         }
+
+
                           },
                         ),
                       )
