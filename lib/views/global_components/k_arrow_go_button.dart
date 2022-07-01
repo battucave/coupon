@@ -20,7 +20,11 @@ class _KArrowGoButtonState extends State<KArrowGoButton> {
         decoration: const BoxDecoration(color: KColor.primary, shape: BoxShape.circle),
         padding: const EdgeInsets.all(23),
         child: !widget.isLoading?Image.asset(AssetPath.arrowGo, height: 17, width: 30):
-        const CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(KColor.white)),
+        const SizedBox(
+          child:   CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(KColor.white),strokeWidth: 2,),
+          height: 10.0,
+          width: 10.0,
+        ),
       ),
     );
   }

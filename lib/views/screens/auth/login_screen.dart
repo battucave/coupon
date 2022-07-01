@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
       isLoading=false;
     });
   }
-  void startLoading( ){
+  void startLoading(){
     setState(() {
       isLoading=true;
     });
@@ -213,40 +213,50 @@ class _LoginScreenState extends State<LoginScreen> {
                           isLoading:isLoading ,
                           onpressed: () async{
 
-                         setState(() {
-                              isLoading=true;
-                         });
+
+
+
 
                          if(isSignupScreen){
-                           var registerResult= await registerController.Register();
-                           if(registerResult==200 || registerResult==201){
+                           if(registerController.emailController.text.isNotEmpty &&
+                               registerController.phoneController.text.isNotEmpty &&
+                               registerController.passwordController.text.isNotEmpty){
+                             startLoading();
+                             var registerResult= await registerController.Register();
+                             if(registerResult==200 || registerResult==201){
 
-                             Navigator.pushReplacement(
-                                 context,
-                                 MaterialPageRoute(
-                                     builder: (context) =>
-                                     const LoginScreen()));
-                             snackMessage("Successful registration");
-                           }else{
-                             stopLoading();
-                             snackMessage("User Already Registered!");
-                           }
-
-                         }else{
-                           var result=await loginController.Login();
-                           if(result==200 || result==201){//To know if login is success from api
-                             stopLoading();
-                             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KBottomNavigationBar()));
-                           }else{
-                             if(result==418){
-                               stopLoading();
-                               snackMessage("Incorrect username or password");
+                               Navigator.pushReplacement(
+                                   context,
+                                   MaterialPageRoute(
+                                       builder: (context) =>
+                                       const LoginScreen()));
+                               snackMessage("Successful registration");
                              }else{
                                stopLoading();
-                               snackMessage("User not found");
+                               snackMessage("User Already Registered!");
                              }
-
+                           }else{
+                             snackMessage("All fields are required");
                            }
+
+
+                         }else{
+                           if(loginController.emailController.text.isNotEmpty &&
+                              loginController.passwordController.text.isNotEmpty ){
+                             startLoading();
+                             var result=await loginController.Login();
+                             if(result==200 || result==201){//To know if login is success from api
+                               stopLoading();
+                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KBottomNavigationBar()));
+                             }else{
+                               stopLoading();
+                               snackMessage("Incorrect username or password");
+
+                             }
+                           }else{
+                             snackMessage("All fields are required");
+                           }
+
                          }
 
 
