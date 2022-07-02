@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/global_components/k_arrow_go_button.dart';
@@ -6,6 +8,8 @@ import 'package:logan/views/global_components/k_back_button.dart';
 import 'package:logan/views/global_components/k_text_field.dart';
 import 'package:logan/views/screens/auth/login_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
+
+import '../../../controllers/reset_password_controller.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({Key? key}) : super(key: key);
@@ -16,9 +20,23 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool isSignupScreen = true;
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController passwordConfirmationController = TextEditingController();
 
+  var resetPasswordController=Get.put(ResetPasswordController());
+  bool isLoading=false;
+  void stopLoading( ){
+    setState(() {
+      isLoading=false;
+    });
+  }
+  void snackMessage( String  msg){
+    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+  void startLoading(){
+    setState(() {
+      isLoading=true;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,14 +82,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               passWordField: true,
                               prefixIcon: Image.asset(AssetPath.lockIcon, height: 20, width: 16),
                               hintText: "Password",
-                              controller: passwordController,
+                              controller: resetPasswordController.newPasswordController,
                             ),
                             SizedBox(height: KSize.getHeight(context, 30)),
                             KTextField(
                               passWordField: true,
                               prefixIcon: Image.asset(AssetPath.lockIcon, height: 20, width: 16),
                               hintText: "Confirm Password",
-                              controller: passwordConfirmationController,
+                              controller: resetPasswordController.confirmPasswordController,
                             ),
                             SizedBox(height: KSize.getHeight(context, 50)),
                           ],
@@ -84,8 +102,31 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       right: KSize.getWidth(context, 150),
                       left: KSize.getWidth(context, 150),
                       child: KArrowGoButton(
-                        onpressed: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                        isLoading: isLoading,
+                        onpressed: () async{
+
+                          if(resetPasswordController.newPasswordController.text.isNotEmpty &&
+                              resetPasswordController.confirmPasswordController.text.isNotEmpty ){
+
+
+                            startLoading();
+                            var resetResult= await resetPasswordController.resetPassword();
+                            print(resetResult);
+                            if(resetResult==200 || resetResult==201){
+                              stopLoading();
+
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                              snackMessage("Password reset successfully");
+                            }else{
+                              stopLoading();
+                              snackMessage("Reset password token has expired, please request a new one.");
+                            }
+                          }else if(resetPasswordController.newPasswordController.text!=resetPasswordController.confirmPasswordController.text){
+                            snackMessage("Passwords must be the same!");
+                          }else{
+                            snackMessage("Fields are required");
+                          }
+
                         },
                       ))
                 ],

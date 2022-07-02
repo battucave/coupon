@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/network_services/network_handler.dart';
 import 'package:logan/views/global_components/k_bottom_navigation_bar.dart';
 import 'package:logan/views/styles/b_style.dart';
-
 import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
     initData();
   }
 

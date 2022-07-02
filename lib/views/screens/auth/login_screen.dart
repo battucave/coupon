@@ -23,10 +23,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isSignupScreen = true;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-
   var registerController=Get.put(RegisterController());
   var loginController=Get.put(LoginController());
   bool isLoading=false;

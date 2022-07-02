@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/constant/asset_path.dart';
+import 'package:logan/controllers/reset_password_controller.dart';
 import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/global_components/k_arrow_go_button.dart';
 import 'package:logan/views/global_components/k_back_button.dart';
@@ -17,8 +20,23 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   bool isSignupScreen = true;
   bool usePhone = false;
-  TextEditingController emailPhoneController = TextEditingController();
-
+  //TextEditingController emailPhoneController = TextEditingController();
+  var resetPasswordController=Get.put(ResetPasswordController());
+  bool isLoading=false;
+  void stopLoading( ){
+    setState(() {
+      isLoading=false;
+    });
+  }
+  void snackMessage( String  msg){
+    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+  void startLoading(){
+    setState(() {
+      isLoading=true;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +92,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                     : Image.asset(AssetPath.mailIcon, height: 16, width: 22),
                                 hintText: usePhone ? "Phone Number" : "Email Address",
                                 keyboardType: usePhone ? TextInputType.phone : TextInputType.emailAddress,
-                                controller: emailPhoneController,
+                                controller:resetPasswordController.emailPhoneController,
                               ),
                               SizedBox(height: KSize.getHeight(context, 10)),
                               Align(
@@ -101,8 +119,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         right: KSize.getWidth(context, 150),
                         left: KSize.getWidth(context, 150),
                         child: KArrowGoButton(
-                          onpressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ConfirmPasswordScreen()));
+                          isLoading: isLoading,
+                          onpressed: () async{
+
+                              if(resetPasswordController.emailPhoneController.text.isNotEmpty ){
+                                startLoading();
+                                var otpResult= await resetPasswordController.sendOtp();
+                                if(otpResult==200 || otpResult==201){
+                                  stopLoading();
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ConfirmPasswordScreen()));
+
+                                }else{
+                                  stopLoading();
+                                  snackMessage("Error occurred when sending otp");
+                                }
+                              }else{
+                                snackMessage("Field is required");
+                              }
+
+
+
+
+
                           },
                         ))
                   ],

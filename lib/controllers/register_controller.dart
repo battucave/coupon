@@ -1,14 +1,10 @@
 
 
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:logan/models/api/register_model.dart';
-
-
-
 import '../constant/api_routes.dart';
 import '../network_services/network_handler.dart';
 

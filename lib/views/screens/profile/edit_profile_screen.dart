@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/global_components/k_back_button.dart';
@@ -8,6 +10,9 @@ import 'package:logan/views/global_components/k_button.dart';
 import 'package:logan/views/global_components/k_text_field.dart';
 import 'package:logan/views/styles/b_style.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../controllers/profile_controller.dart';
+
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -17,10 +22,23 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController mailController = TextEditingController();
-  TextEditingController cardController = TextEditingController();
+
+  var editProfileController=Get.put(ProfileController());
+  bool isLoading=false;
+  void stopLoading( ){
+    setState(() {
+      isLoading=false;
+    });
+  }
+  void snackMessage( String  msg){
+    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+  void startLoading(){
+    setState(() {
+      isLoading=true;
+    });
+  }
 
   File? image;
   final picker = ImagePicker();
@@ -38,10 +56,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
-    nameController.text = "Marven Steward";
-    phoneController.text = "03048907371";
-    mailController.text = "Marvensteward@gmail.com";
-    cardController.text = "84040";
+
   }
 
   @override
@@ -106,7 +121,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Column(
                   children: [
                     KTextField(
-                      controller: nameController,
+                      controller: editProfileController.nameController,
                       prefixIcon: Image.asset(
                         AssetPath.person,
                         height: 20,
@@ -116,7 +131,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     SizedBox(height: KSize.getHeight(context, 25)),
                     KTextField(
-                      controller: phoneController,
+                      controller: editProfileController.phoneController,
                       keyboardType: TextInputType.phone,
                       prefixIcon: Image.asset(
                         AssetPath.phone,
@@ -127,7 +142,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     SizedBox(height: KSize.getHeight(context, 25)),
                     KTextField(
-                      controller: mailController,
+                      controller: editProfileController.mailController,
                       keyboardType: TextInputType.emailAddress,
                       prefixIcon: Image.asset(
                         AssetPath.mail,
@@ -138,7 +153,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     SizedBox(height: KSize.getHeight(context, 25)),
                     KTextField(
-                      controller: cardController,
+                      controller: editProfileController.cardController,
                       prefixIcon: Image.asset(
                         AssetPath.card,
                         height: 20,
@@ -165,8 +180,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         Expanded(
                           child: KButton(
                             isCoupon: true,
-                            onPressed: () {
-                              Navigator.pop(context);
+                            onPressed: () async{
+                              var editResult=await editProfileController.EditProfile();
+                              if(editResult==200 || editResult==201){
+                                snackMessage("User updated successfully");
+                                Navigator.pop(context);
+                              }else{
+                                snackMessage("Updated failed, try again please");
+                              }
+
                             },
                             text: "Confirm",
                           ),

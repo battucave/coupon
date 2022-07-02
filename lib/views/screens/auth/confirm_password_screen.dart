@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/global_components/k_arrow_go_button.dart';
@@ -6,6 +10,8 @@ import 'package:logan/views/global_components/k_back_button.dart';
 import 'package:logan/views/global_components/k_text_field.dart';
 import 'package:logan/views/screens/auth/change_password_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
+
+import '../../../controllers/reset_password_controller.dart';
 // import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class ConfirmPasswordScreen extends StatefulWidget {
@@ -16,7 +22,23 @@ class ConfirmPasswordScreen extends StatefulWidget {
 }
 
 class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
-  TextEditingController pinCodeController = TextEditingController();
+  //TextEditingController pinCodeController = TextEditingController();
+  var resetPasswordController=Get.put(ResetPasswordController());
+  bool isLoading=false;
+  void stopLoading( ){
+    setState(() {
+      isLoading=false;
+    });
+  }
+  void snackMessage( String  msg){
+    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+  void startLoading(){
+    setState(() {
+      isLoading=true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +84,8 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                       child: Column(
                         children: [
                           SizedBox(height: KSize.getHeight(context, 30)),
-                          const KTextField(
+                            KTextField(
+                            controller: resetPasswordController.passCodeController,
                             hintText: "Enter Passcode",
                             keyboardType: TextInputType.numberWithOptions(),
                           ),
@@ -108,8 +131,28 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                         right: KSize.getWidth(context, 150),
                         left: KSize.getWidth(context, 150),
                         child: KArrowGoButton(
-                          onpressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));
+                          isLoading: isLoading,
+                          onpressed: () async{
+
+                            if(resetPasswordController.emailPhoneController.text.isNotEmpty ){
+                              ///get code tap by user
+                              resetPasswordController.data["otp_code"]=resetPasswordController.passCodeController.text;
+                              startLoading();
+
+                              var verifyResult= await resetPasswordController.verifyOtp();
+                              if(verifyResult==200 || verifyResult==201){
+                                stopLoading();
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));
+
+                              }else{
+                                stopLoading();
+                                snackMessage("Invalid code");
+                              }
+                            }else{
+                              snackMessage("Code is required");
+                            }
+
+
                           },
                         ))
                   ],
