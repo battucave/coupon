@@ -28,7 +28,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  var editProfileController=Get.put(ProfileController());
+  var profileController=Get.put(ProfileController());
 
   void snackMessage( String  msg){
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
@@ -102,15 +102,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
 
                 Center(
-                  child: Text(editProfileController.email.value, style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.black.withOpacity(0.5))),
+                  child: Text(profileController.email.value, style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.black.withOpacity(0.5))),
                 ),
                 SizedBox(height: KSize.getHeight(context, 23)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _kContact(context, editProfileController.phone.value, AssetPath.phone1, KColor.orange.withOpacity(0.1)),
+                    _kContact(context, profileController.phone.value, AssetPath.phone1, KColor.orange.withOpacity(0.1)),
                     const SizedBox(width: 30),
-                    _kContact(context, editProfileController.card.value, AssetPath.card, KColor.blue.withOpacity(0.2))
+                    _kContact(context, profileController.card.value, AssetPath.card, KColor.blue.withOpacity(0.2))
                   ],
                 ),
                 SizedBox(height: KSize.getHeight(context, 12)),
