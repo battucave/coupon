@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:image_network/image_network.dart';
 import 'package:logan/models/services_man_model.dart';
 import 'package:logan/models/services_model.dart';
 import 'package:logan/views/global_components/k_back_button.dart';
@@ -84,11 +86,36 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                   border: Border.all(color: KColor.orange.withOpacity(0.1)),
                                   boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6)],
                                 ),
-                                child: Image.asset(
-                                  servicesCategory[index].image!,
-                                  color: _currentIndex == index ? KColor.orange : KColor.primary,
+                                // child: Image.asset(
+                                //   servicesCategory[index].image!,
+                                //   color: _currentIndex == index ? KColor.orange : KColor.primary,
+                                //   height: 23,
+                                //   width: 23,
+                                // ),
+
+                                child: ImageNetwork(
+                                  image: categoryController.subCategory.elementAt(index).subCategoryLogoPath,
+                                  imageCache: CachedNetworkImageProvider(categoryController.subCategory.elementAt(index).subCategoryLogoPath),
                                   height: 23,
                                   width: 23,
+                                  duration: 1500,
+                                  curve: Curves.easeIn,
+                                  onPointer: true,
+                                  debugPrint: false,
+                                  fullScreen: false,
+                                  fitAndroidIos: BoxFit.cover,
+                                  fitWeb: BoxFitWeb.cover,
+                                  borderRadius: BorderRadius.circular(70),
+                                  onLoading: const CircularProgressIndicator(
+                                    color: Colors.indigoAccent,
+                                  ),
+                                  onError: const Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                  ),
+                                  onTap: () {
+
+                                  },
                                 ),
                               ),
                               const SizedBox(height: 10),
