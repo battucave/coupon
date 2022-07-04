@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:logan/models/services_man_model.dart';
 import 'package:logan/models/services_model.dart';
 import 'package:logan/views/global_components/k_back_button.dart';
@@ -7,8 +10,11 @@ import 'package:logan/views/global_components/k_text_field.dart';
 import 'package:logan/views/screens/services/service_details_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 
+import '../../../controllers/category_controller.dart';
+
 class ServicesScreen extends StatefulWidget {
-  const ServicesScreen({Key? key}) : super(key: key);
+  final int catId;
+  const ServicesScreen({Key? key,required this.catId}) : super(key: key);
 
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();
@@ -17,7 +23,14 @@ class ServicesScreen extends StatefulWidget {
 class _ServicesScreenState extends State<ServicesScreen> {
   TextEditingController searchController = TextEditingController();
   int _currentIndex = 0;
+  var categoryController=Get.put(CategoryController());
 
+  @override
+  void initState() {
+    super.initState();
+    categoryController.getSubCategory(widget.catId);
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,53 +61,56 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     controller: searchController,
                   ),
                   const SizedBox(height: 25),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    child: Row(
-                      children: List.generate(servicesCategory.length, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 20),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _currentIndex = index;
-                              });
-                            },
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                    color: KColor.white,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: KColor.orange.withOpacity(0.1)),
-                                    boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6)],
-                                  ),
-                                  child: Image.asset(
-                                    servicesCategory[index].image!,
-                                    color: _currentIndex == index ? KColor.orange : KColor.primary,
-                                    height: 23,
-                                    width: 23,
-                                  ),
+                Obx(()=>  SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  child: Row(
+                    children: List.generate(categoryController.subCategory.length, (index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 20),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _currentIndex = index;
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: KColor.white,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: KColor.orange.withOpacity(0.1)),
+                                  boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6)],
                                 ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  servicesCategory[index].text!,
-                                  style: KTextStyle.headline2.copyWith(fontSize: 13, color: _currentIndex == index ? KColor.orange : KColor.primary),
-                                )
-                              ],
-                            ),
+                                child: Image.asset(
+                                  servicesCategory[index].image!,
+                                  color: _currentIndex == index ? KColor.orange : KColor.primary,
+                                  height: 23,
+                                  width: 23,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                categoryController.subCategory.elementAt(index).subCategoryName,
+                                style: KTextStyle.headline2.copyWith(fontSize: 13, color: _currentIndex == index ? KColor.orange : KColor.primary),
+                              )
+                            ],
                           ),
-                        );
-                      }),
-                    ),
+                        ),
+                      );
+                    }),
                   ),
+                ),),
+
                 ],
               ),
             ),
             const SizedBox(height: 10),
-            ListView.builder(
+
+
+                ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
                 itemCount: servicesMan.length,
@@ -112,21 +128,24 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => ServiceDetailsScreen(
-                                  name: servicesMan[index].name,
-                                  image: servicesMan[index].image,
-                                  color: servicesMan[index].color,
-                                  percent: servicesMan[index].percent,
-                                  date: servicesMan[index].date,
-                                  category: _currentIndex == 0
-                                      ? "Plumber"
-                                      : _currentIndex == 1
-                                          ? "Roofers"
-                                          : "Builders",
-                                )),
+                              name: servicesMan[index].name,
+                              image: servicesMan[index].image,
+                              color: servicesMan[index].color,
+                              percent: servicesMan[index].percent,
+                              date: servicesMan[index].date,
+                              category: _currentIndex == 0
+                                  ? "Plumber"
+                                  : _currentIndex == 1
+                                  ? "Roofers"
+                                  : "Builders",
+                            )),
                       );
                     },
                   );
                 }),
+
+
+
             const SizedBox(height: 100)
           ],
         ),

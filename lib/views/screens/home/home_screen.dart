@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/models/categories_models.dart';
 import 'package:logan/utils/extensions.dart';
@@ -6,6 +8,9 @@ import 'package:logan/views/global_components/k_vendor_brands_list_component.dar
 import 'package:logan/views/screens/services/services_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+import '../../../controllers/category_controller.dart';
+import '../../../controllers/home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,7 +22,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   CarouselController buttonCarouselController = CarouselController();
   bool viewScreens = false;
-
+  var homeController=Get.put(HomeController());
+  var categoryController=Get.put(CategoryController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Image.asset(AssetPath.banner),
                       Image.asset(AssetPath.banner),
                       Image.asset(AssetPath.banner),
+
                     ],
                     options: CarouselOptions(
                       height: 170,
@@ -74,11 +81,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: KTextStyle.headline4.copyWith(fontSize: 22, color: KColor.black),
               ),
               const SizedBox(height: 25),
-              GridView.builder(
+              Obx(() =>
+                  GridView.builder(
                   clipBehavior: Clip.none,
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
-                  itemCount: viewScreens ? categoriesViewsItem.length : categoriesItem.length,
+                  itemCount: viewScreens ? categoriesViewsItem.length : categoryController.allCategory.length,
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     mainAxisExtent: 100,
@@ -89,70 +97,75 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        setState(() {
-                          if (categoriesItem[index] == categoriesItem[6]) {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ServicesScreen()));
-                          }
-                          if (categoriesItem[index] == categoriesItem[categoriesItem.length - 1]) {
-                            viewScreens = true;
-                          }
-                        });
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,)));
+                        // setState(() {
+                        //   if (categoriesItem[index] == categoriesItem[6]) {
+                        //     Navigator.push(context, MaterialPageRoute(builder: (context) => const ServicesScreen()));
+                        //   }
+                        //   if (categoriesItem[index] == categoriesItem[categoriesItem.length - 1]) {
+                        //     viewScreens = true;
+                        //   }
+                        // });
                       },
                       child: viewScreens
                           ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                    color: KColor.white,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: KColor.cornflowerBlue.withOpacity(0.1),
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 4),
-                                    ],
-                                  ),
-                                  child: Image.asset(
-                                    categoriesViewsItem[index].image!,
-                                    height: 23,
-                                    width: 23,
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  categoriesViewsItem[index].text!,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: KTextStyle.headline2.copyWith(fontSize: 13, color: KColor.black),
-                                )
-                              ],
-                            )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                      color: KColor.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6)]),
-                                  child: Image.asset(
-                                    categoriesItem[index].image!,
-                                    height: 23,
-                                    width: 23,
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  categoriesItem[index].text!,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: KTextStyle.headline2.copyWith(fontSize: 13, color: KColor.black),
-                                )
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: KColor.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: KColor.cornflowerBlue.withOpacity(0.1),
+                              ),
+                              boxShadow: [
+                                BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 4),
                               ],
                             ),
+                            child: Image.asset(
+                              categoriesViewsItem[index].image!,
+                              height: 23,
+                              width: 23,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            categoriesViewsItem[index].text!,
+                            overflow: TextOverflow.ellipsis,
+                            style: KTextStyle.headline2.copyWith(fontSize: 13, color: KColor.black),
+                          )
+                        ],
+                      )
+                          : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                                color: KColor.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6)]),
+                            child: Image.asset(
+                              categoriesItem[index].image!,
+                              height: 23,
+                              width: 23,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            categoryController.allCategory[index].categoryName,
+                            overflow: TextOverflow.ellipsis,
+                            style: KTextStyle.headline2.copyWith(fontSize: 13, color: KColor.black),
+                          )
+                        ],
+                      ),
                     );
-                  }),
+                  })
+
+              ),
+
+
               const SizedBox(height: 25),
               SizedBox(height: KSize.getHeight(context, 20)),
               const KVendorBrandsListComponent(),

@@ -65,7 +65,7 @@ class ResetPasswordController extends GetxController{
 
   Future<int?> resetPassword()async{
     ResetPasswordModel resetPasswordModel= ResetPasswordModel(newPassword:newPasswordController.text,confirmPassword: confirmPasswordController.text );
-    var response=await NetWorkHandler.post(resetPasswordModelToJson(resetPasswordModel),  ApiRoutes.verifyOtp);
+    var response=await NetWorkHandler.post(resetPasswordModelToJson(resetPasswordModel),  ApiRoutes.resetPassword+data["session_id"]);
     if(response.statusCode==200 || response.statusCode==201){
       return  response.statusCode;
     }else{

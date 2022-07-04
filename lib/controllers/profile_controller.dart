@@ -21,6 +21,7 @@ class ProfileController extends GetxController{
   void onInit(){
     super.onInit();
     getProfile();
+    getProfileImage();
   }
 
 
@@ -71,7 +72,26 @@ class ProfileController extends GetxController{
 
 
   }
+  Future<int?> uploadImage(filename, url,) async {
+   var response=await NetWorkHandler().patchMultipartRequest(filename, url, ApiRoutes.uploadImage);
+   print(response.statusCode);
+   print(response.reasonPhrase);
+   return response.statusCode;
 
+  }
+  Future<int?> getProfileImage()async{
+    var response=await NetWorkHandler().get(ApiRoutes.getProfileImage);
+
+    ///Api  return {"detail":"No such file or directory exists"}
+
+    if(response.statusCode==200 || response.statusCode==201){
+      return  response.statusCode;
+    }else{
+      return  response.statusCode;
+    }
+
+
+  }
   Future<int?> logout()async{
     var response=await NetWorkHandler().get(ApiRoutes.logout);
     if(response.statusCode==200 || response.statusCode==201){

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/constant/asset_path.dart';
+import 'package:logan/network_services/network_handler.dart';
 import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/global_components/k_back_button.dart';
 import 'package:logan/views/global_components/k_button.dart';
@@ -46,9 +47,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future getMyImage() async {
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() {
+    setState(() async {
       if (pickedImage != null) {
         image = File(pickedImage.path);
+        startLoading();
+       await editProfileController.uploadImage(pickedImage.path, pickedImage.path, );
       }
     });
   }
@@ -97,7 +100,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: image == null ? const AssetImage(AssetPath.profileImg) : FileImage(image!) as ImageProvider,
+                              image: image == null ? const AssetImage(AssetPath.profileImg) :  FileImage(image!) as ImageProvider,
                             ),
                           ),
                         ),
