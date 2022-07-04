@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_network/image_network.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/models/categories_models.dart';
 import 'package:logan/utils/extensions.dart';
@@ -123,6 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 4),
                               ],
                             ),
+
+
                             child: Image.asset(
                               categoriesViewsItem[index].image!,
                               height: 23,
@@ -146,10 +150,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: KColor.white,
                                 shape: BoxShape.circle,
                                 boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6)]),
-                            child: Image.asset(
-                              categoriesItem[index].image!,
+
+                            child: ImageNetwork(
+                              image: categoryController.allCategory.elementAt(index).categoryLogoPath,
+                              imageCache: CachedNetworkImageProvider(categoryController.allCategory.elementAt(index).categoryLogoPath),
                               height: 23,
                               width: 23,
+                              duration: 1500,
+                              curve: Curves.easeIn,
+                              onPointer: true,
+                              debugPrint: false,
+                              fullScreen: false,
+                              fitAndroidIos: BoxFit.cover,
+                              fitWeb: BoxFitWeb.cover,
+                              borderRadius: BorderRadius.circular(70),
+                              onLoading: const CircularProgressIndicator(
+                                color: Colors.indigoAccent,
+                              ),
+                              onError: const Icon(
+                                Icons.error,
+                                color: Colors.red,
+                              ),
+                              onTap: () {
+
+                              },
                             ),
                           ),
                           const SizedBox(height: 10),
