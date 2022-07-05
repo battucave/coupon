@@ -11,11 +11,14 @@ import 'package:logan/views/global_components/k_text_field.dart';
 import 'package:logan/views/screens/auth/change_password_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 
+import '../../../controllers/register_controller.dart';
 import '../../../controllers/reset_password_controller.dart';
+import 'login_screen.dart';
 // import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class ConfirmPasswordScreen extends StatefulWidget {
-  const ConfirmPasswordScreen({Key? key}) : super(key: key);
+  bool isSignUp=false;
+  ConfirmPasswordScreen({Key? key,required this.isSignUp}) : super(key: key);
 
   @override
   State<ConfirmPasswordScreen> createState() => _ConfirmPasswordScreenState();
@@ -24,6 +27,7 @@ class ConfirmPasswordScreen extends StatefulWidget {
 class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
   //TextEditingController pinCodeController = TextEditingController();
   var resetPasswordController=Get.put(ResetPasswordController());
+  var registerController=Get.put(RegisterController());
   bool isLoading=false;
   void stopLoading( ){
     setState(() {
@@ -85,7 +89,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                         children: [
                           SizedBox(height: KSize.getHeight(context, 30)),
                             KTextField(
-                            controller: resetPasswordController.passCodeController,
+                            controller: widget.isSignUp?registerController.passCodeController:resetPasswordController.passCodeController,
                             hintText: "Enter Passcode",
                             keyboardType: TextInputType.numberWithOptions(),
                           ),
@@ -134,22 +138,52 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                           isLoading: isLoading,
                           onpressed: () async{
 
-                            if(resetPasswordController.emailPhoneController.text.isNotEmpty ){
-                              ///get code tap by user
-                              resetPasswordController.data["otp_code"]=resetPasswordController.passCodeController.text;
-                              startLoading();
 
-                              var verifyResult= await resetPasswordController.verifyOtp();
-                              if(verifyResult==200 || verifyResult==201){
-                                stopLoading();
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));
+                            if(widget.isSignUp){
+                              if(registerController.emailController.text.isNotEmpty){
+                                startLoading();
+                                var otpResult= await registerController.verifyOtp();
+                                if(otpResult==200 || otpResult==201){
+                                  snackMessage("OTP verified successfully");
+                                  var registerResult= await registerController.Register();
+                                   if(registerResult==200 || registerResult==201){
+                                     startLoading();
+                                     Navigator.pushReplacement(
+                                         context,
+                                         MaterialPageRoute(
+                                             builder: (context) =>
+                                             const LoginScreen()));
+                                     snackMessage("Successful registration");
+                                  }else{
+                                     snackMessage("Registration failed");
+                                   }
 
+                                }else{
+                                  stopLoading();
+                                  snackMessage("Invalid or Expired Otp");
+                                }
                               }else{
-                                stopLoading();
-                                snackMessage("Invalid code");
+                                snackMessage("All fields are required");
                               }
                             }else{
-                              snackMessage("Code is required");
+                              if(resetPasswordController.emailPhoneController.text.isNotEmpty ){
+                                ///get code tap by user
+                                resetPasswordController.data["otp_code"]=resetPasswordController.passCodeController.text;
+                                startLoading();
+
+                                var verifyResult= await resetPasswordController.verifyOtp();
+                                if(verifyResult==200 || verifyResult==201){
+                                  stopLoading();
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));
+
+                                }else{
+                                  stopLoading();
+                                  snackMessage("Invalid code");
+                                }
+                              }else{
+                                snackMessage("Code is required");
+                              }
+
                             }
 
 

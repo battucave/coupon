@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/constant/asset_path.dart';
@@ -151,7 +152,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     var logoutResult=await controller.logout();
                     if(logoutResult==200|| logoutResult==201){
                       ///delete all user local preferences
-                      NetWorkHandler.storage.deleteAll();
+                     FlutterSecureStorage storage = FlutterSecureStorage();
+                      await  storage.delete(key: 'token');
+                      await NetWorkHandler.storage.deleteAll();
+
                       snackMessage('You logged out successfully');
                       Navigator.of(context)
                           .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false);

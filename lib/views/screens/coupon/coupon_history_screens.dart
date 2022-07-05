@@ -62,6 +62,10 @@ class _CouponHistoryScreenState extends State<CouponHistoryScreen>
                     .copyWith(fontSize: 22, color: KColor.primary),
               ),
               bottom: TabBar(
+                onTap: (val){
+                  print("CHANGE");
+                  _tabController?.index=val;
+                },
                 controller: _tabController,
                 indicatorColor: KColor.orange,
                 unselectedLabelStyle: KTextStyle.headline2
@@ -72,6 +76,7 @@ class _CouponHistoryScreenState extends State<CouponHistoryScreen>
                   tabs.length,
                   (index) {
                     return Tab(
+
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
@@ -91,9 +96,10 @@ class _CouponHistoryScreenState extends State<CouponHistoryScreen>
                 Expanded(
                   child: Stack(
                     alignment: Alignment.bottomCenter,
-                    children: const [
+                    children:   const [
                       TabBarView(
                         physics: NeverScrollableScrollPhysics(),
+                       // controller: _tabController,
                         children: [
                           AvailableCouponsTab(),
                           ClaimedCouponsTab(),

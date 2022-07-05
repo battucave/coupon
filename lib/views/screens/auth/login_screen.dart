@@ -13,6 +13,8 @@ import 'package:logan/views/styles/b_style.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
+import 'confirm_password_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   final bool isSignupScreen;
   const LoginScreen({Key? key, this.isSignupScreen = false}) : super(key: key);
@@ -218,23 +220,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                registerController.phoneController.text.isNotEmpty &&
                                registerController.passwordController.text.isNotEmpty){
                              startLoading();
-                             var registerResult= await registerController.Register();
-                             if(registerResult==200 || registerResult==201){
+                             var otpResult= await registerController.sendOtp();
+                             if(otpResult==200 || otpResult==201){
+                               stopLoading();
+                               Navigator.push(context, MaterialPageRoute(builder: (context) =>   ConfirmPasswordScreen(isSignUp: true,)));
 
-                               Navigator.pushReplacement(
-                                   context,
-                                   MaterialPageRoute(
-                                       builder: (context) =>
-                                       const LoginScreen()));
-                               snackMessage("Successful registration");
                              }else{
                                stopLoading();
-                               snackMessage("User Already Registered!");
+                               snackMessage("Error occurred when sending otp");
                              }
                            }else{
                              snackMessage("All fields are required");
                            }
-
 
                          }else{
                            if(loginController.emailController.text.isNotEmpty &&

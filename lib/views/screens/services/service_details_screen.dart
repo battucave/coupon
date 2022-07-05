@@ -310,7 +310,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                        ),
                                      );
                                    }else{
-                                     snackMessage("Coupon not  claimed");
+                                     snackMessage("Coupon Already Claimed");
                                    }
 
                                  },

@@ -13,7 +13,7 @@ class NetWorkHandler{
 
   static final client = http.Client();
 
-    static final storage=FlutterSecureStorage();
+   static FlutterSecureStorage storage = FlutterSecureStorage();
     Map<String, String> headers = {"content-type": "application/json"};
    Map<String, String> multipardHeaders = { "Accesstoken": "access_token"};
 

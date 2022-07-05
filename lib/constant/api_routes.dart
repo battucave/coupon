@@ -1,6 +1,5 @@
 class ApiRoutes {
   ///All api endpoint
-
   static const apiHost = "http://18.222.199.244/";
   ///Auth
   static const register = "api/v1/auth/register";
@@ -8,6 +7,7 @@ class ApiRoutes {
   static const forgotPasswordOtp = "api/v1/auth/forgot-password/opt";
   static const verifyOtp = "api/v1/otp/verify";
   static const resetPassword = "api/v1/auth/reset-password?reset_password_token=";
+  static const sendMailOtp = "api/v1/otp/send?type=Email";
   ///Profile
   static const profile = "api/v1/user/profile";
   static const logout = "api/v1/user/logout";
@@ -20,7 +20,6 @@ class ApiRoutes {
   static const allCoupon = "api/v1/apps/coupons/all/";
   static const couponByVendorId = "coupons/all";
   static const claimCoupon = "api/v1/apps/claim/";
-
 
   ///Vendor
   static const vendor = "vendors/all/";

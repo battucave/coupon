@@ -127,7 +127,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 var otpResult= await resetPasswordController.sendOtp();
                                 if(otpResult==200 || otpResult==201){
                                   stopLoading();
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ConfirmPasswordScreen()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPasswordScreen(isSignUp: false,)));
 
                                 }else{
                                   stopLoading();
