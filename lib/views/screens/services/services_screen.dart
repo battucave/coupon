@@ -13,6 +13,7 @@ import 'package:logan/views/screens/services/service_details_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 
 import '../../../controllers/category_controller.dart';
+import '../../../controllers/vendor_controller.dart';
 
 class ServicesScreen extends StatefulWidget {
   final int catId;
@@ -25,12 +26,16 @@ class ServicesScreen extends StatefulWidget {
 class _ServicesScreenState extends State<ServicesScreen> {
   TextEditingController searchController = TextEditingController();
   int _currentIndex = 0;
+  int _currentSubCatId = 1;
   var categoryController=Get.put(CategoryController());
+  var vendorController=Get.put(VendorController());
 
   @override
   void initState() {
     super.initState();
     categoryController.getSubCategory(widget.catId);
+
+    vendorController.getVendorBySubCategory(_currentSubCatId);
 
   }
   @override
@@ -74,6 +79,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
                           onTap: () {
                             setState(() {
                               _currentIndex = index;
+                              _currentSubCatId=categoryController.subCategory.elementAt(index).scid;
+
+                              vendorController.getVendorBySubCategory(_currentSubCatId);///Fetch  data
+
                             });
                           },
                           child: Column(
@@ -135,41 +144,91 @@ class _ServicesScreenState extends State<ServicesScreen> {
               ),
             ),
             const SizedBox(height: 10),
-
-
-                ListView.builder(
+            Obx(
+                  ()=> categoryController.subCategory.isNotEmpty?
+                  ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: servicesMan.length,
+                itemCount: vendorController.vendorList.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return KServicesManCard(
-                    name: servicesMan[index].name,
-                    image: servicesMan[index].image,
-                    color: servicesMan[index].color,
-                    percent: servicesMan[index].percent,
-                    date: servicesMan[index].date,
+                    name: vendorController.vendorList.elementAt(index).vendorName,
+                    image:  vendorController.vendorList.elementAt(index).vendorLogPath,
+                    color: servicesMan[0].color,
+                    percent:   0,///The api don't have  percent off variable for vendor. But only for coupon
+                    date: vendorController.vendorList.elementAt(index).updatedDate.toString(),///No enddate retur by api for vendor.
                     buttonText: "Details",
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ServiceDetailsScreen(
-                              name: servicesMan[index].name,
-                              image: servicesMan[index].image,
-                              color: servicesMan[index].color,
-                              percent: servicesMan[index].percent,
-                              date: servicesMan[index].date,
-                              category: _currentIndex == 0
-                                  ? "Plumber"
-                                  : _currentIndex == 1
-                                  ? "Roofers"
-                                  : "Builders",
+                              name: "",
+                              image: "",
+                              color: servicesMan[0].color,
+                              percent: 3,
+                              date: "eee",
+                              category:  "U",
+                              vendorId:   vendorController.vendorList.elementAt(index).vid,
                             )),
                       );
                     },
                   );
-                }),
+                }):
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      SizedBox(height: 200),
+                      Center(
+                        child: Text("No data to display",
+                          style: TextStyle(
+                              color: Colors.grey
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+
+            ),
+
+
+                // ListView.builder(
+                // shrinkWrap: true,
+                // padding: EdgeInsets.zero,
+                // itemCount: servicesMan.length,
+                // physics: const BouncingScrollPhysics(),
+                // itemBuilder: (context, index) {
+                //   return KServicesManCard(
+                //     name: servicesMan[index].name,
+                //     image: servicesMan[index].image,
+                //     color: servicesMan[index].color,
+                //     percent: servicesMan[index].percent,
+                //     date: servicesMan[index].date,
+                //     buttonText: "Details",
+                //     onPressed: () {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //             builder: (context) => ServiceDetailsScreen(
+                //               name: servicesMan[index].name,
+                //               image: servicesMan[index].image,
+                //               color: servicesMan[index].color,
+                //               percent: servicesMan[index].percent,
+                //               date: servicesMan[index].date,
+                //               category: _currentIndex == 0
+                //                   ? "Plumber"
+                //                   : _currentIndex == 1
+                //                   ? "Roofers"
+                //                   : "Builders",
+                //             )),
+                //       );
+                //     },
+                //   );
+                // }),
+
+
 
 
 

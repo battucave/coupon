@@ -13,12 +13,19 @@ class ApiRoutes {
   static const logout = "api/v1/user/logout";
   static const uploadImage = "api/v1/user/upload-profile-image";
   static const getProfileImage = "api/v1/user/get-profile-image";
-
   ///Category
   static const allCategory = "api/v1/category/all/";
   static const subCategory = "sub_categories/all";
   ///Coupon
   static const allCoupon = "api/v1/apps/coupons/all/";
+  static const couponByVendorId = "coupons/all";
+  static const claimCoupon = "api/v1/apps/claim/";
+
+
+  ///Vendor
+  static const vendor = "vendors/all/";
+  static const vendorById = "api/v1/vendor/";
+
 
 
 

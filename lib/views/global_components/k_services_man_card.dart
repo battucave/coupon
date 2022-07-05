@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 import 'package:logan/views/styles/b_style.dart';
 
 class KServicesManCard extends StatefulWidget {
@@ -29,6 +31,7 @@ class KServicesManCard extends StatefulWidget {
 class _KServicesManCardState extends State<KServicesManCard> {
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: EdgeInsets.only(top: KSize.getHeight(context, 16)),
       child: Column(
@@ -57,10 +60,34 @@ class _KServicesManCardState extends State<KServicesManCard> {
                           topRight: Radius.circular(15))),
                   child: Row(
                     children: [
-                      Image.asset(
-                        widget.image!,
+                      // Image.asset(
+                      //   widget.image!,
+                      //   height: 55,
+                      //   width: 55,
+                      // ),
+                      ImageNetwork(
+                        image: widget.image!,
+                        imageCache: CachedNetworkImageProvider( widget.image!),
                         height: 55,
                         width: 55,
+                        duration: 1500,
+                        curve: Curves.easeIn,
+                        onPointer: true,
+                        debugPrint: false,
+                        fullScreen: false,
+                        fitAndroidIos: BoxFit.cover,
+                        fitWeb: BoxFitWeb.cover,
+                        borderRadius: BorderRadius.circular(70),
+                        onLoading: const CircularProgressIndicator(
+                          color: Colors.indigoAccent,
+                        ),
+                        onError: const Icon(
+                          Icons.error,
+                          color: Colors.red,
+                        ),
+                        onTap: () {
+
+                        },
                       ),
                       SizedBox(width: KSize.getWidth(context, 10)),
                       Expanded(

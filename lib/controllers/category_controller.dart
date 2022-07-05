@@ -14,6 +14,7 @@ class CategoryController extends GetxController{
 
  var allCategory = <CategoryModel>[].obs;
  var subCategory = <SubCategoryModel>[].obs;
+
   @override
   void onInit(){
     super.onInit();
@@ -38,7 +39,7 @@ class CategoryController extends GetxController{
   }
 
  Future<int?> getSubCategory(int categoryId)async{
-   var response=await NetWorkHandler().getWithParameters(ApiRoutes.subCategory,categoryId);
+   var response=await NetWorkHandler().getWithParameters(ApiRoutes.subCategory,categoryId,false);
 
    if(response.statusCode==200 || response.statusCode==201){
      subCategory.value=subCategoryModelFromJson(response.body);

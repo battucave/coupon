@@ -59,9 +59,9 @@ class NetWorkHandler{
     return response;
   }
 
-  Future<http.Response> getWithParameters(String endpoint,int param)async{
+  Future<http.Response> getWithParameters(String endpoint,int param,bool paramIsAtEnd)async{
     await setHeaderToken();
-    var response=await client.get(buildUrlWithParameters(endpoint,param),
+    var response=await client.get(buildUrlWithParameters(endpoint,param,paramIsAtEnd),
         headers:  headers
     );
     return response;
@@ -98,9 +98,12 @@ class NetWorkHandler{
        return Uri.parse(apiPath);
     }
 
-  static Uri buildUrlWithParameters(String endpoint,  int param){
-    //final apiPath=ApiRoutes.apiHost+basepoint+${param};
-    final apiPath=ApiRoutes.apiHost+"api/v1/${param}/"+endpoint;
+  static Uri buildUrlWithParameters(String endpoint,  int param,bool paramIsAtEnd){
+
+    final apiPath= !paramIsAtEnd?
+             ApiRoutes.apiHost+"api/v1/${param}/"+endpoint:
+             ApiRoutes.apiHost+"${endpoint}"+param.toString();
+
     print("TRUE PATH");
     print(Uri.parse(apiPath));
     return Uri.parse(apiPath);

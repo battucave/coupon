@@ -53,11 +53,13 @@ class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
                          color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
                          percent: couponController.allCoupon.elementAt(index).percentageOff,
                          date: couponController.allCoupon.elementAt(index).endDate.toString(),
+                         vendorId:  couponController.allCoupon.elementAt(index).vid,
                        )),
                  );
                },
              );
-           }),):Column(
+           }),):
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
