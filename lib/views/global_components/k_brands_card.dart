@@ -37,8 +37,8 @@ class _KBrandsCardState extends State<KBrandsCard> {
           children: [
             Image.asset(
               widget.image!,
-              height: 80,
-              width: 80,
+              height: 40,
+              width: 40,
             ),
             widget.isRound != null
                 ? const SizedBox()

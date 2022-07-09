@@ -17,7 +17,7 @@ final TextEditingController emailController =TextEditingController();
 final TextEditingController phoneController =TextEditingController();
 final TextEditingController passCodeController =TextEditingController();
 final TextEditingController passwordController =TextEditingController();
-
+var code="".obs;
 
 Map data = {
   "recipient_id": "",
@@ -30,15 +30,12 @@ Future<int?> sendOtp()async{
 
   OtpModel otpModel= OtpModel(recipientId:  emailController.text);
   Response response=await NetWorkHandler.post(otpModelToJson(otpModel),  ApiRoutes.sendMailOtp);
-
+  print(jsonEncode(response.body));
   if(response.statusCode==200 || response.statusCode==201){
     ///we need recipient_id and session_id to veriry otp next
 
     data["recipient_id"]=emailController.text;
     data["session_id"]=jsonDecode(response.body)["session_id"];
-
-    print(jsonEncode(response.body));
-
 
     return  response.statusCode;
   }else{

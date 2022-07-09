@@ -16,6 +16,7 @@ import 'package:logan/views/styles/b_style.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../controllers/profile_controller.dart';
+import '../../../controllers/register_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String? name;
@@ -31,6 +32,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   ProfileController profileController=Get.put(ProfileController());
+  RegisterController registerController=Get.put(RegisterController());
 
   void snackMessage( String  msg){
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
@@ -185,6 +187,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     if(logoutResult==200|| logoutResult==201){
                       stopLoading();
                       ///delete all user local preferences
+                      registerController.emailController.text="";
+                      registerController.phoneController.text="";
+                      registerController.passwordController.text="";
                       final prefs = await SharedPreferences.getInstance();
                       prefs.clear();
 
@@ -252,6 +257,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 if(deleteResult==200|| deleteResult==201){
                                                   stopLoading();
                                                   ///delete all user local preferences
+                                                  registerController.emailController.text="";
+                                                  registerController.phoneController.text="";
+                                                  registerController.passwordController.text="";
                                                   final prefs = await SharedPreferences.getInstance();
                                                   prefs.clear();
                                                   snackMessage("User account deleted successfully");

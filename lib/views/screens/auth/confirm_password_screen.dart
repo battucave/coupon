@@ -251,7 +251,9 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                       color: KColor.primary,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                       child: Text(" Change email", style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.primary)),
                     )
                   ],
