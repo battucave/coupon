@@ -169,6 +169,10 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                                   snackMessage("OTP verified successfully");
                                   int? registerResult= await registerController.Register();
                                    if(registerResult==200 || registerResult==201){
+                                     ///Remove credential
+                                     registerController.emailController.text="";
+                                     registerController.phoneController.text="";
+                                     registerController.passwordController.text="";
                                      startLoading();
                                      Navigator.pushReplacement(
                                          context,
@@ -224,7 +228,21 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () async{
+                        print(registerController.emailController.text);
+                        startLoading();
+                        int? otpResult= await registerController.sendOtp();
+                        if(otpResult==200 || otpResult==201){
+                          snackMessage("OTP resend successfully");
+                          stopLoading();
+
+
+                        }else{
+                          stopLoading();
+                          snackMessage("Otp resend failed");
+                        }
+
+                      },
                       child: Text("Resend code ", style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.primary)),
                     ),
                     Container(

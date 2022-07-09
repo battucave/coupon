@@ -250,10 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                              int?  otpResult= await registerController.sendOtp();
                              if(otpResult==200 || otpResult==201){
-                               ///Remove credential
-                               registerController.emailController.text="";
-                               registerController.phoneController.text="";
-                               registerController.passwordController.text="";
+
                                stopLoading();
 
                                Navigator.push(context, MaterialPageRoute(builder: (context) =>   ConfirmPasswordScreen(isSignUp: true,)));
