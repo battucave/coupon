@@ -1,8 +1,5 @@
 
-
-
 import 'dart:io';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:logan/constant/api_routes.dart';
@@ -19,7 +16,7 @@ class NetWorkHandler{
 
 
     static Future<http.Response> post(var body, String endpoint)async{
-    var response=await client.post(buildUrl(endpoint),body: body,
+      http.Response response=await client.post(buildUrl(endpoint),body: body,
     headers: {
       "Content-type":"application/json"
     }
@@ -29,7 +26,7 @@ class NetWorkHandler{
    }
 
   static Future<http.Response> postFormData(Map body, String endpoint)async{
-    var response=await client.post(buildUrl(endpoint),body:body,
+    http.Response response=await client.post(buildUrl(endpoint),body:body,
         headers:  {
           'contentType': 'multipart/form-data',
 
@@ -39,13 +36,13 @@ class NetWorkHandler{
   }
 
   setHeaderToken() async{
-    var token= await NetWorkHandler.getToken();
+    String? token= await NetWorkHandler.getToken();
       headers.putIfAbsent('Authorization', () => 'Bearer $token');
     }
 
    Future<http.Response> patch(var body, String endpoint)async{
      await setHeaderToken();
-     var response=await client.patch(buildUrl(endpoint),body:body,
+     http.Response response=await client.patch(buildUrl(endpoint),body:body,
         headers:  headers
     );
     return response;
@@ -53,7 +50,7 @@ class NetWorkHandler{
 
   Future<http.Response> get(String endpoint)async{
     await setHeaderToken();
-    var response=await client.get(buildUrl(endpoint),
+    http.Response response=await client.get(buildUrl(endpoint),
         headers:  headers
     );
     return response;
@@ -61,7 +58,7 @@ class NetWorkHandler{
 
   Future<http.Response> getWithParameters(String endpoint,int param,bool paramIsAtEnd)async{
     await setHeaderToken();
-    var response=await client.get(buildUrlWithParameters(endpoint,param,paramIsAtEnd),
+    http.Response response=await client.get(buildUrlWithParameters(endpoint,param,paramIsAtEnd),
         headers:  headers
     );
     return response;
@@ -69,7 +66,7 @@ class NetWorkHandler{
 
   Future<http.Response> delete(String endpoint)async{
     await setHeaderToken();
-    var response=await client.delete(buildUrl(endpoint),
+    http.Response response=await client.delete(buildUrl(endpoint),
         headers:  headers
     );
     return response;
@@ -78,8 +75,8 @@ class NetWorkHandler{
 
   Future<http.StreamedResponse>patchMultipartRequest(String filepath, url,String endpoint) async {
 
-    var token=await getToken();
-    var request= http.MultipartRequest('PATCH', buildUrl(endpoint),);
+    String? token=await getToken();
+    http.MultipartRequest request= http.MultipartRequest('PATCH', buildUrl(endpoint),);
     request.headers["content-type"]="multipart/form-data";
     request.headers["authorization"]="Bearer ${token!}";
    print(request.headers);
@@ -88,7 +85,7 @@ class NetWorkHandler{
         filename: filepath.split("/").last),
 
     );
-    var res = await request.send();
+    http.StreamedResponse res = await request.send();
     print(res.toString());
     return res;
   }

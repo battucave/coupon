@@ -43,8 +43,8 @@ class ServiceDetailsScreen extends StatefulWidget {
 class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
 
 
-  var vendorController=Get.put(VendorController());
-  var couponControlller=Get.put(CouponController());
+  VendorController vendorController=Get.put(VendorController());
+  CouponController couponControlller=Get.put(CouponController());
   void snackMessage( String  msg){
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -283,7 +283,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                  date: couponControlller.vendorCouponList.elementAt(index).endDate.toString(),
                                  image:  vendorController.vendor.value.vendorLogPath,
                                  onPressed: () async{
-                                   var result=await couponControlller.claimCoupon (couponControlller.vendorCouponList.elementAt(index).couponId);
+                                   int? result=await couponControlller.claimCoupon (couponControlller.vendorCouponList.elementAt(index).couponId);
                                    if(result==200 || result==201){
                                      KDialog.kShowDialog(
                                        context: context,

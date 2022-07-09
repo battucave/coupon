@@ -29,11 +29,41 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  var profileController=Get.put(ProfileController());
+  ProfileController profileController=Get.put(ProfileController());
 
   void snackMessage( String  msg){
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void stopLoading( ){
+
+    Navigator.pop(context);
+  }
+
+  void startLoading(){
+
+    showDialog(
+      // The user CANNOT close this dialog  by pressing outsite it
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            // The background color
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  // The loading indicator
+                  CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
+
+                ],
+              ),
+            ),
+          );
+        });
   }
   @override
   void initState() {
@@ -149,10 +179,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   text: 'Signout',
                   navIcon: AssetPath.signOut,
                   onPressed: () async{
-                    var logoutResult=await controller.logout();
+                    startLoading();
+                    int? logoutResult=await controller.logout();
                     if(logoutResult==200|| logoutResult==201){
+                      stopLoading();
                       ///delete all user local preferences
-                     FlutterSecureStorage storage = FlutterSecureStorage();
+                      FlutterSecureStorage storage = FlutterSecureStorage();
                       await  storage.delete(key: 'token');
                       await NetWorkHandler.storage.deleteAll();
 
@@ -215,8 +247,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               isCoupon: true,
                                               text: "Confirm",
                                               onPressed: ()async{
-                                                var deleteResult=await controller.deleteAccount();
+                                                startLoading();
+                                                int? deleteResult=await controller.deleteAccount();
                                                 if(deleteResult==200|| deleteResult==201){
+                                                  stopLoading();
                                                   ///delete all user local preferences
                                                   NetWorkHandler.storage.deleteAll();
                                                   snackMessage("User account deleted successfully");

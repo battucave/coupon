@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:get/state_manager.dart';
 import '../constant/api_routes.dart';
 import '../models/api/profile_model.dart';
 import '../network_services/network_handler.dart';
+import 'package:http/http.dart';
 
 
 class ProfileController extends GetxController{
@@ -12,10 +13,10 @@ class ProfileController extends GetxController{
   TextEditingController phoneController = TextEditingController();
   TextEditingController mailController = TextEditingController();
   TextEditingController cardController = TextEditingController();
-  var username=''.obs;
-  var email=''.obs;
-  var phone=''.obs;
-  var card=''.obs;
+  RxString username=''.obs;
+  RxString email=''.obs;
+  RxString phone=''.obs;
+  RxString card=''.obs;
 
   @override
   void onInit(){
@@ -26,10 +27,10 @@ class ProfileController extends GetxController{
 
 
   Future<int?> getProfile()async{
-    var response=await NetWorkHandler().get(ApiRoutes.profile);
+    Response response=(await NetWorkHandler().get(ApiRoutes.profile)) ;
     if(response.statusCode==200 || response.statusCode==201){
 
-      var data =json.decode(response.body);
+      dynamic data =json.decode(response.body);
       ///To display one profile screen
       if(data['fullname']!=null){///verify if fullname is not null
         username.value=data["fullname"];
@@ -62,7 +63,7 @@ class ProfileController extends GetxController{
 
   Future<int?> EditProfile()async{
     ProfileModel  editProfileModel=  ProfileModel(fullname: nameController.text,phone: phoneController.text,zip: cardController.text);
-    var response=await NetWorkHandler().patch(profileModelToJson(editProfileModel),  ApiRoutes.profile);
+    Response response=await NetWorkHandler().patch(profileModelToJson(editProfileModel),  ApiRoutes.profile) ;
     if(response.statusCode==200 || response.statusCode==201){
       getProfile();
       return  response.statusCode;
@@ -73,14 +74,14 @@ class ProfileController extends GetxController{
 
   }
   Future<int?> uploadImage(filename, url,) async {
-   var response=await NetWorkHandler().patchMultipartRequest(filename, url, ApiRoutes.uploadImage);
+    StreamedResponse response=await NetWorkHandler().patchMultipartRequest(filename, url, ApiRoutes.uploadImage) ;
    print(response.statusCode);
    print(response.reasonPhrase);
    return response.statusCode;
 
   }
   Future<int?> getProfileImage()async{
-    var response=await NetWorkHandler().get(ApiRoutes.getProfileImage);
+    Response response=await NetWorkHandler().get(ApiRoutes.getProfileImage);
 
     ///Api  return {"detail":"No such file or directory exists"}
 
@@ -93,7 +94,7 @@ class ProfileController extends GetxController{
 
   }
   Future<int?> logout()async{
-    var response=await NetWorkHandler().get(ApiRoutes.logout);
+    Response response=await NetWorkHandler().get(ApiRoutes.logout);
     if(response.statusCode==200 || response.statusCode==201){
       return  response.statusCode;
     }else{
@@ -103,7 +104,7 @@ class ProfileController extends GetxController{
   }
 
   Future<int?> deleteAccount()async{
-    var response=await NetWorkHandler().delete(ApiRoutes.profile);
+    Response response=await NetWorkHandler().delete(ApiRoutes.profile);
     if(response.statusCode==200 || response.statusCode==201){
       return  response.statusCode;
     }else{

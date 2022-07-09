@@ -2,13 +2,14 @@
 
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:get/state_manager.dart';
 import 'package:logan/models/api/register_model.dart';
 import '../constant/api_routes.dart';
 import '../models/api/otp_model.dart';
 import '../models/api/verify_otp_model.dart';
 import '../network_services/network_handler.dart';
+import 'package:http/http.dart';
 
 
 class RegisterController extends GetxController{
@@ -28,7 +29,7 @@ Map data = {
 Future<int?> sendOtp()async{
 
   OtpModel otpModel= OtpModel(recipientId:  emailController.text);
-  var response=await NetWorkHandler.post(otpModelToJson(otpModel),  ApiRoutes.sendMailOtp);
+  Response response=await NetWorkHandler.post(otpModelToJson(otpModel),  ApiRoutes.sendMailOtp);
 
   if(response.statusCode==200 || response.statusCode==201){
     ///we need recipient_id and session_id to veriry otp next
@@ -48,7 +49,7 @@ Future<int?> sendOtp()async{
 
 Future<int?> verifyOtp()async{
   VerifyOtpModel otpModel= VerifyOtpModel(recipientId: emailController.text,sessionId: data["session_id"],otpCode: passCodeController.text);
-  var response=await NetWorkHandler.post(verifyOtpModelToJson(otpModel),  ApiRoutes.verifyOtp);
+  Response response=await NetWorkHandler.post(verifyOtpModelToJson(otpModel),  ApiRoutes.verifyOtp) ;
 
   if(response.statusCode==200 || response.statusCode==201){
 
@@ -64,7 +65,7 @@ Future<int?> verifyOtp()async{
 
   RegisterModel registerModel= RegisterModel(email:emailController.text, password:passwordController.text, phone: phoneController.text);
 
-  var response=await NetWorkHandler.post(registerModelToJson(registerModel),  ApiRoutes.register);
+  Response response=await NetWorkHandler.post(registerModelToJson(registerModel),  ApiRoutes.register);
   if(response.statusCode==200 || response.statusCode==201){
 
     return  response.statusCode;

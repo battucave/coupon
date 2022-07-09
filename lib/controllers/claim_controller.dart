@@ -19,7 +19,7 @@ class ClaimController extends GetxController{
 
    ClaimModel claimModel= ClaimModel( couponId:coupon_id );
 
-    var response=await NetWorkHandler.post(claimModelToJson(claimModel),  ApiRoutes.claimCoupon);
+   Response response=(await NetWorkHandler.post(claimModelToJson(claimModel),  ApiRoutes.claimCoupon)) as Response;
     if(response.statusCode==200 || response.statusCode==201){
 
       return  response.statusCode;

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_loadingindicator/flutter_loadingindicator.dart';
+
 
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/controllers/login_controller.dart';
@@ -25,8 +27,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isSignupScreen = true;
-  var registerController=Get.put(RegisterController());
-  var loginController=Get.put(LoginController());
+  RegisterController registerController=Get.put(RegisterController());
+  LoginController loginController=Get.put(LoginController());
   bool isLoading=false;
 
   @override
@@ -45,16 +47,57 @@ class _LoginScreenState extends State<LoginScreen> {
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+  void configLoading() {
+    EasyLoading.instance
+      ..displayDuration = const Duration(milliseconds: 2000)
+      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+
+      ..loadingStyle = EasyLoadingStyle.dark
+      ..indicatorSize = 45.0
+      ..radius = 10.0
+      ..progressColor = Colors.yellow
+      ..backgroundColor = Colors.green
+      ..indicatorColor = Colors.yellow
+      ..textColor = Colors.yellow
+      ..maskColor = Colors.blue.withOpacity(0.5)
+      ..userInteractions = true
+      ..dismissOnTap = false
+       ;
+  }
+
 
   void stopLoading( ){
     setState(() {
       isLoading=false;
     });
+    Navigator.pop(context);
   }
   void startLoading(){
     setState(() {
       isLoading=true;
+      showDialog(
+        // The user CANNOT close this dialog  by pressing outsite it
+          barrierDismissible: false,
+          context: context,
+          builder: (_) {
+            return Dialog(
+              // The background color
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    // The loading indicator
+                    CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
+
+                  ],
+                ),
+              ),
+            );
+          });
     });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -220,9 +263,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                registerController.phoneController.text.isNotEmpty &&
                                registerController.passwordController.text.isNotEmpty){
                              startLoading();
-                             var otpResult= await registerController.sendOtp();
+
+                             int?  otpResult= await registerController.sendOtp();
                              if(otpResult==200 || otpResult==201){
+                               ///Remove credential
+                               registerController.emailController.text="";
+                               registerController.phoneController.text="";
+                               registerController.passwordController.text="";
                                stopLoading();
+
                                Navigator.push(context, MaterialPageRoute(builder: (context) =>   ConfirmPasswordScreen(isSignUp: true,)));
 
                              }else{
@@ -235,10 +284,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
                          }else{
                            if(loginController.emailController.text.isNotEmpty &&
-                              loginController.passwordController.text.isNotEmpty ){
+                               loginController.passwordController.text.isNotEmpty ){
+
                              startLoading();
-                             var result=await loginController.Login();
+                             int? result=await loginController.Login();
                              if(result==200 || result==201){//To know if login is success from api
+                               ///Remove credential
+                               loginController.emailController.text="";
+                               loginController.passwordController.text="";
+
                                stopLoading();
                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KBottomNavigationBar()));
                              }else{

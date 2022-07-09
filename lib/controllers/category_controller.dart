@@ -1,19 +1,20 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:get/state_manager.dart';
 import 'package:logan/models/api/category_model.dart';
 import '../constant/api_routes.dart';
 import '../models/api/profile_model.dart';
 import '../models/api/sub_category.dart';
 import '../network_services/network_handler.dart';
+import 'package:http/http.dart'  ;
 
 
 class CategoryController extends GetxController{
 
 
- var allCategory = <CategoryModel>[].obs;
- var subCategory = <SubCategoryModel>[].obs;
+  RxList<CategoryModel>  allCategory = <CategoryModel>[].obs;
+  RxList<SubCategoryModel>  subCategory = <SubCategoryModel>[].obs;
 
   @override
   void onInit(){
@@ -23,9 +24,7 @@ class CategoryController extends GetxController{
 
 
   Future<int?> getAllCategory()async{
-    var response=await NetWorkHandler().get(ApiRoutes.allCategory);
-    print(response.statusCode);
-    print(response.body);
+    Response response=await NetWorkHandler().get(ApiRoutes.allCategory) ;
     if(response.statusCode==200 || response.statusCode==201){
 
       allCategory.value=categoryModelFromJson(response.body);
@@ -39,7 +38,7 @@ class CategoryController extends GetxController{
   }
 
  Future<int?> getSubCategory(int categoryId)async{
-   var response=await NetWorkHandler().getWithParameters(ApiRoutes.subCategory,categoryId,false);
+   Response response=await NetWorkHandler().getWithParameters(ApiRoutes.subCategory,categoryId,false) ;
 
    if(response.statusCode==200 || response.statusCode==201){
      subCategory.value=subCategoryModelFromJson(response.body);

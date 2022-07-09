@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   initData() async{
-    var session= await NetWorkHandler.getToken();
+    String? session= await NetWorkHandler.getToken();
     Future.delayed(
       const Duration(seconds: 3),
       (){

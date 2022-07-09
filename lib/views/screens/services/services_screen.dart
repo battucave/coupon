@@ -27,8 +27,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
   TextEditingController searchController = TextEditingController();
   int _currentIndex = 0;
   int _currentSubCatId = 1;
-  var categoryController=Get.put(CategoryController());
-  var vendorController=Get.put(VendorController());
+  CategoryController categoryController=Get.put(CategoryController());
+  VendorController vendorController=Get.put(VendorController());
 
   @override
   void initState() {

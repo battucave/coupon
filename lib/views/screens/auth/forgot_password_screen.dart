@@ -21,12 +21,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   bool isSignupScreen = true;
   bool usePhone = false;
   //TextEditingController emailPhoneController = TextEditingController();
-  var resetPasswordController=Get.put(ResetPasswordController());
+  ResetPasswordController resetPasswordController=Get.put(ResetPasswordController());
   bool isLoading=false;
   void stopLoading( ){
     setState(() {
       isLoading=false;
     });
+    Navigator.pop(context);
   }
   void snackMessage( String  msg){
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
@@ -36,6 +37,27 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     setState(() {
       isLoading=true;
     });
+    showDialog(
+      // The user CANNOT close this dialog  by pressing outsite it
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            // The background color
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  // The loading indicator
+                  CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
+
+                ],
+              ),
+            ),
+          );
+        });
   }
   @override
   Widget build(BuildContext context) {
@@ -124,7 +146,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                               if(resetPasswordController.emailPhoneController.text.isNotEmpty ){
                                 startLoading();
-                                var otpResult= await resetPasswordController.sendOtp();
+                                int? otpResult= await resetPasswordController.sendOtp();
                                 if(otpResult==200 || otpResult==201){
                                   stopLoading();
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPasswordScreen(isSignUp: false,)));

@@ -96,10 +96,10 @@ class _CouponHistoryScreenState extends State<CouponHistoryScreen>
                 Expanded(
                   child: Stack(
                     alignment: Alignment.bottomCenter,
-                    children:   const [
+                    children:     [
                       TabBarView(
                         physics: NeverScrollableScrollPhysics(),
-                       // controller: _tabController,
+                        controller: _tabController,
                         children: [
                           AvailableCouponsTab(),
                           ClaimedCouponsTab(),

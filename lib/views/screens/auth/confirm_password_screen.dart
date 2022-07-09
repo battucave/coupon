@@ -26,13 +26,14 @@ class ConfirmPasswordScreen extends StatefulWidget {
 
 class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
   //TextEditingController pinCodeController = TextEditingController();
-  var resetPasswordController=Get.put(ResetPasswordController());
-  var registerController=Get.put(RegisterController());
+  ResetPasswordController resetPasswordController=Get.put(ResetPasswordController());
+  RegisterController registerController=Get.put(RegisterController());
   bool isLoading=false;
   void stopLoading( ){
     setState(() {
       isLoading=false;
     });
+    Navigator.pop(context);
   }
   void snackMessage( String  msg){
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
@@ -42,6 +43,27 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
     setState(() {
       isLoading=true;
     });
+    showDialog(
+      // The user CANNOT close this dialog  by pressing outsite it
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            // The background color
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  // The loading indicator
+                  CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
+
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -142,10 +164,10 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                             if(widget.isSignUp){
                               if(registerController.emailController.text.isNotEmpty){
                                 startLoading();
-                                var otpResult= await registerController.verifyOtp();
+                                int? otpResult= await registerController.verifyOtp();
                                 if(otpResult==200 || otpResult==201){
                                   snackMessage("OTP verified successfully");
-                                  var registerResult= await registerController.Register();
+                                  int? registerResult= await registerController.Register();
                                    if(registerResult==200 || registerResult==201){
                                      startLoading();
                                      Navigator.pushReplacement(
@@ -171,7 +193,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                                 resetPasswordController.data["otp_code"]=resetPasswordController.passCodeController.text;
                                 startLoading();
 
-                                var verifyResult= await resetPasswordController.verifyOtp();
+                                int? verifyResult= await resetPasswordController.verifyOtp();
                                 if(verifyResult==200 || verifyResult==201){
                                   stopLoading();
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));

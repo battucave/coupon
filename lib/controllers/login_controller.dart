@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:get/state_manager.dart';import '../constant/api_routes.dart';
 import '../models/api/login_model.dart';
 import '../network_services/network_handler.dart';
+import 'package:http/http.dart';
 
 
 
@@ -13,7 +14,7 @@ class LoginController extends GetxController{
 
   Future<int?> Login()async{
     LoginModel loginModel= LoginModel(username: emailController.text,password: passwordController.text);
-    var response=await NetWorkHandler.postFormData(loginModel.toJson(),  ApiRoutes.login);
+    Response response=await NetWorkHandler.postFormData(loginModel.toJson(),  ApiRoutes.login)  ;
     if(response.statusCode==200 || response.statusCode==201){
       var data =json.decode(response.body);
       ///Store user token

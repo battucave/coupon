@@ -22,7 +22,7 @@ class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
      Color(0xFF30C3CD), 
      Color(0xFF1697B7),  
   ];
-  var couponController=Get.put(CouponController());
+  CouponController couponController=Get.put(CouponController());
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -33,9 +33,7 @@ class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
 
               couponController.allCoupon.isNotEmpty?
               Column(
-            children:
-
-          List.generate(couponController.allCoupon.length, (index) {
+            children: List.generate(couponController.allCoupon.length, (index) {
              return KServicesManCard(
                name: couponController.allCoupon.elementAt(index).couponCode,
                image: couponAvailable[0].image,

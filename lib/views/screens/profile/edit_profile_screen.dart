@@ -30,16 +30,40 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() {
       isLoading=false;
     });
+    Navigator.pop(context);
+  }
+
+  void startLoading(){
+    setState(() {
+      isLoading=true;
+    });
+    showDialog(
+      // The user CANNOT close this dialog  by pressing outsite it
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            // The background color
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  // The loading indicator
+                  CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
+
+                ],
+              ),
+            ),
+          );
+        });
   }
   void snackMessage( String  msg){
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-  void startLoading(){
-    setState(() {
-      isLoading=true;
-    });
-  }
+
 
   File? image;
   final picker = ImagePicker();
@@ -47,13 +71,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future getMyImage() async {
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-    setState(() async {
+    setState(() {
       if (pickedImage != null) {
         image = File(pickedImage.path);
-        startLoading();
-       await editProfileController.uploadImage(pickedImage.path, pickedImage.path, );
+
       }
     });
+
+    startLoading();
+     if(pickedImage!=null){
+       var result=await editProfileController.uploadImage(pickedImage.path, pickedImage.path, );
+       if(result==200 || result==201){
+         stopLoading();
+       }
+     }
+
+
   }
 
   @override
@@ -184,11 +217,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           child: KButton(
                             isCoupon: true,
                             onPressed: () async{
+                              startLoading();
                               var editResult=await editProfileController.EditProfile();
                               if(editResult==200 || editResult==201){
                                 snackMessage("User updated successfully");
+                                stopLoading();
                                 Navigator.pop(context);
                               }else{
+                                stopLoading();
                                 snackMessage("Updated failed, try again please");
                               }
 

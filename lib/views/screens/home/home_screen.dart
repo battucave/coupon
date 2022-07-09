@@ -12,7 +12,7 @@ import 'package:logan/views/styles/b_style.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../controllers/category_controller.dart';
-import '../../../controllers/home_controller.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -24,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   CarouselController buttonCarouselController = CarouselController();
   bool viewScreens = false;
-  var homeController=Get.put(HomeController());
+
   var categoryController=Get.put(CategoryController());
   @override
   Widget build(BuildContext context) {

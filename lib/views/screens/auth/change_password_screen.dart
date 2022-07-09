@@ -21,21 +21,44 @@ class ChangePasswordScreen extends StatefulWidget {
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool isSignupScreen = true;
 
-  var resetPasswordController=Get.put(ResetPasswordController());
+  ResetPasswordController resetPasswordController=Get.put(ResetPasswordController());
   bool isLoading=false;
   void stopLoading( ){
     setState(() {
       isLoading=false;
     });
+    Navigator.pop(context);
   }
-  void snackMessage( String  msg){
-    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+
   void startLoading(){
     setState(() {
       isLoading=true;
     });
+    showDialog(
+      // The user CANNOT close this dialog  by pressing outsite it
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            // The background color
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  // The loading indicator
+                  CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
+
+                ],
+              ),
+            ),
+          );
+        });
+  }
+  void snackMessage( String  msg){
+    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
   @override
   Widget build(BuildContext context) {
@@ -110,7 +133,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
 
                             startLoading();
-                            var resetResult= await resetPasswordController.resetPassword();
+                            int? resetResult= await resetPasswordController.resetPassword();
                             print(resetResult);
                             if(resetResult==200 || resetResult==201){
                               stopLoading();
