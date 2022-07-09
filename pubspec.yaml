@@ -39,10 +39,10 @@ dependencies:
   carousel_slider: ^4.1.1
   get: ^4.6.5
   http: ^0.13.4
-  flutter_secure_storage: ^4.1.0
+  shared_preferences: ^2.0.15
   image_network: ^2.5.1
   cached_network_image: ^3.2.0
-  flutter_loadingindicator: ^1.0.1
+
 
 dev_dependencies:
   flutter_test:

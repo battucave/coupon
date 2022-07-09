@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_loadingindicator/flutter_loadingindicator.dart';
+
 
 
 import 'package:logan/constant/asset_path.dart';
@@ -47,23 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-  void configLoading() {
-    EasyLoading.instance
-      ..displayDuration = const Duration(milliseconds: 2000)
-      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
 
-      ..loadingStyle = EasyLoadingStyle.dark
-      ..indicatorSize = 45.0
-      ..radius = 10.0
-      ..progressColor = Colors.yellow
-      ..backgroundColor = Colors.green
-      ..indicatorColor = Colors.yellow
-      ..textColor = Colors.yellow
-      ..maskColor = Colors.blue.withOpacity(0.5)
-      ..userInteractions = true
-      ..dismissOnTap = false
-       ;
-  }
 
 
   void stopLoading( ){

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/constant/asset_path.dart';
@@ -13,6 +13,7 @@ import 'package:logan/views/screens/profile/edit_profile_screen.dart';
 import 'package:logan/views/screens/profile/privacy_policy_screen.dart';
 import 'package:logan/views/screens/profile/terms_condition_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../controllers/profile_controller.dart';
 
@@ -184,9 +185,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     if(logoutResult==200|| logoutResult==201){
                       stopLoading();
                       ///delete all user local preferences
-                      FlutterSecureStorage storage = FlutterSecureStorage();
-                      await  storage.delete(key: 'token');
-                      await NetWorkHandler.storage.deleteAll();
+                      final prefs = await SharedPreferences.getInstance();
+                      prefs.clear();
 
                       snackMessage('You logged out successfully');
                       Navigator.of(context)
@@ -252,7 +252,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 if(deleteResult==200|| deleteResult==201){
                                                   stopLoading();
                                                   ///delete all user local preferences
-                                                  NetWorkHandler.storage.deleteAll();
+                                                  final prefs = await SharedPreferences.getInstance();
+                                                  prefs.clear();
                                                   snackMessage("User account deleted successfully");
                                                   Navigator.of(context)
                                                       .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false);

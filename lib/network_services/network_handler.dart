@@ -1,8 +1,9 @@
 
 import 'dart:io';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:logan/constant/api_routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class NetWorkHandler{
@@ -10,7 +11,7 @@ class NetWorkHandler{
 
   static final client = http.Client();
 
-   static FlutterSecureStorage storage = FlutterSecureStorage();
+
     Map<String, String> headers = {"content-type": "application/json"};
    Map<String, String> multipardHeaders = { "Accesstoken": "access_token"};
 
@@ -107,12 +108,16 @@ class NetWorkHandler{
   }
 
    static void storeToken(String token)async{
-      await storage.write(key: "token", value: token);
+     // Obtain shared preferences.
+     final prefs = await SharedPreferences.getInstance();
+     prefs.setString("token", token);
+
 
    }
 
   static Future<String?> getToken()async{
-      return await storage.read(key: "token");
+    final prefs = await SharedPreferences.getInstance();
+      return   prefs.getString("token");
 
     }
 

@@ -40,42 +40,33 @@ class VendorController extends GetxController{
 
 
   @override
-  void onInit(){
+  void onInit() {
     super.onInit();
-
   }
+    Future<int?> getVendorBySubCategory(int subCategoryId) async {
+      Response response = (await NetWorkHandler().getWithParameters(
+          ApiRoutes.vendor, subCategoryId, false));
 
-
-
-
-  Future<int?> getVendorBySubCategory(int subCategoryId)async{
-    Response response=(await NetWorkHandler().getWithParameters(ApiRoutes.vendor,subCategoryId,false)) ;
-
-    if(response.statusCode==200 || response.statusCode==201){
-      vendorList.value= vendorModelFromJson(response.body);
-      return  response.statusCode;
-    }else{
-      return  response.statusCode;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        vendorList.value = vendorModelFromJson(response.body);
+        return response.statusCode;
+      } else {
+        return response.statusCode;
+      }
     }
 
+    Future<int?> getVendorById(int vendorId) async {
+      Response response = await NetWorkHandler().getWithParameters(
+          ApiRoutes.vendorById, vendorId, true);
 
-  }
-
-  Future<int?> getVendorById(int vendorId)async{
-     Response response=await NetWorkHandler().getWithParameters(ApiRoutes.vendorById,vendorId,true);
-
-    if(response.statusCode==200 || response.statusCode==201){
-      vendor.value=singleVendorModelFromJson(response.body);
-      return  response.statusCode;
-    }else{
-      return  response.statusCode;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        vendor.value = singleVendorModelFromJson(response.body);
+        return response.statusCode;
+      } else {
+        return response.statusCode;
+      }
     }
-
-
   }
 
 
 
-
-
-}
