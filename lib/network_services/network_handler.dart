@@ -26,6 +26,14 @@ class NetWorkHandler{
     return response;
    }
 
+    Future<http.Response> postWithAuthorization(var body, String endpoint)async{
+    await setHeaderToken();
+    http.Response response=await client.post(buildUrl(endpoint),body: body,
+        headers:  headers
+    );
+
+    return response;
+  }
   static Future<http.Response> postFormData(Map body, String endpoint)async{
     http.Response response=await client.post(buildUrl(endpoint),body:body,
         headers:  {

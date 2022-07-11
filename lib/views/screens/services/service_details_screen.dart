@@ -20,7 +20,7 @@ class ServiceDetailsScreen extends StatefulWidget {
   final String? name;
   final String? image;
   final String? category;
-  final int? percent;
+  final double? percent;
   final Color? color;
   final String? date;
   final int vendorId;
@@ -48,6 +48,37 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
   void snackMessage( String  msg){
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+  void stopLoading( ){
+
+    Navigator.pop(context);
+  }
+  void startLoading(){
+    setState(() {
+
+      showDialog(
+        // The user CANNOT close this dialog  by pressing outsite it
+          barrierDismissible: false,
+          context: context,
+          builder: (_) {
+            return Dialog(
+              // The background color
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    // The loading indicator
+                    CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
+
+                  ],
+                ),
+              ),
+            );
+          });
+    });
+
   }
   @override
   void initState() {
@@ -114,8 +145,8 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                             onPointer: true,
                             debugPrint: false,
                             fullScreen: false,
-                            fitAndroidIos: BoxFit.cover,
-                            fitWeb: BoxFitWeb.cover,
+                            fitAndroidIos: BoxFit.scaleDown,
+                            fitWeb: BoxFitWeb.scaleDown,
                             borderRadius: BorderRadius.circular(70),
                             onLoading: const CircularProgressIndicator(
                               color: Colors.indigoAccent,
@@ -283,8 +314,11 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                  date: couponControlller.vendorCouponList.elementAt(index).endDate.toString(),
                                  image:  vendorController.vendor.value.vendorLogPath,
                                  onPressed: () async{
-                                   int? result=await couponControlller.claimCoupon (couponControlller.vendorCouponList.elementAt(index).couponId);
+                                   //print(couponControlller.vendorCouponList.elementAt(index).couponId);
+                                   startLoading();
+                                   int? result=await couponControlller.claimCoupon(couponControlller.vendorCouponList.elementAt(index).couponId);
                                    if(result==200 || result==201){
+                                     stopLoading();
                                      KDialog.kShowDialog(
                                        context: context,
                                        dialogContent: Dialog(
@@ -310,7 +344,8 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                        ),
                                      );
                                    }else{
-                                     snackMessage("Coupon Already Claimed");
+                                     stopLoading();
+                                     snackMessage("Fail to claim coupon");
                                    }
 
                                  },

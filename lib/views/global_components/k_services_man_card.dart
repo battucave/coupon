@@ -6,7 +6,7 @@ import 'package:logan/views/styles/b_style.dart';
 class KServicesManCard extends StatefulWidget {
   final String? name;
   final String? image;
-  final int? percent;
+  final double? percent;
   final String? date;
   final Color? color;
   final Function()? onPressed;
@@ -129,7 +129,9 @@ class _KServicesManCardState extends State<KServicesManCard> {
                               ),
                             ),
                             Text(
-                              "valid until: ${widget.date}",
+                              widget.date!.length>11?"valid until: ${widget.date!.substring(0,11)}":
+                              "valid until:",
+
                               style: KTextStyle.headline2.copyWith(
                                   fontSize: 14,
                                   color: KColor.black.withOpacity(0.3)),

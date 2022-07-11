@@ -66,6 +66,14 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     prefixIcon: const Icon(Icons.search, color: KColor.black),
                     hintText: "Search",
                     controller: searchController,
+                    onChanged: (value){
+
+                      vendorController.seachCoupon(value);
+
+                      setState(() {
+
+                      });
+                    },
                   ),
                   const SizedBox(height: 25),
                 Obx(()=>  SingleChildScrollView(
@@ -149,15 +157,15 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: vendorController.vendorList.length,
+                itemCount: vendorController.foundVendorList.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return KServicesManCard(
-                    name: vendorController.vendorList.elementAt(index).vendorName,
-                    image:  vendorController.vendorList.elementAt(index).vendorLogPath,
+                    name: vendorController.foundVendorList.elementAt(index).vendorName,
+                    image:  vendorController.foundVendorList.elementAt(index).vendorLogPath,
                     color: servicesMan[0].color,
                     percent:   0,///The api don't have  percent off variable for vendor. But only for coupon
-                    date: vendorController.vendorList.elementAt(index).updatedDate.toString(),///No enddate retur by api for vendor.
+                    date: vendorController.foundVendorList.elementAt(index).updatedDate.toString(),///No enddate retur by api for vendor.
                     buttonText: "Details",
                     onPressed: () {
                       Navigator.push(
@@ -170,7 +178,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                               percent: 3,
                               date: "eee",
                               category:  "U",
-                              vendorId:   vendorController.vendorList.elementAt(index).vid,
+                              vendorId:   vendorController.foundVendorList.elementAt(index).vid,
                             )),
                       );
                     },

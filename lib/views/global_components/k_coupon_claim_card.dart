@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:image_network/image_network.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/views/styles/b_style.dart';
 
@@ -12,7 +14,7 @@ class KCouponClaimCard extends StatefulWidget {
   final String? name;
   final String? image;
   final Color? color;
-  final int? percent;
+  final double? percent;
   final String? date;
   final String? buttonText;
   final Function()? onPressed;
@@ -40,7 +42,30 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                   color: widget.color, borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
               child: Row(
                 children: [
-                  Image.asset(widget.image!, height: 55, width: 55),
+                  ImageNetwork(
+                    image: widget.image!,
+                    imageCache: CachedNetworkImageProvider( widget.image!),
+                    height: 55,
+                    width: 55,
+                    duration: 1500,
+                    curve: Curves.easeIn,
+                    onPointer: true,
+                    debugPrint: false,
+                    fullScreen: false,
+                    fitAndroidIos: BoxFit.cover,
+                    fitWeb: BoxFitWeb.scaleDown,
+                    borderRadius: BorderRadius.circular(70),
+                    onLoading: const CircularProgressIndicator(
+                      color: Colors.indigoAccent,
+                    ),
+                    onError: const Icon(
+                      Icons.error,
+                      color: Colors.red,
+                    ),
+                    onTap: () {
+
+                    },
+                  ),
                   SizedBox(width: KSize.getWidth(context, 10)),
                   Expanded(
                     child: Text(

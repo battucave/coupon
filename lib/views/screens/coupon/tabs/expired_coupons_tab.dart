@@ -29,21 +29,21 @@ class _CouponExpiredScreenState extends State<ExpiredCouponsTab> {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-          Obx(()=>
-          couponController.allCoupon.isNotEmpty?
-          Column(
-            children:   List.generate(couponController.allCoupon.length, (index) {
-              return KServicesManCard(
-                name:  couponController.allCoupon.elementAt(index).couponCode,
-                image: couponExpired[0].image,
-                color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
-                percent:  couponController.allCoupon.elementAt(index).percentageOff,
-                date:  couponController.allCoupon.elementAt(index).couponCode,
-                buttonText: "Shop Now",
-                couponExpired: true,
-              );
-            }))
-              :
+         // Obx(()=>
+          // couponController.allCoupon.isNotEmpty?
+          // Column(
+          //   children:   List.generate(couponController.allCoupon.length, (index) {
+          //     return KServicesManCard(
+          //       name:  couponController.allCoupon.elementAt(index).couponCode,
+          //       image: couponExpired[0].image,
+          //       color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
+          //       percent:  couponController.allCoupon.elementAt(index).percentageOff,
+          //       date:  couponController.allCoupon.elementAt(index).couponCode,
+          //       buttonText: "Shop Now",
+          //       couponExpired: true,
+          //     );
+          //   }))
+          //     :
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +58,7 @@ class _CouponExpiredScreenState extends State<ExpiredCouponsTab> {
               )
             ],
           ),
-          ),
+         // ),
         ]
 
 

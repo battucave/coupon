@@ -28,6 +28,9 @@ class CategoryController extends GetxController{
     if(response.statusCode==200 || response.statusCode==201){
 
       allCategory.value=categoryModelFromJson(response.body);
+     for(int i=0;i<allCategory.value.length;i++){
+       print(allCategory.value.elementAt(i).categoryLogoPath);
+     }
 
       return  response.statusCode;
     }else{

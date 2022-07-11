@@ -23,7 +23,7 @@ class CouponModel {
   int couponId;
   int vid;
   String couponCode;
-  int percentageOff;
+  double percentageOff;
   bool singleUse;
   bool featureCoupon;
   DateTime startDate;

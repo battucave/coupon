@@ -30,19 +30,19 @@ class _ClaimedCouponsTabState extends State<ClaimedCouponsTab> {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children:[
-          Obx(()=>
-          couponController.allCoupon.isNotEmpty?
-          Column(
-            children:  List.generate(couponController.allCoupon.length, (index) {
-              return KServicesManCard(
-                name: couponController.allCoupon.elementAt(index).couponCode,
-                image: couponClaimed[0].image,
-                color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
-                percent: couponController.allCoupon.elementAt(index).percentageOff,
-                date: couponController.allCoupon.elementAt(index).endDate.toString(),
-                buttonText: "Redeem Code: "+couponController.allCoupon.elementAt(index).couponCode,
-              );
-            }),):
+          //Obx(()=>
+          // couponController.allCoupon.isNotEmpty?
+          // Column(
+          //   children:  List.generate(couponController.allCoupon.length, (index) {
+          //     return KServicesManCard(
+          //       name: couponController.allCoupon.elementAt(index).couponCode,
+          //       image: couponClaimed[0].image,
+          //       color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
+          //       percent: couponController.allCoupon.elementAt(index).percentageOff,
+          //       date: couponController.allCoupon.elementAt(index).endDate.toString(),
+          //       buttonText: "Redeem Code: "+couponController.allCoupon.elementAt(index).couponCode,
+          //     );
+          //   }),):
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +57,7 @@ class _ClaimedCouponsTabState extends State<ClaimedCouponsTab> {
               )
             ],
           ),
-          ),
+         // ),
 
         ]
       ),

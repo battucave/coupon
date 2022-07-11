@@ -7,8 +7,9 @@ class KTextField extends StatefulWidget {
   final bool passWordField;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
+  final void Function(String v)? onChanged;
 
-  const KTextField({Key? key, this.prefixIcon, this.hintText, this.controller, this.passWordField = false, this.keyboardType}) : super(key: key);
+  const KTextField({Key? key, this.prefixIcon, this.hintText, this.controller, this.passWordField = false, this.keyboardType,this.onChanged}) : super(key: key);
 
   @override
   State<KTextField> createState() => _KTextFieldState();
@@ -35,6 +36,7 @@ class _KTextFieldState extends State<KTextField> {
         controller: widget.controller,
         keyboardType: widget.keyboardType,
         obscureText: widget.passWordField ? _obscureText : !_obscureText,
+        onChanged:  widget.onChanged,
         style: KTextStyle.headline3.copyWith(fontSize: 15, color: KColor.black),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(left: 27, top: 14, bottom: 13),

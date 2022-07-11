@@ -25,7 +25,7 @@ class CouponController extends GetxController{
 
   Future<int?> getAllCoupon()async{
     Response response=await NetWorkHandler().get(ApiRoutes.allCoupon)  ;
-
+     print(response.body);
     if(response.statusCode==200 || response.statusCode==201){
       allCoupon.value=couponModelFromJson(response.body);
       return  response.statusCode;
@@ -52,9 +52,10 @@ class CouponController extends GetxController{
 
   Future<int?> claimCoupon(int coupon_id)async{
 
-    ClaimModel claimModel= ClaimModel( couponId:coupon_id );
+    ClaimModel claimModel= ClaimModel(couponId:coupon_id );
 
-    Response response=await NetWorkHandler.post(claimModelToJson(claimModel),  ApiRoutes.claimCoupon) ;
+    Response response=await NetWorkHandler().postWithAuthorization(claimModelToJson(claimModel),  ApiRoutes.claimCoupon) ;
+    print(response.body);
     if(response.statusCode==200 || response.statusCode==201){
 
       return  response.statusCode;

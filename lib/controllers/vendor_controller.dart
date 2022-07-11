@@ -17,7 +17,7 @@ class VendorController extends GetxController{
 
   RxList<VendorModel>  vendorList = <VendorModel>[].obs;
   RxList<SubCategoryModel>  subCategory = <SubCategoryModel>[].obs;
-
+  RxList<VendorModel>  foundVendorList= <VendorModel>[].obs;
   Rx<SingleVendorModel> vendor=SingleVendorModel(
       vid: 0,
       scid: 0,
@@ -42,7 +42,21 @@ class VendorController extends GetxController{
   @override
   void onInit() {
     super.onInit();
+    foundVendorList=vendorList;
   }
+
+  void seachCoupon(String couponName){
+    print("serchhhhhh");
+    RxList<VendorModel>   result=<VendorModel>[].obs;
+    if(couponName.isEmpty){
+      result= vendorList;
+    }else{
+      result.value=vendorList.value.where((element) => element.vendorName.toLowerCase().contains(couponName.toLowerCase())).toList();
+   foundVendorList=result;
+   print(result);
+    }
+  }
+
     Future<int?> getVendorBySubCategory(int subCategoryId) async {
       Response response = (await NetWorkHandler().getWithParameters(
           ApiRoutes.vendor, subCategoryId, false));

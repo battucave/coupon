@@ -66,7 +66,7 @@ class _CouponHistoryScreenState extends State<CouponHistoryScreen>
                   print("CHANGE");
                   _tabController?.index=val;
                 },
-                controller: _tabController,
+                //controller: _tabController,
                 indicatorColor: KColor.orange,
                 unselectedLabelStyle: KTextStyle.headline2
                     .copyWith(fontSize: 16, color: KColor.white),
