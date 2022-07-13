@@ -29,21 +29,22 @@ class _CouponExpiredScreenState extends State<ExpiredCouponsTab> {
       physics: const BouncingScrollPhysics(),
       child: Column(
         children: [
-         // Obx(()=>
-          // couponController.allCoupon.isNotEmpty?
-          // Column(
-          //   children:   List.generate(couponController.allCoupon.length, (index) {
-          //     return KServicesManCard(
-          //       name:  couponController.allCoupon.elementAt(index).couponCode,
-          //       image: couponExpired[0].image,
-          //       color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
-          //       percent:  couponController.allCoupon.elementAt(index).percentageOff,
-          //       date:  couponController.allCoupon.elementAt(index).couponCode,
-          //       buttonText: "Shop Now",
-          //       couponExpired: true,
-          //     );
-          //   }))
-          //     :
+         Obx(()=>
+          couponController.expriredCouponList.isNotEmpty?
+          Column(
+            children:   List.generate(couponController.expriredCouponList.length, (index) {
+              return KServicesManCard(
+                name:  couponController.expriredCouponList.elementAt(index).couponCode,
+                image: couponExpired[0].image,
+                color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
+                percent:  couponController.expriredCouponList.elementAt(index).percentageOff,
+                date:  couponController.expriredCouponList.elementAt(index).couponCode,
+                endDate: couponController.expriredCouponList.elementAt(index).endDate.toString(),
+                buttonText: "Shop Now",
+                couponExpired: true,
+              );
+            }))
+              :
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +59,8 @@ class _CouponExpiredScreenState extends State<ExpiredCouponsTab> {
               )
             ],
           ),
-         // ),
+        ),
+          const SizedBox(height: 160),
         ]
 
 

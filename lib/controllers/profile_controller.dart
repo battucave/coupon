@@ -17,6 +17,7 @@ class ProfileController extends GetxController{
   RxString email=''.obs;
   RxString phone=''.obs;
   RxString card=''.obs;
+  RxString aws_Link=''.obs;
 
   @override
   void onInit(){
@@ -31,6 +32,7 @@ class ProfileController extends GetxController{
     if(response.statusCode==200 || response.statusCode==201){
 
       dynamic data =json.decode(response.body);
+      NetWorkHandler.storeUserId(data['id']);
       ///To display one profile screen
       if(data['fullname']!=null){///verify if fullname is not null
         username.value=data["fullname"];
@@ -42,6 +44,10 @@ class ProfileController extends GetxController{
       }
       email.value=data["email"];
       phone.value=data["phone"];
+      if(data["profile_logo_path"]!=null){
+        aws_Link.value=data["profile_logo_path"];
+      }
+
 
       if(data["zip"]!=null){///verify if zip is not null
         card.value=data["zip"];
@@ -61,9 +67,12 @@ class ProfileController extends GetxController{
 
   }
 
-  Future<int?> EditProfile()async{
-    ProfileModel  editProfileModel=  ProfileModel(fullname: nameController.text,phone: phoneController.text,zip: cardController.text);
+  Future<int?> EditProfile(bool withAwsLink)async{
+
+    ProfileModel  editProfileModel=  withAwsLink?ProfileModel(fullname: nameController.text,phone: phoneController.text,zip: cardController.text,profileLogoPath: aws_Link.value):
+    ProfileModel(fullname: nameController.text,phone: phoneController.text,zip: cardController.text,profileLogoPath: "");
     Response response=await NetWorkHandler().patch(profileModelToJson(editProfileModel),  ApiRoutes.profile) ;
+   print(response.body);
     if(response.statusCode==200 || response.statusCode==201){
       getProfile();
       return  response.statusCode;
@@ -73,18 +82,24 @@ class ProfileController extends GetxController{
 
 
   }
-  Future<int?> uploadImage(filename, url,) async {
-    StreamedResponse response=await NetWorkHandler().patchMultipartRequest(filename, url, ApiRoutes.uploadImage) ;
-   print(response.statusCode);
-   print(response.reasonPhrase);
-   return response.statusCode;
+
+  Future<int?> uploadProfileImage(filename, url,) async {
+    StreamedResponse response=await NetWorkHandler().postMultipartRequest(filename, url, ApiRoutes.uploadImage) ;
+    print(response.statusCode);
+    print(response.reasonPhrase);
+    if(response.statusCode==200 || response.statusCode==201){
+      var bodyResponse = await response.stream.bytesToString();
+      var data =json.decode(bodyResponse);
+       aws_Link.value= data['profile_image_path'];
+       print("TRUE PATH");
+      print(aws_Link.value);
+    }
+
+    return response.statusCode;
 
   }
   Future<int?> getProfileImage()async{
     Response response=await NetWorkHandler().get(ApiRoutes.getProfileImage);
-
-    ///Api  return {"detail":"No such file or directory exists"}
-
     if(response.statusCode==200 || response.statusCode==201){
       return  response.statusCode;
     }else{

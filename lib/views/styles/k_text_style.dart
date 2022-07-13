@@ -24,4 +24,10 @@ class KTextStyle {
     fontWeight: FontWeight.w600,
     fontFamily: 'Poppins',
   );
+
+  static TextStyle headline5 = const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    fontFamily: 'Montserrat',
+  );
 }

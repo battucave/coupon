@@ -40,6 +40,7 @@ class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
                color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
                percent:   couponController.allCoupon.elementAt(index).percentageOff,
                date:  couponController.allCoupon.elementAt(index).endDate.toString(),
+
                buttonText: "Shop Now",
                onPressed: () {
                  Navigator.push(
@@ -47,7 +48,7 @@ class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
                    MaterialPageRoute(
                        builder: (context) => ServiceDetailsScreen(
                          name:  couponController.allCoupon.elementAt(index).couponCode,
-                         image: couponAvailable[index].image,
+                         image: couponAvailable[0].image,
                          color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
                          percent: couponController.allCoupon.elementAt(index).percentageOff,
                          date: couponController.allCoupon.elementAt(index).endDate.toString(),

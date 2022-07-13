@@ -12,6 +12,8 @@ import 'package:logan/views/styles/b_style.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../controllers/category_controller.dart';
+import '../../../controllers/coupon_controller.dart';
+import '../../global_components/k_featured_carousel_card.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -25,7 +27,11 @@ class _HomeScreenState extends State<HomeScreen> {
   CarouselController buttonCarouselController = CarouselController();
   bool viewScreens = false;
 
-  var categoryController=Get.put(CategoryController());
+  CategoryController categoryController=Get.put(CategoryController());
+  CouponController couponController=Get.put(CouponController());
+  List<Widget>?featuredCarousel=[
+
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,19 +59,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 25),
-              SizedBox(
+              Obx(() => couponController.featuredCouponList.isNotEmpty?SizedBox(
                 width: context.screenWidth,
                 child: CarouselSlider(
                     carouselController: buttonCarouselController,
-                    items: [
-                      Image.asset(AssetPath.banner),
-                      Image.asset(AssetPath.banner),
-                      Image.asset(AssetPath.banner),
-                      Image.asset(AssetPath.banner),
+                    items:  List.generate(couponController.featuredCouponList.length, (index) {
+                      return   KFeaturedCarouselCard(
+                        percent: couponController.featuredCouponList.elementAt(index).percentageOff,
+                        image: "",
 
-                    ],
+                      );
+                    }),
+
+
                     options: CarouselOptions(
-                      height: 170,
+                      height: 157,
                       viewportFraction: 1,
                       initialPage: 0,
                       enableInfiniteScroll: true,
@@ -76,7 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       enlargeCenterPage: true,
                       scrollDirection: Axis.horizontal,
                     )),
-              ),
+              ):Container(),),
+
               const SizedBox(height: 25),
               Text(
                 "Categories",

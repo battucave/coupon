@@ -1,27 +1,37 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_network/image_network.dart';
 import 'package:logan/views/styles/b_style.dart';
+
+import '../../controllers/vendor_controller.dart';
 
 class KServicesManCard extends StatefulWidget {
   final String? name;
   final String? image;
   final double? percent;
   final String? date;
+  final String? endDate;
   final Color? color;
   final Function()? onPressed;
   final String? buttonText;
   final bool couponExpired;
+
   const KServicesManCard(
       {Key? key,
       this.date,
+        this.endDate,
       this.name,
       this.image,
       this.percent,
       this.color,
       this.onPressed,
       this.buttonText,
-      this.couponExpired = false})
+      this.couponExpired = false,
+
+
+      })
       : super(key: key);
 
   @override
@@ -29,6 +39,8 @@ class KServicesManCard extends StatefulWidget {
 }
 
 class _KServicesManCardState extends State<KServicesManCard> {
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -129,8 +141,11 @@ class _KServicesManCardState extends State<KServicesManCard> {
                               ),
                             ),
                             Text(
-                              widget.date!.length>11?"valid until: ${widget.date!.substring(0,11)}":
-                              "valid until:",
+                             ! widget.couponExpired?"valid until: ${widget.date!.length>11?widget.date!.substring(0,11):widget.date}":
+                              "Expired on: ${widget.endDate!.length>11?widget.endDate!.substring(0,11):widget.endDate}",
+                              // widget.date!.length>11?"valid until: ${widget.date!.substring(0,11)}":
+                              // "valid until:",
+
 
                               style: KTextStyle.headline2.copyWith(
                                   fontSize: 14,

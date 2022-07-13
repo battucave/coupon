@@ -14,20 +14,50 @@ class CouponController extends GetxController{
 
 
   RxList<CouponModel>  allCoupon = <CouponModel>[].obs;
+  RxList<CouponModel>  expriredCouponList = <CouponModel>[].obs;
   RxList<CouponModel>  vendorCouponList = <CouponModel>[].obs;
+  RxList<CouponModel>  featuredCouponList = <CouponModel>[].obs;
 
   @override
   void onInit(){
     super.onInit();
+    getAllFeaturedCoupon();
     getAllCoupon();
+    getAllExpiredCoupon();
+
   }
 
 
   Future<int?> getAllCoupon()async{
     Response response=await NetWorkHandler().get(ApiRoutes.allCoupon)  ;
-     print(response.body);
     if(response.statusCode==200 || response.statusCode==201){
       allCoupon.value=couponModelFromJson(response.body);
+      return  response.statusCode;
+    }else{
+      return  response.statusCode;
+    }
+
+
+  }
+
+  Future<int?> getAllExpiredCoupon()async{
+    Response response=await NetWorkHandler().get(ApiRoutes.expiredCoupon)  ;
+    if(response.statusCode==200 || response.statusCode==201){
+      expriredCouponList.value=couponModelFromJson(response.body);
+      return  response.statusCode;
+    }else{
+      return  response.statusCode;
+    }
+
+
+  }
+
+  Future<int?> getAllFeaturedCoupon()async{
+    Response response=await NetWorkHandler().get(ApiRoutes.featuredCoupon)  ;
+    print("FEATURED");
+    print(response.body);
+    if(response.statusCode==200 || response.statusCode==201){
+      featuredCouponList.value=couponModelFromJson(response.body);
       return  response.statusCode;
     }else{
       return  response.statusCode;

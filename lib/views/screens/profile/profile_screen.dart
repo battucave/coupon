@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_network/image_network.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/network_services/network_handler.dart';
 import 'package:logan/views/global_components/k_bottom_navigation_bar.dart';
@@ -71,6 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    profileController.getProfile();
 
 
   }
@@ -114,14 +117,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
                       ),
                     ),
+
                     Positioned(
                         bottom: -45,
                         child: SizedBox(
                           height: 100,
                           width: 100,
                           child: CircleAvatar(
+                            backgroundColor: Colors.white,
                             radius: 50,
-                            child: ClipRRect(borderRadius: BorderRadius.circular(50), child: Image.asset(AssetPath.profileImg)),
+                            child: ClipRRect(borderRadius: BorderRadius.circular(50),
+                                child:   (profileController.aws_Link.value.isNotEmpty) ?
+                                ImageNetwork(
+                                  image:   profileController.aws_Link.value,
+                                  imageCache: CachedNetworkImageProvider(profileController.aws_Link.value),
+                                  height: 100,
+                                  width: 100,
+                                  duration: 1500,
+                                  curve: Curves.easeIn,
+                                  onPointer: true,
+                                  debugPrint: false,
+                                  fullScreen: false,
+                                  fitAndroidIos: BoxFit.scaleDown,
+                                  fitWeb: BoxFitWeb.scaleDown,
+                                  borderRadius: BorderRadius.circular(70),
+                                  onLoading: const CircularProgressIndicator(
+                                    color: KColor.primary,
+                                  ),
+                                  onError: const Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                  ),
+                                  onTap: () {
+
+                                  },
+                                ):
+                                Image.asset(AssetPath.profileImg),
+
+                            ),
                           ),
                         ))
                   ],
@@ -182,18 +215,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   text: 'Signout',
                   navIcon: AssetPath.signOut,
                   onPressed: () async{
+
                     startLoading();
                     int? logoutResult=await controller.logout();
                     if(logoutResult==200|| logoutResult==201){
-                      stopLoading();
+
                       ///delete all user local preferences
                       registerController.emailController.text="";
                       registerController.phoneController.text="";
                       registerController.passwordController.text="";
-                      final prefs = await SharedPreferences.getInstance();
-                      prefs.clear();
+                      profileController.aws_Link.value="";
+                      profileController.phoneController.text="";
+                      profileController.mailController.text="";
+                      profileController.nameController.text="";
+                      profileController.cardController.text="";
 
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.remove("token");
+                      await prefs.clear();
+
+                      stopLoading();
                       snackMessage('You logged out successfully');
+                      print(prefs.getString("token"));
                       Navigator.of(context)
                           .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false);
                     }
@@ -260,6 +303,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   registerController.emailController.text="";
                                                   registerController.phoneController.text="";
                                                   registerController.passwordController.text="";
+                                                  profileController.aws_Link.value="";
+                                                  profileController.phoneController.text="";
+                                                  profileController.mailController.text="";
+                                                  profileController.nameController.text="";
+                                                  profileController.cardController.text="";
                                                   final prefs = await SharedPreferences.getInstance();
                                                   prefs.clear();
                                                   snackMessage("User account deleted successfully");

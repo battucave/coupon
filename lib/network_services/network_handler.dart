@@ -1,9 +1,8 @@
-
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:logan/constant/api_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http_parser/http_parser.dart';
 
 
 class NetWorkHandler{
@@ -82,21 +81,52 @@ class NetWorkHandler{
   }
 
 
-  Future<http.StreamedResponse>patchMultipartRequest(String filepath, url,String endpoint) async {
 
-    String? token=await getToken();
-    http.MultipartRequest request= http.MultipartRequest('PATCH', buildUrl(endpoint),);
+  Future<http.StreamedResponse>postMultipartRequest(String filepath, url,String endpoint) async {
+      String? token=await getToken();
+    int? userId=await getUserId();
+    http.MultipartRequest request= await http.MultipartRequest('POST',Uri.parse(ApiRoutes.apiHost+endpoint+"?id=${userId}") ,);
     request.headers["content-type"]="multipart/form-data";
     request.headers["authorization"]="Bearer ${token!}";
-   print(request.headers);
-    request.files.add(http.MultipartFile('file',
-        File(filepath).readAsBytes().asStream(), File(filepath).lengthSync(),
+    request.files.add(await http.MultipartFile('file',
+        File(filepath).readAsBytes().asStream(),
+      File(filepath).lengthSync(),
         filename: filepath.split("/").last),
-
     );
     http.StreamedResponse res = await request.send();
-    print(res.toString());
     return res;
+  }
+
+
+  Future<http.Response>patchMultipartRequestt(String filepath, url,String endpoint) async {
+
+    String? token=await getToken();
+    int? userId=await getUserId();
+    await setHeaderToken();
+    http.Response request= await post(
+      File(filepath).readAsBytes().asStream(),
+      endpoint+"?id=${userId}" ,
+
+    );
+    //request.fields['id']="${userId}";
+    // request.headers["content-type"]="multipart/form-data";
+    // request.headers["authorization"]="Bearer ${token!}";
+    // print(request.headers);
+
+    // request.files.add(await http.MultipartFile('file',
+    //     File(filepath).readAsBytes().asStream(),
+    //     File(filepath).lengthSync(),
+    //     filename: filepath.split("/").last),
+    //
+    //
+    // );
+
+
+
+    // print(request.fields);
+    // http.StreamedResponse res = await request.send();
+    //print(res.toString());
+    return request;
   }
 
   static Uri buildUrl(String endpoint){
@@ -119,9 +149,7 @@ class NetWorkHandler{
      // Obtain shared preferences.
      final prefs = await SharedPreferences.getInstance();
      prefs.setString("token", token);
-
-
-   }
+    }
 
   static Future<String?> getToken()async{
     final prefs = await SharedPreferences.getInstance();
@@ -129,6 +157,17 @@ class NetWorkHandler{
 
     }
 
+  static void storeUserId(int userId)async{
+    // Obtain shared preferences.
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt("id", userId);
+  }
+
+  static Future<int?> getUserId()async{
+    final prefs = await SharedPreferences.getInstance();
+    return   prefs.getInt("id");
+
+  }
 
 
 }

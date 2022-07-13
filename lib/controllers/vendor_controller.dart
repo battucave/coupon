@@ -70,9 +70,7 @@ class VendorController extends GetxController{
     }
 
     Future<int?> getVendorById(int vendorId) async {
-      Response response = await NetWorkHandler().getWithParameters(
-          ApiRoutes.vendorById, vendorId, true);
-
+      Response response = await NetWorkHandler().getWithParameters(ApiRoutes.vendorById, vendorId, true);
       if (response.statusCode == 200 || response.statusCode == 201) {
         vendor.value = singleVendorModelFromJson(response.body);
         return response.statusCode;
@@ -80,6 +78,16 @@ class VendorController extends GetxController{
         return response.statusCode;
       }
     }
+  Future<String?> getVendorLogoPath(int vendorId) async {
+    Response response = await NetWorkHandler().getWithParameters(ApiRoutes.vendorById, vendorId, true);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      vendor.value = singleVendorModelFromJson(response.body);
+      return vendor.value.vendorLogPath;
+    } else {
+      return "";
+    }
+  }
+
   }
 
 

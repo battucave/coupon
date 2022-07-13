@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -80,7 +81,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     startLoading();
      if(pickedImage!=null){
-       var result=await editProfileController.uploadImage(pickedImage.path, pickedImage.path, );
+       var result=await editProfileController.uploadProfileImage(pickedImage.path, pickedImage.path, );
        if(result==200 || result==201){
          stopLoading();
        }
@@ -92,6 +93,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
+
 
   }
 
@@ -133,7 +135,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: image == null ? const AssetImage(AssetPath.profileImg) :  FileImage(image!) as ImageProvider,
+                              image: (image == null && editProfileController.aws_Link.value.isEmpty) ? const AssetImage(AssetPath.profileImg) :
+                              (image ==null && editProfileController.aws_Link.value.isNotEmpty)?NetworkImage(editProfileController.aws_Link.value)
+                                  :FileImage(image!) as ImageProvider ,
                             ),
                           ),
                         ),
@@ -218,7 +222,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             isCoupon: true,
                             onPressed: () async{
                               startLoading();
-                              var editResult=await editProfileController.EditProfile();
+                              var editResult=await editProfileController.EditProfile(image!=null);
                               if(editResult==200 || editResult==201){
                                 snackMessage("User updated successfully");
                                 stopLoading();

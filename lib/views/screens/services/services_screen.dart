@@ -167,6 +167,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     percent:   0,///The api don't have  percent off variable for vendor. But only for coupon
                     date: vendorController.foundVendorList.elementAt(index).updatedDate.toString(),///No enddate retur by api for vendor.
                     buttonText: "Details",
+
                     onPressed: () {
                       Navigator.push(
                         context,
