@@ -6,6 +6,7 @@ import 'package:image_network/image_network.dart';
 import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/styles/b_style.dart';
 
+import '../../constant/asset_path.dart';
 import '../../controllers/vendor_controller.dart';
 
 class KFeaturedCarouselCard extends StatefulWidget {
@@ -29,9 +30,9 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
   Widget build(BuildContext context) {
 
     return  Container(
-        padding: EdgeInsets.only(left: 30, ),
+        padding: const EdgeInsets.only(left: 30, ),
         width: context.screenWidth,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: KColor.orange,
             borderRadius: BorderRadius.all(Radius.circular(20))
         ),
@@ -59,7 +60,7 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Row(
                   mainAxisAlignment:MainAxisAlignment.start ,
                   children: [
@@ -72,10 +73,11 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
 
               ],
             ),
-            Spacer(),
+            const Spacer(),
             Container(
               margin: const EdgeInsets.only(right: 20),
-              child: ImageNetwork(
+              child: widget.image!.isNotEmpty?
+              ImageNetwork(
                 image: widget.image!,
                 imageCache: CachedNetworkImageProvider(widget.image!),
                 height: 80,
@@ -98,7 +100,7 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                 onTap: () {
 
                 },
-              ),
+              ):   Image.asset(AssetPath.defaultImage, height: 100, width: 100,fit: BoxFit.contain,),
             ),
           ],
         )

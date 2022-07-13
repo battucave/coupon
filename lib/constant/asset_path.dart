@@ -37,6 +37,7 @@ class AssetPath {
   static const starBucks = "assets/images/starBucks.png";
   static const sam = "assets/images/Sam.png";
   static const burgerKing = "assets/images/burgerKing.png";
+  static const defaultImage = "assets/images/food.png";
 
   /// Services screen assets
   static const servvicesBackground = "assets/images/servicesBackground.png";
