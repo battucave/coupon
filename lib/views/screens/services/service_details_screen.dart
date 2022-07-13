@@ -12,6 +12,7 @@ import 'package:logan/views/global_components/k_coupon_claim_card.dart';
 import 'package:logan/views/global_components/k_dialog.dart';
 import 'package:logan/views/global_components/k_services_man_card.dart';
 import 'package:logan/views/screens/services/components/service_description_component.dart';
+import 'package:logan/views/screens/services/vendor_service_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 
 import '../../../controllers/vendor_controller.dart';
@@ -44,7 +45,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
 
 
   VendorController vendorController=Get.put(VendorController());
-  CouponController couponControlller=Get.put(CouponController());
+  CouponController couponController=Get.put(CouponController());
   void snackMessage( String  msg){
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -85,15 +86,13 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
     super.initState();
 
     vendorController.getVendorById(widget.vendorId);
-    couponControlller.getCouponByVendorId(widget.vendorId);
+    couponController.getCouponByVendorId(widget.vendorId);
 
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-
-        GetX<VendorController>(
+      body: GetX<VendorController>(
           init: VendorController(),
           builder: (controller)=> SingleChildScrollView(
             child: Column(
@@ -263,42 +262,49 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                         style: KTextStyle.headline2.copyWith(
                             fontWeight: FontWeight.w600, color: KColor.black),
                       ),
-                      couponControlller.vendorCouponList.isNotEmpty?Container(
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: KColor.primary.withOpacity(0.15),
+                      couponController.vendorCouponList.length>1?
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => VendorServiceSreen( name: vendorController.vendor.value.vendorName, image: vendorController.vendor.value.vendorLogPath,vid: widget.vendorId,)));
+                        },
+                        child:  Container(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: KColor.primary.withOpacity(0.15),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                "See All",
+                                style: KTextStyle.headline2
+                                    .copyWith(fontSize: 14, color: KColor.orange),
+                              ),
+                              const Icon(Icons.arrow_forward_ios_outlined,
+                                  color: KColor.orange, size: 15)
+                            ],
+                          ),
                         ),
-                        child: Row(
-                          children: [
-                            Text(
-                              "See All",
-                              style: KTextStyle.headline2
-                                  .copyWith(fontSize: 14, color: KColor.orange),
-                            ),
-                            const Icon(Icons.arrow_forward_ios_outlined,
-                                color: KColor.orange, size: 15)
-                          ],
-                        ),
-                      ):SizedBox(),
+                      )
+                     :SizedBox(),
                     ],
                   ),
                 ),
                Container(
                  child:  Obx(()=>
-                     couponControlller.vendorCouponList.isNotEmpty?
+                     couponController.vendorCouponList.isNotEmpty?
                  Column(
                    children:
 
-                   List.generate(couponControlller.vendorCouponList.length, (index) {
+                   List.generate(1, (index) {
                      return KServicesManCard(
                          name:vendorController.vendor.value.vendorName,
                          image:vendorController.vendor.value.vendorLogPath,
                          buttonText: "Claim This Coupon",
-                         date:  couponControlller.vendorCouponList.elementAt(index).endDate.toString(),
+                         date:  couponController.vendorCouponList.elementAt(0).endDate.toString(),
                          color: widget.color,
-                         percent:  couponControlller.vendorCouponList.elementAt(index).percentageOff,
+                         percent:  couponController.vendorCouponList.elementAt(0).percentageOff,
                          onPressed: () {
                            KDialog.kShowDialog(
                              context: context,
@@ -308,15 +314,15 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                    BorderRadius.circular(15.0)), //this right here
                                child: KCouponClaimCard(
                                  name:  vendorController.vendor.value.vendorName,
-                                 percent:  couponControlller.vendorCouponList.elementAt(index).percentageOff,
+                                 percent:  couponController.vendorCouponList.elementAt(0).percentageOff,
                                  color: widget.color,
                                  buttonText: "Claim This Coupon",
-                                 date: couponControlller.vendorCouponList.elementAt(index).endDate.toString(),
+                                 date: couponController.vendorCouponList.elementAt(0).endDate.toString(),
                                  image:  vendorController.vendor.value.vendorLogPath,
                                  onPressed: () async{
                                    //print(couponControlller.vendorCouponList.elementAt(index).couponId);
                                    startLoading();
-                                   int? result=await couponControlller.claimCoupon(couponControlller.vendorCouponList.elementAt(index).couponId);
+                                   int? result=await couponController.claimCoupon(couponController.vendorCouponList.elementAt(0).couponId);
                                    if(result==200 || result==201){
                                      stopLoading();
                                      KDialog.kShowDialog(
@@ -328,10 +334,10 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                          child: KCouponClaimCard(
                                            couponDetails: true,
                                            name: vendorController.vendor.value.vendorName,
-                                           percent:  couponControlller.vendorCouponList.elementAt(index).percentageOff,
+                                           percent:  couponController.vendorCouponList.elementAt(0).percentageOff,
                                            color: widget.color,
                                            buttonText: "Coupon Claimed",
-                                           date:  couponControlller.vendorCouponList.elementAt(index).endDate.toString(),
+                                           date:  couponController.vendorCouponList.elementAt(0).endDate.toString(),
                                            image:  vendorController.vendor.value.vendorLogPath,
                                            onPressed: () {
                                              Navigator.of(context).pushAndRemoveUntil(

@@ -108,6 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
+
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,)));
                         // setState(() {
                         //   if (categoriesItem[index] == categoriesItem[6]) {
@@ -172,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               fullScreen: false,
                               fitAndroidIos: BoxFit.cover,
                               fitWeb: BoxFitWeb.cover,
-                              borderRadius: BorderRadius.circular(70),
+                              borderRadius: BorderRadius.circular(50),
                               onLoading: const CircularProgressIndicator(
                                 color: Colors.indigoAccent,
                               ),
@@ -180,8 +181,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Icons.error,
                                 color: Colors.red,
                               ),
-                              onTap: () {
-
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,)));
                               },
                             ),
                           ),

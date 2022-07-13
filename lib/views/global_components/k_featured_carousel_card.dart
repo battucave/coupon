@@ -28,7 +28,7 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
   @override
   Widget build(BuildContext context) {
 
-    return Expanded(child: Container(
+    return  Container(
         padding: EdgeInsets.only(left: 30, ),
         width: context.screenWidth,
         decoration: BoxDecoration(
@@ -36,76 +36,72 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
             borderRadius: BorderRadius.all(Radius.circular(20))
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Expanded(
-                flex: 6,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment:MainAxisAlignment.start ,
                   children: [
-                    Row(
-                      mainAxisAlignment:MainAxisAlignment.start ,
-                      children: [
-                        Text(
-                           "${widget.percent}"+"%",
-                          style: KTextStyle.headline5.copyWith(fontSize: 36),
-                        ),
-                      ],
+                    Text(
+                      "${widget.percent}"+"%",
+                      style: KTextStyle.headline5.copyWith(fontSize: 36),
                     ),
-                    Row(
-                      mainAxisAlignment:MainAxisAlignment.start ,
-                      children: [
-                        Text(
-                          "Discount",
-                          style: KTextStyle.headline5.copyWith(fontSize: 20),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10,),
-                    Row(
-                      mainAxisAlignment:MainAxisAlignment.start ,
-                      children: [
-                        Text(
-                          "From Our Store",
-                          style: KTextStyle.headline5.copyWith(fontSize:14 ),
-                        ),
-                      ],
-                    )
-
                   ],
-                )),
-            Expanded(
-              flex: 3,
-              child:   Container(
-                margin: const EdgeInsets.only(right: 20),
-                child: ImageNetwork(
-                  image: widget.image!,
-                  imageCache: CachedNetworkImageProvider(widget.image!),
-                  height: 80,
-                  width: 80,
-                  duration: 1500,
-                  curve: Curves.easeIn,
-                  onPointer: true,
-                  debugPrint: false,
-                  fullScreen: false,
-                  fitAndroidIos: BoxFit.cover,
-                  fitWeb: BoxFitWeb.cover,
-                  borderRadius: BorderRadius.circular(400),
-                  onLoading: const CircularProgressIndicator(
-                    color: Colors.indigoAccent,
-                  ),
-                  onError: const Icon(
-                    Icons.error,
-                    color: Colors.red,
-                  ),
-                  onTap: () {
-
-                  },
                 ),
-              ),
+                Row(
+                  mainAxisAlignment:MainAxisAlignment.start ,
+                  children: [
+                    Text(
+                      "Discount   ",
+                      style: KTextStyle.headline5.copyWith(fontSize: 20),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment:MainAxisAlignment.start ,
+                  children: [
+                    Text(
+                      "From Our Store",
+                      style: KTextStyle.headline5.copyWith(fontSize:14 ),
+                    ),
+                  ],
+                )
 
+              ],
+            ),
+            Spacer(),
+            Container(
+              margin: const EdgeInsets.only(right: 20),
+              child: ImageNetwork(
+                image: widget.image!,
+                imageCache: CachedNetworkImageProvider(widget.image!),
+                height: 80,
+                width: 80,
+                duration: 1500,
+                curve: Curves.easeIn,
+                onPointer: true,
+                debugPrint: false,
+                fullScreen: false,
+                fitAndroidIos: BoxFit.cover,
+                fitWeb: BoxFitWeb.cover,
+                borderRadius: BorderRadius.circular(400),
+                onLoading: const CircularProgressIndicator(
+                  color: Colors.indigoAccent,
+                ),
+                onError: const Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ),
+                onTap: () {
+
+                },
+              ),
             ),
           ],
         )
-    ));
+    );
   }
 }
