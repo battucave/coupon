@@ -139,9 +139,6 @@ class NetWorkHandler{
     final apiPath= !paramIsAtEnd?
              ApiRoutes.apiHost+"api/v1/${param}/"+endpoint:
              ApiRoutes.apiHost+"${endpoint}"+param.toString();
-
-    print("TRUE PATH");
-    print(Uri.parse(apiPath));
     return Uri.parse(apiPath);
   }
 

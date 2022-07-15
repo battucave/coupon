@@ -13,6 +13,7 @@ import 'package:logan/views/screens/services/service_details_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 
 import '../../../controllers/category_controller.dart';
+import '../../../controllers/coupon_controller.dart';
 import '../../../controllers/vendor_controller.dart';
 
 class ServicesScreen extends StatefulWidget {
@@ -29,13 +30,15 @@ class _ServicesScreenState extends State<ServicesScreen> {
   int _currentSubCatId = 1;
   CategoryController categoryController=Get.put(CategoryController());
   VendorController vendorController=Get.put(VendorController());
+  CouponController couponController=Get.put(CouponController());
 
   @override
   void initState() {
     super.initState();
     categoryController.getSubCategory(widget.catId);
 
-    vendorController.getVendorBySubCategory(_currentSubCatId);
+    //couponController.getCouponBySubCategory(_currentSubCatId);
+    //couponController.getAllCoupon();
 
   }
   @override
@@ -68,7 +71,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     controller: searchController,
                     onChanged: (value){
 
-                      vendorController.seachCoupon(value);
+                      couponController.seachCoupon(value);
 
                       setState(() {
 
@@ -89,7 +92,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                               _currentIndex = index;
                               _currentSubCatId=categoryController.subCategory.elementAt(index).scid;
 
-                              vendorController.getVendorBySubCategory(_currentSubCatId);///Fetch  data
+                              couponController.getCouponBySubCategory(_currentSubCatId);///Fetch  data
 
                             });
                           },
@@ -157,16 +160,17 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: vendorController.foundVendorList.length,
+                itemCount: couponController.foundBySubCategory.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
                   return KServicesManCard(
-                    name: vendorController.foundVendorList.elementAt(index).vendorName,
-                    image:  vendorController.foundVendorList.elementAt(index).vendorLogPath,
+                    name: couponController.foundBySubCategory.elementAt(index).couponCode,
+                    image:  "",
                     color: servicesMan[0].color,
-                    percent:   0,///The api don't have  percent off variable for vendor. But only for coupon
-                    date: vendorController.foundVendorList.elementAt(index).updatedDate.toString(),///No enddate retur by api for vendor.
+                    percent:   couponController.foundBySubCategory.elementAt(index).percentageOff,
+                    date: couponController.foundBySubCategory.elementAt(index).endDate.toString(),
                     buttonText: "Details",
+                    vid:couponController.foundBySubCategory.elementAt(index).vid,
 
                     onPressed: () {
                       Navigator.push(
@@ -179,7 +183,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                               percent: 3,
                               date: "eee",
                               category:  "U",
-                              vendorId:   vendorController.foundVendorList.elementAt(index).vid,
+                              vendorId:   couponController.foundBySubCategory.elementAt(index).vid,
                             )),
                       );
                     },

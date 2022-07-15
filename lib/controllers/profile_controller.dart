@@ -51,7 +51,6 @@ class ProfileController extends GetxController{
 
       if(data["zip"]!=null){///verify if zip is not null
         card.value=data["zip"];
-
         ///To display one Edit profile screen
         cardController.text= data["zip"];
       }

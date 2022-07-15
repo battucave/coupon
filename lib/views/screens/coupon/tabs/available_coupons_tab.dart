@@ -8,9 +8,11 @@ import 'package:logan/views/global_components/k_services_man_card.dart';
 import 'package:logan/views/screens/services/service_details_screen.dart';
 
 import '../../../../controllers/coupon_controller.dart';
+import '../../../../controllers/vendor_controller.dart';
 
 class AvailableCouponsTab extends StatefulWidget {
-  const AvailableCouponsTab({Key? key}) : super(key: key);
+
+    AvailableCouponsTab({Key? key,}) : super(key: key);
 
   @override
   State<AvailableCouponsTab> createState() => _CouponAvailableScreenState();
@@ -18,11 +20,13 @@ class AvailableCouponsTab extends StatefulWidget {
 
 class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
   List<Color> couponColors=[
-     Color(0xFFE8804B),  
-     Color(0xFF30C3CD), 
-     Color(0xFF1697B7),  
+     const Color(0xFFE8804B),
+     const Color(0xFF30C3CD),
+     const Color(0xFF1697B7),
   ];
   CouponController couponController=Get.put(CouponController());
+
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -36,11 +40,10 @@ class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
             children: List.generate(couponController.allCoupon.length, (index) {
              return KServicesManCard(
                name: couponController.allCoupon.elementAt(index).couponCode,
-               image: couponAvailable[0].image,
                color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
                percent:   couponController.allCoupon.elementAt(index).percentageOff,
                date:  couponController.allCoupon.elementAt(index).endDate.toString(),
-
+               vid:couponController.allCoupon.elementAt(index).vid,
                buttonText: "Shop Now",
                onPressed: () {
                  Navigator.push(
@@ -48,7 +51,7 @@ class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
                    MaterialPageRoute(
                        builder: (context) => ServiceDetailsScreen(
                          name:  couponController.allCoupon.elementAt(index).couponCode,
-                         image: couponAvailable[0].image,
+                         //image: couponAvailable[0].image,
                          color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
                          percent: couponController.allCoupon.elementAt(index).percentageOff,
                          date: couponController.allCoupon.elementAt(index).endDate.toString(),
@@ -61,8 +64,8 @@ class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 200),
+                children: const [
+                  SizedBox(height: 200),
                   Center(
                     child: Text("No data to display",
                       style: TextStyle(

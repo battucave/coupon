@@ -67,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return   KFeaturedCarouselCard(
                         percent: couponController.featuredCouponList.elementAt(index).percentageOff,
                         image: "",
+                        vid:couponController.featuredCouponList.elementAt(index).vid ,
 
                       );
                     }),

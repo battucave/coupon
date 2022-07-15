@@ -18,7 +18,6 @@ class ClaimController extends GetxController{
   Future<int?> claimCoupon(int coupon_id)async{
 
    ClaimModel claimModel= ClaimModel( couponId:coupon_id );
-
    Response response=(await NetWorkHandler.post(claimModelToJson(claimModel),  ApiRoutes.claimCoupon)) as Response;
     if(response.statusCode==200 || response.statusCode==201){
 

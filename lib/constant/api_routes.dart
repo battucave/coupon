@@ -26,8 +26,4 @@ class ApiRoutes {
   static const vendor = "vendors/all/";
   static const vendorById = "api/v1/vendor/";
 
-
-
-
-
 }

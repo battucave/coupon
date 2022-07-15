@@ -113,6 +113,7 @@ class _VendorServiceSreenState extends State<VendorServiceSreen> {
                       date:  couponController.vendorCouponList.elementAt(index).endDate.toString(),
                       color: couponColors.elementAt(Random().nextInt(couponColors.length)),
                       percent:  couponController.vendorCouponList.elementAt(index).percentageOff,
+                      vid: widget.vid,
                       onPressed: () {
                         KDialog.kShowDialog(
                           context: context,

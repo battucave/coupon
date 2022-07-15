@@ -27,8 +27,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: KSize.getHeight(context, 25)),
-                    Image.asset(AssetPath.onboard),
+                    SizedBox(height: KSize.getHeight(context, 0)),
+                    Image.asset(AssetPath.onboard, fit: BoxFit.scaleDown, ),
                     SizedBox(height: KSize.getHeight(context, 9)),
                     Text(
                       "Lorem Ipsum",
@@ -43,7 +43,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       style: KTextStyle.headline3
                           .copyWith(color: KColor.black, height: 1.7),
                     )),
-                    SizedBox(height: KSize.getHeight(context, 53)),
+                    SizedBox(height: KSize.getHeight(context, 15)),
                     KButton(
                       text: "Login",
                       onPressed: () {
@@ -66,13 +66,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       text: "Sign Up",
                       textColor: KColor.primary,
                     ),
-                    SizedBox(height: KSize.getHeight(context, 65)),
+                    SizedBox(height: KSize.getHeight(context, 30)),
                   ],
                 ),
               ),
-              const KVendorBrandsListComponent(
-                isRound: true,
-              ),
+
+           const KVendorBrandsListComponent(
+              isRound: true,
+            ) ,
+
+
               SizedBox(height: KSize.getHeight(context, 16)),
             ],
           ),

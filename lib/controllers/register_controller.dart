@@ -33,10 +33,8 @@ Future<int?> sendOtp()async{
   print(jsonEncode(response.body));
   if(response.statusCode==200 || response.statusCode==201){
     ///we need recipient_id and session_id to veriry otp next
-
     data["recipient_id"]=emailController.text;
     data["session_id"]=jsonDecode(response.body)["session_id"];
-
     return  response.statusCode;
   }else{
     return  response.statusCode;
@@ -47,10 +45,7 @@ Future<int?> sendOtp()async{
 Future<int?> verifyOtp()async{
   VerifyOtpModel otpModel= VerifyOtpModel(recipientId: emailController.text,sessionId: data["session_id"],otpCode: passCodeController.text);
   Response response=await NetWorkHandler.post(verifyOtpModelToJson(otpModel),  ApiRoutes.verifyOtp) ;
-
   if(response.statusCode==200 || response.statusCode==201){
-
-
     return  response.statusCode;
   }else{
     return  response.statusCode;
@@ -59,12 +54,9 @@ Future<int?> verifyOtp()async{
 }
 
  Future<int?> Register()async{
-
   RegisterModel registerModel= RegisterModel(email:emailController.text, password:passwordController.text, phone: phoneController.text);
-
   Response response=await NetWorkHandler.post(registerModelToJson(registerModel),  ApiRoutes.register);
   if(response.statusCode==200 || response.statusCode==201){
-
     return  response.statusCode;
   }else{
     return  response.statusCode;

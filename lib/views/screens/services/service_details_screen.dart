@@ -84,7 +84,6 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
   @override
   void initState() {
     super.initState();
-
     vendorController.getVendorById(widget.vendorId);
     couponController.getCouponByVendorId(widget.vendorId);
 
@@ -136,7 +135,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                           ]),
                           child: ImageNetwork(
                             image: controller.vendor.value.vendorLogPath,
-                            imageCache: CachedNetworkImageProvider( widget.image!),
+                            imageCache: CachedNetworkImageProvider(vendorController.vendor.value.vendorLogPath),
                             height: 144,
                             width: 144,
                             duration: 1500,
@@ -305,6 +304,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                          date:  couponController.vendorCouponList.elementAt(0).endDate.toString(),
                          color: widget.color,
                          percent:  couponController.vendorCouponList.elementAt(0).percentageOff,
+                         vid:vendorController.vendor.value.vid ,
                          onPressed: () {
                            KDialog.kShowDialog(
                              context: context,

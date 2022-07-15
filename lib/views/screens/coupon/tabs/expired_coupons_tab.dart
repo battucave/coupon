@@ -19,9 +19,9 @@ class ExpiredCouponsTab extends StatefulWidget {
 class _CouponExpiredScreenState extends State<ExpiredCouponsTab> {
   CouponController couponController=Get.put(CouponController());
   List<Color> couponColors=[
-    Color(0xFFE8804B),
-    Color(0xFF30C3CD),
-    Color(0xFF1697B7),
+    const Color(0xFFE8804B),
+    const Color(0xFF30C3CD),
+    const Color(0xFF1697B7),
   ];
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,11 @@ class _CouponExpiredScreenState extends State<ExpiredCouponsTab> {
                 percent:  couponController.expriredCouponList.elementAt(index).percentageOff,
                 date:  couponController.expriredCouponList.elementAt(index).couponCode,
                 endDate: couponController.expriredCouponList.elementAt(index).endDate.toString(),
+                vid:  couponController.expriredCouponList.elementAt(index).vid,
                 buttonText: "Shop Now",
                 couponExpired: true,
+
+
               );
             }))
               :

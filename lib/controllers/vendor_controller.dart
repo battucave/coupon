@@ -36,7 +36,24 @@ class VendorController extends GetxController{
       website: "",
       requirements: "",
       isActive:true).obs;
-
+  Rx<SingleVendorModel> vendorProfile=SingleVendorModel(
+      vid: 0,
+      scid: 0,
+      vendorName: "",
+      vendorLogPath: "",
+      featureVendor:false,
+      description: "",
+      hours:"",
+      street1: "",
+      street2: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      email: "",
+      phone: "",
+      website: "",
+      requirements: "",
+      isActive:true).obs;
 
 
   @override
@@ -46,21 +63,18 @@ class VendorController extends GetxController{
   }
 
   void seachCoupon(String couponName){
-    print("serchhhhhh");
     RxList<VendorModel>   result=<VendorModel>[].obs;
     if(couponName.isEmpty){
       result= vendorList;
     }else{
       result.value=vendorList.value.where((element) => element.vendorName.toLowerCase().contains(couponName.toLowerCase())).toList();
    foundVendorList=result;
-   print(result);
     }
   }
 
     Future<int?> getVendorBySubCategory(int subCategoryId) async {
       Response response = (await NetWorkHandler().getWithParameters(
           ApiRoutes.vendor, subCategoryId, false));
-
       if (response.statusCode == 200 || response.statusCode == 201) {
         vendorList.value = vendorModelFromJson(response.body);
         return response.statusCode;
@@ -78,14 +92,13 @@ class VendorController extends GetxController{
         return response.statusCode;
       }
     }
-  Future<String?> getVendorLogoPath(int vendorId) async {
+
+  Future<SingleVendorModel> getVendorProfileById(int vendorId) async {
     Response response = await NetWorkHandler().getWithParameters(ApiRoutes.vendorById, vendorId, true);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      vendor.value = singleVendorModelFromJson(response.body);
-      return vendor.value.vendorLogPath;
-    } else {
-      return "";
-    }
+    //if (response.statusCode == 200 || response.statusCode == 201) {
+      vendorProfile.value = singleVendorModelFromJson(response.body);
+      return  vendorProfile.value;
+    //}
   }
 
   }

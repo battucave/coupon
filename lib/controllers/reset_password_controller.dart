@@ -31,7 +31,6 @@ class ResetPasswordController extends GetxController{
 
     if(response.statusCode==200 || response.statusCode==201){
       ///we need recipient_id and session_id to veriry otp next
-
       data["recipient_id"]=emailPhoneController.text;
       data["session_id"]=jsonDecode(response.body)["session_id"];
       print(jsonEncode(response.body));

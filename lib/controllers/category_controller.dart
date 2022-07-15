@@ -26,12 +26,7 @@ class CategoryController extends GetxController{
   Future<int?> getAllCategory()async{
     Response response=await NetWorkHandler().get(ApiRoutes.allCategory) ;
     if(response.statusCode==200 || response.statusCode==201){
-
       allCategory.value=categoryModelFromJson(response.body);
-     for(int i=0;i<allCategory.value.length;i++){
-       print(allCategory.value.elementAt(i).categoryLogoPath);
-     }
-
       return  response.statusCode;
     }else{
       return  response.statusCode;
@@ -42,7 +37,6 @@ class CategoryController extends GetxController{
 
  Future<int?> getSubCategory(int categoryId)async{
    Response response=await NetWorkHandler().getWithParameters(ApiRoutes.subCategory,categoryId,false) ;
-
    if(response.statusCode==200 || response.statusCode==201){
      subCategory.value=subCategoryModelFromJson(response.body);
      return  response.statusCode;
