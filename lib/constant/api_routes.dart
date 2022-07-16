@@ -22,8 +22,12 @@ class ApiRoutes {
   static const claimCoupon = "api/v1/apps/claim/";
   static const expiredCoupon = "api/v1/coupons/expired/all/";
   static const featuredCoupon = "api/v1/coupons/featured/all/";
+  static const claimCouponList = "api/v1/apps/coupon/claimed/";
+  static const subCatCouponList = "api/v1/apps/coupons/all/";
+
   ///Vendor
   static const vendor = "vendors/all/";
   static const vendorById = "api/v1/vendor/";
+  static const allVendor = "api/v1/vendor/all/";
 
 }

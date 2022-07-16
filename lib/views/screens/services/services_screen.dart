@@ -36,9 +36,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
   void initState() {
     super.initState();
     categoryController.getSubCategory(widget.catId);
+    couponController.getCouponBySubCategory(widget.catId);
 
-    //couponController.getCouponBySubCategory(_currentSubCatId);
-    //couponController.getAllCoupon();
 
   }
   @override
@@ -91,8 +90,12 @@ class _ServicesScreenState extends State<ServicesScreen> {
                             setState(() {
                               _currentIndex = index;
                               _currentSubCatId=categoryController.subCategory.elementAt(index).scid;
-
-                              couponController.getCouponBySubCategory(_currentSubCatId);///Fetch  data
+                              print("HERE");
+                              print(_currentSubCatId);
+                              couponController.getFilteredCoupons(_currentSubCatId);
+                              couponController.getCouponBySubCategory(_currentSubCatId);
+                              setState(() {  });
+                             // couponController.getCouponBySubCategory(_currentSubCatId);
 
                             });
                           },
@@ -106,13 +109,6 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                   border: Border.all(color: KColor.orange.withOpacity(0.1)),
                                   boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6)],
                                 ),
-                                // child: Image.asset(
-                                //   servicesCategory[index].image!,
-                                //   color: _currentIndex == index ? KColor.orange : KColor.primary,
-                                //   height: 23,
-                                //   width: 23,
-                                // ),
-
                                 child: ImageNetwork(
                                   image: categoryController.subCategory.elementAt(index).subCategoryLogoPath,
                                   imageCache: CachedNetworkImageProvider(categoryController.subCategory.elementAt(index).subCategoryLogoPath),
@@ -134,6 +130,11 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                     color: Colors.red,
                                   ),
                                   onTap: () {
+                                    _currentIndex = index;
+                                    _currentSubCatId=categoryController.subCategory.elementAt(index).scid;
+                                     couponController.getFilteredCoupons(_currentSubCatId);
+                                    couponController.getCouponBySubCategory(_currentSubCatId);
+                                    setState(() {  });
 
                                   },
                                 ),
@@ -156,39 +157,35 @@ class _ServicesScreenState extends State<ServicesScreen> {
             ),
             const SizedBox(height: 10),
             Obx(
-                  ()=> categoryController.subCategory.isNotEmpty?
+                  ()=> categoryController.subCategory.isNotEmpty && couponController.foundBySubCategory.isNotEmpty?
                   ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: couponController.foundBySubCategory.length,
+                itemCount: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.length,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
+
                   return KServicesManCard(
-                    name: couponController.foundBySubCategory.elementAt(index).couponCode,
-                    image:  "",
-                    color: servicesMan[0].color,
-                    percent:   couponController.foundBySubCategory.elementAt(index).percentageOff,
-                    date: couponController.foundBySubCategory.elementAt(index).endDate.toString(),
+                     name: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorName,
+                     image:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorLogPath,
+                     color: servicesMan[0].color,
+                     percent:   couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).percentageOff,
+                     date: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString(),
                     buttonText: "Details",
-                    vid:couponController.foundBySubCategory.elementAt(index).vid,
+                    vid:couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorId,
 
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => ServiceDetailsScreen(
-                              name: "",
-                              image: "",
                               color: servicesMan[0].color,
-                              percent: 3,
-                              date: "eee",
-                              category:  "U",
-                              vendorId:   couponController.foundBySubCategory.elementAt(index).vid,
+                              vendorId:couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorId
                             )),
                       );
                     },
                   );
-                }):
+                }) :
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -13,7 +13,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../controllers/category_controller.dart';
 import '../../../controllers/coupon_controller.dart';
+import '../../../controllers/vendor_controller.dart';
+import '../../global_components/k_brands_card.dart';
 import '../../global_components/k_featured_carousel_card.dart';
+import '../services/service_details_screen.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -26,9 +29,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   CarouselController buttonCarouselController = CarouselController();
   bool viewScreens = false;
-
+  List<Color> colors=[
+    const Color(0xFFE8804B),
+    const Color(0xFF30C3CD),
+    const Color(0xFF1697B7),
+  ];
   CategoryController categoryController=Get.put(CategoryController());
   CouponController couponController=Get.put(CouponController());
+  VendorController vendorController=Get.put(VendorController());
   List<Widget>?featuredCarousel=[
 
   ];
@@ -203,7 +211,41 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 25),
               SizedBox(height: KSize.getHeight(context, 20)),
-              const KVendorBrandsListComponent(),
+
+
+          Obx(() => vendorController.vendorList.isNotEmpty?SizedBox(
+      width: context.screenWidth,
+      child: SingleChildScrollView(
+        clipBehavior: Clip.none,
+        physics: const BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: List.generate(vendorController.vendorList.length, (index) {
+            return GestureDetector(
+              onTap:(){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ServiceDetailsScreen(
+                          color: colors[0],
+                          vendorId:vendorController.vendorList.elementAt(index).vid
+                      )),
+                );
+              },
+              child: Container(
+
+                child: KBrandsCard(
+                  image: vendorController.vendorList.elementAt(index).vendorLogPath,
+                  text: vendorController.vendorList.elementAt(index).vendorName,
+
+
+                ),
+              ),
+            );
+          }),
+        ),
+      ),
+    ):Container(),),
               const SizedBox(height: 100),
             ],
           ),

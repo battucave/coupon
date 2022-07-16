@@ -34,11 +34,11 @@ class _CouponExpiredScreenState extends State<ExpiredCouponsTab> {
           Column(
             children:   List.generate(couponController.expriredCouponList.length, (index) {
               return KServicesManCard(
-                name:  couponController.expriredCouponList.elementAt(index).couponCode,
-                image: couponExpired[0].image,
+                //name:  couponController.expriredCouponList.elementAt(index).couponCode,
+                //image: couponExpired[0].image,
                 color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
                 percent:  couponController.expriredCouponList.elementAt(index).percentageOff,
-                date:  couponController.expriredCouponList.elementAt(index).couponCode,
+                date:  couponController.expriredCouponList.elementAt(index).endDate.toString(),
                 endDate: couponController.expriredCouponList.elementAt(index).endDate.toString(),
                 vid:  couponController.expriredCouponList.elementAt(index).vid,
                 buttonText: "Shop Now",

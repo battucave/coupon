@@ -20,3 +20,5 @@ class ClaimModel {
     "coupon_id": couponId,
   };
 }
+
+

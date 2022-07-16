@@ -11,7 +11,7 @@ import '../../controllers/vendor_controller.dart';
 class KServicesManCard extends StatefulWidget {
   final String? name;
   final String? image;
-  final double? percent;
+  final dynamic? percent;
   final String? date;
   final String? endDate;
   final Color? color;
@@ -54,6 +54,7 @@ class _KServicesManCardState extends State<KServicesManCard> {
     // TODO: implement initState
     super.initState();
 
+
   }
 
   @override
@@ -88,7 +89,7 @@ class _KServicesManCardState extends State<KServicesManCard> {
                   child: Row(
                     children: [
 
-                      StreamBuilder<SingleVendorModel>(
+                      (widget.image==null)?StreamBuilder<SingleVendorModel>(
                         stream: getVendor().asStream(),
                         builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -125,11 +126,33 @@ class _KServicesManCardState extends State<KServicesManCard> {
                           }
 
                         },
-                      ),
+                      ):ImageNetwork(
+                    image: widget.image!,
+                    imageCache: CachedNetworkImageProvider(widget.image!),
+                    height: 55,
+                    width: 55,
+                    duration: 1500,
+                    curve: Curves.easeIn,
+                    onPointer: true,
+                    debugPrint: false,
+                    fullScreen: false,
+                    fitAndroidIos: BoxFit.cover,
+                    fitWeb: BoxFitWeb.cover,
+                    borderRadius: BorderRadius.circular(70),
+                    onLoading: const CircularProgressIndicator(
+                      color: Colors.indigoAccent,
+                    ),
+                    onError: const Icon(
+                      Icons.error,
+                      color: Colors.red,
+                    ),
+                    onTap: () {
+
+                    },
+                  ),
+
                       SizedBox(width: KSize.getWidth(context, 10)),
-
-
-                      StreamBuilder<SingleVendorModel>(
+                      (widget.name==null)?StreamBuilder<SingleVendorModel>(
                         stream: getVendor().asStream(),
                         builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -148,7 +171,14 @@ class _KServicesManCardState extends State<KServicesManCard> {
                           }
 
                         },
-                      ),
+                      ):
+                      Expanded(
+                        child: Text(
+                          widget.name!,
+                          style: KTextStyle.headline4.copyWith(fontSize: 18),
+                        ),
+                      )
+                      ,
                     ],
                   ),
                 ),

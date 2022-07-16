@@ -59,29 +59,21 @@ class VendorController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    foundVendorList=vendorList;
+    getAllVendor();
+
   }
 
-  void seachCoupon(String couponName){
-    RxList<VendorModel>   result=<VendorModel>[].obs;
-    if(couponName.isEmpty){
-      result= vendorList;
-    }else{
-      result.value=vendorList.value.where((element) => element.vendorName.toLowerCase().contains(couponName.toLowerCase())).toList();
-   foundVendorList=result;
-    }
-  }
 
-    Future<int?> getVendorBySubCategory(int subCategoryId) async {
-      Response response = (await NetWorkHandler().getWithParameters(
-          ApiRoutes.vendor, subCategoryId, false));
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        vendorList.value = vendorModelFromJson(response.body);
-        return response.statusCode;
-      } else {
-        return response.statusCode;
-      }
-    }
+    // Future<int?> getVendorBySubCategory(int subCategoryId) async {
+    //   Response response = (await NetWorkHandler().getWithParameters(
+    //       ApiRoutes.vendor, subCategoryId, false));
+    //   if (response.statusCode == 200 || response.statusCode == 201) {
+    //     vendorList.value = vendorModelFromJson(response.body);
+    //     return response.statusCode;
+    //   } else {
+    //     return response.statusCode;
+    //   }
+    // }
 
     Future<int?> getVendorById(int vendorId) async {
       Response response = await NetWorkHandler().getWithParameters(ApiRoutes.vendorById, vendorId, true);
@@ -99,6 +91,16 @@ class VendorController extends GetxController{
       vendorProfile.value = singleVendorModelFromJson(response.body);
       return  vendorProfile.value;
     //}
+  }
+
+  Future<int?> getAllVendor() async {
+    Response response = await NetWorkHandler().get(ApiRoutes.allVendor);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      vendorList.value = vendorModelFromJson(response.body);
+      return response.statusCode;
+    } else {
+      return response.statusCode;
+    }
   }
 
   }

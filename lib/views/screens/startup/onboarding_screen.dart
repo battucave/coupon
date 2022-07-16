@@ -73,6 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
            const KVendorBrandsListComponent(
               isRound: true,
+             fromOnboard: true,
             ) ,
 
 

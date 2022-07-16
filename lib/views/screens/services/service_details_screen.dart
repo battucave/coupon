@@ -153,9 +153,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                               Icons.error,
                               color: Colors.red,
                             ),
-                            onTap: () {
 
-                            },
                           ),
 
                           // Image.asset(widget.image!, height: 114, width: 114),
