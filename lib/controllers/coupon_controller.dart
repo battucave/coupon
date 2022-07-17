@@ -45,25 +45,27 @@ class CouponController extends GetxController {
       //     .where((element) =>
       //     element.vendorsAndCouponsList.where((element) => element.vendorName.toUpperCase().contains(couponName.toUpperCase())))
       //     .toList();
-      // foundBySubCategory = result;
+
+      foundBySubCategory = result;
     }
   }
-  //
+
   // void seachCoupon2(String couponName){
-  //   RxList<CouponModel>   result=<CouponModel>[].obs;
+  //   RxList<SubCatCouponModel>   result=<SubCatCouponModel>[].obs;
   //   if(couponName.isEmpty){
   //     result= couponBySubCategory;
   //   }else{
-  //     result.value=couponBySubCategory.value.where((element) => element.couponCode.toLowerCase().contains(couponName.toLowerCase())).toList();
+  //     result.value=couponBySubCategory.value.where((element) => element.vendorsAndCouponsList..toLowerCase().contains(couponName.toLowerCase())).toList();
   //     foundBySubCategory=result;
   //   }
   // }
 
-  Future<int?> getCouponBySubCategory(int categoryId) async {
+  Future<int?> getCouponBySubCategory(int categoryId,int subcatId) async {
     Response response = (await NetWorkHandler().getWithParameters(
         ApiRoutes.subCatCouponList, categoryId, true));
     if (response.statusCode == 200 || response.statusCode == 201) {
       foundBySubCategory.value = subCatCouponModelFromJson(response.body);
+      foundBySubCategory.value= foundBySubCategory.value.where((element) => element.subCategoryId==subcatId).toList();
       filterSubCategoryCoupon.value=subCatCouponModelFromJson(response.body);
       return response.statusCode;
     } else {
@@ -139,9 +141,9 @@ class CouponController extends GetxController {
         RxList<SubCatCouponModel> result = <SubCatCouponModel>[].obs;
         result.value=filterSubCategoryCoupon.value;
         result.value=result.value.where((element) => element.subCategoryId==subcatId).toList();
-        foundBySubCategory.value=result.value;
+        filterSubCategoryCoupon.value=result.value;
         print("HERE 2");
-        print(foundBySubCategory.value.length);
+        print(filterSubCategoryCoupon.value.length);
 
 
   }

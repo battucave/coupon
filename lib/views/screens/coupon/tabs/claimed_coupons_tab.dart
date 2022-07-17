@@ -67,8 +67,7 @@ class _ClaimedCouponsTabState extends State<ClaimedCouponsTab> {
                   percent:  double.parse(couponController.claimedCouponList.elementAt(index).percentageOff.toString()),
                   date:  couponController.claimedCouponList.elementAt(index).claimedDate.toString(),
                   endDate: couponController.claimedCouponList.elementAt(index).claimedDate.toString(),
-                  vid: 0,
-                  buttonText: "Shop Now",
+                  buttonText: "Details",
                   couponExpired: false,
                   onPressed:(){
                     showClaimedImg();

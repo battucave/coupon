@@ -18,7 +18,7 @@ class KServicesManCard extends StatefulWidget {
   final Function()? onPressed;
   final String? buttonText;
   final bool couponExpired;
-  final int vid;
+  final int? vid;
 
   const KServicesManCard(
       {Key? key,
@@ -31,7 +31,7 @@ class KServicesManCard extends StatefulWidget {
       this.onPressed,
       this.buttonText,
       this.couponExpired = false,
-        required this.vid
+       this.vid
 
 
       })
@@ -46,7 +46,7 @@ class _KServicesManCardState extends State<KServicesManCard> {
   VendorController vendorController=Get.put(VendorController());
 
   Future<SingleVendorModel>getVendor()async{
-    return await vendorController.getVendorProfileById(widget.vid);
+    return await vendorController.getVendorProfileById(widget.vid!);
 
   }
 @override

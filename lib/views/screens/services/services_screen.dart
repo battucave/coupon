@@ -35,8 +35,16 @@ class _ServicesScreenState extends State<ServicesScreen> {
   @override
   void initState() {
     super.initState();
-    categoryController.getSubCategory(widget.catId);
-    couponController.getCouponBySubCategory(widget.catId);
+    categoryController.getSubCategory(widget.catId).then((value) => {
+    if(categoryController.subCategory.isNotEmpty){
+        couponController.getCouponBySubCategory(widget.catId,categoryController.subCategory.elementAt(0).scid),
+     }
+    }
+
+    );
+
+
+
 
 
   }
@@ -92,8 +100,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                               _currentSubCatId=categoryController.subCategory.elementAt(index).scid;
                               print("HERE");
                               print(_currentSubCatId);
-                              couponController.getFilteredCoupons(_currentSubCatId);
-                              couponController.getCouponBySubCategory(_currentSubCatId);
+                              couponController.getCouponBySubCategory(widget.catId,_currentSubCatId);
+                              //couponController.getFilteredCoupons(_currentSubCatId);
+                             // couponController.getCouponBySubCategory(_currentSubCatId);
                               setState(() {  });
                              // couponController.getCouponBySubCategory(_currentSubCatId);
 
@@ -132,8 +141,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                   onTap: () {
                                     _currentIndex = index;
                                     _currentSubCatId=categoryController.subCategory.elementAt(index).scid;
-                                     couponController.getFilteredCoupons(_currentSubCatId);
-                                    couponController.getCouponBySubCategory(_currentSubCatId);
+                                    couponController.getCouponBySubCategory(widget.catId,_currentSubCatId);
+                                    // couponController.getFilteredCoupons(_currentSubCatId);
+                                   // couponController.getCouponBySubCategory(_currentSubCatId);
                                     setState(() {  });
 
                                   },
@@ -169,8 +179,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
                      name: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorName,
                      image:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorLogPath,
                      color: servicesMan[0].color,
-                     percent:   couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).percentageOff,
-                     date: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString(),
+                     percent:    couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
+                     couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:"0",
+                     date:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
+                     couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():"------------",
                     buttonText: "Details",
                     vid:couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorId,
 

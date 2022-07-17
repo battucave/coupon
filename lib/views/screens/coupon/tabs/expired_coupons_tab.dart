@@ -41,7 +41,7 @@ class _CouponExpiredScreenState extends State<ExpiredCouponsTab> {
                 date:  couponController.expriredCouponList.elementAt(index).endDate.toString(),
                 endDate: couponController.expriredCouponList.elementAt(index).endDate.toString(),
                 vid:  couponController.expriredCouponList.elementAt(index).vid,
-                buttonText: "Shop Now",
+                buttonText: "Details",
                 couponExpired: true,
 
 
@@ -51,8 +51,8 @@ class _CouponExpiredScreenState extends State<ExpiredCouponsTab> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 200),
+            children: const [
+              SizedBox(height: 200),
               Center(
                 child: Text("No data to display",
                   style: TextStyle(
