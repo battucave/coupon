@@ -24,9 +24,31 @@ class CategoryController extends GetxController{
 
 
   Future<int?> getAllCategory()async{
+    CategoryModel? featuredCat;
+    CategoryModel? _first;
+
     Response response=await NetWorkHandler().get(ApiRoutes.allCategory) ;
     if(response.statusCode==200 || response.statusCode==201){
       allCategory.value=categoryModelFromJson(response.body);
+
+      ///Set featured as first element
+      if(allCategory.value.isNotEmpty){
+        _first=allCategory.value.elementAt(0);
+        for(int i=0;i<allCategory.value.length;i++){
+          if(allCategory.value.elementAt(i).categoryName=="Featured"){
+
+            featuredCat=allCategory.value.elementAt(i);
+            allCategory.value.removeAt(i);
+          }
+        }
+        if(featuredCat!=null){
+          allCategory.value.first=featuredCat;
+          allCategory.value.add(_first);
+
+        }
+
+      }
+
       return  response.statusCode;
     }else{
       return  response.statusCode;
@@ -37,8 +59,10 @@ class CategoryController extends GetxController{
 
  Future<int?> getSubCategory(int categoryId)async{
    Response response=await NetWorkHandler().getWithParameters(ApiRoutes.subCategory,categoryId,false) ;
+
    if(response.statusCode==200 || response.statusCode==201){
      subCategory.value=subCategoryModelFromJson(response.body);
+
      return  response.statusCode;
    }else{
      return  response.statusCode;

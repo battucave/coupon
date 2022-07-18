@@ -16,6 +16,7 @@ class KServicesManCard extends StatefulWidget {
   final String? endDate;
   final Color? color;
   final Function()? onPressed;
+  final Function()? onProfilePressed;
   final String? buttonText;
   final bool couponExpired;
   final int? vid;
@@ -29,10 +30,10 @@ class KServicesManCard extends StatefulWidget {
       this.percent,
       this.color,
       this.onPressed,
+        this.onProfilePressed,
       this.buttonText,
       this.couponExpired = false,
        this.vid
-
 
       })
       : super(key: key);
@@ -78,110 +79,115 @@ class _KServicesManCardState extends State<KServicesManCard> {
                 ]),
             child: Column(
               children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  decoration: BoxDecoration(
-                      color: widget.color,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15))),
-                  child: Row(
-                    children: [
+                GestureDetector(
+                  onTap: widget.onProfilePressed,
+                  child: Container(
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    decoration: BoxDecoration(
+                        color: widget.color,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15))),
+                    child: Row(
+                      children: [
 
-                      (widget.image==null)?StreamBuilder<SingleVendorModel>(
-                        stream: getVendor().asStream(),
-                        builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return const CircularProgressIndicator();
-                          }else{
-                            if(snapshot.hasData){
-                              return ImageNetwork(
-                                image: snapshot.data!.vendorLogPath,
-                                imageCache: CachedNetworkImageProvider(snapshot.data!.vendorLogPath,),
-                                height: 55,
-                                width: 55,
-                                duration: 1500,
-                                curve: Curves.easeIn,
-                                onPointer: true,
-                                debugPrint: false,
-                                fullScreen: false,
-                                fitAndroidIos: BoxFit.cover,
-                                fitWeb: BoxFitWeb.cover,
-                                borderRadius: BorderRadius.circular(70),
-                                onLoading: const CircularProgressIndicator(
-                                  color: Colors.indigoAccent,
-                                ),
-                                onError: const Icon(
-                                  Icons.error,
-                                  color: Colors.red,
-                                ),
-                                onTap: () {
-
-                                },
-                              );
+                        (widget.image==null)?StreamBuilder<SingleVendorModel>(
+                          stream: getVendor().asStream(),
+                          builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
                             }else{
-                              return Container();
+                              if(snapshot.hasData){
+                                return ImageNetwork(
+                                  image: snapshot.data!.vendorLogPath,
+                                  imageCache: CachedNetworkImageProvider(snapshot.data!.vendorLogPath,),
+                                  height: 55,
+                                  width: 55,
+                                  duration: 1500,
+                                  curve: Curves.easeIn,
+                                  onPointer: true,
+                                  debugPrint: false,
+                                  fullScreen: false,
+                                  fitAndroidIos: BoxFit.cover,
+                                  fitWeb: BoxFitWeb.cover,
+                                  borderRadius: BorderRadius.circular(70),
+                                  onLoading: const CircularProgressIndicator(
+                                    color: Colors.indigoAccent,
+                                  ),
+                                  onError: const Icon(
+                                    Icons.error,
+                                    color: Colors.red,
+                                  ),
+                                  onTap: () {
+                                    onTap: widget.onProfilePressed;
+                                  },
+                                );
+                              }else{
+                                return Container();
+                              }
                             }
-                          }
 
-                        },
-                      ):ImageNetwork(
-                    image: widget.image!,
-                    imageCache: CachedNetworkImageProvider(widget.image!),
-                    height: 55,
-                    width: 55,
-                    duration: 1500,
-                    curve: Curves.easeIn,
-                    onPointer: true,
-                    debugPrint: false,
-                    fullScreen: false,
-                    fitAndroidIos: BoxFit.cover,
-                    fitWeb: BoxFitWeb.cover,
-                    borderRadius: BorderRadius.circular(70),
-                    onLoading: const CircularProgressIndicator(
-                      color: Colors.indigoAccent,
-                    ),
-                    onError: const Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    ),
-                    onTap: () {
-
-                    },
-                  ),
-
-                      SizedBox(width: KSize.getWidth(context, 10)),
-                      (widget.name==null)?StreamBuilder<SingleVendorModel>(
-                        stream: getVendor().asStream(),
-                        builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return const Text("");
-                          }else{
-                            if(snapshot.hasData){
-                              return  Expanded(
-                                child: Text(
-                                   snapshot.data!.vendorName,
-                                  style: KTextStyle.headline4.copyWith(fontSize: 18),
-                                ),
-                              );
-                            }else{
-                              return Container();
-                            }
-                          }
-
-                        },
-                      ):
-                      Expanded(
-                        child: Text(
-                          widget.name!,
-                          style: KTextStyle.headline4.copyWith(fontSize: 18),
+                          },
+                        ):
+                        ImageNetwork(
+                          image: widget.image!,
+                          imageCache: CachedNetworkImageProvider(widget.image!),
+                          height: 55,
+                          width: 55,
+                          duration: 1500,
+                          curve: Curves.easeIn,
+                          onPointer: true,
+                          debugPrint: false,
+                          fullScreen: false,
+                          fitAndroidIos: BoxFit.cover,
+                          fitWeb: BoxFitWeb.cover,
+                          borderRadius: BorderRadius.circular(70),
+                          onLoading: const CircularProgressIndicator(
+                            color: Colors.indigoAccent,
+                          ),
+                          onError: const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                          onTap: () {
+                            onTap: widget.onProfilePressed;
+                          },
                         ),
-                      )
-                      ,
-                    ],
-                  ),
+
+                        SizedBox(width: KSize.getWidth(context, 10)),
+                        (widget.name==null)?StreamBuilder<SingleVendorModel>(
+                          stream: getVendor().asStream(),
+                          builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const Text("");
+                            }else{
+                              if(snapshot.hasData){
+                                return  Expanded(
+                                  child: Text(
+                                    snapshot.data!.vendorName,
+                                    style: KTextStyle.headline4.copyWith(fontSize: 18),
+                                  ),
+                                );
+                              }else{
+                                return Container();
+                              }
+                            }
+
+                          },
+                        ):
+                        Expanded(
+                          child: Text(
+                            widget.name!,
+                            style: KTextStyle.headline4.copyWith(fontSize: 18),
+                          ),
+                        )
+                        ,
+                      ],
+                    ),
+                  ) ,
                 ),
+
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 13),

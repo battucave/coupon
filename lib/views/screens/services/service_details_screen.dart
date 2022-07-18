@@ -317,6 +317,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                  buttonText: "Claim This Coupon",
                                  date: couponController.vendorCouponList.elementAt(0).endDate.toString(),
                                  image:  vendorController.vendor.value.vendorLogPath,
+                                 couponCode:couponController.vendorCouponList.elementAt(0).couponCode ,
                                  onPressed: () async{
                                    //print(couponControlller.vendorCouponList.elementAt(index).couponId);
                                    startLoading();
@@ -337,12 +338,14 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                            buttonText: "Coupon Claimed",
                                            date:  couponController.vendorCouponList.elementAt(0).endDate.toString(),
                                            image:  vendorController.vendor.value.vendorLogPath,
+                                           couponCode:couponController.vendorCouponList.elementAt(0).couponCode,
+
                                            onPressed: () {
-                                             Navigator.of(context).pushAndRemoveUntil(
-                                                 MaterialPageRoute(
-                                                     builder: (context) =>
-                                                     const KBottomNavigationBar()),
-                                                     (Route<dynamic> route) => false);
+                                             // Navigator.of(context).pushAndRemoveUntil(
+                                             //     MaterialPageRoute(
+                                             //         builder: (context) =>
+                                             //         const KBottomNavigationBar()),
+                                             //         (Route<dynamic> route) => false);
                                            },
                                          ),
                                        ),
@@ -361,8 +364,8 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                  Column(
                    crossAxisAlignment: CrossAxisAlignment.center,
                    mainAxisAlignment: MainAxisAlignment.center,
-                   children: [
-                     const SizedBox(height: 60),
+                   children: const [
+                     SizedBox(height: 60),
                      Center(
                        child: Text("No coupon to display",
                          style: TextStyle(

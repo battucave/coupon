@@ -117,17 +117,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
+                        if(categoryController.allCategory.elementAt(index).categoryName=="Featured"){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,isFeatured: true,)));
+                        }else{
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,)));
+                        }
 
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,)));
-                        // setState(() {
-                        //   if (categoriesItem[index] == categoriesItem[6]) {
-                        //     Navigator.push(context, MaterialPageRoute(builder: (context) => const ServicesScreen()));
-                        //   }
-                        //   if (categoriesItem[index] == categoriesItem[categoriesItem.length - 1]) {
-                        //     viewScreens = true;
-                        //   }
-                        // });
-                      },
+                        },
                       child: viewScreens
                           ? Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -191,7 +187,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: Colors.red,
                               ),
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,)));
+                                if(categoryController.allCategory.elementAt(index).categoryName=="Featured"){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,isFeatured: true,)));
+                                }else{
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,)));
+                                }
                               },
                             ),
                           ),

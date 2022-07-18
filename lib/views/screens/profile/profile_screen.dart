@@ -215,31 +215,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   text: 'Signout',
                   navIcon: AssetPath.signOut,
                   onPressed: () async{
+                    KDialog.kShowDialog(
+                      context: context,
+                      dialogContent: Dialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                15.0)), //this right here
+                        child:Container(
+                          decoration: BoxDecoration(
+                              color: KColor.white,
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: [BoxShadow(color: KColor.silver.withOpacity(0.2), blurRadius: 4, spreadRadius: 2)]),
+                          child:  Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.only(left: 100,top: 15,bottom: 15),
+                                decoration: const BoxDecoration(color: KColor.orange,
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15),
+                                        topRight: Radius.circular(15))),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
 
-                    startLoading();
-                    int? logoutResult=await controller.logout();
-                    if(logoutResult==200|| logoutResult==201){
+                                    Expanded(
+                                      child: Text(
+                                        "Best of \n Logan",
+                                        style: KTextStyle.headline6.copyWith(fontSize: 24),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 30,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Signed Out",
+                                    style: KTextStyle.headline2.copyWith(fontSize: 18,color: Colors.black),
 
-                      ///delete all user local preferences
-                      registerController.emailController.text="";
-                      registerController.phoneController.text="";
-                      registerController.passwordController.text="";
-                      profileController.aws_Link.value="";
-                      profileController.phoneController.text="";
-                      profileController.mailController.text="";
-                      profileController.nameController.text="";
-                      profileController.cardController.text="";
+                                  )
+                                ],),
+                              const SizedBox(height: 30,),
 
-                      final prefs = await SharedPreferences.getInstance();
-                      await prefs.remove("token");
-                      await prefs.clear();
+                              GestureDetector(
+                              onTap:()async{
+                                startLoading();
+                                int? logoutResult=await controller.logout();
+                                if(logoutResult==200|| logoutResult==201){
 
-                      stopLoading();
-                      snackMessage('You logged out successfully');
-                      print(prefs.getString("token"));
-                      Navigator.of(context)
-                          .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false);
-                    }
+                                  ///delete all user local preferences
+                                  registerController.emailController.text="";
+                                  registerController.phoneController.text="";
+                                  registerController.passwordController.text="";
+                                  profileController.aws_Link.value="";
+                                  profileController.phoneController.text="";
+                                  profileController.mailController.text="";
+                                  profileController.nameController.text="";
+                                  profileController.cardController.text="";
+
+                                  final prefs = await SharedPreferences.getInstance();
+                                  await prefs.remove("token");
+                                  await prefs.clear();
+
+                                  stopLoading();
+                                  snackMessage('You logged out successfully');
+                                  print(prefs.getString("token"));
+                                  Navigator.of(context)
+                                      .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false);
+                                }
+                              },
+                              child:   Container(
+                                height:44 ,
+                                width: 150,
+                                decoration: const BoxDecoration(color: KColor.orange,
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: Center(
+                                  child:Text("OK",
+                                    style: KTextStyle.headline2.copyWith(fontSize: 16,color: Colors.white),
+                                  ) ,
+                                ),
+                              ),
+                            ),
+                              const SizedBox(height: 30,),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+
 
                   },
                 ),

@@ -3,11 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:get/state_manager.dart';
 import 'package:logan/models/api/category_model.dart';
+import 'package:logan/models/api/featured_coupon_model.dart';
 import '../constant/api_routes.dart';
 import '../models/api/claim_model.dart';
 import '../models/api/claimed_coupon_model.dart';
 import '../models/api/coupon_by_subcat_model.dart';
 import '../models/api/coupon_model.dart';
+import '../models/api/single_coupon_model.dart';
 import '../network_services/network_handler.dart';
 import 'package:http/http.dart';
 
@@ -21,10 +23,13 @@ class CouponController extends GetxController {
   RxList<CouponModel> featuredCouponList = <CouponModel>[].obs;
   RxList<ClaimedCouponModel> claimedCouponList = <ClaimedCouponModel>[].obs;
 
+  RxList<FeaturedCouponModel> featured2CouponList = <FeaturedCouponModel>[].obs;
+
   RxList<SubCatCouponModel> couponBySubCategory = <SubCatCouponModel>[].obs;
   RxList<SubCatCouponModel> foundBySubCategory = <SubCatCouponModel>[].obs;
   RxList<SubCatCouponModel> filterSubCategoryCoupon = <SubCatCouponModel>[].obs;
   RxList<SubCatCouponModel> realfoundBySubCategory = <SubCatCouponModel>[].obs;
+  Rx<SingleCouponModel> singleCouponModel=SingleCouponModel(couponId: 0, vid: 0, couponCode: "", percentageOff: 0, singleUse: true, featureCoupon: false,  isActive: true).obs;
 
   @override
   void onInit() {
@@ -33,6 +38,7 @@ class CouponController extends GetxController {
     getAllCoupon();
     getAllExpiredCoupon();
     getClaimCoupon();
+    //getFeaturedCoupon();
   }
 
 
@@ -119,6 +125,7 @@ class CouponController extends GetxController {
     ClaimModel claimModel = ClaimModel(couponId: coupon_id);
     Response response = await NetWorkHandler().postWithAuthorization(
         claimModelToJson(claimModel), ApiRoutes.claimCoupon);
+    print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response.statusCode;
     } else {
@@ -137,14 +144,24 @@ class CouponController extends GetxController {
     }
   }
 
-  getFilteredCoupons(int subcatId){
-        RxList<SubCatCouponModel> result = <SubCatCouponModel>[].obs;
-        result.value=filterSubCategoryCoupon.value;
-        result.value=result.value.where((element) => element.subCategoryId==subcatId).toList();
-        filterSubCategoryCoupon.value=result.value;
-        print("HERE 2");
-        print(filterSubCategoryCoupon.value.length);
+  Future<int?> getFeaturedCoupon() async {
+    Response response = await NetWorkHandler().get(ApiRoutes.featuredCouponApps);
+    print(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      featured2CouponList.value =  featuredCouponModelFromJson(response.body);
+      print(featured2CouponList.length);
+      return response.statusCode;
+    } else {
+      return response.statusCode;
+    }
+  }
 
 
+  Future<SingleCouponModel> getCouponById(int couponId) async {
+    Response response = await NetWorkHandler().getWithParameters(
+        ApiRoutes.couponById, couponId, true);
+    print(response.body);
+      singleCouponModel.value = singleCouponModelFromJson(response.body);
+      return  singleCouponModel.value;
   }
 }

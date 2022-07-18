@@ -1,20 +1,27 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:image_network/image_network.dart';
 import 'package:logan/constant/asset_path.dart';
+import 'package:logan/models/api/coupon_model.dart';
+import 'package:logan/models/api/single_coupon_model.dart';
 import 'package:logan/views/styles/b_style.dart';
 
+import '../../controllers/coupon_controller.dart';
 import 'k_button.dart';
 
 class KCouponClaimCard extends StatefulWidget {
   const KCouponClaimCard(
-      {Key? key, this.percent, this.color, this.date, this.image, this.name, this.buttonText, this.couponDetails = false, this.onPressed})
+      {Key? key, this.percent, this.color, this.date, this.image, this.name, this.buttonText, this.couponDetails = false, this.onPressed,this.couponCode,this.coupon_id})
       : super(key: key);
 
   final String? name;
   final String? image;
   final Color? color;
-  final double? percent;
+  final dynamic  percent;
+  final String? couponCode;
+  final int? coupon_id;
   final String? date;
   final String? buttonText;
   final Function()? onPressed;
@@ -25,6 +32,17 @@ class KCouponClaimCard extends StatefulWidget {
 }
 
 class _KCouponClaimCardState extends State<KCouponClaimCard> {
+  CouponController couponController=Get.put(CouponController());
+  Future<SingleCouponModel>getCoupon()async{
+    return await couponController.getCouponById(widget.coupon_id!);
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -72,7 +90,25 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                       widget.name!,
                       style: KTextStyle.headline4.copyWith(fontSize: 18),
                     ),
-                  )
+                  ),
+                  Spacer(),
+
+                 GestureDetector(
+                   onTap: (){
+                     Navigator.of(context).pop();
+
+                   },
+                   child: Container(
+                     height: 50,
+                     width: 50,
+                     decoration: const BoxDecoration(
+                       color: Colors.red,
+                       borderRadius: BorderRadius.all(Radius.circular(200))
+                     ),
+                     child:   const Icon(Icons.close,color: Colors.white,),
+                   ),
+                 ),
+                  SizedBox(width: KSize.getWidth(context, 5)),
                 ],
               ),
             ),
@@ -173,14 +209,35 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                           "Redeem Code",
                           style: KTextStyle.headline2.copyWith(fontSize: 18, height: 25 / 18, color: KColor.orange),
                         )),
-                        Container(
+                       (widget.couponCode!=null)? Container(
                           padding: EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 33), vertical: KSize.getHeight(context, 8)),
                           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: KColor.blue),
                           child: Text(
-                            "Coupon ${widget.percent}%",
+                            "${widget.couponCode}",
                             style: KTextStyle.headline2.copyWith(fontSize: 18, height: 25 / 18),
                           ),
-                        )
+                        ):
+                           ///To get coupon code using coupon Id, working on it
+                       StreamBuilder<SingleCouponModel>(
+                         stream: getCoupon().asStream(),
+                         builder: (context, AsyncSnapshot<SingleCouponModel> snapshot) {
+                           if(snapshot.hasData){
+                             print(snapshot.data!.couponCode);
+                               return  Container(
+                                 padding: EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 33), vertical: KSize.getHeight(context, 8)),
+                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: KColor.blue),
+                                 child: Text(
+                                   snapshot.data!.couponCode.toString(),
+                                   style: KTextStyle.headline2.copyWith(fontSize: 18, height: 25 / 18),
+                                 ),
+                               );
+                             }else{
+                               return Container(child: Text("jjjjj"),);
+                             }
+
+
+                         },
+                       )
                       ],
                     ),
                   )

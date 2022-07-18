@@ -30,4 +30,10 @@ class KTextStyle {
     fontWeight: FontWeight.w700,
     fontFamily: 'Montserrat',
   );
+
+  static TextStyle headline6 = const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w400,
+    fontFamily: 'Orbitron',
+  );
 }

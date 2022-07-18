@@ -59,6 +59,7 @@ class AssetPath {
   /// coupon claimed
   static const couponSuccess = "assets/images/successful.png";
   static const claimedSample = "assets/images/claimsample.jpeg";
+  static const  close = "assets/images/close.png";
 
   /// Profile
   static const profileImg = "assets/images/profileImg.png";

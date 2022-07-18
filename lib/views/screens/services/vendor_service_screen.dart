@@ -185,20 +185,18 @@ class _VendorServiceSreenState extends State<VendorServiceSreen> {
                                   date: couponController.vendorCouponList.elementAt(index).endDate.toString(),
                                   image:   widget.image,
                                   onPressed: () async{
-                                    //print(couponControlller.vendorCouponList.elementAt(index).couponId);
                                     startLoading();
                                     int? result=await couponController.claimCoupon(couponController.vendorCouponList.elementAt(index).couponId);
                                     if(result==200 || result==201){
                                       stopLoading();
-
+                                      Navigator.pop(context);
                                       KDialog.kShowDialog(
                                         context: context,
                                         dialogContent: Dialog(
                                           shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(
                                                   15.0)), //this right here
-                                          child:
-                                          Align(
+                                          child: Align(
                                             alignment: Alignment.center,
                                             child: ConfettiWidget(
                                               confettiController: _controllerCenter,
@@ -222,12 +220,13 @@ class _VendorServiceSreenState extends State<VendorServiceSreen> {
                                                 buttonText: "Coupon Claimed",
                                                 date:  couponController.vendorCouponList.elementAt(index).endDate.toString(),
                                                 image:   widget.image,
+                                                couponCode: couponController.vendorCouponList.elementAt(index).couponCode,
                                                 onPressed: () {
-                                                  Navigator.of(context).pushAndRemoveUntil(
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                          const KBottomNavigationBar()),
-                                                          (Route<dynamic> route) => false);
+                                                  // Navigator.of(context).pushAndRemoveUntil(
+                                                  //     MaterialPageRoute(
+                                                  //         builder: (context) =>
+                                                  //         const KBottomNavigationBar()),
+                                                  //         (Route<dynamic> route) => false);
                                                 },
                                               ),// define a custom shape/path.
                                             ),
