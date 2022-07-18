@@ -30,7 +30,6 @@ class CategoryController extends GetxController{
     Response response=await NetWorkHandler().get(ApiRoutes.allCategory) ;
     if(response.statusCode==200 || response.statusCode==201){
       allCategory.value=categoryModelFromJson(response.body);
-
       ///Set featured as first element
       if(allCategory.value.isNotEmpty){
         _first=allCategory.value.elementAt(0);
@@ -70,8 +69,6 @@ class CategoryController extends GetxController{
 
 
  }
-
-
 
 
 

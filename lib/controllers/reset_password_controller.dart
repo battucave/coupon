@@ -17,34 +17,36 @@ class ResetPasswordController extends GetxController{
   final TextEditingController passCodeController =TextEditingController();
   final TextEditingController newPasswordController =TextEditingController();
   final TextEditingController confirmPasswordController =TextEditingController();
-
-  Map data = {
+  String? resetPwdToken;
+  Map data2 = {
     "recipient_id": "",
     "session_id": "",
     "otp_code": ""
   };
 
 
-  Future<int?> sendOtp()async{
+
+  Future<int?> sendPasswordOtp()async{
     OtpModel otpModel= OtpModel(recipientId: emailPhoneController.text);
-    Response response=await NetWorkHandler.post(otpModelToJson(otpModel),  ApiRoutes.forgotPasswordOtp) ;
+    Response response=await NetWorkHandler.post(otpModelToJson(otpModel), ApiRoutes.forgotPasswordOtp) ;
 
     if(response.statusCode==200 || response.statusCode==201){
-      ///we need recipient_id and session_id to veriry otp next
-      data["recipient_id"]=emailPhoneController.text;
-      data["session_id"]=jsonDecode(response.body)["session_id"];
+      data2["recipient_id"]=emailPhoneController.text;
+      data2["session_id"]=jsonDecode(response.body)["session_id"];
       print(jsonEncode(response.body));
-     return  response.statusCode;
+      return  response.statusCode;
     }else{
       return  response.statusCode;
     }
 
   }
 
-  Future<int?> verifyOtp()async{
-    VerifyOtpModel otpModel= VerifyOtpModel(recipientId: emailPhoneController.text,sessionId: data["session_id"],otpCode: passCodeController.text);
-    Response response=await NetWorkHandler.post(verifyOtpModelToJson(otpModel),  ApiRoutes.verifyOtp) ;
+  Future<int?> verifyPasswordOtp()async{
+    VerifyOtpModel otpModel= VerifyOtpModel(recipientId: emailPhoneController.text,sessionId: data2["session_id"],otpCode: passCodeController.text);
+    Response response=await NetWorkHandler.post(verifyOtpModelToJson(otpModel),  ApiRoutes.verifyPasswordOtp) ;
+    print(response.body);
     if(response.statusCode==200 || response.statusCode==201){
+      resetPwdToken=jsonDecode(response.body)["reset_password_token"];
       return  response.statusCode;
     }else{
       return  response.statusCode;
@@ -54,7 +56,9 @@ class ResetPasswordController extends GetxController{
 
   Future<int?> resetPassword()async{
     ResetPasswordModel resetPasswordModel= ResetPasswordModel(newPassword:newPasswordController.text,confirmPassword: confirmPasswordController.text );
-    Response response=await NetWorkHandler.post(resetPasswordModelToJson(resetPasswordModel),  ApiRoutes.resetPassword+data["session_id"]);
+    Response response=await NetWorkHandler().postWithParameters(resetPasswordModelToJson(resetPasswordModel),  ApiRoutes.resetPassword,resetPwdToken!);
+    print("RESET");
+    print(response.body);
     if(response.statusCode==200 || response.statusCode==201){
       return  response.statusCode;
     }else{

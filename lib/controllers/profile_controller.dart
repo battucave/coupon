@@ -47,8 +47,6 @@ class ProfileController extends GetxController{
       if(data["profile_logo_path"]!=null){
         aws_Link.value=data["profile_logo_path"];
       }
-
-
       if(data["zip"]!=null){///verify if zip is not null
         card.value=data["zip"];
         ///To display one Edit profile screen
@@ -56,8 +54,6 @@ class ProfileController extends GetxController{
       }
       phoneController.text= data["phone"];
       mailController.text= data["email"];
-
-
       return  response.statusCode;
     }else{
       return  response.statusCode;

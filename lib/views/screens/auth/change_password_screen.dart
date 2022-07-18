@@ -57,7 +57,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         });
   }
   void snackMessage( String  msg){
-    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+    final snackBar = SnackBar(content: Text(msg),duration : const Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
   @override
@@ -127,11 +127,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       child: KArrowGoButton(
                         isLoading: isLoading,
                         onpressed: () async{
-
                           if(resetPasswordController.newPasswordController.text.isNotEmpty &&
                               resetPasswordController.confirmPasswordController.text.isNotEmpty ){
-
-
                             startLoading();
                             int? resetResult= await resetPasswordController.resetPassword();
                             print(resetResult);

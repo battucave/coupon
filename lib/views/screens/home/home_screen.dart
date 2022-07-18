@@ -67,19 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               const SizedBox(height: 25),
-              Obx(() => couponController.featuredCouponList.isNotEmpty?SizedBox(
+              Obx(() => couponController.featured2CouponList.isNotEmpty?SizedBox(
                 width: context.screenWidth,
                 child: CarouselSlider(
                     carouselController: buttonCarouselController,
-                    items:  List.generate(couponController.featuredCouponList.length, (index) {
+                    items:  List.generate(couponController.featured2CouponList.length, (index) {
                       return   KFeaturedCarouselCard(
-                        percent: couponController.featuredCouponList.elementAt(index).percentageOff,
-                        image: "",
-                        vid:couponController.featuredCouponList.elementAt(index).vid ,
-
+                        percent: couponController.featured2CouponList.elementAt(index).percentageOff,
+                        image: couponController.featured2CouponList.elementAt(index).vendorLogPath,
                       );
                     }),
-
 
                     options: CarouselOptions(
                       height: 157,
@@ -118,9 +115,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     return GestureDetector(
                       onTap: () {
                         if(categoryController.allCategory.elementAt(index).categoryName=="Featured"){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,isFeatured: true,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,isFeatured: true,
+                            title:categoryController.allCategory.elementAt(index).categoryName ,)));
                         }else{
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,
+                              title:categoryController.allCategory.elementAt(index).categoryName
+                          )));
                         }
 
                         },
@@ -188,9 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               onTap: (){
                                 if(categoryController.allCategory.elementAt(index).categoryName=="Featured"){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,isFeatured: true,)));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,isFeatured: true,
+                                      title:categoryController.allCategory.elementAt(index).categoryName)));
                                 }else{
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,)));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,
+                                      title:categoryController.allCategory.elementAt(index).categoryName)));
                                 }
                               },
                             ),
@@ -213,33 +215,35 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: KSize.getHeight(context, 20)),
 
 
-          Obx(() => vendorController.vendorList.isNotEmpty?SizedBox(
+          Obx(() => vendorController.featuredVendorList.isNotEmpty?SizedBox(
       width: context.screenWidth,
       child: SingleChildScrollView(
         clipBehavior: Clip.none,
         physics: const BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: List.generate(vendorController.vendorList.length, (index) {
+          children: List.generate(vendorController.featuredVendorList.length, (index) {
             return GestureDetector(
-              onTap:(){
-                Navigator.push(
+              onTap:()=> Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ServiceDetailsScreen(
+                        color: colors[0],
+                        vendorId:vendorController.featuredVendorList.elementAt(index).vid
+                    )),
+              ),
+              child: KBrandsCard(
+                onPressed:()=> Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => ServiceDetailsScreen(
                           color: colors[0],
-                          vendorId:vendorController.vendorList.elementAt(index).vid
+                          vendorId:vendorController.featuredVendorList.elementAt(index).vid
                       )),
-                );
-              },
-              child: Container(
+                ) ,
+                image: vendorController.featuredVendorList.elementAt(index).vendorLogPath,
+                text: vendorController.featuredVendorList.elementAt(index).vendorName,
 
-                child: KBrandsCard(
-                  image: vendorController.vendorList.elementAt(index).vendorLogPath,
-                  text: vendorController.vendorList.elementAt(index).vendorName,
-
-
-                ),
               ),
             );
           }),

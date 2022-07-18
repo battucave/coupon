@@ -15,7 +15,7 @@ import 'package:http/http.dart';
 class VendorController extends GetxController{
 
 
-  RxList<VendorModel>  vendorList = <VendorModel>[].obs;
+  RxList<VendorModel>  featuredVendorList = <VendorModel>[].obs;
   RxList<SubCategoryModel>  subCategory = <SubCategoryModel>[].obs;
   RxList<VendorModel>  foundVendorList= <VendorModel>[].obs;
   Rx<SingleVendorModel> vendor=SingleVendorModel(
@@ -59,7 +59,7 @@ class VendorController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    getAllVendor();
+    getFeaturedVendor();
 
   }
 
@@ -93,10 +93,10 @@ class VendorController extends GetxController{
     //}
   }
 
-  Future<int?> getAllVendor() async {
-    Response response = await NetWorkHandler().get(ApiRoutes.allVendor);
+  Future<int?> getFeaturedVendor() async {
+    Response response = await NetWorkHandler().get(ApiRoutes.featuredVendor);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      vendorList.value = vendorModelFromJson(response.body);
+      featuredVendorList.value = vendorModelFromJson(response.body);
       return response.statusCode;
     } else {
       return response.statusCode;

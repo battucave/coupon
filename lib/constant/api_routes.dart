@@ -5,6 +5,7 @@ class ApiRoutes {
   static const register = "api/v1/auth/register";
   static const login = "api/v1/auth/login";
   static const forgotPasswordOtp = "api/v1/auth/forgot-password/opt";
+  static const verifyPasswordOtp = "api/v1/otp/forgot-password/verify";
   static const verifyOtp = "api/v1/otp/verify";
   static const resetPassword = "api/v1/auth/reset-password?reset_password_token=";
   static const sendMailOtp = "api/v1/otp/send?type=Email";
@@ -25,13 +26,12 @@ class ApiRoutes {
   static const claimCouponList = "api/v1/apps/coupon/claimed/";
   static const subCatCouponList = "api/v1/apps/coupons/all/";
   static const featuredCouponApps = "api/v1/apps/coupons/featured/all/apps";
-  static const couponById = "/api/v1/coupon/";
-
-
+  static const couponById = "api/v1/coupon/";
 
   ///Vendor
   static const vendor = "vendors/all/";
   static const vendorById = "api/v1/vendor/";
   static const allVendor = "api/v1/vendor/all/";
+  static const featuredVendor = "api/v1/vendor/featured/all/";
 
 }

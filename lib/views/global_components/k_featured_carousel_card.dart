@@ -13,12 +13,12 @@ import '../../models/api/single_vendor_model.dart';
 class KFeaturedCarouselCard extends StatefulWidget {
   final double? percent;
   final String? image;
-  final int vid;
+  final int? vid;
   const KFeaturedCarouselCard(
       {Key? key,
         this.image,
         this.percent,
-        required this.vid
+        this.vid
       })
       : super(key: key);
 
@@ -29,13 +29,13 @@ class KFeaturedCarouselCard extends StatefulWidget {
 class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
   VendorController vendorController=Get.put(VendorController());
   Future<SingleVendorModel>getVendor()async{
-    return await vendorController.getVendorProfileById(widget.vid);
+    return await vendorController.getVendorProfileById(widget.vid!);
   }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getVendor();
+
   }
 
   @override
@@ -115,47 +115,75 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
             //   ):   Image.asset(AssetPath.defaultImage, height: 100, width: 100,fit: BoxFit.contain,),
             // ),
              ///Need data in featured coupon to test this part
-            StreamBuilder<SingleVendorModel>(
-              stream: getVendor().asStream(),
-              builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }else{
-                  if(snapshot.hasData){
-                    return  Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      child:ImageNetwork(
-                        image: snapshot.data!.vendorLogPath,
-                        height: 80,
-                        width: 80,
-                        duration: 1500,
-                        curve: Curves.easeIn,
-                        onPointer: true,
-                        debugPrint: false,
-                        fullScreen: false,
-                        fitAndroidIos: BoxFit.cover,
-                        fitWeb: BoxFitWeb.cover,
-                        borderRadius: BorderRadius.circular(70),
-                        onLoading: const CircularProgressIndicator(
-                          color: Colors.indigoAccent,
-                        ),
-                        onError: const Icon(
-                          Icons.error,
-                          color: Colors.red,
-                        ),
-                        onTap: () {
+            // widget.vid!=null?StreamBuilder<SingleVendorModel>(
+            //   stream: getVendor().asStream(),
+            //   builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return const CircularProgressIndicator();
+            //     }else{
+            //       if(snapshot.hasData){
+            //         return  Container(
+            //           margin: const EdgeInsets.only(right: 20),
+            //           child:ImageNetwork(
+            //             image: snapshot.data!.vendorLogPath,
+            //             height: 80,
+            //             width: 80,
+            //             duration: 1500,
+            //             curve: Curves.easeIn,
+            //             onPointer: true,
+            //             debugPrint: false,
+            //             fullScreen: false,
+            //             fitAndroidIos: BoxFit.cover,
+            //             fitWeb: BoxFitWeb.cover,
+            //             borderRadius: BorderRadius.circular(70),
+            //             onLoading: const CircularProgressIndicator(
+            //               color: Colors.indigoAccent,
+            //             ),
+            //             onError: const Icon(
+            //               Icons.error,
+            //               color: Colors.red,
+            //             ),
+            //             onTap: () {
+            //
+            //             },
+            //           ) ,
+            //         );
+            //
+            //
+            //       }else{
+            //         return Container();
+            //       }
+            //     }
+            //
+            //   },
+            // ):
 
-                        },
-                      ) ,
-                    );
+            Container(
+              margin: const EdgeInsets.only(right: 20),
+              child:ImageNetwork(
+                image: widget.image!,
+                imageCache: CachedNetworkImageProvider(widget.image!),
+                height: 80,
+                width: 80,
+                duration: 1500,
+                curve: Curves.easeIn,
+                onPointer: true,
+                debugPrint: false,
+                fullScreen: false,
+                fitAndroidIos: BoxFit.cover,
+                fitWeb: BoxFitWeb.cover,
+                borderRadius: BorderRadius.circular(70),
+                onLoading: const CircularProgressIndicator(
+                  color: Colors.indigoAccent,
+                ),
+                onError: const Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ),
+                onTap: () {
 
-
-                  }else{
-                    return Container();
-                  }
-                }
-
-              },
+                },
+              ) ,
             ),
           ],
         )

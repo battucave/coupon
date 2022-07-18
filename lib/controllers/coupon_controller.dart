@@ -21,16 +21,19 @@ class CouponController extends GetxController {
   RxList<CouponModel> expriredCouponList = <CouponModel>[].obs;
   RxList<CouponModel> vendorCouponList = <CouponModel>[].obs;
   RxList<CouponModel> featuredCouponList = <CouponModel>[].obs;
-  RxList<ClaimedCouponModel> claimedCouponList = <ClaimedCouponModel>[].obs;
 
+  RxList<ClaimedCouponModel> claimedCouponList = <ClaimedCouponModel>[].obs;
+  RxList<FeaturedCouponModel> foundFeaturedCouponList = <FeaturedCouponModel>[].obs;
   RxList<FeaturedCouponModel> featured2CouponList = <FeaturedCouponModel>[].obs;
 
   RxList<SubCatCouponModel> couponBySubCategory = <SubCatCouponModel>[].obs;
   RxList<SubCatCouponModel> foundBySubCategory = <SubCatCouponModel>[].obs;
+  RxList<SubCatCouponModel> foundSearchBySubCategory = <SubCatCouponModel>[].obs;
   RxList<SubCatCouponModel> filterSubCategoryCoupon = <SubCatCouponModel>[].obs;
   RxList<SubCatCouponModel> realfoundBySubCategory = <SubCatCouponModel>[].obs;
   Rx<SingleCouponModel> singleCouponModel=SingleCouponModel(couponId: 0, vid: 0, couponCode: "", percentageOff: 0, singleUse: true, featureCoupon: false,  isActive: true).obs;
 
+  RxList<VendorsAndCouponsList> vendorAndCouponList = <VendorsAndCouponsList>[].obs;
   @override
   void onInit() {
     super.onInit();
@@ -38,33 +41,43 @@ class CouponController extends GetxController {
     getAllCoupon();
     getAllExpiredCoupon();
     getClaimCoupon();
-    //getFeaturedCoupon();
+    getFeaturedCoupon();
+    foundFeaturedCouponList=featured2CouponList;
+    if(foundBySubCategory.isNotEmpty){
+     if(foundBySubCategory.first.vendorsAndCouponsList!.isNotEmpty){
+       vendorAndCouponList.value=foundBySubCategory.first.vendorsAndCouponsList!;
+     }
+    }
+    foundSearchBySubCategory=foundBySubCategory;
   }
 
 
   void seachCoupon(String couponName) {
-    RxList<SubCatCouponModel> result = <SubCatCouponModel>[].obs;
+    RxList<SubCatCouponModel> result2 = <SubCatCouponModel>[].obs;
+    RxList<VendorsAndCouponsList> result = <VendorsAndCouponsList>[].obs;
     if (couponName.isEmpty) {
-      result = couponBySubCategory;
+      result.value = foundBySubCategory.first.vendorsAndCouponsList!;
     } else {
-      // result.value = couponBySubCategory.value
-      //     .where((element) =>
-      //     element.vendorsAndCouponsList.where((element) => element.vendorName.toUpperCase().contains(couponName.toUpperCase())))
-      //     .toList();
 
-      foundBySubCategory = result;
+      result.value=foundBySubCategory.first.vendorsAndCouponsList!.where((element) => element.vendorName.toUpperCase().contains(couponName.toUpperCase())).toList();
     }
+
+    vendorAndCouponList.value=result;
+     //foundSearchBySubCategory.value= result.value;
   }
 
-  // void seachCoupon2(String couponName){
-  //   RxList<SubCatCouponModel>   result=<SubCatCouponModel>[].obs;
-  //   if(couponName.isEmpty){
-  //     result= couponBySubCategory;
-  //   }else{
-  //     result.value=couponBySubCategory.value.where((element) => element.vendorsAndCouponsList..toLowerCase().contains(couponName.toLowerCase())).toList();
-  //     foundBySubCategory=result;
-  //   }
-  // }
+  void seachFeaturedCoupon(String couponName) {
+    RxList<FeaturedCouponModel> result = <FeaturedCouponModel>[].obs;
+    if (couponName.isEmpty) {
+      result = featured2CouponList;
+    } else {
+      result.value = featured2CouponList.value
+          .where((element) => element.vendorName.toUpperCase().contains(couponName.toUpperCase()))
+          .toList();
+    }
+    foundFeaturedCouponList = result;
+  }
+
 
   Future<int?> getCouponBySubCategory(int categoryId,int subcatId) async {
     Response response = (await NetWorkHandler().getWithParameters(
@@ -72,7 +85,11 @@ class CouponController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       foundBySubCategory.value = subCatCouponModelFromJson(response.body);
       foundBySubCategory.value= foundBySubCategory.value.where((element) => element.subCategoryId==subcatId).toList();
-      filterSubCategoryCoupon.value=subCatCouponModelFromJson(response.body);
+
+        vendorAndCouponList.value=foundBySubCategory.value.first.vendorsAndCouponsList!;
+        print(foundBySubCategory.first.vendorsAndCouponsList!.length);
+
+      //filterSubCategoryCoupon.value=subCatCouponModelFromJson(response.body);
       return response.statusCode;
     } else {
       return response.statusCode;
@@ -102,6 +119,7 @@ class CouponController extends GetxController {
 
   Future<int?> getAllFeaturedCoupon() async {
     Response response = await NetWorkHandler().get(ApiRoutes.featuredCoupon);
+    //print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       featuredCouponList.value = couponModelFromJson(response.body);
       return response.statusCode;
@@ -125,7 +143,7 @@ class CouponController extends GetxController {
     ClaimModel claimModel = ClaimModel(couponId: coupon_id);
     Response response = await NetWorkHandler().postWithAuthorization(
         claimModelToJson(claimModel), ApiRoutes.claimCoupon);
-    print(response.body);
+    //print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response.statusCode;
     } else {
@@ -135,7 +153,6 @@ class CouponController extends GetxController {
 
   Future<int?> getClaimCoupon() async {
     Response response = await NetWorkHandler().get(ApiRoutes.claimCouponList);
-
     if (response.statusCode == 200 || response.statusCode == 201) {
       claimedCouponList.value = claimedCouponModelFromJson(response.body);
       return response.statusCode;
@@ -146,10 +163,10 @@ class CouponController extends GetxController {
 
   Future<int?> getFeaturedCoupon() async {
     Response response = await NetWorkHandler().get(ApiRoutes.featuredCouponApps);
-    print(response.body);
+    //print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       featured2CouponList.value =  featuredCouponModelFromJson(response.body);
-      print(featured2CouponList.length);
+      //print(featured2CouponList.length);
       return response.statusCode;
     } else {
       return response.statusCode;

@@ -146,7 +146,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                               if(resetPasswordController.emailPhoneController.text.isNotEmpty ){
                                 startLoading();
-                                int? otpResult= await resetPasswordController.sendOtp();
+                                int? otpResult= await resetPasswordController.sendPasswordOtp();
                                 if(otpResult==200 || otpResult==201){
                                   stopLoading();
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPasswordScreen(isSignUp: false,)));

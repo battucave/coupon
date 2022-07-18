@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_network/image_network.dart';
 import 'package:logan/views/styles/b_style.dart';
 
+import '../screens/services/service_details_screen.dart';
+
 class KBrandsCard extends StatefulWidget {
   final String? text;
   final String? image;
@@ -17,6 +19,7 @@ class KBrandsCard extends StatefulWidget {
 }
 
 class _KBrandsCardState extends State<KBrandsCard> {
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -60,7 +63,7 @@ class _KBrandsCardState extends State<KBrandsCard> {
                 color: Colors.red,
               ),
               onTap: () {
-
+              widget.onPressed;
               },
             ),
             widget.isRound != null

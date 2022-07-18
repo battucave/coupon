@@ -194,10 +194,9 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                             }else{
                               if(resetPasswordController.emailPhoneController.text.isNotEmpty ){
                                 ///get code tap by user
-                                resetPasswordController.data["otp_code"]=resetPasswordController.passCodeController.text;
+                                resetPasswordController.data2["otp_code"]=resetPasswordController.passCodeController.text;
                                 startLoading();
-
-                                int? verifyResult= await resetPasswordController.verifyOtp();
+                                int? verifyResult= await resetPasswordController.verifyPasswordOtp();
                                 if(verifyResult==200 || verifyResult==201){
                                   stopLoading();
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));

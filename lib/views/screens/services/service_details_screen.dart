@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,6 +49,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
 
   VendorController vendorController=Get.put(VendorController());
   CouponController couponController=Get.put(CouponController());
+
   void snackMessage( String  msg){
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -81,11 +85,53 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
     });
 
   }
+
+  late ConfettiController _controllerCenter;
+  late ConfettiController _controllerCenterRight;
+  late ConfettiController _controllerCenterLeft;
+  late ConfettiController _controllerTopCenter;
+  late ConfettiController _controllerBottomCenter;
+
+  /// A custom Path to paint stars.
+  Path drawStar(Size size) {
+    // Method to convert degree to radians
+    double degToRad(double deg) => deg * (pi / 180.0);
+
+    const numberOfPoints = 5;
+    final halfWidth = size.width / 2;
+    final externalRadius = halfWidth;
+    final internalRadius = halfWidth / 2.5;
+    final degreesPerStep = degToRad(360 / numberOfPoints);
+    final halfDegreesPerStep = degreesPerStep / 2;
+    final path = Path();
+    final fullAngle = degToRad(360);
+    path.moveTo(size.width, halfWidth);
+
+    for (double step = 0; step < fullAngle; step += degreesPerStep) {
+      path.lineTo(halfWidth + externalRadius * cos(step),
+          halfWidth + externalRadius * sin(step));
+      path.lineTo(halfWidth + internalRadius * cos(step + halfDegreesPerStep),
+          halfWidth + internalRadius * sin(step + halfDegreesPerStep));
+    }
+    path.close();
+    return path;
+  }
+
   @override
   void initState() {
     super.initState();
     vendorController.getVendorById(widget.vendorId);
     couponController.getCouponByVendorId(widget.vendorId);
+    _controllerCenter =
+        ConfettiController(duration: const Duration(seconds: 10));
+    _controllerCenterRight =
+        ConfettiController(duration: const Duration(seconds: 10));
+    _controllerCenterLeft =
+        ConfettiController(duration: const Duration(seconds: 10));
+    _controllerTopCenter =
+        ConfettiController(duration: const Duration(seconds: 10));
+    _controllerBottomCenter =
+        ConfettiController(duration: const Duration(seconds: 10));
 
   }
   @override
@@ -133,7 +179,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                 blurRadius: 4,
                                 offset: const Offset(0, 4))
                           ]),
-                          child: ImageNetwork(
+                          child: controller.vendor.value.vendorLogPath.isNotEmpty?ImageNetwork(
                             image: controller.vendor.value.vendorLogPath,
                             imageCache: CachedNetworkImageProvider(vendorController.vendor.value.vendorLogPath),
                             height: 144,
@@ -154,7 +200,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                               color: Colors.red,
                             ),
 
-                          ),
+                          ):CircularProgressIndicator(),
 
                           // Image.asset(widget.image!, height: 114, width: 114),
                         ))
@@ -319,37 +365,59 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                  image:  vendorController.vendor.value.vendorLogPath,
                                  couponCode:couponController.vendorCouponList.elementAt(0).couponCode ,
                                  onPressed: () async{
-                                   //print(couponControlller.vendorCouponList.elementAt(index).couponId);
                                    startLoading();
                                    int? result=await couponController.claimCoupon(couponController.vendorCouponList.elementAt(0).couponId);
                                    if(result==200 || result==201){
                                      stopLoading();
+                                     Navigator.pop(context);
                                      KDialog.kShowDialog(
                                        context: context,
                                        dialogContent: Dialog(
                                          shape: RoundedRectangleBorder(
                                              borderRadius: BorderRadius.circular(
                                                  15.0)), //this right here
-                                         child: KCouponClaimCard(
-                                           couponDetails: true,
-                                           name: vendorController.vendor.value.vendorName,
-                                           percent:  couponController.vendorCouponList.elementAt(0).percentageOff,
-                                           color: widget.color,
-                                           buttonText: "Coupon Claimed",
-                                           date:  couponController.vendorCouponList.elementAt(0).endDate.toString(),
-                                           image:  vendorController.vendor.value.vendorLogPath,
-                                           couponCode:couponController.vendorCouponList.elementAt(0).couponCode,
+                                         child: Align(
+                                           alignment: Alignment.center,
+                                           child: ConfettiWidget(
+                                             confettiController: _controllerCenter,
+                                             blastDirectionality: BlastDirectionality
+                                                 .explosive, // don't specify a direction, blast randomly
+                                             shouldLoop:
+                                             true, // start again as soon as the animation is finished
+                                             colors: const [
+                                               Colors.green,
+                                               Colors.blue,
+                                               Colors.pink,
+                                               Colors.orange,
+                                               Colors.purple
+                                             ], // manually specify the colors to be used
+                                             createParticlePath: drawStar,
+                                             child:   KCouponClaimCard(
+                                               couponDetails: true,
+                                               name: vendorController.vendor.value.vendorName,
+                                               percent:  couponController.vendorCouponList.elementAt(0).percentageOff,
+                                               color: widget.color,
+                                               buttonText: "Coupon Claimed",
+                                               date:  couponController.vendorCouponList.elementAt(0).endDate.toString(),
+                                               image:  vendorController.vendor.value.vendorLogPath,
+                                               couponCode:couponController.vendorCouponList.elementAt(0).couponCode,
 
-                                           onPressed: () {
-                                             // Navigator.of(context).pushAndRemoveUntil(
-                                             //     MaterialPageRoute(
-                                             //         builder: (context) =>
-                                             //         const KBottomNavigationBar()),
-                                             //         (Route<dynamic> route) => false);
-                                           },
+                                               onPressed: () {
+                                                 // Navigator.of(context).pushAndRemoveUntil(
+                                                 //     MaterialPageRoute(
+                                                 //         builder: (context) =>
+                                                 //         const KBottomNavigationBar()),
+                                                 //         (Route<dynamic> route) => false);
+                                               },
+                                             ),// define a custom shape/path.
+                                           ),
+
                                          ),
+
+
                                        ),
                                      );
+                                     _controllerCenter.play();
                                    }else{
                                      stopLoading();
                                      snackMessage("Fail to claim coupon");

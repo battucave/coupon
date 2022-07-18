@@ -11,7 +11,7 @@ class NetWorkHandler{
   static final client = http.Client();
 
 
-    Map<String, String> headers = {"content-type": "application/json"};
+   Map<String, String> headers = {"content-type": "application/json"};
    Map<String, String> multipardHeaders = { "Accesstoken": "access_token"};
 
 
@@ -33,11 +33,19 @@ class NetWorkHandler{
 
     return response;
   }
+
+   Future<http.Response> postWithParameters(var body, String endpoint,String resetToken)async{
+      print(body);
+    http.Response response=await client.post(buildUrlWithStringParameters(endpoint,resetToken),body: body,
+        headers:  headers
+    );
+
+    return response;
+  }
   static Future<http.Response> postFormData(Map body, String endpoint)async{
     http.Response response=await client.post(buildUrl(endpoint),body:body,
         headers:  {
           'contentType': 'multipart/form-data',
-
         }
     );
     return response;
@@ -108,24 +116,7 @@ class NetWorkHandler{
       endpoint+"?id=${userId}" ,
 
     );
-    //request.fields['id']="${userId}";
-    // request.headers["content-type"]="multipart/form-data";
-    // request.headers["authorization"]="Bearer ${token!}";
-    // print(request.headers);
 
-    // request.files.add(await http.MultipartFile('file',
-    //     File(filepath).readAsBytes().asStream(),
-    //     File(filepath).lengthSync(),
-    //     filename: filepath.split("/").last),
-    //
-    //
-    // );
-
-
-
-    // print(request.fields);
-    // http.StreamedResponse res = await request.send();
-    //print(res.toString());
     return request;
   }
 
@@ -135,10 +126,15 @@ class NetWorkHandler{
     }
 
   static Uri buildUrlWithParameters(String endpoint,  int param,bool paramIsAtEnd){
-
-    final apiPath= !paramIsAtEnd?
+      final apiPath= !paramIsAtEnd?
              ApiRoutes.apiHost+"api/v1/${param}/"+endpoint:
              ApiRoutes.apiHost+"${endpoint}"+param.toString();
+    return Uri.parse(apiPath);
+  }
+
+  static Uri buildUrlWithStringParameters(String endpoint,  String param,){
+    final apiPath=
+    ApiRoutes.apiHost+endpoint+param;
     return Uri.parse(apiPath);
   }
 

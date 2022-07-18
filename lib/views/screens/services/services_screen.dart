@@ -24,7 +24,8 @@ import '../../global_components/k_dialog.dart';
 class ServicesScreen extends StatefulWidget {
   final int catId;
   final bool isFeatured;
-  const ServicesScreen({Key? key,required this.catId,this.isFeatured=false}) : super(key: key);
+  final String title;
+  const ServicesScreen({Key? key,required this.catId,this.isFeatured=false,required this.title}) : super(key: key);
 
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();
@@ -154,7 +155,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
         leading: Padding(padding: const EdgeInsets.all(10), child: KBackButton(bgColor: KColor.black.withOpacity(0.1), iconColor: KColor.black)),
         centerTitle: true,
         title: Text(
-          !widget.isFeatured?"Services":"Featured",
+          widget.title,
           style: KTextStyle.headline2.copyWith(fontSize: 22, color: KColor.blueSapphire),
         ),
       ),
@@ -173,12 +174,16 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     hintText: "Search",
                     controller: searchController,
                     onChanged: (value){
+                   if(widget.isFeatured){
+                     couponController.seachFeaturedCoupon(value);
+                     setState(() {
+                     });
+                   }else{
+                     couponController.seachCoupon(value);
+                     setState(() {
+                     });
+                   }
 
-                      couponController.seachCoupon(value);
-
-                      setState(() {
-
-                      });
                     },
                   ),
                   const SizedBox(height: 25),
@@ -262,152 +267,166 @@ class _ServicesScreenState extends State<ServicesScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            (!widget.isFeatured)?Obx(
-                  ()=> categoryController.subCategory.isNotEmpty && couponController.foundBySubCategory.isNotEmpty?
-                  ListView.builder(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                itemCount: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
+            (!widget.isFeatured)?
 
-                  return KServicesManCard(
-                    onProfilePressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ServiceDetailsScreen(
-                                color: servicesMan[0].color,
-                                vendorId:couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorId
-                            )),
-                      );
-                    },
-                     name: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorName,
-                     image:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorLogPath,
-                     color: servicesMan[0].color,
-                     percent:    couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
-                     couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:"0",
-                     date:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
-                     couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():"------------",
-                    buttonText: "Claim Deal",
-                    vid:couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorId,
-                    onPressed: () {
-                      KDialog.kShowDialog(
-                        context: context,
-                        dialogContent: Dialog(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                              BorderRadius.circular(15.0)), //this right here
-                          child: KCouponClaimCard(
-                            name: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorName,
-                            percent:    couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
-                            couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:"0",
-                            date:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
-                            couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():"------------",
-                            color: couponColors.elementAt(0),
-                           coupon_id: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
-                           couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).couponId:0,
-                            buttonText: "Claim This Coupon",
-                            image:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorLogPath,
-                            onPressed: () async{
-                              startLoading();
-                              int? result=await couponController.claimCoupon(couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).couponId);
-                              if(result==200 || result==201){
-                                stopLoading();
-                                Navigator.pop(context);
-                                KDialog.kShowDialog(
-                                  context: context,
-                                  dialogContent: Dialog(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            15.0)), //this right here
-                                    child:
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: ConfettiWidget(
-                                        confettiController: _controllerCenter,
-                                        blastDirectionality: BlastDirectionality
-                                            .explosive, // don't specify a direction, blast randomly
-                                        shouldLoop:
-                                        true, // start again as soon as the animation is finished
-                                        colors: const [
-                                          Colors.green,
-                                          Colors.blue,
-                                          Colors.pink,
-                                          Colors.orange,
-                                          Colors.purple
-                                        ], // manually specify the colors to be used
-                                        createParticlePath: drawStar,
-                                        child:       KCouponClaimCard(
-                                          couponDetails: true,
-                                          name: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorName,
-                                          percent:    couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
-                                          couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:"0",
-                                          date:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
-                                          couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():"------------",
-                                          color: couponColors.elementAt(0),
-                                          coupon_id: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
-                                          couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).couponId:0,
-                                          buttonText: "Coupon Claimed",
-                                          image:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorLogPath,
-                                          onPressed: () {
-
-                                          },
-                                        ),// define a custom shape/path.
-                                      ),
-
-                                    ),
-
-                                  ),
-                                );
-                                _controllerCenter.play();
-                              }else{
-                                stopLoading();
-                                snackMessage("Fail to claim coupon");
-                              }
-
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                }) :
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      SizedBox(height: 200),
-                      Center(
-                        child: Text("No data to display",
-                          style: TextStyle(
-                              color: Colors.grey
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-
-            ):
+            // Obx(
+            //       ()=> categoryController.subCategory.isNotEmpty && couponController.foundBySubCategory.isNotEmpty?
+            //       ListView.builder(
+            //     shrinkWrap: true,
+            //     padding: EdgeInsets.zero,
+            //     itemCount: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.length,
+            //     physics: const BouncingScrollPhysics(),
+            //     itemBuilder: (context, index) {
+            //
+            //       return KServicesManCard(
+            //         onProfilePressed: (){
+            //           Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //                 builder: (context) => ServiceDetailsScreen(
+            //                     color: servicesMan[0].color,
+            //                     vendorId:couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorId
+            //                 )),
+            //           );
+            //         },
+            //          name: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorName,
+            //          image:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorLogPath,
+            //          color: servicesMan[0].color,
+            //          percent:    couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
+            //          couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:"0",
+            //          date:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
+            //          couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():"------------",
+            //         buttonText: "Claim Deal",
+            //         vid:couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorId,
+            //         onPressed: () {
+            //           KDialog.kShowDialog(
+            //             context: context,
+            //             dialogContent: Dialog(
+            //               shape: RoundedRectangleBorder(
+            //                   borderRadius:
+            //                   BorderRadius.circular(15.0)), //this right here
+            //               child: KCouponClaimCard(
+            //                 name: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorName,
+            //                 percent:    couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
+            //                 couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:"0",
+            //                 date:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
+            //                 couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():"------------",
+            //                 color: couponColors.elementAt(0),
+            //                coupon_id: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
+            //                couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).couponId:0,
+            //                 buttonText: "Claim This Coupon",
+            //                 image:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorLogPath,
+            //                 onPressed: () async{
+            //                   startLoading();
+            //                   int? result=await couponController.claimCoupon(couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).couponId);
+            //                   if(result==200 || result==201){
+            //                     stopLoading();
+            //                     Navigator.pop(context);
+            //                     KDialog.kShowDialog(
+            //                       context: context,
+            //                       dialogContent: Dialog(
+            //                         shape: RoundedRectangleBorder(
+            //                             borderRadius: BorderRadius.circular(
+            //                                 15.0)), //this right here
+            //                         child:
+            //                         Align(
+            //                           alignment: Alignment.center,
+            //                           child: ConfettiWidget(
+            //                             confettiController: _controllerCenter,
+            //                             blastDirectionality: BlastDirectionality
+            //                                 .explosive, // don't specify a direction, blast randomly
+            //                             shouldLoop:
+            //                             true, // start again as soon as the animation is finished
+            //                             colors: const [
+            //                               Colors.green,
+            //                               Colors.blue,
+            //                               Colors.pink,
+            //                               Colors.orange,
+            //                               Colors.purple
+            //                             ], // manually specify the colors to be used
+            //                             createParticlePath: drawStar,
+            //                             child:       KCouponClaimCard(
+            //                               couponDetails: true,
+            //                               name: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorName,
+            //                               percent:    couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
+            //                               couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:"0",
+            //                               date:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
+            //                               couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():"------------",
+            //                               color: couponColors.elementAt(0),
+            //                               coupon_id: couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.isNotEmpty?
+            //                               couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorCouponsList.elementAt(0).couponId:0,
+            //                               buttonText: "Coupon Claimed",
+            //                               image:  couponController.foundBySubCategory.elementAt(0).vendorsAndCouponsList!.elementAt(index).vendorLogPath,
+            //                               onPressed: () {
+            //
+            //                               },
+            //                             ),// define a custom shape/path.
+            //                           ),
+            //
+            //                         ),
+            //
+            //                       ),
+            //                     );
+            //                     _controllerCenter.play();
+            //                   }else{
+            //                     stopLoading();
+            //                     snackMessage("Fail to claim coupon");
+            //                   }
+            //
+            //                 },
+            //               ),
+            //             ),
+            //           );
+            //         },
+            //       );
+            //     }) :
+            //       Column(
+            //         crossAxisAlignment: CrossAxisAlignment.center,
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: const [
+            //           SizedBox(height: 200),
+            //           Center(
+            //             child: Text("No data to display",
+            //               style: TextStyle(
+            //                   color: Colors.grey
+            //               ),
+            //             ),
+            //           )
+            //         ],
+            //       ),
+            //
+            // )
             Obx(
-                  ()=>  couponController.featured2CouponList.isNotEmpty?
+                  ()=> categoryController.subCategory.isNotEmpty && couponController.foundBySubCategory.isNotEmpty && couponController.vendorAndCouponList.isNotEmpty?
               ListView.builder(
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
-                  itemCount:  couponController.featured2CouponList.length,
+                  itemCount: couponController.vendorAndCouponList.length,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
 
-                    return KServicesManCard(
+                    return
+                      KServicesManCard(
                       onProfilePressed: (){
-
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ServiceDetailsScreen(
+                                  color: servicesMan[0].color,
+                                  vendorId:couponController.vendorAndCouponList.elementAt(index).vendorId
+                              )),
+                        );
                       },
-                      name: couponController.featured2CouponList.elementAt(index).vendorName,
-                      image: couponController.featured2CouponList.elementAt(index).vendorLogPath,
+                      name: couponController.vendorAndCouponList.elementAt(index).vendorName,
+                      image: couponController.vendorAndCouponList.elementAt(index).vendorLogPath,
                       color: servicesMan[0].color,
-                      percent: couponController.featured2CouponList.elementAt(index).percentageOff,
-                      date: couponController.featured2CouponList.elementAt(index).endDate.toString(),
+                      percent:    couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                      couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:"0",
+                      date:  couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                      couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():"------------",
+                      vid:couponController.vendorAndCouponList.elementAt(index).vendorId,
                       buttonText: "Claim Deal",
+
                       onPressed: () {
                         KDialog.kShowDialog(
                           context: context,
@@ -416,16 +435,19 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                 borderRadius:
                                 BorderRadius.circular(15.0)), //this right here
                             child: KCouponClaimCard(
-                              name: couponController.featured2CouponList.elementAt(index).vendorName,
-                              image: couponController.featured2CouponList.elementAt(index).vendorLogPath,
-                              color: couponColors.elementAt(0),
-                              percent: couponController.featured2CouponList.elementAt(index).percentageOff,
-                              date: couponController.featured2CouponList.elementAt(index).endDate.toString(),
-                              coupon_id: couponController.featured2CouponList.elementAt(index).couponId,
+                              name: couponController.vendorAndCouponList.elementAt(index).vendorName,
+                              image: couponController.vendorAndCouponList.elementAt(index).vendorLogPath,
+                              color: servicesMan[0].color,
+                              percent:    couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                              couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:"0",
+                              date:  couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                              couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():"------------",
+
                               buttonText: "Claim This Coupon",
-                               onPressed: () async{
+
+                              onPressed: () async{
                                 startLoading();
-                                int? result=await couponController.claimCoupon(couponController.featured2CouponList.elementAt(index).couponId);
+                                int? result=await couponController.claimCoupon(couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).couponId);
                                 if(result==200 || result==201){
                                   stopLoading();
                                   Navigator.pop(context);
@@ -454,12 +476,129 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                           createParticlePath: drawStar,
                                           child:       KCouponClaimCard(
                                             couponDetails: true,
-                                            name: couponController.featured2CouponList.elementAt(index).vendorName,
-                                            image: couponController.featured2CouponList.elementAt(index).vendorLogPath,
+                                            coupon_id: couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                                            couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).couponId:0,
+                                            name: couponController.vendorAndCouponList.elementAt(index).vendorName,
+                                            image: couponController.vendorAndCouponList.elementAt(index).vendorLogPath,
+                                            color: servicesMan[0].color,
+                                            percent:    couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                                            couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:"0",
+                                            date:  couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                                            couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():"------------",
+                                            buttonText: "Coupon Claimed",
+
+                                            onPressed: () {
+
+                                            },
+                                          ),// define a custom shape/path.
+                                        ),
+
+                                      ),
+
+                                    ),
+                                  );
+                                  _controllerCenter.play();
+                                }else{
+                                  stopLoading();
+                                  snackMessage("Fail to claim coupon");
+                                }
+
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }) :
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  SizedBox(height: 200),
+                  Center(
+                    child: Text("No data to display",
+                      style: TextStyle(
+                          color: Colors.grey
+                      ),
+                    ),
+                  )
+                ],
+              ),
+
+            )
+
+                :
+            Obx(
+                  ()=>  couponController.foundFeaturedCouponList.isNotEmpty?
+              ListView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  itemCount:  couponController.foundFeaturedCouponList.length,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+
+                    return KServicesManCard(
+                      onProfilePressed: (){
+
+                      },
+                      name: couponController.foundFeaturedCouponList.elementAt(index).vendorName,
+                      image: couponController.foundFeaturedCouponList.elementAt(index).vendorLogPath,
+                      color: servicesMan[0].color,
+                      percent: couponController.foundFeaturedCouponList.elementAt(index).percentageOff,
+                      date: couponController.foundFeaturedCouponList.elementAt(index).endDate.toString(),
+                      buttonText: "Claim Deal",
+                      onPressed: () {
+                        KDialog.kShowDialog(
+                          context: context,
+                          dialogContent: Dialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(15.0)), //this right here
+                            child: KCouponClaimCard(
+                              name: couponController.foundFeaturedCouponList.elementAt(index).vendorName,
+                              image: couponController.foundFeaturedCouponList.elementAt(index).vendorLogPath,
+                              color: couponColors.elementAt(0),
+                              percent: couponController.foundFeaturedCouponList.elementAt(index).percentageOff,
+                              date: couponController.foundFeaturedCouponList.elementAt(index).endDate.toString(),
+                              coupon_id: couponController.foundFeaturedCouponList.elementAt(index).couponId,
+                              buttonText: "Claim This Coupon",
+                               onPressed: () async{
+                                startLoading();
+                                int? result=await couponController.claimCoupon(couponController.foundFeaturedCouponList.elementAt(index).couponId);
+                                if(result==200 || result==201){
+                                  stopLoading();
+                                  Navigator.pop(context);
+                                  KDialog.kShowDialog(
+                                    context: context,
+                                    dialogContent: Dialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              15.0)), //this right here
+                                      child:
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: ConfettiWidget(
+                                          confettiController: _controllerCenter,
+                                          blastDirectionality: BlastDirectionality
+                                              .explosive, // don't specify a direction, blast randomly
+                                          shouldLoop:
+                                          true, // start again as soon as the animation is finished
+                                          colors: const [
+                                            Colors.green,
+                                            Colors.blue,
+                                            Colors.pink,
+                                            Colors.orange,
+                                            Colors.purple
+                                          ], // manually specify the colors to be used
+                                          createParticlePath: drawStar,
+                                          child:       KCouponClaimCard(
+                                            couponDetails: true,
+                                            name: couponController.foundFeaturedCouponList.elementAt(index).vendorName,
+                                            image: couponController.foundFeaturedCouponList.elementAt(index).vendorLogPath,
                                             color: couponColors.elementAt(0),
-                                            percent: couponController.featured2CouponList.elementAt(index).percentageOff,
-                                            date: couponController.featured2CouponList.elementAt(index).endDate.toString(),
-                                            coupon_id: couponController.featured2CouponList.elementAt(index).couponId,
+                                            percent: couponController.foundFeaturedCouponList.elementAt(index).percentageOff,
+                                            date: couponController.foundFeaturedCouponList.elementAt(index).endDate.toString(),
+                                            coupon_id: couponController.foundFeaturedCouponList.elementAt(index).couponId,
                                             buttonText: "Coupon Claimed",
                                             onPressed: () {
 

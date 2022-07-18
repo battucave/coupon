@@ -39,7 +39,7 @@ class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
               Column(
             children: List.generate(couponController.allCoupon.length, (index) {
              return KServicesManCard(
-               name: couponController.allCoupon.elementAt(index).couponCode,
+               //name: couponController.allCoupon.elementAt(index).couponCode,
                color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
                percent:   couponController.allCoupon.elementAt(index).percentageOff,
                date:  couponController.allCoupon.elementAt(index).endDate.toString(),
@@ -50,7 +50,7 @@ class _CouponAvailableScreenState extends State<AvailableCouponsTab> {
                    context,
                    MaterialPageRoute(
                        builder: (context) => ServiceDetailsScreen(
-                         name:  couponController.allCoupon.elementAt(index).couponCode,
+                         //name:  couponController.allCoupon.elementAt(index).couponCode,
                          //image: couponAvailable[0].image,
                          color:  couponColors.elementAt(Random().nextInt(couponColors.length)),
                          percent: couponController.allCoupon.elementAt(index).percentageOff,

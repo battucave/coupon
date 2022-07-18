@@ -19,7 +19,6 @@ class LoginController extends GetxController{
       var data =json.decode(response.body);
       ///Store user token
       NetWorkHandler.storeToken(data['access_token']);
-      //NetWorkHandler.storeUserId(data['id']);
       return  response.statusCode;
     }else{
       return  response.statusCode;
