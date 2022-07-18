@@ -9,11 +9,13 @@ import 'package:logan/models/api/single_coupon_model.dart';
 import 'package:logan/views/styles/b_style.dart';
 
 import '../../controllers/coupon_controller.dart';
+import '../../controllers/vendor_controller.dart';
+import '../../models/api/single_vendor_model.dart';
 import 'k_button.dart';
 
 class KCouponClaimCard extends StatefulWidget {
   const KCouponClaimCard(
-      {Key? key, this.percent, this.color, this.date, this.image, this.name, this.buttonText, this.couponDetails = false, this.onPressed,this.couponCode,this.coupon_id})
+      {Key? key, this.percent, this.color, this.date, this.image, this.name, this.buttonText, this.couponDetails = false, this.onPressed,this.couponCode,this.coupon_id,this.vid})
       : super(key: key);
 
   final String? name;
@@ -22,6 +24,7 @@ class KCouponClaimCard extends StatefulWidget {
   final dynamic  percent;
   final String? couponCode;
   final int? coupon_id;
+  final int? vid;
   final String? date;
   final String? buttonText;
   final Function()? onPressed;
@@ -33,8 +36,14 @@ class KCouponClaimCard extends StatefulWidget {
 
 class _KCouponClaimCardState extends State<KCouponClaimCard> {
   CouponController couponController=Get.put(CouponController());
+  VendorController vendorController=Get.put(VendorController());
   Future<SingleCouponModel>getCoupon()async{
     return await couponController.getCouponById(widget.coupon_id!);
+  }
+
+  Future<SingleVendorModel>getVendor()async{
+    return await vendorController.getVendorProfileById(widget.vid!);
+
   }
   @override
   void initState() {
@@ -58,6 +67,50 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                   color: widget.color, borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
               child: Row(
                 children: [
+                  (widget.image==null)?StreamBuilder<SingleVendorModel>(
+                    stream: getVendor().asStream(),
+                    builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      }else{
+                        if(snapshot.hasData){
+                          return GestureDetector(
+                            onTap: (){
+
+                            },
+                            child: ImageNetwork(
+                              image: snapshot.data!.vendorLogPath,
+                              imageCache: CachedNetworkImageProvider(snapshot.data!.vendorLogPath,),
+                              height: 55,
+                              width: 55,
+                              duration: 1500,
+                              curve: Curves.easeIn,
+                              onPointer: true,
+                              debugPrint: false,
+                              fullScreen: false,
+                              fitAndroidIos: BoxFit.cover,
+                              fitWeb: BoxFitWeb.cover,
+                              borderRadius: BorderRadius.circular(70),
+                              onLoading: const CircularProgressIndicator(
+                                color: Colors.indigoAccent,
+                              ),
+                              onError: const Icon(
+                                Icons.error,
+                                color: Colors.red,
+                              ),
+                              onTap: (){
+
+                              },
+
+                            ),
+                          );
+                        }else{
+                          return Container();
+                        }
+                      }
+
+                    },
+                  ):
                   ImageNetwork(
                     image: widget.image!,
                     imageCache: CachedNetworkImageProvider( widget.image!),
@@ -83,7 +136,26 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                     },
                   ),
                   SizedBox(width: KSize.getWidth(context, 10)),
-                  Expanded(
+                  (widget.name==null)?StreamBuilder<SingleVendorModel>(
+                    stream: getVendor().asStream(),
+                    builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text("");
+                      }else{
+                        if(snapshot.hasData){
+                          return  Expanded(
+                            child: Text(
+                              snapshot.data!.vendorName,
+                              style: KTextStyle.headline4.copyWith(fontSize: 18),
+                            ),
+                          );
+                        }else{
+                          return Container();
+                        }
+                      }
+
+                    },
+                  ):Expanded(
                     child: Text(
                       widget.name!,
                       style: KTextStyle.headline4.copyWith(fontSize: 18),

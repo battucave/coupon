@@ -10,8 +10,9 @@ class KBrandsCard extends StatefulWidget {
   final String? image;
   final Function()? onPressed;
   final bool? isRound;
+  final int vid;
   const KBrandsCard(
-      {Key? key, this.image, this.onPressed, this.text, this.isRound})
+      {Key? key, this.image, this.onPressed, this.text, this.isRound,required this.vid})
       : super(key: key);
 
   @override
@@ -19,7 +20,11 @@ class KBrandsCard extends StatefulWidget {
 }
 
 class _KBrandsCardState extends State<KBrandsCard> {
-
+  List<Color> colors=[
+    const Color(0xFFE8804B),
+    const Color(0xFF30C3CD),
+    const Color(0xFF1697B7),
+  ];
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -63,7 +68,14 @@ class _KBrandsCardState extends State<KBrandsCard> {
                 color: Colors.red,
               ),
               onTap: () {
-              widget.onPressed;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ServiceDetailsScreen(
+                          color: colors[0],
+                          vendorId:widget.vid
+                      )),
+                );
               },
             ),
             widget.isRound != null

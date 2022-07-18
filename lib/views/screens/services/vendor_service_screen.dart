@@ -245,7 +245,7 @@ class _VendorServiceSreenState extends State<VendorServiceSreen> {
                                 ),
                               ),
                             );
-                          });
+                          }, onProfilePressed: () {  },);
                     }),
 
                   )

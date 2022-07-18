@@ -408,6 +408,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     return
                       KServicesManCard(
                       onProfilePressed: (){
+                        print("OK");
                         Navigator.push(
                           context,
                           MaterialPageRoute(

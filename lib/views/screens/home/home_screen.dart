@@ -243,6 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ) ,
                 image: vendorController.featuredVendorList.elementAt(index).vendorLogPath,
                 text: vendorController.featuredVendorList.elementAt(index).vendorName,
+                vid: vendorController.featuredVendorList.elementAt(index).vid,
 
               ),
             );

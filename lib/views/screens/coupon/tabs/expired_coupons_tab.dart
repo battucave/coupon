@@ -42,7 +42,7 @@ class _CouponExpiredScreenState extends State<ExpiredCouponsTab> {
                 endDate: couponController.expriredCouponList.elementAt(index).endDate.toString(),
                 vid:  couponController.expriredCouponList.elementAt(index).vid,
                 buttonText: "Details",
-                couponExpired: true,
+                couponExpired: true, onPressed: () {  }, onProfilePressed: () {  },
 
 
               );

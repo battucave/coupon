@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,6 +9,7 @@ import 'package:logan/models/api/single_vendor_model.dart';
 import 'package:logan/views/styles/b_style.dart';
 
 import '../../controllers/vendor_controller.dart';
+import '../screens/services/service_details_screen.dart';
 
 class KServicesManCard extends StatefulWidget {
   final String? name;
@@ -15,8 +18,9 @@ class KServicesManCard extends StatefulWidget {
   final String? date;
   final String? endDate;
   final Color? color;
-  final Function()? onPressed;
-  final Function()? onProfilePressed;
+  //final Function()? onPressed;
+  final GestureTapCallback   onPressed;
+  final GestureTapCallback onProfilePressed;
   final String? buttonText;
   final bool couponExpired;
   final int? vid;
@@ -29,8 +33,8 @@ class KServicesManCard extends StatefulWidget {
       this.image,
       this.percent,
       this.color,
-      this.onPressed,
-        this.onProfilePressed,
+      required this.onPressed,
+        required this.onProfilePressed,
       this.buttonText,
       this.couponExpired = false,
        this.vid
@@ -50,6 +54,11 @@ class _KServicesManCardState extends State<KServicesManCard> {
     return await vendorController.getVendorProfileById(widget.vid!);
 
   }
+  List<Color> couponColors=[
+    const Color(0xFFE8804B),
+    const Color(0xFF30C3CD),
+    const Color(0xFF1697B7),
+  ];
 @override
   void initState() {
     // TODO: implement initState
@@ -99,29 +108,46 @@ class _KServicesManCardState extends State<KServicesManCard> {
                               return const CircularProgressIndicator();
                             }else{
                               if(snapshot.hasData){
-                                return ImageNetwork(
-                                  image: snapshot.data!.vendorLogPath,
-                                  imageCache: CachedNetworkImageProvider(snapshot.data!.vendorLogPath,),
-                                  height: 55,
-                                  width: 55,
-                                  duration: 1500,
-                                  curve: Curves.easeIn,
-                                  onPointer: true,
-                                  debugPrint: false,
-                                  fullScreen: false,
-                                  fitAndroidIos: BoxFit.cover,
-                                  fitWeb: BoxFitWeb.cover,
-                                  borderRadius: BorderRadius.circular(70),
-                                  onLoading: const CircularProgressIndicator(
-                                    color: Colors.indigoAccent,
-                                  ),
-                                  onError: const Icon(
-                                    Icons.error,
-                                    color: Colors.red,
-                                  ),
-                                  onTap: () {
-                                    onTap: widget.onProfilePressed;
+                                return GestureDetector(
+                                  onTap: (){
+                                  widget.onProfilePressed;
                                   },
+                                  child: ImageNetwork(
+                                    image: snapshot.data!.vendorLogPath,
+                                    imageCache: CachedNetworkImageProvider(snapshot.data!.vendorLogPath,),
+                                    height: 55,
+                                    width: 55,
+                                    duration: 1500,
+                                    curve: Curves.easeIn,
+                                    onPointer: true,
+                                    debugPrint: false,
+                                    fullScreen: false,
+                                    fitAndroidIos: BoxFit.cover,
+                                    fitWeb: BoxFitWeb.cover,
+                                    borderRadius: BorderRadius.circular(70),
+                                    onLoading: const CircularProgressIndicator(
+                                      color: Colors.indigoAccent,
+                                    ),
+                                    onError: const Icon(
+                                      Icons.error,
+                                      color: Colors.red,
+                                    ),
+                                    onTap: (){
+
+
+                                      if(!widget.couponExpired && widget.vid!=null ) {
+                                        Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ServiceDetailsScreen(
+                                              color:  widget.color,
+                                                vendorId:  widget.vid!
+                                            )),
+                                      );
+                                      }
+                                    },
+
+                                  ),
                                 );
                               }else{
                                 return Container();
@@ -150,8 +176,17 @@ class _KServicesManCardState extends State<KServicesManCard> {
                             Icons.error,
                             color: Colors.red,
                           ),
-                          onTap: () {
-                            onTap: widget.onProfilePressed;
+                          onTap: (){
+                            if(!widget.couponExpired && widget.vid!=null ) {
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ServiceDetailsScreen(
+                                       color:  widget.color,
+                                      vendorId:  widget.vid!
+                                  )),
+                            );
+                            }
                           },
                         ),
 

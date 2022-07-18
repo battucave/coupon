@@ -427,7 +427,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                ),
                              ),
                            );
-                         });
+                         }, onProfilePressed: () {  },);
                    }),):
                  Column(
                    crossAxisAlignment: CrossAxisAlignment.center,

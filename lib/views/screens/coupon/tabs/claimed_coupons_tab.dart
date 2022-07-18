@@ -10,6 +10,7 @@ import 'package:logan/views/global_components/k_services_man_card.dart';
 
 import '../../../../controllers/coupon_controller.dart';
 import '../../../../models/coupon/coupon_available_model.dart';
+import '../../services/service_details_screen.dart';
 
 class ClaimedCouponsTab extends StatefulWidget {
   const ClaimedCouponsTab({Key? key}) : super(key: key);
@@ -71,7 +72,7 @@ class _ClaimedCouponsTabState extends State<ClaimedCouponsTab> {
                   couponExpired: false,
                   onPressed:(){
                     showClaimedImg();
-                  },
+                  }, onProfilePressed: () {  },
 
 
                 );
