@@ -46,24 +46,47 @@ class KServicesManCard extends StatefulWidget {
   State<KServicesManCard> createState() => _KServicesManCardState();
 }
 
-class _KServicesManCardState extends State<KServicesManCard> {
+class _KServicesManCardState extends State<KServicesManCard> with AutomaticKeepAliveClientMixin{
 
   VendorController vendorController=Get.put(VendorController());
 
-  Future<SingleVendorModel>getVendor()async{
-    return await vendorController.getVendorProfileById(widget.vid!);
-
+  getVendor()async{
+    vendorProfile.value=await vendorController.getVendorProfileById(widget.vid!);
+    ready.value=true;
   }
+  Rx<SingleVendorModel> vendorProfile=SingleVendorModel(
+      vid: 0,
+      scid: 0,
+      vendorName: "",
+      vendorLogPath: "",
+      featureVendor:false,
+      description: "",
+      hours:"",
+      street1: "",
+      street2: "",
+      city: "",
+      state: "",
+      zipCode: "",
+      email: "",
+      phone: "",
+      website: "",
+      requirements: "",
+      isActive:true).obs;
+  RxBool ready=false.obs;
+
   List<Color> couponColors=[
     const Color(0xFFE8804B),
     const Color(0xFF30C3CD),
     const Color(0xFF1697B7),
   ];
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    if(widget.vid!=null)getVendor();
 
   }
 
@@ -101,60 +124,130 @@ class _KServicesManCardState extends State<KServicesManCard> {
                     child: Row(
                       children: [
 
-                        (widget.image==null)?StreamBuilder<SingleVendorModel>(
-                          stream: getVendor().asStream(),
-                          builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return const CircularProgressIndicator();
-                            }else{
-                              if(snapshot.hasData){
-                                return GestureDetector(
-                                  onTap: (){
-                                  widget.onProfilePressed;
-                                  },
-                                  child: ImageNetwork(
-                                    image: snapshot.data!.vendorLogPath,
-                                    imageCache: CachedNetworkImageProvider(snapshot.data!.vendorLogPath,),
-                                    height: 55,
-                                    width: 55,
-                                    duration: 1500,
-                                    curve: Curves.easeIn,
-                                    onPointer: true,
-                                    debugPrint: false,
-                                    fullScreen: false,
-                                    fitAndroidIos: BoxFit.cover,
-                                    fitWeb: BoxFitWeb.cover,
-                                    borderRadius: BorderRadius.circular(70),
-                                    onLoading: const CircularProgressIndicator(
-                                      color: Colors.indigoAccent,
-                                    ),
-                                    onError: const Icon(
-                                      Icons.error,
-                                      color: Colors.red,
-                                    ),
-                                    onTap: (){
+                        // (widget.image==null)?StreamBuilder<SingleVendorModel>(
+                        //   stream: getVendor().asStream(),
+                        //   builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
+                        //     if (snapshot.connectionState == ConnectionState.waiting) {
+                        //       return const CircularProgressIndicator();
+                        //     }else{
+                        //       if(snapshot.hasData){
+                        //         return GestureDetector(
+                        //           onTap: (){
+                        //           widget.onProfilePressed;
+                        //           },
+                        //           child: ImageNetwork(
+                        //             image: snapshot.data!.vendorLogPath,
+                        //             imageCache: CachedNetworkImageProvider(snapshot.data!.vendorLogPath,),
+                        //             height: 55,
+                        //             width: 55,
+                        //             duration: 1500,
+                        //             curve: Curves.easeIn,
+                        //             onPointer: true,
+                        //             debugPrint: false,
+                        //             fullScreen: false,
+                        //             fitAndroidIos: BoxFit.cover,
+                        //             fitWeb: BoxFitWeb.cover,
+                        //             borderRadius: BorderRadius.circular(70),
+                        //             onLoading: const CircularProgressIndicator(
+                        //               color: Colors.indigoAccent,
+                        //             ),
+                        //             onError: const Icon(
+                        //               Icons.error,
+                        //               color: Colors.red,
+                        //             ),
+                        //             onTap: (){
+                        //
+                        //
+                        //               if(!widget.couponExpired && widget.vid!=null ) {
+                        //                 Navigator.push(
+                        //                 context,
+                        //                 MaterialPageRoute(
+                        //                     builder: (context) => ServiceDetailsScreen(
+                        //                       color:  widget.color,
+                        //                         vendorId:  widget.vid!
+                        //                     )),
+                        //               );
+                        //               }
+                        //             },
+                        //
+                        //           ),
+                        //         );
+                        //       }else{
+                        //         return Container();
+                        //       }
+                        //     }
+                        //
+                        //   },
+                        // ):
+                        // ImageNetwork(
+                        //   image: widget.image!,
+                        //   imageCache: CachedNetworkImageProvider(widget.image!),
+                        //   height: 55,
+                        //   width: 55,
+                        //   duration: 1500,
+                        //   curve: Curves.easeIn,
+                        //   onPointer: true,
+                        //   debugPrint: false,
+                        //   fullScreen: false,
+                        //   fitAndroidIos: BoxFit.cover,
+                        //   fitWeb: BoxFitWeb.cover,
+                        //   borderRadius: BorderRadius.circular(70),
+                        //   onLoading: const CircularProgressIndicator(
+                        //     color: Colors.indigoAccent,
+                        //   ),
+                        //   onError: const Icon(
+                        //     Icons.error,
+                        //     color: Colors.red,
+                        //   ),
+                        //   onTap: (){
+                        //     if(!widget.couponExpired && widget.vid!=null ) {
+                        //       Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => ServiceDetailsScreen(
+                        //                color:  widget.color,
+                        //               vendorId:  widget.vid!
+                        //           )),
+                        //     );
+                        //     }
+                        //   },
+                        // ),
 
-
-                                      if(!widget.couponExpired && widget.vid!=null ) {
-                                        Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ServiceDetailsScreen(
-                                              color:  widget.color,
-                                                vendorId:  widget.vid!
-                                            )),
-                                      );
-                                      }
-                                    },
-
-                                  ),
-                                );
-                              }else{
-                                return Container();
-                              }
+                        (widget.image==null)?Obx(() =>
+                            ready.value?ImageNetwork(
+                          image: vendorProfile.value.vendorLogPath,
+                          imageCache: CachedNetworkImageProvider(vendorProfile.value.vendorLogPath),
+                          height: 55,
+                          width: 55,
+                          duration: 1500,
+                          curve: Curves.easeIn,
+                          onPointer: true,
+                          debugPrint: false,
+                          fullScreen: false,
+                          fitAndroidIos: BoxFit.cover,
+                          fitWeb: BoxFitWeb.cover,
+                          borderRadius: BorderRadius.circular(70),
+                          onLoading: const CircularProgressIndicator(
+                            color: Colors.indigoAccent,
+                          ),
+                          onError: const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                          onTap: (){
+                            if(!widget.couponExpired && widget.vid!=null ) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ServiceDetailsScreen(
+                                        color:  widget.color,
+                                        vendorId:  widget.vid!
+                                    )),
+                              );
                             }
-
                           },
+                        ):const CircularProgressIndicator(),
+
                         ):
                         ImageNetwork(
                           image: widget.image!,
@@ -179,45 +272,57 @@ class _KServicesManCardState extends State<KServicesManCard> {
                           onTap: (){
                             if(!widget.couponExpired && widget.vid!=null ) {
                               Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ServiceDetailsScreen(
-                                       color:  widget.color,
-                                      vendorId:  widget.vid!
-                                  )),
-                            );
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ServiceDetailsScreen(
+                                        color:  widget.color,
+                                        vendorId:  widget.vid!
+                                    )),
+                              );
                             }
                           },
                         ),
 
                         SizedBox(width: KSize.getWidth(context, 10)),
-                        (widget.name==null)?StreamBuilder<SingleVendorModel>(
-                          stream: getVendor().asStream(),
-                          builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
-                            if (snapshot.connectionState == ConnectionState.waiting) {
-                              return const Text("");
-                            }else{
-                              if(snapshot.hasData){
-                                return  Expanded(
-                                  child: Text(
-                                    snapshot.data!.vendorName,
-                                    style: KTextStyle.headline4.copyWith(fontSize: 18),
-                                  ),
-                                );
-                              }else{
-                                return Container();
-                              }
-                            }
 
-                          },
-                        ):
-                        Expanded(
+                        (widget.name==null)?Obx(() => Expanded(
+                          child: Text(
+                            vendorProfile.value.vendorName,
+                            style: KTextStyle.headline4.copyWith(fontSize: 18),
+                          ),
+                        )):Expanded(
                           child: Text(
                             widget.name!,
                             style: KTextStyle.headline4.copyWith(fontSize: 18),
                           ),
-                        )
-                        ,
+                        ),
+
+                        // (widget.name==null)?StreamBuilder<SingleVendorModel>(
+                        //   stream: getVendor().asStream(),
+                        //   builder: (context, AsyncSnapshot<SingleVendorModel> snapshot) {
+                        //     if (snapshot.connectionState == ConnectionState.waiting) {
+                        //       return const Text("");
+                        //     }else{
+                        //       if(snapshot.hasData){
+                        //         return  Expanded(
+                        //           child: Text(
+                        //             snapshot.data!.vendorName,
+                        //             style: KTextStyle.headline4.copyWith(fontSize: 18),
+                        //           ),
+                        //         );
+                        //       }else{
+                        //         return Container();
+                        //       }
+                        //     }
+                        //
+                        //   },
+                        // ):
+                        // Expanded(
+                        //   child: Text(
+                        //     widget.name!,
+                        //     style: KTextStyle.headline4.copyWith(fontSize: 18),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ) ,

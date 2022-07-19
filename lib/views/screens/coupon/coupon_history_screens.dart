@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/views/global_components/k_bottom_navigation_bar.dart';
 import 'package:logan/views/global_components/k_vendor_brands_list_component.dart';
 import 'package:logan/views/screens/coupon/tabs/available_coupons_tab.dart';
 import 'package:logan/views/screens/coupon/tabs/claimed_coupons_tab.dart';
 import 'package:logan/views/screens/coupon/tabs/expired_coupons_tab.dart';
 import 'package:logan/views/styles/b_style.dart';
+import '../../../controllers/coupon_controller.dart';
 
 class CouponHistoryScreen extends StatefulWidget {
   const CouponHistoryScreen({Key? key}) : super(key: key);
@@ -18,7 +21,7 @@ class _CouponHistoryScreenState extends State<CouponHistoryScreen>
   List<String> tabs = ['Available', 'Claimed', 'Expired'];
   int _tabIndex = 0;
   TabController? _tabController;
-
+  CouponController couponController=Get.put(CouponController());
   @override
   void initState() {
     super.initState();
@@ -97,9 +100,9 @@ class _CouponHistoryScreenState extends State<CouponHistoryScreen>
                     alignment: Alignment.bottomCenter,
                     children:     [
                       TabBarView(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         controller: _tabController,
-                        children: [
+                        children: const [
                           AvailableCouponsTab(),
                           ClaimedCouponsTab(),
                           ExpiredCouponsTab(),

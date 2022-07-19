@@ -19,6 +19,7 @@ import '../../global_components/k_featured_carousel_card.dart';
 import '../services/service_details_screen.dart';
 
 
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -116,10 +117,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         if(categoryController.allCategory.elementAt(index).categoryName=="Featured"){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,isFeatured: true,
-                            title:categoryController.allCategory.elementAt(index).categoryName ,)));
+                            title:categoryController.allCategory.elementAt(index).categoryName, )));
                         }else{
                           Navigator.push(context, MaterialPageRoute(builder: (context) => ServicesScreen(catId: categoryController.allCategory.elementAt(index).cid,
-                              title:categoryController.allCategory.elementAt(index).categoryName
+                              title:categoryController.allCategory.elementAt(index).categoryName,isFeatured: false,
                           )));
                         }
 
