@@ -1,4 +1,5 @@
 # This is a generated file; do not edit or check into version control.
+flutter_barcode_scanner=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_barcode_scanner-2.0.0/
 flutter_libphonenumber=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_libphonenumber-1.2.4/
 flutter_plugin_android_lifecycle=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.6/
 image_picker=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker-0.8.5+3/
@@ -11,6 +12,7 @@ path_provider_ios=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang
 path_provider_linux=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.7/
 path_provider_macos=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.6/
 path_provider_windows=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.1.0/
+qr_code_scanner=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/qr_code_scanner-1.0.0/
 shared_preferences=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-2.0.15/
 shared_preferences_android=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.12/
 shared_preferences_ios=/Users/miguel/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_ios-2.1.1/
