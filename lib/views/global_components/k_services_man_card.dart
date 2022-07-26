@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_network/image_network.dart';
+import 'package:intl/intl.dart';
 import 'package:logan/models/api/single_vendor_model.dart';
 import 'package:logan/views/styles/b_style.dart';
 
@@ -79,6 +80,29 @@ class _KServicesManCardState extends State<KServicesManCard> with AutomaticKeepA
     const Color(0xFF30C3CD),
     const Color(0xFF1697B7),
   ];
+
+  String returnFormatedDate(String? dateString){
+    if(dateString!="-----------"){
+      DateTime date = DateFormat("yyyy-MM-dd").parse(dateString!);
+      return date.day.toString()+ (
+          date.month==1?" Jan "+date.year.toString():
+          date.month==2?" Feb "+date.year.toString():
+          date.month==3?" Mar "+date.year.toString():
+          date.month==4?" Apr "+date.year.toString():
+          date.month==5?" May "+date.year.toString():
+          date.month==6?" Jun "+date.year.toString():
+          date.month==7?" Jul "+date.year.toString():
+          date.month==8?" Aug "+date.year.toString():
+          date.month==9?" Sep "+date.year.toString():
+          date.month==10?" Oct "+date.year.toString():
+          date.month==11?" Nov "+date.year.toString():
+          date.month==12?" Dec "+date.year.toString():
+          "");
+    }else{
+      return "";
+    }
+
+  }
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
@@ -86,6 +110,7 @@ class _KServicesManCardState extends State<KServicesManCard> with AutomaticKeepA
   void initState() {
     // TODO: implement initState
     super.initState();
+    print(widget.endDate);
     if(widget.vid!=null)getVendor();
 
   }
@@ -358,12 +383,15 @@ class _KServicesManCardState extends State<KServicesManCard> with AutomaticKeepA
                               ),
                             ),
                             Text(
-                             ! widget.couponExpired?"valid until: ${widget.date!.length>11?widget.date!.substring(0,11):widget.date}":
-                              "Expired on: ${widget.endDate!.length>11?widget.endDate!.substring(0,11):widget.endDate}",
+                             ! widget.couponExpired?"valid thru: "+
+                                 returnFormatedDate("${widget.date!.length>11?widget.date!.substring(0,11):widget.date}")
+                                 //" ${widget.date!.length>11?widget.date!.substring(0,11):widget.date}"
+
+                                 :
+                              "Expired on: "+  returnFormatedDate("${widget.endDate!.length>11?widget.endDate!.substring(0,11):widget.endDate}"),
+                              //${widget.endDate!.length>11?widget.endDate!.substring(0,11):widget.endDate}",
                               // widget.date!.length>11?"valid until: ${widget.date!.substring(0,11)}":
                               // "valid until:",
-
-
                               style: KTextStyle.headline2.copyWith(
                                   fontSize: 14,
                                   color: KColor.black.withOpacity(0.3)),

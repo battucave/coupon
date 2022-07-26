@@ -45,7 +45,7 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
         padding: const EdgeInsets.only(left: 30, ),
         width: context.screenWidth,
         decoration: const BoxDecoration(
-            color: KColor.orange,
+            color: KColor.blueGreen,
             borderRadius: BorderRadius.all(Radius.circular(20))
         ),
         child: Row(

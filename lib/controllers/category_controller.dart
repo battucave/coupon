@@ -26,8 +26,9 @@ class CategoryController extends GetxController{
   Future<int?> getAllCategory()async{
     CategoryModel? featuredCat;
     CategoryModel? _first;
-
     Response response=await NetWorkHandler().get(ApiRoutes.allCategory) ;
+    print(response.body);
+    print(response.statusCode);
     if(response.statusCode==200 || response.statusCode==201){
       allCategory.value=categoryModelFromJson(response.body);
       ///Set featured as first element

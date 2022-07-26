@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/constant/asset_path.dart';
@@ -24,8 +25,15 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-
-  var editProfileController=Get.put(ProfileController());
+  final _formKey = GlobalKey<FormState>();
+  /// Used to format numbers as mobile or land line
+  PhoneNumberType globalPhoneType = PhoneNumberType.mobile;
+  /// Use international or national phone format
+  PhoneNumberFormat globalPhoneFormat = PhoneNumberFormat.international;
+  /// Current selected country
+  CountryWithPhoneCode currentSelectedCountry = const CountryWithPhoneCode.us();
+  bool inputContainsCountryCode = true;
+  ProfileController editProfileController=Get.put(ProfileController());
   bool isLoading=false;
   void stopLoading( ){
     setState(() {
@@ -61,7 +69,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         });
   }
   void snackMessage( String  msg){
-    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+    final snackBar = SnackBar(content: Text(msg),duration : const Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
@@ -89,12 +97,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
 
   }
-
+  bool validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = RegExp(pattern.toString());
+    return (regex.hasMatch(value)) ? true : false;
+  }
   @override
   void initState() {
     super.initState();
-
-
+    editProfileController.getProfile();
   }
 
   @override
@@ -156,6 +168,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ],
               ),
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 25)),
                 child: Column(
@@ -171,8 +184,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     SizedBox(height: KSize.getHeight(context, 25)),
                     KTextField(
+                      readOnly: true,
                       controller: editProfileController.phoneController,
                       keyboardType: TextInputType.phone,
+                      format: [
+                        LibPhonenumberTextFormatter(
+                          phoneNumberType: globalPhoneType,
+                          phoneNumberFormat: globalPhoneFormat,
+                          country: currentSelectedCountry,
+                          inputContainsCountryCode:
+                          inputContainsCountryCode,
+                          additionalDigits: 3,
+                          shouldKeepCursorAtEndOfInput: false,
+                        ),
+                      ],
                       prefixIcon: Image.asset(
                         AssetPath.phone,
                         height: 20,
@@ -181,26 +206,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     SizedBox(height: KSize.getHeight(context, 25)),
-                    KTextField(
-                      controller: editProfileController.mailController,
-                      keyboardType: TextInputType.emailAddress,
-                      prefixIcon: Image.asset(
-                        AssetPath.mail,
-                        height: 20,
-                        width: 20,
-                        color: KColor.orange,
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          KTextField(
+                            readOnly: true,
+                            controller: editProfileController.mailController,
+                            keyboardType: TextInputType.emailAddress,
+                            prefixIcon: Image.asset(
+                              AssetPath.mail,
+                              height: 20,
+                              width: 20,
+                              color: KColor.orange,
+                            ),
+                            onChanged: (value){
+                              _formKey.currentState!.validate();
+                              setState(() {   });
+
+                            },
+                            validator: (v){
+                              if( !validateEmail(editProfileController.mailController.text)){
+                                return 'invalid email';
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: KSize.getHeight(context, 25)),
-                    KTextField(
-                      controller: editProfileController.cardController,
-                      prefixIcon: Image.asset(
-                        AssetPath.card,
-                        height: 20,
-                        width: 20,
-                        color: KColor.orange,
-                      ),
-                    ),
+
+                    // SizedBox(height: KSize.getHeight(context, 25)),
+                    // KTextField(
+                    //   controller: editProfileController.cardController,
+                    //   prefixIcon: Image.asset(
+                    //     AssetPath.card,
+                    //     height: 20,
+                    //     width: 20,
+                    //     color: KColor.orange,
+                    //   ),
+                    // ),
                     SizedBox(height: KSize.getHeight(context, 90)),
                     Row(
                       children: [
@@ -229,7 +273,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 Navigator.pop(context);
                               }else{
                                 stopLoading();
-                                snackMessage("Updated failed, try again please");
+                                snackMessage("Update failed. Please try again.");
                               }
 
                             },

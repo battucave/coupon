@@ -18,7 +18,7 @@ class CouponHistoryScreen extends StatefulWidget {
 
 class _CouponHistoryScreenState extends State<CouponHistoryScreen>
     with TickerProviderStateMixin {
-  List<String> tabs = ['Available', 'Claimed', 'Expired'];
+  List<String> tabs = ['  Available  ', '    Used    ', '  Expired  '];
   int _tabIndex = 0;
   TabController? _tabController;
   CouponController couponController=Get.put(CouponController());
@@ -60,9 +60,9 @@ class _CouponHistoryScreenState extends State<CouponHistoryScreen>
               backgroundColor: KColor.offWhite,
               centerTitle: true,
               title: Text(
-                'Coupon History',
+                'My Deals',
                 style: KTextStyle.headline2
-                    .copyWith(fontSize: 22, color: KColor.primary),
+                    .copyWith(fontSize: 22, color: KColor.blueSapphire),
               ),
               bottom: TabBar(
                 onTap: (val){
@@ -78,9 +78,8 @@ class _CouponHistoryScreenState extends State<CouponHistoryScreen>
                   tabs.length,
                   (index) {
                     return Tab(
-
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        //padding: const EdgeInsets.only(left: 7,right: 0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(17),
                             color: _tabIndex == index

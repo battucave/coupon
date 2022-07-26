@@ -171,7 +171,7 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab>{
                                 percent:   couponController.allCoupon.elementAt(index).percentageOff,
                                 date:  couponController.allCoupon.elementAt(index).endDate.toString(),
                                 vid:couponController.allCoupon.elementAt(index).vid,
-                                buttonText: "Claim deal",
+                                buttonText: "Claim Deal",
                                 onPressed: () {
                                   KDialog.kShowDialog(
                                     context: context,

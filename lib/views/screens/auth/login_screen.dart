@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 
 
 
@@ -30,7 +31,12 @@ class _LoginScreenState extends State<LoginScreen> {
   RegisterController registerController=Get.put(RegisterController());
   LoginController loginController=Get.put(LoginController());
   bool isLoading=false;
-
+  bool validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = RegExp(pattern.toString());
+    return (regex.hasMatch(value)) ? true : false;
+  }
   @override
   void initState() {
     super.initState();
@@ -47,8 +53,14 @@ class _LoginScreenState extends State<LoginScreen> {
     final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-
-
+  final _formKey = GlobalKey<FormState>();
+  /// Used to format numbers as mobile or land line
+  PhoneNumberType globalPhoneType = PhoneNumberType.mobile;
+  /// Use international or national phone format
+  PhoneNumberFormat globalPhoneFormat = PhoneNumberFormat.international;
+  /// Current selected country
+  CountryWithPhoneCode currentSelectedCountry = const CountryWithPhoneCode.us();
+  bool inputContainsCountryCode = true;
 
   void stopLoading( ){
     setState(() {
@@ -174,18 +186,48 @@ class _LoginScreenState extends State<LoginScreen> {
                             isSignupScreen
                                 ? Column(
                                     children: [
-                                      KTextField(
-                                        hintText: "Email Address",
-                                        prefixIcon: Image.asset(AssetPath.mailIcon, height: 16, width: 22),
-                                        keyboardType: TextInputType.emailAddress,
-                                        controller: registerController.emailController,
+                                      Form(
+                                        key: _formKey,
+                                        child: Column(
+                                          children: <Widget>[
+                                            KTextField(
+                                              hintText: "Email Address",
+                                              prefixIcon: Image.asset(AssetPath.mailIcon, height: 16, width: 22),
+                                              keyboardType: TextInputType.emailAddress,
+                                              controller: registerController.emailController,
+                                              onChanged: (value){
+                                                _formKey.currentState!.validate();
+                                                setState(() {   });
+
+                                              },
+                                              validator: (v){
+                                                if( !validateEmail( registerController.emailController.text)){
+                                                  return 'invalid email';
+                                                }
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
+
                                       SizedBox(height: KSize.getHeight(context, 30)),
                                       KTextField(
                                         hintText: "Phone Number",
                                         prefixIcon: Image.asset(AssetPath.phone, height: 20, width: 20),
                                         keyboardType: TextInputType.phone,
                                         controller: registerController.phoneController,
+                                        format: [
+                                          LibPhonenumberTextFormatter(
+                                            phoneNumberType: globalPhoneType,
+                                            phoneNumberFormat: globalPhoneFormat,
+                                            country: currentSelectedCountry,
+                                            inputContainsCountryCode:
+                                            inputContainsCountryCode,
+                                            additionalDigits: 3,
+                                            shouldKeepCursorAtEndOfInput: false,
+                                          ),
+                                        ],
+
 
                                       ),
                                       SizedBox(height: KSize.getHeight(context, 30)),

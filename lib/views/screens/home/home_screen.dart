@@ -13,6 +13,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../controllers/category_controller.dart';
 import '../../../controllers/coupon_controller.dart';
+import '../../../controllers/profile_controller.dart';
 import '../../../controllers/vendor_controller.dart';
 import '../../global_components/k_brands_card.dart';
 import '../../global_components/k_featured_carousel_card.dart';
@@ -38,12 +39,56 @@ class _HomeScreenState extends State<HomeScreen> {
   CategoryController categoryController=Get.put(CategoryController());
   CouponController couponController=Get.put(CouponController());
   VendorController vendorController=Get.put(VendorController());
+  ProfileController profileController=Get.put(ProfileController());
   List<Widget>?featuredCarousel=[
 
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      appBar: PreferredSize(
+
+          preferredSize:  Size.fromHeight(KSize.getWidth(context, 115)), // here the desired height
+          child:  Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                const SizedBox(height: 50),
+                Row(
+                  children: [
+                    const SizedBox(width: 20,),
+                    Text(
+                      "Welcome ",
+                      style: KTextStyle.headline4.copyWith(color: KColor.black),
+                    ),
+                    Obx(() => profileController.username.value.isNotEmpty?Text(
+                       profileController.username.value.split(' ')[0],///Get only user firstname
+                      style: KTextStyle.headline4.copyWith(color: KColor.black),
+                    ):const Text(""),
+
+                    )
+
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    const SizedBox(width: 20,),
+                    Image.asset(AssetPath.location, height: 22, width: 18),
+                    const SizedBox(width: 18),
+                    Text(
+                      "Logan, UT, USA",
+                      style: KTextStyle.headline2.copyWith(color: KColor.orange, fontSize: 16),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+      ),
+
+
       backgroundColor: KColor.offWhite,
       body: SingleChildScrollView(
         child: Padding(
@@ -51,22 +96,22 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: KSize.getHeight(context, 70)),
-              Text(
-                "Welcome shopvoo!",
-                style: KTextStyle.headline4.copyWith(color: KColor.black),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Image.asset(AssetPath.location, height: 22, width: 18),
-                  const SizedBox(width: 18),
-                  Text(
-                    "Logan, UT, USA",
-                    style: KTextStyle.headline2.copyWith(color: KColor.orange, fontSize: 16),
-                  )
-                ],
-              ),
+              // SizedBox(height: KSize.getHeight(context, 70)),
+              // Text(
+              //   "Welcome shopvoo!",
+              //   style: KTextStyle.headline4.copyWith(color: KColor.black),
+              // ),
+              // const SizedBox(height: 10),
+              // Row(
+              //   children: [
+              //     Image.asset(AssetPath.location, height: 22, width: 18),
+              //     const SizedBox(width: 18),
+              //     Text(
+              //       "Logan, UT, USA",
+              //       style: KTextStyle.headline2.copyWith(color: KColor.orange, fontSize: 16),
+              //     )
+              //   ],
+              // ),
               const SizedBox(height: 25),
               Obx(() => couponController.featured2CouponList.isNotEmpty?SizedBox(
                 width: context.screenWidth,
@@ -96,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 25),
               Text(
                 "Categories",
-                style: KTextStyle.headline4.copyWith(fontSize: 22, color: KColor.black),
+                style: KTextStyle.headline4.copyWith(fontSize: 22, color: KColor.blueSapphire),
               ),
               const SizedBox(height: 25),
               Obx(() =>

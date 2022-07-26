@@ -43,6 +43,8 @@ dependencies:
   image_network: ^2.5.1
   cached_network_image: ^3.2.0
   confetti: ^0.7.0
+  intl: ^0.17.0
+  flutter_libphonenumber: ^1.2.4
 
 
 

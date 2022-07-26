@@ -15,7 +15,7 @@ class ApiRoutes {
   static const uploadImage = "api/v1/category/upload-profile-image";
   static const getProfileImage = "api/v1/user/get-profile-image";
   ///Category
-  static const allCategory = "api/v1/category/all/";
+  static const allCategory = "api/v1/get/category/all";
   static const subCategory = "sub_categories/all";
   ///Coupon
   static const allCoupon = "api/v1/coupons/all/";

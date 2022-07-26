@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 import 'package:logan/views/styles/b_style.dart';
 
 class KTextField extends StatefulWidget {
   final String? hintText;
   final Widget? prefixIcon;
   final bool passWordField;
+  final bool readOnly;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final void Function(String v)? onChanged;
+  final  String? Function(String?)? validator;
+  List<TextInputFormatter>? format=[];
 
-  const KTextField({Key? key, this.prefixIcon, this.hintText, this.controller, this.passWordField = false, this.keyboardType,this.onChanged}) : super(key: key);
+   KTextField({Key? key, this.prefixIcon, this.hintText, this.controller, this.passWordField = false, this.keyboardType,this.onChanged,this.readOnly=false,this.validator,this.format}) : super(key: key);
 
   @override
   State<KTextField> createState() => _KTextFieldState();
@@ -32,11 +37,14 @@ class _KTextFieldState extends State<KTextField> {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [BoxShadow(color: KColor.blueSapphire.withOpacity(0.42), blurRadius: 4)],
       ),
-      child: TextField(
+      child: TextFormField(
+        readOnly:widget.readOnly ,
         controller: widget.controller,
         keyboardType: widget.keyboardType,
         obscureText: widget.passWordField ? _obscureText : !_obscureText,
         onChanged:  widget.onChanged,
+        validator: widget.validator,
+     inputFormatters: widget.format,
         style: KTextStyle.headline3.copyWith(fontSize: 15, color: KColor.black),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(left: 27, top: 14, bottom: 13),
@@ -47,7 +55,14 @@ class _KTextFieldState extends State<KTextField> {
                   child: widget.prefixIcon,
                 ),
           prefixIconConstraints: const BoxConstraints(minHeight: 48),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15), borderSide: BorderSide.none),
+          border:
+          // !widget.isValidEmailField?OutlineInputBorder(
+          //     borderRadius: BorderRadius.circular(15),
+          //    // borderSide:  const BorderSide( width: 1,color: Colors.red)
+          //     ):
+          OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15),
+              borderSide: BorderSide.none),
           suffixIcon: widget.passWordField
               ? IconButton(
                   onPressed: () {
@@ -66,6 +81,7 @@ class _KTextFieldState extends State<KTextField> {
             color: KColor.black.withOpacity(0.6),
           ),
         ),
+
       ),
     );
   }
