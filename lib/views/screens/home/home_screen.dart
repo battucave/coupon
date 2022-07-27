@@ -5,7 +5,6 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:image_network/image_network.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/models/categories_models.dart';
-import 'package:logan/qr_code/gererate_qr_screen.dart';
 import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/global_components/k_vendor_brands_list_component.dart';
 import 'package:logan/views/screens/services/services_screen.dart';
@@ -59,14 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   children: [
                     const SizedBox(width: 20,),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const GenerateQrScreen()));
-                      },
-                      child:Text(
-                        "Welcome ",
-                        style: KTextStyle.headline4.copyWith(color: KColor.black),
-                      ) ,
+                    Text(
+                      "Welcome ",
+                      style: KTextStyle.headline4.copyWith(color: KColor.black),
                     ),
 
                     Obx(() => profileController.username.value.isNotEmpty?Text(

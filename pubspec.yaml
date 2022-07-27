@@ -45,9 +45,8 @@ dependencies:
   confetti: ^0.7.0
   intl: ^0.17.0
   flutter_libphonenumber: ^1.2.4
-  flutter_barcode_scanner: ^2.0.0
-  qr_flutter: ^4.0.0
-  qr_code_scanner: ^1.0.0
+
+
 
 
 
