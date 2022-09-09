@@ -21,6 +21,7 @@ class FeaturedCouponModel {
   String vendorName;
   String vendorLogPath;
 
+
   factory FeaturedCouponModel.fromJson(Map<String, dynamic> json) => FeaturedCouponModel(
     couponId: json["coupon_id"],
     percentageOff: json["percentage_off"],

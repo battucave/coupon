@@ -27,7 +27,7 @@ class SubCategoryModel {
     scid: json["scid"],
     cid: json["cid"],
     subCategoryName: json["sub_category_name"],
-    subCategoryLogoPath: json["sub_category_logo_path"],
+    subCategoryLogoPath:  json["sub_category_logo_path"] ?? "",
     createdDate: DateTime.parse(json["created_date"]),
     updatedDate: DateTime.parse(json["updated_date"]),
     isActive: json["is_active"],

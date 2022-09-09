@@ -49,7 +49,7 @@ class VendorModel {
 
   factory VendorModel.fromJson(Map<String, dynamic> json) => VendorModel(
     vid: json["vid"],
-    scid: json["scid"],
+    scid: json["scid"]??0,
     vendorName: json["vendor_name"],
     vendorLogPath: json["vendor_log_path"],
     featureVendor: json["feature_vendor"],

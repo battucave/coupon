@@ -10,14 +10,15 @@
         <option name="gradleJvm" value="Embedded JDK" />
         <option name="modules">
           <set>
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/flutter_libphonenumber-1.2.4/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.6/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/image_picker_android-0.8.5+1/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.16/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.12/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.3/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/webview_flutter_android-2.8.14/android" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/../../../flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.6/android" />
-            <option value="$PROJECT_DIR$/../../../flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_android-0.8.5+1/android" />
-            <option value="$PROJECT_DIR$/../../../flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.16/android" />
-            <option value="$PROJECT_DIR$/../../../flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.12/android" />
-            <option value="$PROJECT_DIR$/../../../flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.3/android" />
-            <option value="$PROJECT_DIR$/../../../flutter/.pub-cache/hosted/pub.dartlang.org/webview_flutter_android-2.8.14/android" />
           </set>
         </option>
       </GradleProjectSettings>

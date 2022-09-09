@@ -37,11 +37,13 @@ class CouponController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getFeaturedCoupon();
     getAllFeaturedCoupon();
     getAllCoupon();
     getAllExpiredCoupon();
     getClaimCoupon();
-    getFeaturedCoupon();
+
+
     foundFeaturedCouponList=featured2CouponList;
     if(foundBySubCategory.isNotEmpty){
      if(foundBySubCategory.first.vendorsAndCouponsList!.isNotEmpty){
@@ -82,7 +84,11 @@ class CouponController extends GetxController {
   Future<int?> getCouponBySubCategory(int categoryId,int subcatId) async {
     Response response = (await NetWorkHandler().getWithParameters(
         ApiRoutes.subCatCouponList, categoryId, true));
+
     if (response.statusCode == 200 || response.statusCode == 201) {
+      print("CouponBySubCat");
+      print(response.body);
+
       foundBySubCategory.value = subCatCouponModelFromJson(response.body);
       foundBySubCategory.value= foundBySubCategory.value.where((element) => element.subCategoryId==subcatId).toList();
 
@@ -119,7 +125,8 @@ class CouponController extends GetxController {
 
   Future<int?> getAllFeaturedCoupon() async {
     Response response = await NetWorkHandler().get(ApiRoutes.featuredCoupon);
-    //print(response.body);
+
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       featuredCouponList.value = couponModelFromJson(response.body);
       return response.statusCode;
@@ -163,10 +170,11 @@ class CouponController extends GetxController {
 
   Future<int?> getFeaturedCoupon() async {
     Response response = await NetWorkHandler().get(ApiRoutes.featuredCouponApps);
-    //print(response.body);
+    print("FEATUREDDD");
+    print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
       featured2CouponList.value =  featuredCouponModelFromJson(response.body);
-      //print(featured2CouponList.length);
+      print(featured2CouponList.length);
       return response.statusCode;
     } else {
       return response.statusCode;

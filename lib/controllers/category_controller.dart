@@ -61,7 +61,10 @@ class CategoryController extends GetxController{
    Response response=await NetWorkHandler().getWithParameters(ApiRoutes.subCategory,categoryId,false) ;
 
    if(response.statusCode==200 || response.statusCode==201){
+     print("SUBCAT Here");
+     print(response.body);
      subCategory.value=subCategoryModelFromJson(response.body);
+
 
      return  response.statusCode;
    }else{

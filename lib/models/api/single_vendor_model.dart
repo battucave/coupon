@@ -50,7 +50,7 @@ class SingleVendorModel {
 
   factory SingleVendorModel.fromJson(Map<String, dynamic> json) => SingleVendorModel(
     vid: json["vid"],
-    scid: json["scid"],
+    scid: json["scid"]??0,
     vendorName: json["vendor_name"],
     vendorLogPath: json["vendor_log_path"],
     featureVendor: json["feature_vendor"],

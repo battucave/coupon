@@ -34,8 +34,8 @@ class CouponModel {
 
   factory CouponModel.fromJson(Map<String, dynamic> json) => CouponModel(
     couponId: json["coupon_id"],
-    vid: json["vid"],
-    couponCode: json["coupon_code"],
+    vid: json["vid"]??0,
+    couponCode: json["coupon_code"]??'',
     percentageOff: json["percentage_off"],
     singleUse: json["single_use"],
     featureCoupon: json["feature_coupon"],

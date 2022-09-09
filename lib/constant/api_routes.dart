@@ -20,9 +20,9 @@ class ApiRoutes {
   ///Coupon
   static const allCoupon = "api/v1/coupons/all/";
   static const couponByVendorId = "coupons/all";
-  static const claimCoupon = "api/v1/apps/claim/";
+  static const claimCoupon = "api/v1/apps/claim";
   static const expiredCoupon = "api/v1/coupons/expired/all/";
-  static const featuredCoupon = "api/v1/coupons/featured/all/";
+  static const featuredCoupon = "api/v1/apps/coupons/featured/all/apps"; //"api/v1/coupons/featured/all/";
   static const claimCouponList = "api/v1/apps/coupon/claimed/current_user";//"api/v1/apps/coupon/claimed/";
   static const subCatCouponList = "api/v1/apps/coupons/all/";
   static const featuredCouponApps = "api/v1/apps/coupons/featured/all/apps";
