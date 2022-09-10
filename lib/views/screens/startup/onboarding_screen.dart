@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:logan/constant/asset_path.dart';
+import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/global_components/k_button.dart';
 import 'package:logan/views/global_components/k_vendor_brands_list_component.dart';
 import 'package:logan/views/screens/auth/login_screen.dart';
@@ -20,6 +21,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
@@ -27,23 +29,33 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(height: KSize.getHeight(context, 0)),
-                    Image.asset(AssetPath.onboard, fit: BoxFit.scaleDown, ),
-                    SizedBox(height: KSize.getHeight(context, 9)),
+                    SizedBox(height: KSize.getHeight(context, 40)),
+                    SizedBox(
+                      height: context.screenHeight * 0.3,
+                      child: SizedBox(
+                        width: context.screenWidth * 0.4,
+                        // height: context.screenWidth * 0.5,
+                        child: Image.asset(
+                          AssetPath.logo,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: KSize.getHeight(context, 80)),
                     Text(
-                      "Lorem Ipsum",
+                      "Locals Supporting Locals",
                       style:
                           KTextStyle.headline2.copyWith(color: KColor.primary),
                     ),
                     SizedBox(height: KSize.getHeight(context, 9)),
                     Center(
                         child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                      " Save money while supporting your favorite local businesses!",
                       textAlign: TextAlign.center,
                       style: KTextStyle.headline3
                           .copyWith(color: KColor.black, height: 1.7),
                     )),
-                    SizedBox(height: KSize.getHeight(context, 15)),
+                    SizedBox(height: context.screenHeight * 0.07),
                     KButton(
                       text: "Login",
                       onPressed: () {
@@ -66,18 +78,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       text: "Sign Up",
                       textColor: KColor.primary,
                     ),
-                    SizedBox(height: KSize.getHeight(context, 30)),
+                    SizedBox(height: KSize.getHeight(context, 35)),
                   ],
                 ),
               ),
-
-           const KVendorBrandsListComponent(
-              isRound: true,
-             fromOnboard: true,
-            ) ,
-
-
-              SizedBox(height: KSize.getHeight(context, 16)),
+              const KVendorBrandsListComponent(
+                fromOnboard: true,
+              ),
             ],
           ),
         ),

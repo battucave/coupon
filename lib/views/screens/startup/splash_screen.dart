@@ -13,7 +13,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -21,19 +20,20 @@ class _SplashScreenState extends State<SplashScreen> {
     initData();
   }
 
-  initData() async{
-    String? session= await NetWorkHandler.getToken();
-    Future.delayed(
-      const Duration(seconds: 3),
-      (){
-        if(session!=null){//If user already have session, go to homeScreen
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KBottomNavigationBar()));
-        }else{
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const OnboardingScreen()));
-        }
-
+  initData() async {
+    String? session = await NetWorkHandler.getToken();
+    Future.delayed(const Duration(seconds: 3), () {
+      if (session != null) {
+        //If user already have session, go to homeScreen
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const KBottomNavigationBar()));
+      } else {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const OnboardingScreen()));
       }
-    );
+    });
   }
 
   @override
@@ -43,9 +43,9 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: Image.asset(
           AssetPath.logo,
-          height: KSize.getHeight(context, 198),
-          width: KSize.getWidth(context, 164),
-          fit: BoxFit.cover,
+          height: KSize.getHeight(context, 220),
+          width: KSize.getWidth(context, 184),
+          fit: BoxFit.contain,
         ),
       ),
     );

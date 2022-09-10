@@ -13,46 +13,53 @@ import '../models/api/single_coupon_model.dart';
 import '../network_services/network_handler.dart';
 import 'package:http/http.dart';
 
-
 class CouponController extends GetxController {
-
-
   RxList<CouponModel> allCoupon = <CouponModel>[].obs;
   RxList<CouponModel> expriredCouponList = <CouponModel>[].obs;
   RxList<CouponModel> vendorCouponList = <CouponModel>[].obs;
-  RxList<CouponModel> featuredCouponList = <CouponModel>[].obs;
+  // RxList<CouponModel> featuredCouponList = <CouponModel>[].obs;
 
   RxList<ClaimedCouponModel> claimedCouponList = <ClaimedCouponModel>[].obs;
-  RxList<FeaturedCouponModel> foundFeaturedCouponList = <FeaturedCouponModel>[].obs;
+  RxList<FeaturedCouponModel> foundFeaturedCouponList =
+      <FeaturedCouponModel>[].obs;
   RxList<FeaturedCouponModel> featured2CouponList = <FeaturedCouponModel>[].obs;
 
   RxList<SubCatCouponModel> couponBySubCategory = <SubCatCouponModel>[].obs;
   RxList<SubCatCouponModel> foundBySubCategory = <SubCatCouponModel>[].obs;
-  RxList<SubCatCouponModel> foundSearchBySubCategory = <SubCatCouponModel>[].obs;
+  RxList<SubCatCouponModel> foundSearchBySubCategory =
+      <SubCatCouponModel>[].obs;
   RxList<SubCatCouponModel> filterSubCategoryCoupon = <SubCatCouponModel>[].obs;
   RxList<SubCatCouponModel> realfoundBySubCategory = <SubCatCouponModel>[].obs;
-  Rx<SingleCouponModel> singleCouponModel=SingleCouponModel(couponId: 0, vid: 0, couponCode: "", percentageOff: 0, singleUse: true, featureCoupon: false,  isActive: true).obs;
+  Rx<SingleCouponModel> singleCouponModel = SingleCouponModel(
+          couponId: 0,
+          vid: 0,
+          couponCode: "",
+          percentageOff: 0,
+          singleUse: true,
+          featureCoupon: false,
+          isActive: true)
+      .obs;
 
-  RxList<VendorsAndCouponsList> vendorAndCouponList = <VendorsAndCouponsList>[].obs;
+  RxList<VendorsAndCouponsList> vendorAndCouponList =
+      <VendorsAndCouponsList>[].obs;
   @override
   void onInit() {
     super.onInit();
     getFeaturedCoupon();
-    getAllFeaturedCoupon();
+    // getAllFeaturedCoupon();
     getAllCoupon();
     getAllExpiredCoupon();
     getClaimCoupon();
 
-
-    foundFeaturedCouponList=featured2CouponList;
-    if(foundBySubCategory.isNotEmpty){
-     if(foundBySubCategory.first.vendorsAndCouponsList!.isNotEmpty){
-       vendorAndCouponList.value=foundBySubCategory.first.vendorsAndCouponsList!;
-     }
+    foundFeaturedCouponList = featured2CouponList;
+    if (foundBySubCategory.isNotEmpty) {
+      if (foundBySubCategory.first.vendorsAndCouponsList.isNotEmpty) {
+        vendorAndCouponList.value =
+            foundBySubCategory.first.vendorsAndCouponsList!;
+      }
     }
-    foundSearchBySubCategory=foundBySubCategory;
+    foundSearchBySubCategory = foundBySubCategory;
   }
-
 
   void seachCoupon(String couponName) {
     RxList<SubCatCouponModel> result2 = <SubCatCouponModel>[].obs;
@@ -60,12 +67,15 @@ class CouponController extends GetxController {
     if (couponName.isEmpty) {
       result.value = foundBySubCategory.first.vendorsAndCouponsList!;
     } else {
-
-      result.value=foundBySubCategory.first.vendorsAndCouponsList!.where((element) => element.vendorName.toUpperCase().contains(couponName.toUpperCase())).toList();
+      result.value = foundBySubCategory.first.vendorsAndCouponsList!
+          .where((element) => element.vendorName
+              .toUpperCase()
+              .contains(couponName.toUpperCase()))
+          .toList();
     }
 
-    vendorAndCouponList.value=result;
-     //foundSearchBySubCategory.value= result.value;
+    vendorAndCouponList.value = result;
+    //foundSearchBySubCategory.value= result.value;
   }
 
   void seachFeaturedCoupon(String couponName) {
@@ -74,26 +84,30 @@ class CouponController extends GetxController {
       result = featured2CouponList;
     } else {
       result.value = featured2CouponList.value
-          .where((element) => element.vendorName.toUpperCase().contains(couponName.toUpperCase()))
+          .where((element) => element.vendorName
+              .toUpperCase()
+              .contains(couponName.toUpperCase()))
           .toList();
     }
     foundFeaturedCouponList = result;
   }
 
-
-  Future<int?> getCouponBySubCategory(int categoryId,int subcatId) async {
-    Response response = (await NetWorkHandler().getWithParameters(
-        ApiRoutes.subCatCouponList, categoryId, true));
+  Future<int?> getCouponBySubCategory(int categoryId, int subcatId) async {
+    Response response = (await NetWorkHandler()
+        .getWithParameters(ApiRoutes.subCatCouponList, categoryId, true));
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("CouponBySubCat");
       print(response.body);
 
       foundBySubCategory.value = subCatCouponModelFromJson(response.body);
-      foundBySubCategory.value= foundBySubCategory.value.where((element) => element.subCategoryId==subcatId).toList();
+      foundBySubCategory.value = foundBySubCategory.value
+          .where((element) => element.subCategoryId == subcatId)
+          .toList();
 
-        vendorAndCouponList.value=foundBySubCategory.value.first.vendorsAndCouponsList!;
-        print(foundBySubCategory.first.vendorsAndCouponsList!.length);
+      vendorAndCouponList.value =
+          foundBySubCategory.value.first.vendorsAndCouponsList!;
+      print(foundBySubCategory.first.vendorsAndCouponsList!.length);
 
       //filterSubCategoryCoupon.value=subCatCouponModelFromJson(response.body);
       return response.statusCode;
@@ -112,7 +126,6 @@ class CouponController extends GetxController {
     }
   }
 
-
   Future<int?> getAllExpiredCoupon() async {
     Response response = await NetWorkHandler().get(ApiRoutes.expiredCoupon);
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -123,21 +136,20 @@ class CouponController extends GetxController {
     }
   }
 
-  Future<int?> getAllFeaturedCoupon() async {
-    Response response = await NetWorkHandler().get(ApiRoutes.featuredCoupon);
+  // Future<int?> getAllFeaturedCoupon() async {
+  //   Response response = await NetWorkHandler().get(ApiRoutes.featuredCoupon);
 
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      featuredCouponList.value = couponModelFromJson(response.body);
-      return response.statusCode;
-    } else {
-      return response.statusCode;
-    }
-  }
+  //   if (response.statusCode == 200 || response.statusCode == 201) {
+  //     featuredCouponList.value = couponModelFromJson(response.body);
+  //     return response.statusCode;
+  //   } else {
+  //     return response.statusCode;
+  //   }
+  // }
 
   Future<int?> getCouponByVendorId(int vendorId) async {
-    Response response = await NetWorkHandler().getWithParameters(
-        ApiRoutes.couponByVendorId, vendorId, false);
+    Response response = await NetWorkHandler()
+        .getWithParameters(ApiRoutes.couponByVendorId, vendorId, false);
     if (response.statusCode == 200 || response.statusCode == 201) {
       vendorCouponList.value = couponModelFromJson(response.body);
       return response.statusCode;
@@ -169,11 +181,12 @@ class CouponController extends GetxController {
   }
 
   Future<int?> getFeaturedCoupon() async {
-    Response response = await NetWorkHandler().get(ApiRoutes.featuredCouponApps);
+    Response response =
+        await NetWorkHandler().get(ApiRoutes.featuredCouponApps);
     print("FEATUREDDD");
     print(response.body);
     if (response.statusCode == 200 || response.statusCode == 201) {
-      featured2CouponList.value =  featuredCouponModelFromJson(response.body);
+      featured2CouponList.value = featuredCouponModelFromJson(response.body);
       print(featured2CouponList.length);
       return response.statusCode;
     } else {
@@ -181,12 +194,11 @@ class CouponController extends GetxController {
     }
   }
 
-
   Future<SingleCouponModel> getCouponById(int couponId) async {
-    Response response = await NetWorkHandler().getWithParameters(
-        ApiRoutes.couponById, couponId, true);
+    Response response = await NetWorkHandler()
+        .getWithParameters(ApiRoutes.couponById, couponId, true);
     print(response.body);
-      singleCouponModel.value = singleCouponModelFromJson(response.body);
-      return  singleCouponModel.value;
+    singleCouponModel.value = singleCouponModelFromJson(response.body);
+    return singleCouponModel.value;
   }
 }

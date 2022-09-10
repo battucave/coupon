@@ -12,7 +12,12 @@ class KBrandsCard extends StatefulWidget {
   final bool? isRound;
   final int vid;
   const KBrandsCard(
-      {Key? key, this.image, this.onPressed, this.text, this.isRound,required this.vid})
+      {Key? key,
+      this.image,
+      this.onPressed,
+      this.text,
+      this.isRound,
+      required this.vid})
       : super(key: key);
 
   @override
@@ -20,7 +25,7 @@ class KBrandsCard extends StatefulWidget {
 }
 
 class _KBrandsCardState extends State<KBrandsCard> {
-  List<Color> colors=[
+  List<Color> colors = [
     const Color(0xFFE8804B),
     const Color(0xFF30C3CD),
     const Color(0xFF1697B7),
@@ -30,70 +35,51 @@ class _KBrandsCardState extends State<KBrandsCard> {
     return GestureDetector(
       onTap: widget.onPressed,
       child: Container(
-        width: 100,
-        height: 115,
-        margin: const EdgeInsets.only(right: 10),
+        width: 115,
+        height: 120,
+        margin: const EdgeInsets.only(right: 3),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: KColor.white,
           shape: widget.isRound != null ? BoxShape.circle : BoxShape.rectangle,
           borderRadius:
-              widget.isRound != null ? null : BorderRadius.circular(20),
-          boxShadow: const [
-            BoxShadow(color: Colors.black45, blurRadius: 7),
-            // BoxShadow(color: KColor.primary.withOpacity(0.62), blurRadius: 25),
-          ],
+              widget.isRound != null ? null : BorderRadius.circular(23),
+          // boxShadow: const [
+          //   BoxShadow(color: Colors.black45, blurRadius: 7),
+          //   // BoxShadow(color: KColor.primary.withOpacity(0.62), blurRadius: 25),
+          // ],
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            ImageNetwork(
-              image: widget.image!,
-              imageCache: CachedNetworkImageProvider(widget.image!),
-              height: 40,
-              width: 40,
-              duration: 1500,
-              curve: Curves.easeIn,
-              onPointer: true,
-              debugPrint: false,
-              fullScreen: false,
-              fitAndroidIos: BoxFit.cover,
-              fitWeb: BoxFitWeb.cover,
-              borderRadius: BorderRadius.circular(70),
-              onLoading: const CircularProgressIndicator(
-                color: Colors.indigoAccent,
-              ),
-              onError: const Icon(
-                Icons.error,
-                color: Colors.red,
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ServiceDetailsScreen(
-                          color: colors[0],
-                          vendorId:widget.vid
-                      )),
-                );
-              },
+        child: LayoutBuilder(builder: (context, constraints) {
+          return ImageNetwork(
+            width: constraints.maxWidth * 0.9,
+            height: constraints.maxHeight * 0.7,
+            image: widget.image!,
+            imageCache: CachedNetworkImageProvider(widget.image!),
+            duration: 1500,
+            curve: Curves.easeIn,
+            onPointer: true,
+            debugPrint: false,
+            fullScreen: false,
+            fitAndroidIos: BoxFit.cover,
+            fitWeb: BoxFitWeb.cover,
+            borderRadius: BorderRadius.circular(70),
+            onLoading: const CircularProgressIndicator(
+              color: Colors.indigoAccent,
             ),
-            widget.isRound != null
-                ? const SizedBox()
-                : Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      Text(widget.text!,
-                          maxLines: 1,
-                          softWrap: false,
-                          overflow: TextOverflow.ellipsis,
-
-                          style: KTextStyle.headline2
-                              .copyWith(fontSize: 13, color: KColor.black)),
-                    ],
-                  )
-          ],
-        ),
+            onError: const Icon(
+              Icons.error,
+              color: Colors.red,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ServiceDetailsScreen(
+                        color: colors[0], vendorId: widget.vid)),
+              );
+            },
+          );
+        }),
       ),
     );
   }
