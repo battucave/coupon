@@ -92,328 +92,323 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       backgroundColor: KColor.offWhite,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-              left: KSize.getWidth(context, 23),
-              right: KSize.getWidth(context, 18)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // SizedBox(height: KSize.getHeight(context, 70)),
-              // Text(
-              //   "Welcome shopvoo!",
-              //   style: KTextStyle.headline4.copyWith(color: KColor.black),
-              // ),
-              // const SizedBox(height: 10),
-              // Row(
-              //   children: [
-              //     Image.asset(AssetPath.location, height: 22, width: 18),
-              //     const SizedBox(width: 18),
-              //     Text(
-              //       "Logan, UT, USA",
-              //       style: KTextStyle.headline2.copyWith(color: KColor.orange, fontSize: 16),
-              //     )
-              //   ],
-              // ),
-              const SizedBox(height: 25),
-              Obx(
-                () => couponController.featured2CouponList.isNotEmpty
-                    ? SizedBox(
-                        width: context.screenWidth,
-                        child: CarouselSlider(
-                            carouselController: buttonCarouselController,
-                            items: List.generate(
-                                couponController.featured2CouponList.length,
-                                (index) {
-                              return KFeaturedCarouselCard(
-                                percent: couponController.featured2CouponList
-                                    .elementAt(index)
-                                    .percentageOff,
-                                image: couponController.featured2CouponList
-                                    .elementAt(index)
-                                    .vendorLogPath,
-                              );
-                            }),
-                            options: CarouselOptions(
-                              height: 157,
-                              viewportFraction: 1,
-                              initialPage: 0,
-                              enableInfiniteScroll: true,
-                              reverse: false,
-                              autoPlay: true,
-                              autoPlayInterval: const Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 800),
-                              enlargeCenterPage: true,
-                              scrollDirection: Axis.horizontal,
-                            )),
-                      )
-                    : Container(),
-              ),
-
-              const SizedBox(height: 25),
-              Text(
-                "Categories",
-                style: KTextStyle.headline4
-                    .copyWith(fontSize: 22, color: KColor.blueSapphire),
-              ),
-              const SizedBox(height: 25),
-              Obx(() => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                    child: GridView.builder(
-                        clipBehavior: Clip.none,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        itemCount: viewScreens
-                            ? categoriesViewsItem.length
-                            : categoryController.allCategory.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          mainAxisExtent: 110,
-                          mainAxisSpacing: 20,
-                          crossAxisSpacing: 20,
-                          crossAxisCount: 4,
-                        ),
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              if (categoryController.allCategory
-                                      .elementAt(index)
-                                      .categoryName ==
-                                  "Featured") {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ServicesScreen(
-                                              catId: categoryController
-                                                  .allCategory
-                                                  .elementAt(index)
-                                                  .cid,
-                                              isFeatured: true,
-                                              title: categoryController
-                                                  .allCategory
-                                                  .elementAt(index)
-                                                  .categoryName,
-                                            )));
-                              } else {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ServicesScreen(
-                                              catId: categoryController
-                                                  .allCategory
-                                                  .elementAt(index)
-                                                  .cid,
-                                              title: categoryController
-                                                  .allCategory
-                                                  .elementAt(index)
-                                                  .categoryName,
-                                              isFeatured: false,
-                                            )));
-                              }
-                            },
-                            child: viewScreens
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(20),
-                                        decoration: BoxDecoration(
-                                          color: KColor.white,
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: KColor.cornflowerBlue
-                                                .withOpacity(0.1),
-                                          ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: KColor.black
-                                                    .withOpacity(0.16),
-                                                blurRadius: 4),
-                                          ],
-                                        ),
-                                        child: Image.asset(
-                                          categoriesViewsItem[index].image!,
-                                          height: 23,
-                                          width: 23,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        categoriesViewsItem[index].text!,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: KTextStyle.headline2.copyWith(
-                                            fontSize: 13, color: KColor.black),
-                                      )
-                                    ],
-                                  )
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                width: 0.5, color: Colors.red),
-                                            color: KColor.white,
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: KColor.black
-                                                      .withOpacity(0.4),
-                                                  blurRadius: 5)
-                                            ]),
-                                        child: ImageNetwork(
-                                          image: categoryController.allCategory
-                                              .elementAt(index)
-                                              .categoryLogoPath,
-                                          imageCache:
-                                              CachedNetworkImageProvider(
-                                                  categoryController.allCategory
-                                                      .elementAt(index)
-                                                      .categoryLogoPath),
-                                          height: 50,
-                                          width: 50,
-                                          duration: 1500,
-                                          curve: Curves.easeIn,
-                                          onPointer: true,
-                                          debugPrint: false,
-                                          fullScreen: false,
-                                          fitAndroidIos: BoxFit.cover,
-                                          fitWeb: BoxFitWeb.cover,
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          onLoading:
-                                              const CircularProgressIndicator(
-                                            color: Colors.indigoAccent,
-                                          ),
-                                          onError: const Icon(
-                                            Icons.error,
-                                            color: Colors.red,
-                                          ),
-                                          onTap: () {
-                                            if (categoryController.allCategory
-                                                    .elementAt(index)
-                                                    .categoryName ==
-                                                "Featured") {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => ServicesScreen(
-                                                          catId:
-                                                              categoryController
-                                                                  .allCategory
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .cid,
-                                                          isFeatured: true,
-                                                          title: categoryController
-                                                              .allCategory
-                                                              .elementAt(index)
-                                                              .categoryName)));
-                                            } else {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) => ServicesScreen(
-                                                          catId:
-                                                              categoryController
-                                                                  .allCategory
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .cid,
-                                                          title: categoryController
-                                                              .allCategory
-                                                              .elementAt(index)
-                                                              .categoryName)));
-                                            }
-                                          },
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        categoryController
-                                            .allCategory[index].categoryName,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: KTextStyle.headline2.copyWith(
-                                            fontSize: 13, color: KColor.black),
-                                      )
-                                    ],
-                                  ),
-                          );
-                        }),
-                  )),
-
-              // const SizedBox(height: 25),
-              // SizedBox(height: KSize.getHeight(context, 20)),
-
-              Obx(
-                () => vendorController.featuredVendorList.isNotEmpty
-                    ? SizedBox(
-                        width: context.screenWidth,
-                        height: categoryController.allCategory.length > 4
-                            ? null
-                            : context.screenHeight * 0.27,
-                        child: Align(
-                          alignment: Alignment.bottomLeft,
-                          child: SingleChildScrollView(
-                            clipBehavior: Clip.none,
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: List.generate(
-                                  vendorController.featuredVendorList.length,
-                                  (index) {
-                                return GestureDetector(
-                                  onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ServiceDetailsScreen(
-                                                color: colors[0],
-                                                vendorId: vendorController
-                                                    .featuredVendorList
-                                                    .elementAt(index)
-                                                    .vid)),
-                                  ),
-                                  child: KBrandsCard(
-                                    onPressed: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ServiceDetailsScreen(
-                                                  color: colors[0],
-                                                  vendorId: vendorController
-                                                      .featuredVendorList
-                                                      .elementAt(index)
-                                                      .vid)),
-                                    ),
-                                    image: vendorController.featuredVendorList
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: KSize.getWidth(context, 23),
+                  right: KSize.getWidth(context, 18)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // SizedBox(height: KSize.getHeight(context, 70)),
+                  // Text(
+                  //   "Welcome shopvoo!",
+                  //   style: KTextStyle.headline4.copyWith(color: KColor.black),
+                  // ),
+                  // const SizedBox(height: 10),
+                  // Row(
+                  //   children: [
+                  //     Image.asset(AssetPath.location, height: 22, width: 18),
+                  //     const SizedBox(width: 18),
+                  //     Text(
+                  //       "Logan, UT, USA",
+                  //       style: KTextStyle.headline2.copyWith(color: KColor.orange, fontSize: 16),
+                  //     )
+                  //   ],
+                  // ),
+                  const SizedBox(height: 15),
+                  Obx(
+                    () => couponController.featured2CouponList.isNotEmpty
+                        ? SizedBox(
+                            width: context.screenWidth,
+                            child: CarouselSlider(
+                                carouselController: buttonCarouselController,
+                                items: List.generate(
+                                    couponController.featured2CouponList.length,
+                                    (index) {
+                                  return KFeaturedCarouselCard(
+                                    percent: couponController
+                                        .featured2CouponList
+                                        .elementAt(index)
+                                        .percentageOff,
+                                    image: couponController.featured2CouponList
                                         .elementAt(index)
                                         .vendorLogPath,
-                                    text: vendorController.featuredVendorList
-                                        .elementAt(index)
-                                        .vendorName,
-                                    vid: vendorController.featuredVendorList
-                                        .elementAt(index)
-                                        .vid,
-                                  ),
-                                );
-                              }),
+                                  );
+                                }),
+                                options: CarouselOptions(
+                                  height: 157,
+                                  viewportFraction: 1,
+                                  initialPage: 0,
+                                  enableInfiniteScroll: true,
+                                  reverse: false,
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 3),
+                                  autoPlayAnimationDuration:
+                                      const Duration(milliseconds: 800),
+                                  enlargeCenterPage: true,
+                                  scrollDirection: Axis.horizontal,
+                                )),
+                          )
+                        : Container(),
+                  ),
+
+                  const SizedBox(height: 25),
+                  Text(
+                    "Categories",
+                    style: KTextStyle.headline4
+                        .copyWith(fontSize: 22, color: KColor.blueSapphire),
+                  ),
+                  const SizedBox(height: 10),
+                  Obx(() => SizedBox(
+                        // color: Colors.red,
+                        height: context.screenHeight * 0.29,
+                        child: GridView.builder(
+                            // clipBehavior: Clip.none,
+                            // shrinkWrap: true,
+                            padding: const EdgeInsets.only(top: 5),
+                            itemCount: viewScreens
+                                ? categoriesViewsItem.length
+                                : categoryController.allCategory.length,
+                            physics: const BouncingScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisExtent: 110,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 20,
+                              crossAxisCount: 3,
                             ),
-                          ),
-                        ),
-                      )
-                    : Container(),
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  if (categoryController.allCategory
+                                          .elementAt(index)
+                                          .categoryName ==
+                                      "Featured") {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ServicesScreen(
+                                                  catId: categoryController
+                                                      .allCategory
+                                                      .elementAt(index)
+                                                      .cid,
+                                                  isFeatured: true,
+                                                  title: categoryController
+                                                      .allCategory
+                                                      .elementAt(index)
+                                                      .categoryName,
+                                                )));
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ServicesScreen(
+                                                  catId: categoryController
+                                                      .allCategory
+                                                      .elementAt(index)
+                                                      .cid,
+                                                  title: categoryController
+                                                      .allCategory
+                                                      .elementAt(index)
+                                                      .categoryName,
+                                                  isFeatured: false,
+                                                )));
+                                  }
+                                },
+                                child: viewScreens
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.all(20),
+                                            decoration: BoxDecoration(
+                                              color: KColor.white,
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: KColor.cornflowerBlue
+                                                    .withOpacity(0.1),
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: KColor.black
+                                                        .withOpacity(0.16),
+                                                    blurRadius: 4),
+                                              ],
+                                            ),
+                                            child: Image.asset(
+                                              categoriesViewsItem[index].image!,
+                                              height: 23,
+                                              width: 23,
+                                            ),
+                                          ),
+                                          // const SizedBox(height: 10),
+                                          Text(
+                                            categoriesViewsItem[index].text!,
+                                            // overflow: TextOverflow.clip,
+                                            style: KTextStyle.headline2
+                                                .copyWith(
+                                                    fontSize: 13,
+                                                    color: KColor.black),
+                                          )
+                                        ],
+                                      )
+                                    : Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              if (categoryController.allCategory
+                                                      .elementAt(index)
+                                                      .categoryName ==
+                                                  "Featured") {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => ServicesScreen(
+                                                            catId:
+                                                                categoryController
+                                                                    .allCategory
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .cid,
+                                                            isFeatured: true,
+                                                            title: categoryController
+                                                                .allCategory
+                                                                .elementAt(
+                                                                    index)
+                                                                .categoryName)));
+                                              } else {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) => ServicesScreen(
+                                                            catId:
+                                                                categoryController
+                                                                    .allCategory
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .cid,
+                                                            title: categoryController
+                                                                .allCategory
+                                                                .elementAt(
+                                                                    index)
+                                                                .categoryName)));
+                                              }
+                                            },
+                                            child: Container(
+                                              width: 65,
+                                              height: 65,
+                                              // padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  scale: 2.2,
+                                                  // fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                    categoryController
+                                                        .allCategory
+                                                        .elementAt(index)
+                                                        .categoryLogoPath,
+                                                    scale: 2.0,
+                                                  ),
+                                                ),
+                                                border: Border.all(
+                                                    width: 0.5,
+                                                    color: Colors.red),
+                                                color: KColor.white,
+                                                shape: BoxShape.circle,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: KColor.black
+                                                          .withOpacity(0.4),
+                                                      blurRadius: 5)
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          // const SizedBox(height: 3),
+                                          SizedBox(
+                                            child: Text(
+                                              categoryController
+                                                  .allCategory[index]
+                                                  .categoryName,
+                                              textAlign: TextAlign.center,
+                                              style: KTextStyle.headline2
+                                                  .copyWith(
+                                                      fontSize: 13,
+                                                      color: KColor.black),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                              );
+                            }),
+                      )),
+
+                  // const SizedBox(height: 25),
+                  // SizedBox(height: KSize.getHeight(context, 20)),
+                ],
               ),
-              const SizedBox(height: 100),
-            ],
+            ),
           ),
-        ),
+          Align(
+            alignment: const Alignment(1, 0.75),
+            child: Obx(
+              () => vendorController.featuredVendorList.isNotEmpty
+                  ? SingleChildScrollView(
+                      clipBehavior: Clip.none,
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(
+                            vendorController.featuredVendorList.length,
+                            (index) {
+                          return GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ServiceDetailsScreen(
+                                      color: colors[0],
+                                      vendorId: vendorController
+                                          .featuredVendorList
+                                          .elementAt(index)
+                                          .vid)),
+                            ),
+                            child: KBrandsCard(
+                              onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ServiceDetailsScreen(
+                                        color: colors[0],
+                                        vendorId: vendorController
+                                            .featuredVendorList
+                                            .elementAt(index)
+                                            .vid)),
+                              ),
+                              image: vendorController.featuredVendorList
+                                  .elementAt(index)
+                                  .vendorLogPath,
+                              text: vendorController.featuredVendorList
+                                  .elementAt(index)
+                                  .vendorName,
+                              vid: vendorController.featuredVendorList
+                                  .elementAt(index)
+                                  .vid,
+                            ),
+                          );
+                        }),
+                      ),
+                    )
+                  : Container(),
+            ),
+          ),
+        ],
       ),
     );
   }
