@@ -55,7 +55,7 @@ class CouponController extends GetxController {
     if (foundBySubCategory.isNotEmpty) {
       if (foundBySubCategory.first.vendorsAndCouponsList.isNotEmpty) {
         vendorAndCouponList.value =
-            foundBySubCategory.first.vendorsAndCouponsList!;
+            foundBySubCategory.first.vendorsAndCouponsList;
       }
     }
     foundSearchBySubCategory = foundBySubCategory;
@@ -65,9 +65,9 @@ class CouponController extends GetxController {
     RxList<SubCatCouponModel> result2 = <SubCatCouponModel>[].obs;
     RxList<VendorsAndCouponsList> result = <VendorsAndCouponsList>[].obs;
     if (couponName.isEmpty) {
-      result.value = foundBySubCategory.first.vendorsAndCouponsList!;
+      result.value = foundBySubCategory.first.vendorsAndCouponsList;
     } else {
-      result.value = foundBySubCategory.first.vendorsAndCouponsList!
+      result.value = foundBySubCategory.first.vendorsAndCouponsList
           .where((element) => element.vendorName
               .toUpperCase()
               .contains(couponName.toUpperCase()))
@@ -106,8 +106,8 @@ class CouponController extends GetxController {
           .toList();
 
       vendorAndCouponList.value =
-          foundBySubCategory.value.first.vendorsAndCouponsList!;
-      print(foundBySubCategory.first.vendorsAndCouponsList!.length);
+          foundBySubCategory.value.first.vendorsAndCouponsList;
+      print(foundBySubCategory.first.vendorsAndCouponsList.length);
 
       //filterSubCategoryCoupon.value=subCatCouponModelFromJson(response.body);
       return response.statusCode;
