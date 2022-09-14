@@ -17,7 +17,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return WillPopScope(
       onWillPop: () {
         FocusScope.of(context).unfocus();
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KBottomNavigationBar()));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const KBottomNavigationBar()));
 
         return Future<bool>.value(true);
       },
@@ -29,7 +32,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
           backgroundColor: KColor.offWhite,
           title: Text(
             'Notifications',
-            style: KTextStyle.headline2.copyWith(fontSize: 22, color: KColor.black),
+            style: KTextStyle.headline2
+                .copyWith(fontSize: 22, color: KColor.black),
           ),
         ),
         body: SingleChildScrollView(
@@ -42,37 +46,43 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   padding: EdgeInsets.only(left: KSize.getWidth(context, 25)),
                   child: Text(
                     newNotification.isNotEmpty ? "New" : '',
-                    style: KTextStyle.headline2.copyWith(fontSize: 18, color: KColor.primary),
+                    style: KTextStyle.headline2
+                        .copyWith(fontSize: 18, color: KColor.primary),
                   )),
-              Column(
-                children: List.generate(newNotification.length, (index) {
-                  return NotificationCard(
-                    image: newNotification[index].image,
-                    name: newNotification[index].name,
-                    time: newNotification[index].time,
-                    percent: newNotification[index].percent,
-                    date: newNotification[index].date,
-                  );
-                }),
-              ),
-              newNotification.isNotEmpty ? SizedBox(height: KSize.getHeight(context, 25)) : Container(),
+              Divider(),
+              // Column(
+              //   children: List.generate(newNotification.length, (index) {
+              //     return NotificationCard(
+              //       image: newNotification[index].image,
+              //       name: newNotification[index].name,
+              //       time: newNotification[index].time,
+              //       percent: newNotification[index].percent,
+              //       date: newNotification[index].date,
+              //     );
+              //   }),
+              // ),
+              newNotification.isNotEmpty
+                  ? SizedBox(height: KSize.getHeight(context, 25))
+                  : Container(),
               Padding(
                   padding: EdgeInsets.only(left: KSize.getWidth(context, 25)),
                   child: Text(
                     earlierNotification.isNotEmpty ? "Earlier" : '',
-                    style: KTextStyle.headline2.copyWith(fontSize: 18, color: KColor.primary),
+                    style: KTextStyle.headline2
+                        .copyWith(fontSize: 18, color: KColor.primary),
                   )),
-              Column(
-                children: List.generate(earlierNotification.length, (index) {
-                  return NotificationCard(
-                    image: earlierNotification[index].image,
-                    name: earlierNotification[index].name,
-                    time: earlierNotification[index].time,
-                    percent: earlierNotification[index].percent,
-                    date: earlierNotification[index].date,
-                  );
-                }),
-              ),
+              Divider(),
+              // Column(
+              //   children: List.generate(earlierNotification.length, (index) {
+              //     return NotificationCard(
+              //       image: earlierNotification[index].image,
+              //       name: earlierNotification[index].name,
+              //       time: earlierNotification[index].time,
+              //       percent: earlierNotification[index].percent,
+              //       date: earlierNotification[index].date,
+              //     );
+              //   }),
+              // ),
               const SizedBox(height: 100)
             ],
           ),
