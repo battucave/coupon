@@ -14,11 +14,14 @@ class PrivacyPolicyScreen extends StatelessWidget {
         height: context.screenHeight,
         width: double.infinity,
         decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill),
+          image: DecorationImage(
+              image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill),
         ),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 25), vertical: KSize.getHeight(context, 72)),
+            padding: EdgeInsets.symmetric(
+                horizontal: KSize.getWidth(context, 25),
+                vertical: KSize.getHeight(context, 72)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -35,27 +38,50 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 Container(
                     padding: const EdgeInsets.all(20),
                     width: context.screenWidth - 40,
-                    decoration: BoxDecoration(color: KColor.white, borderRadius: BorderRadius.circular(24), boxShadow: [
-                      BoxShadow(
-                        color: KColor.black.withOpacity(0.16),
-                        blurRadius: 8,
-                      )
-                    ]),
+                    decoration: BoxDecoration(
+                        color: KColor.white,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: KColor.black.withOpacity(0.16),
+                            blurRadius: 8,
+                          )
+                        ]),
                     child: Column(
                       children: [
                         Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Morbi blandit cursus risus at ultrices mi tempus imperdiet.",
-                          style: KTextStyle.headline2.copyWith(fontSize: 16, color: KColor.black.withOpacity(0.4)),
+                          "Rise Social, LLC built the Best of Logan app as a Commercial app. This SERVICE is provided by Rise Social, LLC and is intended for use as is.",
+                          style: KTextStyle.headline2.copyWith(
+                              fontSize: 18,
+                              color: KColor.black.withOpacity(0.4)),
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Morbi blandit cursus risus at ultrices mi tempus imperdiet.",
-                          style: KTextStyle.headline2.copyWith(fontSize: 16, color: KColor.black.withOpacity(0.4)),
+                          "This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.",
+                          style: KTextStyle.headline2.copyWith(
+                              fontSize: 16,
+                              color: KColor.black.withOpacity(0.4)),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
                         Text(
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Morbi blandit cursus risus at ultrices mi tempus imperdiet.",
-                          style: KTextStyle.headline2.copyWith(fontSize: 16, color: KColor.black.withOpacity(0.4)),
+                          "If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.",
+                          style: KTextStyle.headline2.copyWith(
+                              fontSize: 16,
+                              color: KColor.black.withOpacity(0.4)),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which are accessible at Best of Logan unless otherwise defined in this Privacy Policy. Information Collection and Use",
+                          style: KTextStyle.headline2.copyWith(
+                              fontSize: 16,
+                              color: KColor.black.withOpacity(0.4)),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "For a better experience, while using our Service, we may require you to provide us with certain personally   identifiable information, including but not limited to name, email address, phone number, location . The information that we request will be retained by us and used as described in this privacy policy. \n\n The app does use third-party services that may collect",
+                          style: KTextStyle.headline2.copyWith(
+                              fontSize: 16,
+                              color: KColor.black.withOpacity(0.4)),
                         )
                       ],
                     )),
