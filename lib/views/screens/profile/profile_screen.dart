@@ -26,30 +26,30 @@ class ProfileScreen extends StatefulWidget {
   final String? mail;
   final String? card;
 
-  const ProfileScreen({Key? key, this.card, this.mail, this.name, this.phone}) : super(key: key);
+  const ProfileScreen({Key? key, this.card, this.mail, this.name, this.phone})
+      : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  ProfileController profileController=Get.put(ProfileController());
-  RegisterController registerController=Get.put(RegisterController());
+  ProfileController profileController = Get.put(ProfileController());
+  RegisterController registerController = Get.put(RegisterController());
 
-  void snackMessage( String  msg){
-    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+  void snackMessage(String msg) {
+    final snackBar =
+        SnackBar(content: Text(msg), duration: Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  void stopLoading( ){
-
+  void stopLoading() {
     Navigator.pop(context);
   }
 
-  void startLoading(){
-
+  void startLoading() {
     showDialog(
-      // The user CANNOT close this dialog  by pressing outsite it
+        // The user CANNOT close this dialog  by pressing outsite it
         barrierDismissible: false,
         context: context,
         builder: (_) {
@@ -62,35 +62,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: const [
                   // The loading indicator
-                  CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
-
+                  CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(KColor.primary)),
                 ],
               ),
             ),
           );
         });
   }
+
   @override
   void initState() {
     super.initState();
     profileController.getProfile();
-
-
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
         FocusScope.of(context).unfocus();
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KBottomNavigationBar()));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const KBottomNavigationBar()));
 
         return Future<bool>.value(true);
       },
-      child:  Scaffold(
+      child: Scaffold(
         backgroundColor: KColor.offWhite,
-        body:GetX<ProfileController>(
+        body: GetX<ProfileController>(
           init: ProfileController(),
-          builder: (controller)=> SingleChildScrollView(
+          builder: (controller) => SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -99,25 +103,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   clipBehavior: Clip.none,
                   children: [
                     Container(
-                      padding: const EdgeInsets.only(top: 60, bottom: 25, left: 25, right: 25),
+                      padding: const EdgeInsets.only(
+                          top: 60, bottom: 25, left: 25, right: 25),
                       child: Align(
                           alignment: Alignment.bottomRight,
                           child: InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfileScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const EditProfileScreen()));
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(10),
-                              child: Image.asset(AssetPath.edit, height: 23, width: 23),
+                              child: Image.asset(AssetPath.edit,
+                                  height: 23, width: 23),
                             ),
                           )),
                       decoration: BoxDecoration(
-                        boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6, spreadRadius: 5)],
+                        boxShadow: [
+                          BoxShadow(
+                              color: KColor.black.withOpacity(0.16),
+                              blurRadius: 6,
+                              spreadRadius: 5)
+                        ],
                         color: KColor.primary,
-                        borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
                       ),
                     ),
-
                     Positioned(
                         bottom: -45,
                         child: SizedBox(
@@ -126,34 +142,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: CircleAvatar(
                             backgroundColor: Colors.white,
                             radius: 50,
-                            child: ClipRRect(borderRadius: BorderRadius.circular(50),
-                                child:   (profileController.aws_Link.value.isNotEmpty) ?
-                                ImageNetwork(
-                                  image:   profileController.aws_Link.value,
-                                  imageCache: CachedNetworkImageProvider(profileController.aws_Link.value),
-                                  height: 100,
-                                  width: 100,
-                                  duration: 1500,
-                                  curve: Curves.easeIn,
-                                  onPointer: true,
-                                  debugPrint: false,
-                                  fullScreen: false,
-                                  fitAndroidIos: BoxFit.scaleDown,
-                                  fitWeb: BoxFitWeb.scaleDown,
-                                  borderRadius: BorderRadius.circular(70),
-                                  onLoading: const CircularProgressIndicator(
-                                    color: KColor.primary,
-                                  ),
-                                  onError: const Icon(
-                                    Icons.error,
-                                    color: Colors.red,
-                                  ),
-                                  onTap: () {
-
-                                  },
-                                ):
-                                Image.asset(AssetPath.profileImg),
-
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: (profileController
+                                      .aws_Link.value.isNotEmpty)
+                                  ? ImageNetwork(
+                                      image: profileController.aws_Link.value,
+                                      imageCache: CachedNetworkImageProvider(
+                                          profileController.aws_Link.value),
+                                      height: 100,
+                                      width: 100,
+                                      duration: 1500,
+                                      curve: Curves.easeIn,
+                                      onPointer: true,
+                                      debugPrint: false,
+                                      fullScreen: false,
+                                      fitAndroidIos: BoxFit.scaleDown,
+                                      fitWeb: BoxFitWeb.scaleDown,
+                                      borderRadius: BorderRadius.circular(70),
+                                      onLoading:
+                                          const CircularProgressIndicator(
+                                        color: KColor.primary,
+                                      ),
+                                      onError: const Icon(
+                                        Icons.error,
+                                        color: Colors.red,
+                                      ),
+                                      onTap: () {},
+                                    )
+                                  : Image.asset(AssetPath.profileImg),
                             ),
                           ),
                         ))
@@ -163,27 +180,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Center(
                   child: Text(
                     controller.username.value,
-                    style: KTextStyle.headline2.copyWith(fontSize: 20, color: KColor.primary),
+                    style: KTextStyle.headline2
+                        .copyWith(fontSize: 20, color: KColor.primary),
                   ),
                 ),
 
-
                 Center(
-                  child: Text(profileController.email.value, style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.black.withOpacity(0.5))),
+                  child: Text(profileController.email.value,
+                      style: KTextStyle.headline2.copyWith(
+                          fontSize: 14, color: KColor.black.withOpacity(0.5))),
                 ),
                 SizedBox(height: KSize.getHeight(context, 23)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _kContact(context, profileController.phone.value, AssetPath.phone1, KColor.orange.withOpacity(0.1)),
+                    _kContact(context, profileController.phone.value,
+                        AssetPath.phone1, KColor.orange.withOpacity(0.1)),
                     // const SizedBox(width: 30),
                     // _kContact(context, profileController.card.value, AssetPath.card, KColor.blue.withOpacity(0.2))
                   ],
                 ),
                 SizedBox(height: KSize.getHeight(context, 12)),
                 Padding(
-                  padding: EdgeInsets.only(left: KSize.getWidth(context, 25), top: KSize.getHeight(context, 12)),
-                  child: Text("Settings", style: KTextStyle.headline2.copyWith(fontSize: 18, color: KColor.primary)),
+                  padding: EdgeInsets.only(
+                      left: KSize.getWidth(context, 25),
+                      top: KSize.getHeight(context, 12)),
+                  child: Text("Settings",
+                      style: KTextStyle.headline2
+                          .copyWith(fontSize: 18, color: KColor.primary)),
                 ),
 
                 /// Settings Items
@@ -191,7 +215,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   text: 'Terms Of Use',
                   navIcon: AssetPath.term,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const TermsConditonScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TermsConditonScreen()));
                   },
                 ),
                 _divider(),
@@ -199,7 +226,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   text: 'Privacy Policy',
                   navIcon: AssetPath.privacy,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const PrivacyPolicyScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PrivacyPolicyScreen()));
                   },
                 ),
                 _divider(),
@@ -207,106 +237,130 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   text: 'Contact US',
                   navIcon: AssetPath.contact,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ContactUsScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ContactUsScreen()));
                   },
                 ),
                 _divider(),
                 KSettingsItem(
                   text: 'Signout',
                   navIcon: AssetPath.signOut,
-                  onPressed: () async{
+                  onPressed: () async {
                     KDialog.kShowDialog(
                       context: context,
                       dialogContent: Dialog(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                15.0)), //this right here
-                        child:Container(
+                            borderRadius:
+                                BorderRadius.circular(15.0)), //this right here
+                        child: Container(
                           decoration: BoxDecoration(
                               color: KColor.white,
                               borderRadius: BorderRadius.circular(15),
-                              boxShadow: [BoxShadow(color: KColor.silver.withOpacity(0.2), blurRadius: 4, spreadRadius: 2)]),
-                          child:  Column(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: KColor.silver.withOpacity(0.2),
+                                    blurRadius: 4,
+                                    spreadRadius: 2)
+                              ]),
+                          child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
-                                padding: const EdgeInsets.only(left: 100,top: 15,bottom: 15),
-                                decoration: const BoxDecoration(color: KColor.orange,
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15),
+                                padding: const EdgeInsets.only(
+                                    left: 100, top: 15, bottom: 15),
+                                decoration: const BoxDecoration(
+                                    color: KColor.orange,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(15),
                                         topRight: Radius.circular(15))),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-
                                     Expanded(
                                       child: Text(
                                         "Best of \n Logan",
-                                        style: KTextStyle.headline6.copyWith(fontSize: 24),
+                                        style: KTextStyle.headline6
+                                            .copyWith(fontSize: 24),
                                       ),
                                     )
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 30,),
+                              const SizedBox(
+                                height: 30,
+                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("Signed Out",
-                                    style: KTextStyle.headline2.copyWith(fontSize: 18,color: Colors.black),
-
+                                  Text(
+                                    "Signed Out",
+                                    style: KTextStyle.headline2.copyWith(
+                                        fontSize: 18, color: Colors.black),
                                   )
-                                ],),
-                              const SizedBox(height: 30,),
-
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
                               GestureDetector(
-                              onTap:()async{
-                                startLoading();
-                                int? logoutResult=await controller.logout();
-                                if(logoutResult==200|| logoutResult==201){
+                                onTap: () async {
+                                  startLoading();
+                                  // int? logoutResult=await controller.logout();
+                                  // if(logoutResult==200|| logoutResult==201){
 
                                   ///delete all user local preferences
-                                  registerController.emailController.text="";
-                                  registerController.phoneController.text="";
-                                  registerController.passwordController.text="";
-                                  profileController.aws_Link.value="";
-                                  profileController.phoneController.text="";
-                                  profileController.mailController.text="";
-                                  profileController.nameController.text="";
-                                  profileController.cardController.text="";
+                                  registerController.emailController.text = "";
+                                  registerController.phoneController.text = "";
+                                  registerController.passwordController.text =
+                                      "";
+                                  profileController.aws_Link.value = "";
+                                  profileController.phoneController.text = "";
+                                  profileController.mailController.text = "";
+                                  profileController.nameController.text = "";
+                                  profileController.cardController.text = "";
 
-                                  final prefs = await SharedPreferences.getInstance();
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
                                   await prefs.remove("token");
                                   await prefs.clear();
 
                                   stopLoading();
                                   snackMessage('You logged out successfully');
                                   print(prefs.getString("token"));
-                                  Navigator.of(context)
-                                      .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false);
-                                }
-                              },
-                              child:   Container(
-                                height:44 ,
-                                width: 150,
-                                decoration: const BoxDecoration(color: KColor.orange,
-                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                ),
-                                child: Center(
-                                  child:Text("OK",
-                                    style: KTextStyle.headline2.copyWith(fontSize: 16,color: Colors.white),
-                                  ) ,
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginScreen()),
+                                      (Route<dynamic> route) => false);
+                                  // }
+                                },
+                                child: Container(
+                                  height: 44,
+                                  width: 150,
+                                  decoration: const BoxDecoration(
+                                    color: KColor.orange,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "OK",
+                                      style: KTextStyle.headline2.copyWith(
+                                          fontSize: 16, color: Colors.white),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                              const SizedBox(height: 30,),
-
+                              const SizedBox(
+                                height: 30,
+                              ),
                             ],
                           ),
                         ),
                       ),
                     );
-
-
                   },
                 ),
                 _divider(),
@@ -317,9 +371,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     KDialog.kShowDialog(
                         context: context,
                         dialogContent: Dialog(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)), //this right here
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    15.0)), //this right here
                             child: Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15)),
                               child: SingleChildScrollView(
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -329,30 +386,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       padding: const EdgeInsets.all(20),
                                       decoration: const BoxDecoration(
                                           color: KColor.orange,
-                                          borderRadius: BorderRadius.only(topRight: Radius.circular(15), topLeft: Radius.circular(15))),
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(15),
+                                              topLeft: Radius.circular(15))),
                                       child: Center(
-                                        child: Text("Alert Title Here", style: KTextStyle.headline4.copyWith(fontSize: 24, color: KColor.white)),
+                                        child: Text("Alert Title Here",
+                                            style: KTextStyle.headline4
+                                                .copyWith(
+                                                    fontSize: 24,
+                                                    color: KColor.white)),
                                       ),
                                     ),
                                     const SizedBox(height: 31),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 18),
                                       child: Text(
                                         "Alert message here. I will give a list of what text to use.",
                                         textAlign: TextAlign.center,
-                                        style: KTextStyle.headline2.copyWith(fontSize: 18, color: KColor.black),
+                                        style: KTextStyle.headline2.copyWith(
+                                            fontSize: 18, color: KColor.black),
                                       ),
                                     ),
                                     const SizedBox(height: 31),
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 18),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 18),
                                       child: Row(
                                         children: [
                                           Expanded(
                                             child: KButton(
                                               isCoupon: true,
                                               text: "Cancel",
-                                              onPressed: () => Navigator.pop(context),
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
                                             ),
                                           ),
                                           const SizedBox(width: 30),
@@ -360,25 +427,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             child: KButton(
                                               isCoupon: true,
                                               text: "Confirm",
-                                              onPressed: ()async{
+                                              onPressed: () async {
                                                 startLoading();
-                                                int? deleteResult=await controller.deleteAccount();
-                                                if(deleteResult==200|| deleteResult==201){
+                                                int? deleteResult =
+                                                    await controller
+                                                        .deleteAccount();
+                                                if (deleteResult == 200 ||
+                                                    deleteResult == 201) {
                                                   stopLoading();
+
                                                   ///delete all user local preferences
-                                                  registerController.emailController.text="";
-                                                  registerController.phoneController.text="";
-                                                  registerController.passwordController.text="";
-                                                  profileController.aws_Link.value="";
-                                                  profileController.phoneController.text="";
-                                                  profileController.mailController.text="";
-                                                  profileController.nameController.text="";
-                                                  profileController.cardController.text="";
-                                                  final prefs = await SharedPreferences.getInstance();
+                                                  registerController
+                                                      .emailController
+                                                      .text = "";
+                                                  registerController
+                                                      .phoneController
+                                                      .text = "";
+                                                  registerController
+                                                      .passwordController
+                                                      .text = "";
+                                                  profileController
+                                                      .aws_Link.value = "";
+                                                  profileController
+                                                      .phoneController
+                                                      .text = "";
+                                                  profileController
+                                                      .mailController.text = "";
+                                                  profileController
+                                                      .nameController.text = "";
+                                                  profileController
+                                                      .cardController.text = "";
+                                                  final prefs =
+                                                      await SharedPreferences
+                                                          .getInstance();
                                                   prefs.clear();
-                                                  snackMessage("User account deleted successfully");
+                                                  snackMessage(
+                                                      "User account deleted successfully");
                                                   Navigator.of(context)
-                                                      .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (Route<dynamic> route) => false);
+                                                      .pushAndRemoveUntil(
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  const LoginScreen()),
+                                                          (Route<dynamic>
+                                                                  route) =>
+                                                              false);
                                                 }
                                               },
                                             ),
@@ -398,7 +490,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-
         ),
       ),
     );
@@ -434,7 +525,8 @@ class KSettingsItem extends StatelessWidget {
           onTap: onPressed,
           child: Container(
             color: KColor.transparent,
-            padding: EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 25)),
+            padding:
+                EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 25)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -445,7 +537,8 @@ class KSettingsItem extends StatelessWidget {
                     Text(
                       text!,
                       overflow: TextOverflow.ellipsis,
-                      style: KTextStyle.headline2.copyWith(fontSize: 16, color: KColor.black.withOpacity(0.5)),
+                      style: KTextStyle.headline2.copyWith(
+                          fontSize: 16, color: KColor.black.withOpacity(0.5)),
                     ),
                   ],
                 ),
@@ -478,7 +571,8 @@ _kContact(context, String? text, String? image, Color? color) {
       Text(
         text!,
         overflow: TextOverflow.ellipsis,
-        style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.black.withOpacity(0.5)),
+        style: KTextStyle.headline2
+            .copyWith(fontSize: 14, color: KColor.black.withOpacity(0.5)),
       )
     ],
   );

@@ -71,7 +71,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     style: KTextStyle.headline2
                         .copyWith(fontSize: 18, color: KColor.primary),
                   )),
-              Divider(),
+              const Divider(),
               // Column(
               //   children: List.generate(earlierNotification.length, (index) {
               //     return NotificationCard(
