@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.logan.logan">
+    package="com.appstango.logan">
    <application
         android:requestLegacyExternalStorage="true"
         android:label="Best of Logan"

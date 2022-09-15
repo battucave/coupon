@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     super.dispose();
-     isLoading=false;
+    isLoading=false;
   }
 
   ///Show message to user according to api response statuscode
@@ -185,92 +185,92 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(height: KSize.getHeight(context, 56)),
                             isSignupScreen
                                 ? Column(
-                                    children: [
-                                      Form(
-                                        key: _formKey,
-                                        child: Column(
-                                          children: <Widget>[
-                                            KTextField(
-                                              hintText: "Email Address",
-                                              prefixIcon: Image.asset(AssetPath.mailIcon, height: 16, width: 22),
-                                              keyboardType: TextInputType.emailAddress,
-                                              controller: registerController.emailController,
-                                              onChanged: (value){
-                                                _formKey.currentState!.validate();
-                                                setState(() {   });
-
-                                              },
-                                              validator: (v){
-                                                if( !validateEmail( registerController.emailController.text)){
-                                                  return 'invalid email';
-                                                }
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
-                                      SizedBox(height: KSize.getHeight(context, 30)),
-                                      KTextField(
-                                        hintText: "Phone Number",
-                                        prefixIcon: Image.asset(AssetPath.phone, height: 20, width: 20),
-                                        keyboardType: TextInputType.phone,
-                                        controller: registerController.phoneController,
-                                        format: [
-                                          LibPhonenumberTextFormatter(
-                                            phoneNumberType: globalPhoneType,
-                                            phoneNumberFormat: globalPhoneFormat,
-                                            country: currentSelectedCountry,
-                                            inputContainsCountryCode:
-                                            inputContainsCountryCode,
-                                            additionalDigits: 3,
-                                            shouldKeepCursorAtEndOfInput: false,
-                                          ),
-                                        ],
-
-
-                                      ),
-                                      SizedBox(height: KSize.getHeight(context, 30)),
-                                      KTextField(
-                                        passWordField: true,
-                                        hintText: "Password",
-                                        prefixIcon: Image.asset(AssetPath.lockIcon, height: 20, width: 16),
-                                        controller: registerController.passwordController,
-                                      ),
-                                      SizedBox(height: KSize.getHeight(context, 85)),
-                                    ],
-                                  )
-                                : Column(
-                                    children: [
+                              children: [
+                                Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: <Widget>[
                                       KTextField(
                                         hintText: "Email Address",
                                         prefixIcon: Image.asset(AssetPath.mailIcon, height: 16, width: 22),
                                         keyboardType: TextInputType.emailAddress,
-                                        controller: loginController.emailController,
+                                        controller: registerController.emailController,
+                                        onChanged: (value){
+                                          _formKey.currentState!.validate();
+                                          setState(() {   });
+
+                                        },
+                                        validator: (v){
+                                          if( !validateEmail( registerController.emailController.text)){
+                                            return 'invalid email';
+                                          }
+                                        },
                                       ),
-                                      SizedBox(height: KSize.getHeight(context, 30)),
-                                      KTextField(
-                                        passWordField: true,
-                                        hintText: "Password",
-                                        prefixIcon: Image.asset(AssetPath.lockIcon, height: KSize.getHeight(context, 20), width: 16),
-                                        controller: loginController.passwordController,
-                                      ),
-                                      SizedBox(height: KSize.getHeight(context, 10)),
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()));
-                                          },
-                                          child: Text(
-                                            "Forgot Password?",
-                                            style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.primary),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: KSize.getHeight(context, 80)),
                                     ],
-                                  )
+                                  ),
+                                ),
+
+                                SizedBox(height: KSize.getHeight(context, 30)),
+                                KTextField(
+                                  hintText: "Phone Number",
+                                  prefixIcon: Image.asset(AssetPath.phone, height: 20, width: 20),
+                                  keyboardType: TextInputType.phone,
+                                  controller: registerController.phoneController,
+                                  format: [
+                                    LibPhonenumberTextFormatter(
+                                      phoneNumberType: globalPhoneType,
+                                      phoneNumberFormat: globalPhoneFormat,
+                                      country: currentSelectedCountry,
+                                      inputContainsCountryCode:
+                                      inputContainsCountryCode,
+                                      additionalDigits: 3,
+                                      shouldKeepCursorAtEndOfInput: false,
+                                    ),
+                                  ],
+
+
+                                ),
+                                SizedBox(height: KSize.getHeight(context, 30)),
+                                KTextField(
+                                  passWordField: true,
+                                  hintText: "Password",
+                                  prefixIcon: Image.asset(AssetPath.lockIcon, height: 20, width: 16),
+                                  controller: registerController.passwordController,
+                                ),
+                                SizedBox(height: KSize.getHeight(context, 85)),
+                              ],
+                            )
+                                : Column(
+                              children: [
+                                KTextField(
+                                  hintText: "Email Address",
+                                  prefixIcon: Image.asset(AssetPath.mailIcon, height: 16, width: 22),
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: loginController.emailController,
+                                ),
+                                SizedBox(height: KSize.getHeight(context, 30)),
+                                KTextField(
+                                  passWordField: true,
+                                  hintText: "Password",
+                                  prefixIcon: Image.asset(AssetPath.lockIcon, height: KSize.getHeight(context, 20), width: 16),
+                                  controller: loginController.passwordController,
+                                ),
+                                SizedBox(height: KSize.getHeight(context, 10)),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()));
+                                    },
+                                    child: Text(
+                                      "Forgot Password?",
+                                      style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.primary),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: KSize.getHeight(context, 80)),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -284,50 +284,50 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
 
-                         if(isSignupScreen){
-                           if(registerController.emailController.text.isNotEmpty &&
-                               registerController.phoneController.text.isNotEmpty &&
-                               registerController.passwordController.text.isNotEmpty){
-                             startLoading();
+                            if(isSignupScreen){
+                              if(registerController.emailController.text.isNotEmpty &&
+                                  registerController.phoneController.text.isNotEmpty &&
+                                  registerController.passwordController.text.isNotEmpty){
+                                startLoading();
 
-                             int?  otpResult= await registerController.sendOtp();
-                             if(otpResult==200 || otpResult==201){
+                                int?  otpResult= await registerController.sendOtp();
+                                if(otpResult==200 || otpResult==201){
 
-                               stopLoading();
+                                  stopLoading();
 
-                               Navigator.push(context, MaterialPageRoute(builder: (context) =>   ConfirmPasswordScreen(isSignUp: true,)));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) =>   ConfirmPasswordScreen(isSignUp: true,)));
 
-                             }else{
-                               stopLoading();
-                               snackMessage("Error occurred when sending otp");
-                             }
-                           }else{
-                             snackMessage("All fields are required");
-                           }
+                                }else{
+                                  stopLoading();
+                                  snackMessage("Error occurred when sending otp");
+                                }
+                              }else{
+                                snackMessage("All fields are required");
+                              }
 
-                         }else{
-                           if(loginController.emailController.text.isNotEmpty &&
-                               loginController.passwordController.text.isNotEmpty ){
+                            }else{
+                              if(loginController.emailController.text.isNotEmpty &&
+                                  loginController.passwordController.text.isNotEmpty ){
 
-                             startLoading();
-                             int? result=await loginController.Login();
-                             if(result==200 || result==201){//To know if login is success from api
-                               ///Remove credential
-                               loginController.emailController.text="";
-                               loginController.passwordController.text="";
+                                startLoading();
+                                int? result=await loginController.Login();
+                                if(result==200 || result==201){//To know if login is success from api
+                                  ///Remove credential
+                                  loginController.emailController.text="";
+                                  loginController.passwordController.text="";
 
-                               stopLoading();
-                               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KBottomNavigationBar()));
-                             }else{
-                               stopLoading();
-                               snackMessage("Incorrect username or password");
+                                  stopLoading();
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const KBottomNavigationBar()));
+                                }else{
+                                  stopLoading();
+                                  snackMessage("Incorrect username or password");
 
-                             }
-                           }else{
-                             snackMessage("All fields are required");
-                           }
+                                }
+                              }else{
+                                snackMessage("All fields are required");
+                              }
 
-                         }
+                            }
 
 
                           },
@@ -335,7 +335,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       )
                     ],
                   ),
-                  const SizedBox(height: 44),
+                  /*  const SizedBox(height: 44),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -348,8 +348,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(width: 12),
                       Image.asset("assets/images/line.png"),
                     ],
-                  ),
-                  const SizedBox(height: 20),
+                  ),*/
+                  /*      const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -380,7 +380,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       )
                     ],
-                  ),
+                  ),*/
                   const SizedBox(height: 27),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

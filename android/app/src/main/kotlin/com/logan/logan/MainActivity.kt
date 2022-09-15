@@ -1,4 +1,4 @@
-package com.logan.logan
+package com.appstango.logan
 
 import io.flutter.embedding.android.FlutterActivity
 
