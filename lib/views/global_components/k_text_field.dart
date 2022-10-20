@@ -11,10 +11,21 @@ class KTextField extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final void Function(String v)? onChanged;
-  final  String? Function(String?)? validator;
-  List<TextInputFormatter>? format=[];
+  final String? Function(String?)? validator;
+  List<TextInputFormatter>? format = [];
 
-   KTextField({Key? key, this.prefixIcon, this.hintText, this.controller, this.passWordField = false, this.keyboardType,this.onChanged,this.readOnly=false,this.validator,this.format}) : super(key: key);
+  KTextField(
+      {Key? key,
+      this.prefixIcon,
+      this.hintText,
+      this.controller,
+      this.passWordField = false,
+      this.keyboardType,
+      this.onChanged,
+      this.readOnly = false,
+      this.validator,
+      this.format})
+      : super(key: key);
 
   @override
   State<KTextField> createState() => _KTextFieldState();
@@ -35,16 +46,18 @@ class _KTextFieldState extends State<KTextField> {
       decoration: BoxDecoration(
         color: KColor.white,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [BoxShadow(color: KColor.blueSapphire.withOpacity(0.42), blurRadius: 4)],
+        boxShadow: [
+          BoxShadow(color: KColor.blueSapphire.withOpacity(0.42), blurRadius: 4)
+        ],
       ),
       child: TextFormField(
-        readOnly:widget.readOnly ,
+        readOnly: widget.readOnly,
         controller: widget.controller,
         keyboardType: widget.keyboardType,
         obscureText: widget.passWordField ? _obscureText : !_obscureText,
-        onChanged:  widget.onChanged,
+        onChanged: widget.onChanged,
         validator: widget.validator,
-     inputFormatters: widget.format,
+        inputFormatters: widget.format,
         style: KTextStyle.headline3.copyWith(fontSize: 15, color: KColor.black),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(left: 27, top: 14, bottom: 13),
@@ -56,13 +69,13 @@ class _KTextFieldState extends State<KTextField> {
                 ),
           prefixIconConstraints: const BoxConstraints(minHeight: 48),
           border:
-          // !widget.isValidEmailField?OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(15),
-          //    // borderSide:  const BorderSide( width: 1,color: Colors.red)
-          //     ):
-          OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
-              borderSide: BorderSide.none),
+              // !widget.isValidEmailField?OutlineInputBorder(
+              //     borderRadius: BorderRadius.circular(15),
+              //    // borderSide:  const BorderSide( width: 1,color: Colors.red)
+              //     ):
+              OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  borderSide: BorderSide.none),
           suffixIcon: widget.passWordField
               ? IconButton(
                   onPressed: () {
@@ -71,7 +84,7 @@ class _KTextFieldState extends State<KTextField> {
                   icon: Icon(
                     _obscureText ? Icons.visibility : Icons.visibility_off,
                     color: KColor.primary,
-                    size: 16.0,
+                    size: 24.0,
                   ),
                 )
               : null,
@@ -81,7 +94,6 @@ class _KTextFieldState extends State<KTextField> {
             color: KColor.black.withOpacity(0.6),
           ),
         ),
-
       ),
     );
   }

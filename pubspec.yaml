@@ -42,6 +42,7 @@ dependencies:
   intl: ^0.17.0
   pin_code_text_field: ^1.8.0
   shared_preferences: ^2.0.15
+  drop_shadow: ^0.0.1+4
 
 dev_dependencies:
 

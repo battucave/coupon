@@ -164,6 +164,7 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                             } else {
                               if (snapshot.hasData) {
                                 return Expanded(
+                                  flex: 3,
                                   child: Text(
                                     snapshot.data!.vendorName,
                                     style: KTextStyle.headline4
@@ -177,6 +178,7 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                           },
                         )
                       : Expanded(
+                          flex: 3,
                           child: Text(
                             widget.name!,
                             style: KTextStyle.headline4.copyWith(fontSize: 18),
@@ -187,17 +189,21 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                     onTap: () {
                       Navigator.of(context).pop();
                     },
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: const BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.all(Radius.circular(200))),
-                      child: const Icon(
-                        Icons.close,
-                        color: Colors.white,
-                      ),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.white,
                     ),
+                    //  Container(
+                    //   height: 50,
+                    //   width: 50,
+                    //   decoration: const BoxDecoration(
+                    //       color: Colors.red,
+                    //       borderRadius: BorderRadius.all(Radius.circular(200))),
+                    //   child: const Icon(
+                    //     Icons.close,
+                    //     color: Colors.white,
+                    //   ),
+                    // ),
                   ),
                   SizedBox(width: KSize.getWidth(context, 5)),
                 ],
@@ -235,7 +241,7 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                                   ),
                                   RichText(
                                     text: TextSpan(
-                                      text: 'Valid Until: ',
+                                      text: 'Valid Thru: ',
                                       style: KTextStyle.headline2.copyWith(
                                           fontSize: 16, color: KColor.black),
                                       children: <TextSpan>[
@@ -277,7 +283,7 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                             ),
                             RichText(
                               text: TextSpan(
-                                text: 'Valid Until: ',
+                                text: 'Valid Thru: ',
                                 style: KTextStyle.headline2.copyWith(
                                     fontSize: 16, color: KColor.black),
                                 children: <TextSpan>[

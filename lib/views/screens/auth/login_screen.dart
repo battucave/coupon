@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text(
                     isSignupScreen
                         ? "Create your account"
-                        : "Login to your account",
+                        : "Log in to your account",
                     style: KTextStyle.headline2
                         .copyWith(fontSize: 18, color: KColor.white),
                   ),
@@ -408,64 +408,64 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   const SizedBox(height: 44),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset("assets/images/line.png"),
-                      const SizedBox(width: 12),
-                      Text(
-                        "Or log in with",
-                        style: KTextStyle.headline2.copyWith(
-                            fontSize: 14, color: KColor.black.withOpacity(0.4)),
-                      ),
-                      const SizedBox(width: 12),
-                      Image.asset("assets/images/line.png"),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      KSocialMediaButton(
-                        image: AssetPath.facebook,
-                        width: 13,
-                        height: 27,
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const KBottomNavigationBar()));
-                        },
-                      ),
-                      const SizedBox(width: 40),
-                      KSocialMediaButton(
-                        image: AssetPath.google,
-                        width: 25,
-                        height: 24,
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const KBottomNavigationBar()));
-                        },
-                      ),
-                      const SizedBox(width: 40),
-                      KSocialMediaButton(
-                        image: AssetPath.apple,
-                        width: 22,
-                        height: 27,
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const KBottomNavigationBar()));
-                        },
-                      )
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     Image.asset("assets/images/line.png"),
+                  //     const SizedBox(width: 12),
+                  //     Text(
+                  //       "Or log in with",
+                  //       style: KTextStyle.headline2.copyWith(
+                  //           fontSize: 14, color: KColor.black.withOpacity(0.4)),
+                  //     ),
+                  //     const SizedBox(width: 12),
+                  //     Image.asset("assets/images/line.png"),
+                  //   ],
+                  // ),
+                  // const SizedBox(height: 20),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     KSocialMediaButton(
+                  //       image: AssetPath.facebook,
+                  //       width: 13,
+                  //       height: 27,
+                  //       onPressed: () {
+                  //         Navigator.pushReplacement(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (context) =>
+                  //                     const KBottomNavigationBar()));
+                  //       },
+                  //     ),
+                  //     const SizedBox(width: 40),
+                  //     KSocialMediaButton(
+                  //       image: AssetPath.google,
+                  //       width: 25,
+                  //       height: 24,
+                  //       onPressed: () {
+                  //         Navigator.pushReplacement(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (context) =>
+                  //                     const KBottomNavigationBar()));
+                  //       },
+                  //     ),
+                  //     const SizedBox(width: 40),
+                  //     KSocialMediaButton(
+                  //       image: AssetPath.apple,
+                  //       width: 22,
+                  //       height: 27,
+                  //       onPressed: () {
+                  //         Navigator.pushReplacement(
+                  //             context,
+                  //             MaterialPageRoute(
+                  //                 builder: (context) =>
+                  //                     const KBottomNavigationBar()));
+                  //       },
+                  //     )
+                  //   ],
+                  // ),
                   const SizedBox(height: 27),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

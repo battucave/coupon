@@ -22,17 +22,20 @@ class _KBrandsCardStartupState extends State<KBrandsCardStartup> {
       child: Container(
         width: 115,
         height: 120,
-        margin: const EdgeInsets.only(right: 3),
+        margin: const EdgeInsets.only(right: 9),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: KColor.white,
           shape: widget.isRound != null ? BoxShape.circle : BoxShape.rectangle,
           borderRadius:
               widget.isRound != null ? null : BorderRadius.circular(25),
-          // boxShadow: const [
-          //   BoxShadow(color: Colors.black45, blurRadius: 7),
-          //   // BoxShadow(color: KColor.primary.withOpacity(0.62), blurRadius: 25),
-          // ],
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black87,
+              blurRadius: 10,
+            ),
+            // BoxShadow(color: KColor.primary.withOpacity(0.62), blurRadius: 25),
+          ],
         ),
         child: Image.asset(
           widget.image!,

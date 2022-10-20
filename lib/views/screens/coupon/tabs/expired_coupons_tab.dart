@@ -3,15 +3,9 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:logan/constant/asset_path.dart';
-import 'package:logan/views/animation/confetti_handler.dart';
+
 import '../../../../controllers/coupon_controller.dart';
-import '../../../global_components/k_coupon_claim_card.dart';
-import '../../../global_components/k_dialog.dart';
 import '../../../global_components/k_services_man_card.dart';
-import '../../../styles/k_colors.dart';
-import '../../services/service_details_screen.dart';
 
 class ExpiredCouponsTab extends StatefulWidget {
   const ExpiredCouponsTab({Key? key}) : super(key: key);
@@ -90,7 +84,7 @@ class _ExpiredCouponsTabState extends State<ExpiredCouponsTab> {
                     delegate: SliverChildBuilderDelegate(
                         (BuildContext buildContext, int index) {
                   const itemHeight = 210.0;
-                  const heightFactor = 0.8;
+                  const heightFactor = 0.86;
                   final itemPositionOffset = index * itemHeight * heightFactor;
                   final difference = (scrollOffset - 20) - itemPositionOffset;
                   final percent =

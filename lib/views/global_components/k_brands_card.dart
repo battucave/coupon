@@ -37,17 +37,20 @@ class _KBrandsCardState extends State<KBrandsCard> {
       child: Container(
         width: 115,
         height: 120,
-        margin: const EdgeInsets.only(right: 3),
+        margin: const EdgeInsets.only(right: 9),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: KColor.white,
           shape: widget.isRound != null ? BoxShape.circle : BoxShape.rectangle,
           borderRadius:
               widget.isRound != null ? null : BorderRadius.circular(23),
-          // boxShadow: const [
-          //   BoxShadow(color: Colors.black45, blurRadius: 7),
-          //   // BoxShadow(color: KColor.primary.withOpacity(0.62), blurRadius: 25),
-          // ],
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black87,
+              blurRadius: 10,
+            ),
+            // BoxShadow(color: KColor.primary.withOpacity(0.62), blurRadius: 25),
+          ],
         ),
         child: LayoutBuilder(builder: (context, constraints) {
           return ImageNetwork(
@@ -62,7 +65,7 @@ class _KBrandsCardState extends State<KBrandsCard> {
             fullScreen: false,
             fitAndroidIos: BoxFit.cover,
             fitWeb: BoxFitWeb.cover,
-            borderRadius: BorderRadius.circular(70),
+            // borderRadius: BorderRadius.circular(70),
             onLoading: const CircularProgressIndicator(
               color: Colors.indigoAccent,
             ),

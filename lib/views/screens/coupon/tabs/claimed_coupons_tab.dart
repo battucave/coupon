@@ -166,7 +166,7 @@ class _ClaimedCouponsTabState extends State<ClaimedCouponsTab> {
                     delegate: SliverChildBuilderDelegate(
                         (BuildContext buildContext, int index) {
                   const itemHeight = 210.0;
-                  const heightFactor = 0.8;
+                  const heightFactor = 0.86;
                   final itemPositionOffset = index * itemHeight * heightFactor;
                   final difference = (scrollOffset - 20) - itemPositionOffset;
                   final percent =

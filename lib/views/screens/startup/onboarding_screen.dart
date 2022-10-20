@@ -18,8 +18,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: KColor.offWhite,
-      body: SingleChildScrollView(
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,7 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     SizedBox(
                       height: context.screenHeight * 0.3,
                       child: SizedBox(
-                        width: context.screenWidth * 0.4,
+                        width: context.screenWidth * 0.5,
                         // height: context.screenWidth * 0.5,
                         child: Image.asset(
                           AssetPath.logo,
@@ -41,13 +41,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: KSize.getHeight(context, 80)),
+                    SizedBox(height: KSize.getHeight(context, 30)),
                     Text(
                       "Locals Supporting Locals",
                       style:
                           KTextStyle.headline2.copyWith(color: KColor.primary),
                     ),
-                    SizedBox(height: KSize.getHeight(context, 9)),
+                    SizedBox(height: KSize.getHeight(context, 5)),
                     Center(
                         child: Text(
                       " Save money while supporting your favorite local businesses!",
@@ -78,7 +78,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       text: "Sign Up",
                       textColor: KColor.primary,
                     ),
-                    SizedBox(height: KSize.getHeight(context, 35)),
+                    SizedBox(height: KSize.getHeight(context, 30)),
                   ],
                 ),
               ),

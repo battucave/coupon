@@ -36,7 +36,8 @@ class _KBottomNavBarState extends State<KBottomNavigationBar> {
             boxShadow: [
               BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6),
             ],
-            borderRadius: const BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+            borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(20), topLeft: Radius.circular(20)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -50,7 +51,8 @@ class _KBottomNavBarState extends State<KBottomNavigationBar> {
         ));
   }
 
-  Widget _buildBottomNavItem(BuildContext context, String navIconImg, int navIndex) {
+  Widget _buildBottomNavItem(
+      BuildContext context, String navIconImg, int navIndex) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -64,7 +66,9 @@ class _KBottomNavBarState extends State<KBottomNavigationBar> {
         color: Colors.transparent,
         child: Image.asset(
           navIconImg,
-          color: _currentIndex == navIndex ? KColor.orange : KColor.primary,
+          color: _currentIndex == navIndex
+              ? Colors.orange.shade900
+              : KColor.primary,
           height: 23,
           width: 23,
         ),

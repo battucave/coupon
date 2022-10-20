@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(
-            KSize.getWidth(context, 115)), // here the desired height
+            KSize.getWidth(context, 95)), // here the desired height
         child: Container(
           color: Colors.white,
           child: Column(
@@ -57,7 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Text(
                     "Welcome ",
-                    style: KTextStyle.headline4.copyWith(color: KColor.black),
+                    style: KTextStyle.headline4
+                        .copyWith(color: KColor.blueSapphire),
                   ),
                   Obx(
                     () => profileController.username.value.isNotEmpty
@@ -168,7 +169,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: GridView.builder(
                             // clipBehavior: Clip.none,
                             // shrinkWrap: true,
-                            padding: const EdgeInsets.only(top: 5),
+                            padding: const EdgeInsets.only(
+                                top: 5, left: 10, right: 10),
                             itemCount: viewScreens
                                 ? categoriesViewsItem.length
                                 : categoryController.allCategory.length,
@@ -326,7 +328,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 boxShadow: [
                                                   BoxShadow(
                                                       color: KColor.black
-                                                          .withOpacity(0.4),
+                                                          .withOpacity(0.6),
+                                                      offset: Offset(0, 1.5),
                                                       blurRadius: 5)
                                                 ],
                                               ),

@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -23,36 +22,38 @@ import '../../styles/k_colors.dart';
 import '../../styles/k_size.dart';
 import '../../styles/k_text_style.dart';
 
-
-
-class ServicesScreen extends StatefulWidget{
+class ServicesScreen extends StatefulWidget {
   final int catId;
   final bool isFeatured;
   final String title;
-  const ServicesScreen({Key? key,required this.catId, this.isFeatured=false,required this.title}) : super(key: key);
+  const ServicesScreen(
+      {Key? key,
+      required this.catId,
+      this.isFeatured = false,
+      required this.title})
+      : super(key: key);
 
   @override
   _ServicesScreen createState() => _ServicesScreen();
 }
 
-class _ServicesScreen extends State<ServicesScreen>{
-
+class _ServicesScreen extends State<ServicesScreen> {
   TextEditingController searchController = TextEditingController();
-  List<Color> couponColors=[
+  List<Color> couponColors = [
     const Color(0xFFE8804B),
     const Color(0xFF30C3CD),
     const Color(0xFF1697B7),
   ];
   int _currentIndex = 0;
   int _currentSubCatId = 1;
-  CategoryController categoryController=Get.put(CategoryController());
-  VendorController vendorController=Get.put(VendorController());
-  CouponController couponController=Get.put(CouponController());
+  CategoryController categoryController = Get.put(CategoryController());
+  VendorController vendorController = Get.put(VendorController());
+  CouponController couponController = Get.put(CouponController());
 
   ScrollController scrollController = ScrollController();
 
-  void _scrollListener(){
-    setState((){
+  void _scrollListener() {
+    setState(() {
       scrollOffset = scrollController.offset;
       discoverOpacity = ((scrollController.offset - 216) / -58).clamp(0.0, 1.0);
     });
@@ -70,21 +71,22 @@ class _ServicesScreen extends State<ServicesScreen>{
   double cBottomNavigationBarCurve = 24.0;
   double cBottomNavigationBarOptionSize = 78.0;
   Color cBottomNavigationBarOptionColor = const Color(0xFFD3D3E8);
-  double? cFloatingActionButtonHeight ;
+  double? cFloatingActionButtonHeight;
 
-  void snackMessage( String  msg){
-    final snackBar = SnackBar(content: Text(msg),duration : const Duration(milliseconds: 3000));
+  void snackMessage(String msg) {
+    final snackBar = SnackBar(
+        content: Text(msg), duration: const Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-  void stopLoading( ){
 
+  void stopLoading() {
     Navigator.pop(context);
   }
-  void startLoading(){
-    setState(() {
 
+  void startLoading() {
+    setState(() {
       showDialog(
-        // The user CANNOT close this dialog  by pressing outsite it
+          // The user CANNOT close this dialog  by pressing outsite it
           barrierDismissible: false,
           context: context,
           builder: (_) {
@@ -97,31 +99,35 @@ class _ServicesScreen extends State<ServicesScreen>{
                   mainAxisSize: MainAxisSize.min,
                   children: const [
                     // The loading indicator
-                    CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
-
+                    CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(KColor.primary)),
                   ],
                 ),
               ),
             );
           });
     });
-
   }
+
   @override
   void initState() {
-    if(!widget.isFeatured){
+    if (!widget.isFeatured) {
       categoryController.getSubCategory(widget.catId).then((value) => {
-        if(categoryController.subCategory.isNotEmpty){
-          couponController.getCouponBySubCategory(widget.catId,categoryController.subCategory.elementAt(0).scid),
-        }
-      }
-      );
-    }else{
+            if (categoryController.subCategory.isNotEmpty)
+              {
+                couponController.getCouponBySubCategory(widget.catId,
+                    categoryController.subCategory.elementAt(0).scid),
+              }
+          });
+    } else {
       couponController.getFeaturedCoupon();
     }
     couponController.getFeaturedCoupon();
     scrollController.addListener(_scrollListener);
-    cFloatingActionButtonHeight = ( cBottomNavigationBarOptionSize - (cBottomNavigationBarCurve / 2)) + (cBottomNavigationBarOptionSize / 2);
+    cFloatingActionButtonHeight =
+        (cBottomNavigationBarOptionSize - (cBottomNavigationBarCurve / 2)) +
+            (cBottomNavigationBarOptionSize / 2);
     _controllerCenter =
         ConfettiController(duration: const Duration(seconds: 10));
     _controllerCenterRight =
@@ -141,25 +147,29 @@ class _ServicesScreen extends State<ServicesScreen>{
     _controllerCenter.stop();
     super.dispose();
   }
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
+      appBar: AppBar(
         backgroundColor: KColor.white,
         elevation: 0,
-        leading: Padding(padding: const EdgeInsets.all(10), child: KBackButton(bgColor: KColor.black.withOpacity(0.1), iconColor: KColor.black)),
+        leading: Padding(
+            padding: const EdgeInsets.all(10),
+            child: KBackButton(
+                bgColor: KColor.black.withOpacity(0.1),
+                iconColor: KColor.black)),
         centerTitle: true,
         title: Text(
           widget.title,
-          style: KTextStyle.headline2.copyWith(fontSize: 22, color: KColor.blueSapphire),
+          style: KTextStyle.headline2
+              .copyWith(fontSize: 22, color: KColor.blueSapphire),
         ),
       ),
       body: CustomScrollView(
         controller: scrollController,
         physics: const BouncingScrollPhysics(),
         slivers: [
-
-
           SliverToBoxAdapter(
             child: Column(
               children: [
@@ -170,109 +180,141 @@ class _ServicesScreen extends State<ServicesScreen>{
                     children: [
                       const SizedBox(height: 30),
                       KTextField(
-                        prefixIcon: const Icon(Icons.search, color: KColor.black),
+                        prefixIcon:
+                            const Icon(Icons.search, color: KColor.black),
                         hintText: "Search",
                         controller: searchController,
-                        onChanged: (value){
-                          if(widget.isFeatured){
+                        onChanged: (value) {
+                          if (widget.isFeatured) {
                             couponController.seachFeaturedCoupon(value);
-                            setState(() {
-                            });
-                          }else{
+                            setState(() {});
+                          } else {
                             couponController.seachCoupon(value);
-                            setState(() {
-                            });
+                            setState(() {});
                           }
-
                         },
                       ),
                       const SizedBox(height: 25),
-                      if(!widget.isFeatured)Obx(()=>  SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
-                        child: Row(
-                          children: List.generate(categoryController.subCategory.length, (index) {
-                            if(categoryController.subCategory[index].subCategoryName.startsWith("Default-")){
-                              return const SizedBox.shrink();
-                            }
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _currentIndex = index;
-                                    _currentSubCatId=categoryController.subCategory.elementAt(index).scid;
-                                    print("HERE");
-                                    print(_currentSubCatId);
-                                    couponController.getCouponBySubCategory(widget.catId,_currentSubCatId);
-                                    //couponController.getFilteredCoupons(_currentSubCatId);
-                                    // couponController.getCouponBySubCategory(_currentSubCatId);
-                                    setState(() {  });
-                                    // couponController.getCouponBySubCategory(_currentSubCatId);
-
-                                  });
-                                },
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(20),
-                                      decoration: BoxDecoration(
-                                        color: KColor.white,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(color: KColor.orange.withOpacity(0.1)),
-                                        boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6)],
-                                      ),
-                                      child: ImageNetwork(
-                                        image: categoryController.subCategory.elementAt(index).subCategoryLogoPath,
-                                        imageCache: CachedNetworkImageProvider(categoryController.subCategory.elementAt(index).subCategoryLogoPath),
-                                        height: 23,
-                                        width: 23,
-                                        duration: 1500,
-                                        curve: Curves.easeIn,
-                                        onPointer: true,
-                                        debugPrint: false,
-                                        fullScreen: false,
-                                        fitAndroidIos: BoxFit.cover,
-                                        fitWeb: BoxFitWeb.cover,
-                                        borderRadius: BorderRadius.circular(70),
-                                        onLoading: const CircularProgressIndicator(
-                                          color: Colors.indigoAccent,
+                      if (!widget.isFeatured)
+                        Obx(
+                          () => SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            child: Row(
+                              children: List.generate(
+                                  categoryController.subCategory.length,
+                                  (index) {
+                                if (categoryController
+                                    .subCategory[index].subCategoryName
+                                    .startsWith("Default-")) {
+                                  return const SizedBox.shrink();
+                                }
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 20),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _currentIndex = index;
+                                        _currentSubCatId = categoryController
+                                            .subCategory
+                                            .elementAt(index)
+                                            .scid;
+                                        print("HERE");
+                                        print(_currentSubCatId);
+                                        couponController.getCouponBySubCategory(
+                                            widget.catId, _currentSubCatId);
+                                        //couponController.getFilteredCoupons(_currentSubCatId);
+                                        // couponController.getCouponBySubCategory(_currentSubCatId);
+                                        setState(() {});
+                                        // couponController.getCouponBySubCategory(_currentSubCatId);
+                                      });
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(20),
+                                          decoration: BoxDecoration(
+                                            color: KColor.white,
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                color: KColor.orange
+                                                    .withOpacity(0.1)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: KColor.black
+                                                      .withOpacity(0.16),
+                                                  blurRadius: 6)
+                                            ],
+                                          ),
+                                          child: ImageNetwork(
+                                            image: categoryController
+                                                .subCategory
+                                                .elementAt(index)
+                                                .subCategoryLogoPath,
+                                            imageCache:
+                                                CachedNetworkImageProvider(
+                                                    categoryController
+                                                        .subCategory
+                                                        .elementAt(index)
+                                                        .subCategoryLogoPath),
+                                            height: 23,
+                                            width: 23,
+                                            duration: 1500,
+                                            curve: Curves.easeIn,
+                                            onPointer: true,
+                                            debugPrint: false,
+                                            fullScreen: false,
+                                            fitAndroidIos: BoxFit.cover,
+                                            fitWeb: BoxFitWeb.cover,
+                                            borderRadius:
+                                                BorderRadius.circular(70),
+                                            onLoading:
+                                                const CircularProgressIndicator(
+                                              color: Colors.indigoAccent,
+                                            ),
+                                            onError: const Icon(
+                                              Icons.error,
+                                              color: Colors.red,
+                                            ),
+                                            onTap: () {
+                                              _currentIndex = index;
+                                              _currentSubCatId =
+                                                  categoryController.subCategory
+                                                      .elementAt(index)
+                                                      .scid;
+                                              couponController
+                                                  .getCouponBySubCategory(
+                                                      widget.catId,
+                                                      _currentSubCatId);
+                                              // couponController.getFilteredCoupons(_currentSubCatId);
+                                              // couponController.getCouponBySubCategory(_currentSubCatId);
+                                              setState(() {});
+                                            },
+                                          ),
                                         ),
-                                        onError: const Icon(
-                                          Icons.error,
-                                          color: Colors.red,
-                                        ),
-                                        onTap: () {
-                                          _currentIndex = index;
-                                          _currentSubCatId=categoryController.subCategory.elementAt(index).scid;
-                                          couponController.getCouponBySubCategory(widget.catId,_currentSubCatId);
-                                          // couponController.getFilteredCoupons(_currentSubCatId);
-                                          // couponController.getCouponBySubCategory(_currentSubCatId);
-                                          setState(() {  });
-
-                                        },
-                                      ),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          categoryController.subCategory
+                                              .elementAt(index)
+                                              .subCategoryName,
+                                          style: KTextStyle.headline2.copyWith(
+                                              fontSize: 13,
+                                              color: _currentIndex == index
+                                                  ? KColor.orange
+                                                  : KColor.primary),
+                                        )
+                                      ],
                                     ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      categoryController.subCategory.elementAt(index).subCategoryName,
-                                      style: KTextStyle.headline2.copyWith(fontSize: 13, color: _currentIndex == index ? KColor.orange : KColor.primary),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            );
-                          }),
+                                  ),
+                                );
+                              }),
+                            ),
+                          ),
                         ),
-                      ),),
-
-
-
                     ],
                   ),
                 ),
                 const SizedBox(height: 10),
-
                 SizedBox(
                   height: KSize.getHeight(context, 15),
                 ),
@@ -280,380 +322,607 @@ class _ServicesScreen extends State<ServicesScreen>{
                   opacity: discoverOpacity,
                   child: const Padding(
                     padding: EdgeInsets.only(bottom: 16),
-
                   ),
                 ),
               ],
             ),
           ),
-
-          (!widget.isFeatured)?Obx(() =>  categoryController.subCategory.isNotEmpty && couponController.foundBySubCategory.isNotEmpty && couponController.vendorAndCouponList.isNotEmpty?
-          SliverPadding(
-            padding: const EdgeInsets.all(0).add(EdgeInsets.only(bottom: cPadding + cFloatingActionButtonHeight!)),
-            sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                      (BuildContext buildContext, int index){
-                    const itemHeight = 220.0;
-                    const heightFactor = 0.8;
-                    final itemPositionOffset = index  * itemHeight * heightFactor;
-                    final difference = (scrollOffset - 20) - itemPositionOffset;
-                    final percent = 1.0 - (difference / (itemHeight * heightFactor));
-                    final result = percent.clamp(0.0, 1.0);
-                    return Align(
-                      heightFactor: heightFactor,
-                      child: SizedBox(
-                        height: itemHeight,
-                        child: Transform.scale(
-                          scale: result,
-                          alignment: const Alignment(0.0, 0.56),
-                          child: Opacity(
-                            opacity: result,
-                            child: Obx(()=>
-                                SizedBox(
-                                  height: MediaQuery.of(context).size.height*0.7,
-                                  child:   KServicesManCard(
-                                    onProfilePressed: (){
-                                      print("OK");
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ServiceDetailsScreen(
-                                                color: couponColors.elementAt(0),
-                                                vendorId:couponController.vendorAndCouponList.elementAt(index).vendorId
-                                            )),
-                                      );
-                                    },
-                                    name: couponController.vendorAndCouponList.elementAt(index).vendorName,
-                                    image: couponController.vendorAndCouponList.elementAt(index).vendorLogPath,
-                                    color: couponColors.elementAt(0),
-                                    percent: couponController.vendorAndCouponList.isNotEmpty?
-                                    couponController.vendorAndCouponList.elementAt(index).percentageOff:
-                                    // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
-                                    // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:
-                                    "0",
-                                    date: couponController.vendorAndCouponList.isNotEmpty?
-                                    couponController.vendorAndCouponList.elementAt(index).endDate.toString():
-                                    // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
-                                    // couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():
-                                    "------------",
-                                    vid:couponController.vendorAndCouponList.elementAt(index).vendorId,
-                                    buttonText: "Claim Deal",
-
-                                    onPressed: () {
-                                      KDialog.kShowDialog(
-                                        context: context,
-                                        dialogContent: Dialog(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(15.0)), //this right here
-                                          child: KCouponClaimCard(
-                                            name: couponController.vendorAndCouponList.elementAt(index).vendorName,
-                                            image: couponController.vendorAndCouponList.elementAt(index).vendorLogPath,
+          (!widget.isFeatured)
+              ? Obx(
+                  () => categoryController.subCategory.isNotEmpty &&
+                          couponController.foundBySubCategory.isNotEmpty &&
+                          couponController.vendorAndCouponList.isNotEmpty
+                      ? SliverPadding(
+                          padding: const EdgeInsets.all(0).add(EdgeInsets.only(
+                              bottom: cPadding + cFloatingActionButtonHeight!)),
+                          sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                            (BuildContext buildContext, int index) {
+                              const itemHeight = 220.0;
+                              const heightFactor = 0.8;
+                              final itemPositionOffset =
+                                  index * itemHeight * heightFactor;
+                              final difference =
+                                  (scrollOffset - 20) - itemPositionOffset;
+                              final percent = 1.0 -
+                                  (difference / (itemHeight * heightFactor));
+                              final result = percent.clamp(0.0, 1.0);
+                              return Align(
+                                heightFactor: heightFactor,
+                                child: SizedBox(
+                                  height: itemHeight,
+                                  child: Transform.scale(
+                                    scale: result,
+                                    alignment: const Alignment(0.0, 0.56),
+                                    child: Opacity(
+                                      opacity: result,
+                                      child: Obx(
+                                        () => SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.7,
+                                          child: KServicesManCard(
+                                            onProfilePressed: () {
+                                              print("OK");
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ServiceDetailsScreen(
+                                                            color: couponColors
+                                                                .elementAt(0),
+                                                            vendorId:
+                                                                couponController
+                                                                    .vendorAndCouponList
+                                                                    .elementAt(
+                                                                        index)
+                                                                    .vendorId)),
+                                              );
+                                            },
+                                            name: couponController
+                                                .vendorAndCouponList
+                                                .elementAt(index)
+                                                .vendorName,
+                                            image: couponController
+                                                .vendorAndCouponList
+                                                .elementAt(index)
+                                                .vendorLogPath,
                                             color: couponColors.elementAt(0),
-                                            percent:couponController.vendorAndCouponList.isNotEmpty?
-                                            couponController.vendorAndCouponList.elementAt(index).percentageOff:
-                                            // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
-                                            // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:
-                                            "0",
-                                            date:couponController.vendorAndCouponList.isNotEmpty?
-                                            couponController.vendorAndCouponList.elementAt(index).endDate.toString():
-                                            // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
-                                            // couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():
-                                            "------------",
-
-                                            buttonText: "Claim This Coupon",
-
-                                            onPressed: () async{
-                                              startLoading();
-                                              int? result=await couponController.claimCoupon(couponController.vendorAndCouponList.elementAt(0).couponId);
-                                              if(result==200 || result==201){
-                                                stopLoading();
-                                                Navigator.pop(context);
-                                                KDialog.kShowDialog(
-                                                  context: context,
-                                                  dialogContent: Dialog(
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(
-                                                            15.0)), //this right here
-                                                    child:
-                                                    Align(
-                                                      alignment: Alignment.center,
-                                                      child: ConfettiWidget(
-                                                        confettiController: _controllerCenter,
-                                                        blastDirectionality: BlastDirectionality
-                                                            .explosive, // don't specify a direction, blast randomly
-                                                        shouldLoop:
-                                                        true, // start again as soon as the animation is finished
-                                                        colors: ConfettiHandler.starColors, // manually specify the colors to be used
-                                                        createParticlePath: ConfettiHandler.drawStar,
-                                                        child:       KCouponClaimCard(
-                                                          couponDetails: true,
-                                                          coupon_id: couponController.vendorAndCouponList.isNotEmpty?
-                                                          couponController.vendorAndCouponList.elementAt(0).couponId:0,
-                                                          name: couponController.vendorAndCouponList.elementAt(index).vendorName,
-                                                          image: couponController.vendorAndCouponList.elementAt(index).vendorLogPath,
-                                                          color: couponColors.elementAt(0),
-                                                          percent:    couponController.vendorAndCouponList.isNotEmpty?
-                                                          couponController.vendorAndCouponList.elementAt(0).percentageOff:"0",
-                                                          date:  couponController.vendorAndCouponList.isNotEmpty?
-                                                          couponController.vendorAndCouponList.elementAt(0).endDate.toString():"------------",
-                                                          buttonText: "Coupon Claimed",
-
-                                                          onPressed: () {
-
-                                                          },
-                                                        ),// define a custom shape/path.
-                                                      ),
-
-                                                    ),
-
+                                            percent: couponController
+                                                    .vendorAndCouponList
+                                                    .isNotEmpty
+                                                ? couponController
+                                                    .vendorAndCouponList
+                                                    .elementAt(index)
+                                                    .percentageOff
+                                                :
+                                                // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                                                // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:
+                                                "0",
+                                            date: couponController
+                                                    .vendorAndCouponList
+                                                    .isNotEmpty
+                                                ? couponController
+                                                    .vendorAndCouponList
+                                                    .elementAt(index)
+                                                    .endDate
+                                                    .toString()
+                                                :
+                                                // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                                                // couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():
+                                                "------------",
+                                            vid: couponController
+                                                .vendorAndCouponList
+                                                .elementAt(index)
+                                                .vendorId,
+                                            buttonText: "Claim Deal",
+                                            onPressed: () {
+                                              KDialog.kShowDialog(
+                                                context: context,
+                                                dialogContent: Dialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15.0)), //this right here
+                                                  child: KCouponClaimCard(
+                                                    name: couponController
+                                                        .vendorAndCouponList
+                                                        .elementAt(index)
+                                                        .vendorName,
+                                                    image: couponController
+                                                        .vendorAndCouponList
+                                                        .elementAt(index)
+                                                        .vendorLogPath,
+                                                    color: couponColors
+                                                        .elementAt(0),
+                                                    percent: couponController
+                                                            .vendorAndCouponList
+                                                            .isNotEmpty
+                                                        ? couponController
+                                                            .vendorAndCouponList
+                                                            .elementAt(index)
+                                                            .percentageOff
+                                                        :
+                                                        // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                                                        // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:
+                                                        "0",
+                                                    date: couponController
+                                                            .vendorAndCouponList
+                                                            .isNotEmpty
+                                                        ? "${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
+                                                        //  couponController
+                                                        //     .vendorAndCouponList
+                                                        //     .elementAt(index)
+                                                        //     .endDate
+                                                        //     .toString()
+                                                        :
+                                                        // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
+                                                        // couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():
+                                                        "------------",
+                                                    buttonText:
+                                                        "Claim This Coupon",
+                                                    onPressed: () async {
+                                                      startLoading();
+                                                      int? result =
+                                                          await couponController
+                                                              .claimCoupon(
+                                                                  couponController
+                                                                      .vendorAndCouponList
+                                                                      .elementAt(
+                                                                          0)
+                                                                      .couponId);
+                                                      if (result == 200 ||
+                                                          result == 201) {
+                                                        stopLoading();
+                                                        Navigator.pop(context);
+                                                        KDialog.kShowDialog(
+                                                          context: context,
+                                                          dialogContent: Dialog(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15.0)), //this right here
+                                                            child: Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child:
+                                                                  ConfettiWidget(
+                                                                confettiController:
+                                                                    _controllerCenter,
+                                                                blastDirectionality:
+                                                                    BlastDirectionality
+                                                                        .explosive, // don't specify a direction, blast randomly
+                                                                shouldLoop:
+                                                                    true, // start again as soon as the animation is finished
+                                                                colors: ConfettiHandler
+                                                                    .starColors, // manually specify the colors to be used
+                                                                createParticlePath:
+                                                                    ConfettiHandler
+                                                                        .drawStar,
+                                                                child:
+                                                                    KCouponClaimCard(
+                                                                  couponDetails:
+                                                                      true,
+                                                                  coupon_id: couponController
+                                                                          .vendorAndCouponList
+                                                                          .isNotEmpty
+                                                                      ? couponController
+                                                                          .vendorAndCouponList
+                                                                          .elementAt(
+                                                                              0)
+                                                                          .couponId
+                                                                      : 0,
+                                                                  name: couponController
+                                                                      .vendorAndCouponList
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .vendorName,
+                                                                  image: couponController
+                                                                      .vendorAndCouponList
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .vendorLogPath,
+                                                                  color: couponColors
+                                                                      .elementAt(
+                                                                          0),
+                                                                  percent: couponController
+                                                                          .vendorAndCouponList
+                                                                          .isNotEmpty
+                                                                      ? couponController
+                                                                          .vendorAndCouponList
+                                                                          .elementAt(
+                                                                              0)
+                                                                          .percentageOff
+                                                                      : "0",
+                                                                  date: couponController
+                                                                          .vendorAndCouponList
+                                                                          .isNotEmpty
+                                                                      ? couponController
+                                                                          .vendorAndCouponList
+                                                                          .elementAt(
+                                                                              0)
+                                                                          .endDate
+                                                                          .toString()
+                                                                      : "------------",
+                                                                  buttonText:
+                                                                      "Coupon Claimed",
+                                                                  onPressed:
+                                                                      () {},
+                                                                ), // define a custom shape/path.
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                        _controllerCenter
+                                                            .play();
+                                                      } else {
+                                                        stopLoading();
+                                                        snackMessage(
+                                                            "Fail to claim coupon");
+                                                      }
+                                                    },
                                                   ),
-                                                );
-                                                _controllerCenter.play();
-                                              }else{
-                                                stopLoading();
-                                                snackMessage("Fail to claim coupon");
-                                              }
-
+                                                ),
+                                              );
                                             },
                                           ),
                                         ),
-                                      );
-                                    },
-                                  ),
-                                )
-                              ,),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  childCount: couponController.vendorAndCouponList.length,
-                  addAutomaticKeepAlives: true,
-                  addRepaintBoundaries: false,
-
-
-                )
-            ),
-          ):
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(height: 200),
-                Center(
-                  child: Text("No data to display",
-                    style: TextStyle(
-                        color: Colors.grey
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-
-          )
-
-              :
-          Obx(() => couponController.foundFeaturedCouponList.isNotEmpty?
-          SliverPadding(
-            padding: const EdgeInsets.all(0).add(EdgeInsets.only(bottom: cPadding + cFloatingActionButtonHeight!)),
-            sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                      (BuildContext buildContext, int index){
-                    const itemHeight = 220.0;
-                    const heightFactor = 0.8;
-                    final itemPositionOffset = index  * itemHeight * heightFactor;
-                    final difference = (scrollOffset - 20) - itemPositionOffset;
-                    final percent = 1.0 - (difference / (itemHeight * heightFactor));
-                    final result = percent.clamp(0.0, 1.0);
-                    return Align(
-                      heightFactor: heightFactor,
-                      child: SizedBox(
-                        height: itemHeight,
-                        child: Transform.scale(
-                          scale: result,
-                          alignment: const Alignment(0.0, 0.56),
-                          child: Opacity(
-                            opacity: result,
-                            child: Obx(()=> SizedBox(
-                              height: MediaQuery.of(context).size.height*0.7,
-                              child:KServicesManCard(
-                                onProfilePressed: (){
-
-                                },
-                                name: couponController.foundFeaturedCouponList.elementAt(index).vendorName,
-
-                                image: couponController.foundFeaturedCouponList.elementAt(index).vendorLogPath,
-                                color: couponColors.elementAt(0),
-                                percent: couponController.foundFeaturedCouponList.elementAt(index).percentageOff,
-                                date: couponController.foundFeaturedCouponList.elementAt(index).endDate.toString(),
-                                buttonText: "Claim Deal",
-                                onPressed: () {
-                                  KDialog.kShowDialog(
-                                    context: context,
-                                    dialogContent: Dialog(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(15.0)), //this right here
-                                      child: KCouponClaimCard(
-                                        name: couponController.foundFeaturedCouponList.elementAt(index).vendorName,
-                                        image: couponController.foundFeaturedCouponList.elementAt(index).vendorLogPath,
-                                        color: couponColors.elementAt(0),
-                                        percent: couponController.foundFeaturedCouponList.elementAt(index).percentageOff,
-                                        date: couponController.foundFeaturedCouponList.elementAt(index).endDate.toString(),
-                                        coupon_id: couponController.foundFeaturedCouponList.elementAt(index).couponId,
-                                        buttonText: "Claim This Coupon",
-                                        onPressed: () async{
-                                          startLoading();
-                                          int? result=await couponController.claimCoupon(couponController.foundFeaturedCouponList.elementAt(index).couponId);
-                                          if(result==200 || result==201){
-                                            stopLoading();
-                                            Navigator.pop(context);
-                                            KDialog.kShowDialog(
-                                              context: context,
-                                              dialogContent: Dialog(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(
-                                                        15.0)), //this right here
-                                                child:
-                                                Align(
-                                                  alignment: Alignment.center,
-                                                  child: ConfettiWidget(
-                                                    confettiController: _controllerCenter,
-                                                    blastDirectionality: BlastDirectionality
-                                                        .explosive, // don't specify a direction, blast randomly
-                                                    shouldLoop:
-                                                    true, // start again as soon as the animation is finished
-                                                    colors:ConfettiHandler.starColors, // manually specify the colors to be used
-                                                    createParticlePath: ConfettiHandler.drawStar,
-                                                    child:       KCouponClaimCard(
-                                                      couponDetails: true,
-                                                      name: couponController.foundFeaturedCouponList.elementAt(index).vendorName,
-                                                      image: couponController.foundFeaturedCouponList.elementAt(index).vendorLogPath,
-                                                      color: couponColors.elementAt(0),
-                                                      percent: couponController.foundFeaturedCouponList.elementAt(index).percentageOff,
-                                                      date: couponController.foundFeaturedCouponList.elementAt(index).endDate.toString(),
-                                                      coupon_id: couponController.foundFeaturedCouponList.elementAt(index).couponId,
-                                                      buttonText: "Coupon Claimed",
-                                                      onPressed: () {
-
-                                                      },
-                                                    ),// define a custom shape/path.
-                                                  ),
-
-                                                ),
-
-                                              ),
-                                            );
-                                            _controllerCenter.play();
-                                          }else{
-                                            stopLoading();
-                                            KDialog.kShowDialog(
-                                              context: context,
-                                              dialogContent: Dialog(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(
-                                                        15.0)), //this right here
-                                                child:Container(
-                                                  decoration: BoxDecoration(
-                                                      color: KColor.white,
-                                                      borderRadius: BorderRadius.circular(15),
-                                                      boxShadow: [BoxShadow(color: KColor.silver.withOpacity(0.2), blurRadius: 4, spreadRadius: 2)]),
-                                                  child:  Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Container(
-                                                        padding: const EdgeInsets.only(left: 100,top: 15,bottom: 15),
-                                                        decoration: const BoxDecoration(color: KColor.orange,
-                                                            borderRadius: BorderRadius.only(topLeft: Radius.circular(15),
-                                                                topRight: Radius.circular(15))),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-
-
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 30,),
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: [
-                                                          Text("Coupon Already Claimed",
-                                                            style: KTextStyle.headline2.copyWith(fontSize: 18,color: Colors.black),
-
-                                                          )
-                                                        ],),
-                                                      const SizedBox(height: 30,),
-
-                                                      GestureDetector(
-                                                        onTap:()async{
-                                                          Navigator.pop(context);
-                                                        },
-                                                        child:   Container(
-                                                          height:44 ,
-                                                          width: 150,
-                                                          decoration: const BoxDecoration(color: KColor.orange,
-                                                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                          ),
-                                                          child: Center(
-                                                            child:Text("OK",
-                                                              style: KTextStyle.headline2.copyWith(fontSize: 16,color: Colors.white),
-                                                            ) ,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 30,),
-
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                            //snackMessage("Fail to claim coupon");
-                                          }
-
-                                        },
                                       ),
                                     ),
-                                  );
-                                },
-                              ),
-                            ) ,),
+                                  ),
+                                ),
+                              );
+                            },
+                            childCount:
+                                couponController.vendorAndCouponList.length,
+                            addAutomaticKeepAlives: true,
+                            addRepaintBoundaries: false,
+                          )),
+                        )
+                      : SliverToBoxAdapter(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              SizedBox(height: 200),
+                              Center(
+                                child: Text(
+                                  "No data to display",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      ),
-                    );
-                  },
-                  childCount: couponController.foundFeaturedCouponList.length,
-                  addAutomaticKeepAlives: true,
-                  addRepaintBoundaries: false,
-
-
                 )
-            ),
-          ):
-          SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(height: 200),
-                Center(
-                  child: Text("No data to display",
-                    style: TextStyle(
-                        color: Colors.grey
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-
-          ),
-
+              : Obx(
+                  () => couponController.foundFeaturedCouponList.isNotEmpty
+                      ? SliverPadding(
+                          padding: const EdgeInsets.all(0).add(EdgeInsets.only(
+                              bottom: cPadding + cFloatingActionButtonHeight!)),
+                          sliver: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                            (BuildContext buildContext, int index) {
+                              const itemHeight = 220.0;
+                              const heightFactor = 0.8;
+                              final itemPositionOffset =
+                                  index * itemHeight * heightFactor;
+                              final difference =
+                                  (scrollOffset - 20) - itemPositionOffset;
+                              final percent = 1.0 -
+                                  (difference / (itemHeight * heightFactor));
+                              final result = percent.clamp(0.0, 1.0);
+                              return Align(
+                                heightFactor: heightFactor,
+                                child: SizedBox(
+                                  height: itemHeight,
+                                  child: Transform.scale(
+                                    scale: result,
+                                    alignment: const Alignment(0.0, 0.56),
+                                    child: Opacity(
+                                      opacity: result,
+                                      child: Obx(
+                                        () => SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.7,
+                                          child: KServicesManCard(
+                                            onProfilePressed: () {},
+                                            name: couponController
+                                                .foundFeaturedCouponList
+                                                .elementAt(index)
+                                                .vendorName,
+                                            image: couponController
+                                                .foundFeaturedCouponList
+                                                .elementAt(index)
+                                                .vendorLogPath,
+                                            color: couponColors.elementAt(0),
+                                            percent: couponController
+                                                .foundFeaturedCouponList
+                                                .elementAt(index)
+                                                .percentageOff,
+                                            date: couponController
+                                                .foundFeaturedCouponList
+                                                .elementAt(index)
+                                                .endDate
+                                                .toString(),
+                                            buttonText: "Claim Deal",
+                                            onPressed: () {
+                                              KDialog.kShowDialog(
+                                                context: context,
+                                                dialogContent: Dialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15.0)), //this right here
+                                                  child: KCouponClaimCard(
+                                                    name: couponController
+                                                        .foundFeaturedCouponList
+                                                        .elementAt(index)
+                                                        .vendorName,
+                                                    image: couponController
+                                                        .foundFeaturedCouponList
+                                                        .elementAt(index)
+                                                        .vendorLogPath,
+                                                    color: couponColors
+                                                        .elementAt(0),
+                                                    percent: couponController
+                                                        .foundFeaturedCouponList
+                                                        .elementAt(index)
+                                                        .percentageOff,
+                                                    date:
+                                                        "${couponController.foundFeaturedCouponList.elementAt(index).endDate.month}-${couponController.foundFeaturedCouponList.elementAt(index).endDate.day}-${couponController.foundFeaturedCouponList.elementAt(index).endDate.year}",
+                                                    //  couponController
+                                                    //     .foundFeaturedCouponList
+                                                    //     .elementAt(index)
+                                                    //     .endDate
+                                                    //     .toString(),
+                                                    coupon_id: couponController
+                                                        .foundFeaturedCouponList
+                                                        .elementAt(index)
+                                                        .couponId,
+                                                    buttonText:
+                                                        "Claim This Coupon",
+                                                    onPressed: () async {
+                                                      startLoading();
+                                                      int? result =
+                                                          await couponController
+                                                              .claimCoupon(
+                                                                  couponController
+                                                                      .foundFeaturedCouponList
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .couponId);
+                                                      if (result == 200 ||
+                                                          result == 201) {
+                                                        stopLoading();
+                                                        Navigator.pop(context);
+                                                        KDialog.kShowDialog(
+                                                          context: context,
+                                                          dialogContent: Dialog(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15.0)), //this right here
+                                                            child: Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              child:
+                                                                  ConfettiWidget(
+                                                                confettiController:
+                                                                    _controllerCenter,
+                                                                blastDirectionality:
+                                                                    BlastDirectionality
+                                                                        .explosive, // don't specify a direction, blast randomly
+                                                                shouldLoop:
+                                                                    true, // start again as soon as the animation is finished
+                                                                colors: ConfettiHandler
+                                                                    .starColors, // manually specify the colors to be used
+                                                                createParticlePath:
+                                                                    ConfettiHandler
+                                                                        .drawStar,
+                                                                child:
+                                                                    KCouponClaimCard(
+                                                                  couponDetails:
+                                                                      true,
+                                                                  name: couponController
+                                                                      .foundFeaturedCouponList
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .vendorName,
+                                                                  image: couponController
+                                                                      .foundFeaturedCouponList
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .vendorLogPath,
+                                                                  color: couponColors
+                                                                      .elementAt(
+                                                                          0),
+                                                                  percent: couponController
+                                                                      .foundFeaturedCouponList
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .percentageOff,
+                                                                  date: couponController
+                                                                      .foundFeaturedCouponList
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .endDate
+                                                                      .toString(),
+                                                                  coupon_id: couponController
+                                                                      .foundFeaturedCouponList
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .couponId,
+                                                                  buttonText:
+                                                                      "Coupon Claimed",
+                                                                  onPressed:
+                                                                      () {},
+                                                                ), // define a custom shape/path.
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                        _controllerCenter
+                                                            .play();
+                                                      } else {
+                                                        stopLoading();
+                                                        KDialog.kShowDialog(
+                                                          context: context,
+                                                          dialogContent: Dialog(
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15.0)), //this right here
+                                                            child: Container(
+                                                              decoration: BoxDecoration(
+                                                                  color: KColor
+                                                                      .white,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(15),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                        color: KColor
+                                                                            .silver
+                                                                            .withOpacity(
+                                                                                0.2),
+                                                                        blurRadius:
+                                                                            4,
+                                                                        spreadRadius:
+                                                                            2)
+                                                                  ]),
+                                                              child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  Container(
+                                                                    padding: const EdgeInsets
+                                                                            .only(
+                                                                        left:
+                                                                            100,
+                                                                        top: 15,
+                                                                        bottom:
+                                                                            15),
+                                                                    decoration: const BoxDecoration(
+                                                                        color: KColor
+                                                                            .orange,
+                                                                        borderRadius: BorderRadius.only(
+                                                                            topLeft:
+                                                                                Radius.circular(15),
+                                                                            topRight: Radius.circular(15))),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [],
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    height: 30,
+                                                                  ),
+                                                                  Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        "Coupon Already Claimed",
+                                                                        style: KTextStyle.headline2.copyWith(
+                                                                            fontSize:
+                                                                                18,
+                                                                            color:
+                                                                                Colors.black),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    height: 30,
+                                                                  ),
+                                                                  GestureDetector(
+                                                                    onTap:
+                                                                        () async {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      height:
+                                                                          44,
+                                                                      width:
+                                                                          150,
+                                                                      decoration:
+                                                                          const BoxDecoration(
+                                                                        color: KColor
+                                                                            .orange,
+                                                                        borderRadius:
+                                                                            BorderRadius.all(Radius.circular(10)),
+                                                                      ),
+                                                                      child:
+                                                                          Center(
+                                                                        child:
+                                                                            Text(
+                                                                          "OK",
+                                                                          style: KTextStyle.headline2.copyWith(
+                                                                              fontSize: 16,
+                                                                              color: Colors.white),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    height: 30,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                        //snackMessage("Fail to claim coupon");
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            childCount:
+                                couponController.foundFeaturedCouponList.length,
+                            addAutomaticKeepAlives: true,
+                            addRepaintBoundaries: false,
+                          )),
+                        )
+                      : SliverToBoxAdapter(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              SizedBox(height: 200),
+                              Center(
+                                child: Text(
+                                  "No data to display",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                ),
         ],
       ),
     );
