@@ -10,6 +10,7 @@ import 'package:logan/views/global_components/k_bottom_navigation_bar.dart';
 import 'package:logan/views/global_components/k_social_media_button.dart';
 import 'package:logan/views/global_components/k_text_field.dart';
 import 'package:logan/views/screens/auth/forgot_password_screen.dart';
+import 'package:logan/views/screens/home/home_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
@@ -262,11 +263,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                           LibPhonenumberTextFormatter(
                                             phoneNumberType: globalPhoneType,
                                             phoneNumberFormat:
-                                                globalPhoneFormat,
+                                                PhoneNumberFormat.national,
                                             country: currentSelectedCountry,
                                             inputContainsCountryCode:
                                                 inputContainsCountryCode,
-                                            additionalDigits: 3,
+                                            // additionalDigits: 3,
                                             shouldKeepCursorAtEndOfInput: false,
                                           ),
                                         ],
@@ -352,26 +353,59 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .phoneController.text.isNotEmpty &&
                                   registerController
                                       .passwordController.text.isNotEmpty) {
+                                //   startLoading();
+
+                                //   int? otpResult =
+                                //       await registerController.sendOtp();
+                                //   if (otpResult == 200 || otpResult == 201) {
+                                //     stopLoading();
+
+                                //     Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //         builder: (context) => HomeScreen(),
+                                //         //     ConfirmPasswordScreen(
+                                //         //   isSignUp: true,
+                                //         // ),
+                                //       ),
+                                //     );
+                                //   }
+                                //    else {
+                                //     stopLoading();
+                                //     snackMessage(
+                                //         "Error occurred when sending otp");
+                                //   }
+                                // } else {
+                                //   snackMessage("All fields are required");
+                                // }
+                                // }
+
                                 startLoading();
 
-                                int? otpResult =
-                                    await registerController.sendOtp();
-                                if (otpResult == 200 || otpResult == 201) {
+                                int? registerResult =
+                                    await registerController.Register();
+                                if (registerResult == 200 ||
+                                    registerResult == 201) {
                                   stopLoading();
-
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ConfirmPasswordScreen(
-                                                isSignUp: true,
-                                              )));
+                                  setState(() {
+                                    isSignupScreen = false;
+                                  });
+                                  // Navigator.pop(context);
+                                  // Navigator.pushReplacement(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             const LoginScreen()));
+                                  snackMessage("Successful registration");
+                                  registerController.emailController.clear();
+                                  registerController.phoneController.clear();
+                                  registerController.passCodeController.clear();
                                 } else {
                                   stopLoading();
-                                  snackMessage(
-                                      "Error occurred when sending otp");
+                                  snackMessage("Registration failed");
                                 }
                               } else {
+                                stopLoading();
                                 snackMessage("All fields are required");
                               }
                             } else {
