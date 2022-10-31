@@ -341,7 +341,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           const SizedBox(height: 2),
                                           Container(
-                                            color: Colors.red,
+                                            // color: Colors.red,
                                             child: Text(
                                               categoryController
                                                   .allCategory[index]
