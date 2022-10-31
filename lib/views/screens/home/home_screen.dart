@@ -44,7 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(
-            KSize.getWidth(context, 95)), // here the desired height
+          MediaQuery.of(context).size.height * 0.135,
+        ), // here the desired height
         child: Container(
           color: Colors.white,
           child: Column(
@@ -64,10 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     () => profileController.username.value.isNotEmpty
                         ? Text(
                             profileController.username.value.split(' ')[0],
+                            style: KTextStyle.headline4
+                                .copyWith(color: KColor.blueSapphire),
 
                             ///Get only user firstname
-                            style: KTextStyle.headline4
-                                .copyWith(color: KColor.black),
+                            // style: KTextStyle.headline4
+                            //     .copyWith(color: KColor.black),
                           )
                         : const Text(""),
                   )
@@ -119,11 +122,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   //     )
                   //   ],
                   // ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 5),
                   Obx(
                     () => couponController.featured2CouponList.isNotEmpty
                         ? SizedBox(
                             width: context.screenWidth,
+                            height: context.screenHeight * 0.14,
                             child: CarouselSlider(
                                 carouselController: buttonCarouselController,
                                 items: List.generate(
@@ -156,30 +160,30 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Container(),
                   ),
 
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 8),
                   Text(
                     "Categories",
                     style: KTextStyle.headline4
-                        .copyWith(fontSize: 22, color: KColor.blueSapphire),
+                        .copyWith(fontSize: 20, color: KColor.blueSapphire),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 3),
                   Obx(() => SizedBox(
                         // color: Colors.red,
-                        height: context.screenHeight * 0.29,
+                        // height: context.screenHeight * 0.35,
                         child: GridView.builder(
                             // clipBehavior: Clip.none,
-                            // shrinkWrap: true,
+                            shrinkWrap: true,
                             padding: const EdgeInsets.only(
                                 top: 5, left: 10, right: 10),
                             itemCount: viewScreens
                                 ? categoriesViewsItem.length
                                 : categoryController.allCategory.length,
-                            physics: const BouncingScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisExtent: 110,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 20,
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisExtent: context.screenHeight * 0.126,
+                              mainAxisSpacing: context.screenWidth * 0.009,
+                              crossAxisSpacing: context.screenWidth * 0.1,
                               crossAxisCount: 3,
                             ),
                             itemBuilder: (context, index) {
@@ -245,8 +249,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             child: Image.asset(
                                               categoriesViewsItem[index].image!,
-                                              height: 23,
-                                              width: 23,
+                                              height: 20,
+                                              width: 20,
                                             ),
                                           ),
                                           // const SizedBox(height: 10),
@@ -305,8 +309,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               }
                                             },
                                             child: Container(
-                                              width: 65,
-                                              height: 65,
+                                              width: 57,
+                                              height: 57,
                                               // padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
@@ -335,8 +339,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                             ),
                                           ),
-                                          // const SizedBox(height: 3),
-                                          SizedBox(
+                                          const SizedBox(height: 2),
+                                          Container(
+                                            color: Colors.red,
                                             child: Text(
                                               categoryController
                                                   .allCategory[index]
@@ -344,7 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               textAlign: TextAlign.center,
                                               style: KTextStyle.headline2
                                                   .copyWith(
-                                                      fontSize: 13,
+                                                      fontSize: 12,
                                                       color: KColor.black),
                                             ),
                                           )

@@ -12,7 +12,7 @@ import '../../controllers/vendor_controller.dart';
 import '../../models/api/single_vendor_model.dart';
 
 class KFeaturedCarouselCard extends StatefulWidget {
-  final double? percent;
+  final String? percent;
   final String? image;
   final int? vid;
   const KFeaturedCarouselCard({Key? key, this.image, this.percent, this.vid})
@@ -49,13 +49,15 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "${widget.percent}" + "%",
-                      style: KTextStyle.headline5.copyWith(fontSize: 36),
+                      widget.percent.toString(),
+                      style: KTextStyle.headline5.copyWith(fontSize: 14),
+                      textAlign: TextAlign.left,
                     ),
                   ],
                 ),
@@ -69,7 +71,7 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -157,32 +159,27 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
 
             Container(
               margin: const EdgeInsets.only(right: 20),
-              child: DropShadow(
-                offset: const Offset(0, 0),
-                spread: 1,
-                blurRadius: 12,
-                child: ImageNetwork(
-                  image: widget.image!,
-                  imageCache: CachedNetworkImageProvider(widget.image!),
-                  height: 80,
-                  width: 80,
-                  duration: 1500,
-                  curve: Curves.easeIn,
-                  onPointer: true,
-                  debugPrint: false,
-                  fullScreen: false,
-                  fitAndroidIos: BoxFit.cover,
-                  fitWeb: BoxFitWeb.cover,
-                  borderRadius: BorderRadius.circular(70),
-                  onLoading: const CircularProgressIndicator(
-                    color: Colors.indigoAccent,
-                  ),
-                  onError: const Icon(
-                    Icons.error,
-                    color: Colors.red,
-                  ),
-                  onTap: () {},
+              child: ImageNetwork(
+                image: widget.image!,
+                imageCache: CachedNetworkImageProvider(widget.image!),
+                height: 80,
+                width: 80,
+                duration: 1500,
+                curve: Curves.easeIn,
+                onPointer: true,
+                debugPrint: false,
+                fullScreen: false,
+                fitAndroidIos: BoxFit.cover,
+                fitWeb: BoxFitWeb.cover,
+                borderRadius: BorderRadius.circular(70),
+                onLoading: const CircularProgressIndicator(
+                  color: Colors.indigoAccent,
                 ),
+                onError: const Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ),
+                onTap: () {},
               ),
             ),
           ],
