@@ -9,6 +9,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:image_network/image_network.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/controllers/coupon_controller.dart';
+import 'package:logan/views/global_components/confirm_coupon_dialogue.dart';
 import 'package:logan/views/global_components/k_back_button.dart';
 import 'package:logan/views/global_components/k_bottom_navigation_bar.dart';
 import 'package:logan/views/global_components/k_coupon_claim_card.dart';
@@ -345,105 +346,112 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                 .percentageOff,
                             vid: vendorController.vendor.value.vid,
                             onPressed: () {
-                              KDialog.kShowDialog(
-                                context: context,
-                                dialogContent: Dialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          15.0)), //this right here
-                                  child: KCouponClaimCard(
-                                    name: vendorController
-                                        .vendor.value.vendorName,
-                                    percent: couponController.vendorCouponList
-                                        .elementAt(0)
-                                        .percentageOff,
-                                    color: widget.color,
-                                    buttonText: "Claim This Coupon",
-                                    date:
-                                        "${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
-                                    //  couponController.vendorCouponList
-                                    //     .elementAt(0)
-                                    //     .endDate
-                                    //     .toString(),
-                                    image: vendorController
-                                        .vendor.value.vendorLogPath,
-                                    couponCode: couponController
-                                        .vendorCouponList
-                                        .elementAt(0)
-                                        .couponCode,
-                                    onPressed: () async {
-                                      startLoading();
-                                      int? result =
-                                          await couponController.claimCoupon(
-                                              couponController.vendorCouponList
-                                                  .elementAt(0)
-                                                  .couponId);
-                                      if (result == 200 || result == 201) {
-                                        stopLoading();
-                                        Navigator.pop(context);
-                                        KDialog.kShowDialog(
-                                          context: context,
-                                          dialogContent: Dialog(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        15.0)), //this right here
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: ConfettiWidget(
-                                                confettiController:
-                                                    _controllerCenter,
-                                                blastDirectionality:
-                                                    BlastDirectionality
-                                                        .explosive, // don't specify a direction, blast randomly
-                                                shouldLoop:
-                                                    true, // start again as soon as the animation is finished
-                                                colors: ConfettiHandler
-                                                    .starColors, // manually specify the colors to be used
-                                                createParticlePath:
-                                                    ConfettiHandler.drawStar,
-                                                child: KCouponClaimCard(
-                                                  couponDetails: true,
-                                                  name: vendorController
-                                                      .vendor.value.vendorName,
-                                                  percent: couponController
-                                                      .vendorCouponList
-                                                      .elementAt(0)
-                                                      .percentageOff,
-                                                  color: widget.color,
-                                                  buttonText: "Coupon Claimed",
-                                                  date: couponController
-                                                      .vendorCouponList
-                                                      .elementAt(0)
-                                                      .endDate
-                                                      .toString(),
-                                                  image: vendorController.vendor
-                                                      .value.vendorLogPath,
-                                                  couponCode: couponController
-                                                      .vendorCouponList
-                                                      .elementAt(0)
-                                                      .couponCode,
-                                                  onPressed: () {
-                                                    // Navigator.of(context).pushAndRemoveUntil(
-                                                    //     MaterialPageRoute(
-                                                    //         builder: (context) =>
-                                                    //         const KBottomNavigationBar()),
-                                                    //         (Route<dynamic> route) => false);
-                                                  },
-                                                ), // define a custom shape/path.
+                              showConfirmClaimDialogue(context, onpressed: () {
+                                KDialog.kShowDialog(
+                                  context: context,
+                                  dialogContent: Dialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            15.0)), //this right here
+                                    child: KCouponClaimCard(
+                                      name: vendorController
+                                          .vendor.value.vendorName,
+                                      percent: couponController.vendorCouponList
+                                          .elementAt(0)
+                                          .percentageOff,
+                                      color: widget.color,
+                                      buttonText: "Claim This Coupon",
+                                      date:
+                                          "${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
+                                      //  couponController.vendorCouponList
+                                      //     .elementAt(0)
+                                      //     .endDate
+                                      //     .toString(),
+                                      image: vendorController
+                                          .vendor.value.vendorLogPath,
+                                      couponCode: couponController
+                                          .vendorCouponList
+                                          .elementAt(0)
+                                          .couponCode,
+                                      onPressed: () async {
+                                        startLoading();
+                                        int? result = await couponController
+                                            .claimCoupon(couponController
+                                                .vendorCouponList
+                                                .elementAt(0)
+                                                .couponId);
+                                        if (result == 200 || result == 201) {
+                                          stopLoading();
+                                          Navigator.pop(context);
+                                          KDialog.kShowDialog(
+                                            context: context,
+                                            dialogContent: Dialog(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0)), //this right here
+                                              child: Align(
+                                                alignment: Alignment.center,
+                                                child: ConfettiWidget(
+                                                  confettiController:
+                                                      _controllerCenter,
+                                                  blastDirectionality:
+                                                      BlastDirectionality
+                                                          .explosive, // don't specify a direction, blast randomly
+                                                  shouldLoop:
+                                                      true, // start again as soon as the animation is finished
+                                                  colors: ConfettiHandler
+                                                      .starColors, // manually specify the colors to be used
+                                                  createParticlePath:
+                                                      ConfettiHandler.drawStar,
+                                                  child: KCouponClaimCard(
+                                                    couponDetails: true,
+                                                    name: vendorController
+                                                        .vendor
+                                                        .value
+                                                        .vendorName,
+                                                    percent: couponController
+                                                        .vendorCouponList
+                                                        .elementAt(0)
+                                                        .percentageOff,
+                                                    color: widget.color,
+                                                    buttonText:
+                                                        "Coupon Claimed",
+                                                    date: couponController
+                                                        .vendorCouponList
+                                                        .elementAt(0)
+                                                        .endDate
+                                                        .toString(),
+                                                    image: vendorController
+                                                        .vendor
+                                                        .value
+                                                        .vendorLogPath,
+                                                    couponCode: couponController
+                                                        .vendorCouponList
+                                                        .elementAt(0)
+                                                        .couponCode,
+                                                    onPressed: () {
+                                                      // Navigator.of(context).pushAndRemoveUntil(
+                                                      //     MaterialPageRoute(
+                                                      //         builder: (context) =>
+                                                      //         const KBottomNavigationBar()),
+                                                      //         (Route<dynamic> route) => false);
+                                                    },
+                                                  ), // define a custom shape/path.
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        );
-                                        _controllerCenter.play();
-                                      } else {
-                                        stopLoading();
-                                        snackMessage("Fail to claim coupon");
-                                      }
-                                    },
+                                          );
+                                          _controllerCenter.play();
+                                        } else {
+                                          stopLoading();
+                                          snackMessage("Fail to claim coupon");
+                                        }
+                                      },
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              });
                             },
                             onProfilePressed: () {},
                           );

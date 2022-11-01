@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/views/animation/confetti_handler.dart';
+import 'package:logan/views/global_components/confirm_coupon_dialogue.dart';
 import 'package:logan/views/screens/services/service_details_screen.dart';
 
 import '../../../../controllers/coupon_controller.dart';
@@ -196,221 +197,229 @@ class _VendorServiceSreen extends State<VendorServiceSreen> {
                                       .percentageOff,
                                   vid: widget.vid,
                                   onPressed: () {
-                                    KDialog.kShowDialog(
-                                      context: context,
-                                      dialogContent: Dialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                                15.0)), //this right here
-                                        child: KCouponClaimCard(
-                                          name: widget.name,
-                                          percent: couponController
-                                              .vendorCouponList
-                                              .elementAt(index)
-                                              .percentageOff,
-                                          color: couponColors.elementAt(Random()
-                                              .nextInt(couponColors.length)),
-                                          buttonText: "Claim This Coupon",
-                                          date:
-                                              "${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
-                                          // couponController
-                                          //     .vendorCouponList
-                                          //     .elementAt(index)
-                                          //     .endDate
-                                          //     .toString(),
-                                          image: widget.image,
-                                          onPressed: () async {
-                                            startLoading();
-                                            int? result = await couponController
-                                                .claimCoupon(couponController
-                                                    .vendorCouponList
-                                                    .elementAt(index)
-                                                    .couponId);
-                                            if (result == 200 ||
-                                                result == 201) {
-                                              stopLoading();
-                                              Navigator.pop(context);
-                                              KDialog.kShowDialog(
-                                                context: context,
-                                                dialogContent: Dialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0)), //this right here
-                                                  child: Align(
-                                                    alignment: Alignment.center,
-                                                    child: ConfettiWidget(
-                                                      confettiController:
-                                                          _controllerCenter,
-                                                      blastDirectionality:
-                                                          BlastDirectionality
-                                                              .explosive, // don't specify a direction, blast randomly
-                                                      shouldLoop:
-                                                          true, // start again as soon as the animation is finished
-                                                      colors: ConfettiHandler
-                                                          .starColors, // manually specify the colors to be used
-                                                      createParticlePath:
-                                                          ConfettiHandler
-                                                              .drawStar,
-                                                      child: KCouponClaimCard(
-                                                        couponDetails: true,
-                                                        name: widget.name,
-                                                        percent: couponController
-                                                            .vendorCouponList
-                                                            .elementAt(index)
-                                                            .percentageOff,
-                                                        color: couponColors
-                                                            .elementAt(Random()
-                                                                .nextInt(
-                                                                    couponColors
-                                                                        .length)),
-                                                        buttonText:
-                                                            "Coupon Claimed",
-                                                        date: couponController
-                                                            .vendorCouponList
-                                                            .elementAt(index)
-                                                            .endDate
-                                                            .toString(),
-                                                        image: widget.image,
-                                                        couponCode:
-                                                            couponController
-                                                                .vendorCouponList
-                                                                .elementAt(
-                                                                    index)
-                                                                .couponCode,
-                                                        onPressed: () {
-                                                          // Navigator.of(context).pushAndRemoveUntil(
-                                                          //     MaterialPageRoute(
-                                                          //         builder: (context) =>
-                                                          //         const KBottomNavigationBar()),
-                                                          //         (Route<dynamic> route) => false);
-                                                        },
-                                                      ), // define a custom shape/path.
+                                    showConfirmClaimDialogue(context,
+                                        onpressed: () {
+                                      KDialog.kShowDialog(
+                                        context: context,
+                                        dialogContent: Dialog(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      15.0)), //this right here
+                                          child: KCouponClaimCard(
+                                            name: widget.name,
+                                            percent: couponController
+                                                .vendorCouponList
+                                                .elementAt(index)
+                                                .percentageOff,
+                                            color: couponColors.elementAt(
+                                                Random().nextInt(
+                                                    couponColors.length)),
+                                            buttonText: "Claim This Coupon",
+                                            date:
+                                                "${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
+                                            // couponController
+                                            //     .vendorCouponList
+                                            //     .elementAt(index)
+                                            //     .endDate
+                                            //     .toString(),
+                                            image: widget.image,
+                                            onPressed: () async {
+                                              startLoading();
+                                              int? result =
+                                                  await couponController
+                                                      .claimCoupon(
+                                                          couponController
+                                                              .vendorCouponList
+                                                              .elementAt(index)
+                                                              .couponId);
+                                              if (result == 200 ||
+                                                  result == 201) {
+                                                stopLoading();
+                                                Navigator.pop(context);
+                                                KDialog.kShowDialog(
+                                                  context: context,
+                                                  dialogContent: Dialog(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                15.0)), //this right here
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: ConfettiWidget(
+                                                        confettiController:
+                                                            _controllerCenter,
+                                                        blastDirectionality:
+                                                            BlastDirectionality
+                                                                .explosive, // don't specify a direction, blast randomly
+                                                        shouldLoop:
+                                                            true, // start again as soon as the animation is finished
+                                                        colors: ConfettiHandler
+                                                            .starColors, // manually specify the colors to be used
+                                                        createParticlePath:
+                                                            ConfettiHandler
+                                                                .drawStar,
+                                                        child: KCouponClaimCard(
+                                                          couponDetails: true,
+                                                          name: widget.name,
+                                                          percent: couponController
+                                                              .vendorCouponList
+                                                              .elementAt(index)
+                                                              .percentageOff,
+                                                          color: couponColors
+                                                              .elementAt(Random()
+                                                                  .nextInt(
+                                                                      couponColors
+                                                                          .length)),
+                                                          buttonText:
+                                                              "Coupon Claimed",
+                                                          date: couponController
+                                                              .vendorCouponList
+                                                              .elementAt(index)
+                                                              .endDate
+                                                              .toString(),
+                                                          image: widget.image,
+                                                          couponCode:
+                                                              couponController
+                                                                  .vendorCouponList
+                                                                  .elementAt(
+                                                                      index)
+                                                                  .couponCode,
+                                                          onPressed: () {
+                                                            // Navigator.of(context).pushAndRemoveUntil(
+                                                            //     MaterialPageRoute(
+                                                            //         builder: (context) =>
+                                                            //         const KBottomNavigationBar()),
+                                                            //         (Route<dynamic> route) => false);
+                                                          },
+                                                        ), // define a custom shape/path.
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              );
-                                              _controllerCenter.play();
-                                            } else {
-                                              stopLoading();
-                                              KDialog.kShowDialog(
-                                                context: context,
-                                                dialogContent: Dialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0)), //this right here
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                        color: KColor.white,
+                                                );
+                                                _controllerCenter.play();
+                                              } else {
+                                                stopLoading();
+                                                KDialog.kShowDialog(
+                                                  context: context,
+                                                  dialogContent: Dialog(
+                                                    shape: RoundedRectangleBorder(
                                                         borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              color: KColor
-                                                                  .silver
-                                                                  .withOpacity(
-                                                                      0.2),
-                                                              blurRadius: 4,
-                                                              spreadRadius: 2)
-                                                        ]),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 100,
-                                                                  top: 15,
-                                                                  bottom: 15),
-                                                          decoration: const BoxDecoration(
-                                                              color:
-                                                                  KColor.orange,
-                                                              borderRadius: BorderRadius.only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          15),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          15))),
-                                                          child: Row(
+                                                            BorderRadius.circular(
+                                                                15.0)), //this right here
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          color: KColor.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                                color: KColor
+                                                                    .silver
+                                                                    .withOpacity(
+                                                                        0.2),
+                                                                blurRadius: 4,
+                                                                spreadRadius: 2)
+                                                          ]),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 100,
+                                                                    top: 15,
+                                                                    bottom: 15),
+                                                            decoration: const BoxDecoration(
+                                                                color: KColor
+                                                                    .orange,
+                                                                borderRadius: BorderRadius.only(
+                                                                    topLeft: Radius
+                                                                        .circular(
+                                                                            15),
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                            15))),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [],
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 30,
+                                                          ),
+                                                          Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .center,
-                                                            children: [],
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 30,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              "Coupon Already Claimed",
-                                                              style: KTextStyle
-                                                                  .headline2
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          18,
-                                                                      color: Colors
-                                                                          .black),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 30,
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () async {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Container(
-                                                            height: 44,
-                                                            width: 150,
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              color:
-                                                                  KColor.orange,
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          10)),
-                                                            ),
-                                                            child: Center(
-                                                              child: Text(
-                                                                "OK",
+                                                            children: [
+                                                              Text(
+                                                                "Coupon Already Claimed",
                                                                 style: KTextStyle
                                                                     .headline2
                                                                     .copyWith(
                                                                         fontSize:
-                                                                            16,
+                                                                            18,
                                                                         color: Colors
-                                                                            .white),
+                                                                            .black),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                            height: 30,
+                                                          ),
+                                                          GestureDetector(
+                                                            onTap: () async {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Container(
+                                                              height: 44,
+                                                              width: 150,
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                color: KColor
+                                                                    .orange,
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            10)),
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "OK",
+                                                                  style: KTextStyle
+                                                                      .headline2
+                                                                      .copyWith(
+                                                                          fontSize:
+                                                                              16,
+                                                                          color:
+                                                                              Colors.white),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 30,
-                                                        ),
-                                                      ],
+                                                          const SizedBox(
+                                                            height: 30,
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              );
-                                              //snackMessage("Fail to claim coupon");
-                                            }
-                                          },
+                                                );
+                                                //snackMessage("Fail to claim coupon");
+                                              }
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                    );
+                                      );
+                                    });
                                   },
                                   onProfilePressed: () {},
                                 ),

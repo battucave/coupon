@@ -1,9 +1,11 @@
-
 import 'dart:convert';
 
-List<SubCatCouponModel> subCatCouponModelFromJson(String str) => List<SubCatCouponModel>.from(json.decode(str).map((x) => SubCatCouponModel.fromJson(x)));
+List<SubCatCouponModel> subCatCouponModelFromJson(String str) =>
+    List<SubCatCouponModel>.from(
+        json.decode(str).map((x) => SubCatCouponModel.fromJson(x)));
 
-String subCatCouponModelToJson(List<SubCatCouponModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String subCatCouponModelToJson(List<SubCatCouponModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class SubCatCouponModel {
   SubCatCouponModel({
@@ -18,19 +20,23 @@ class SubCatCouponModel {
   String subCategoryLogoPath;
   List<VendorsAndCouponsList> vendorsAndCouponsList;
 
-  factory SubCatCouponModel.fromJson(Map<String, dynamic> json) => SubCatCouponModel(
-    subCategoryId: json["sub_category_id"],
-    subCategoryName: json["sub_category_name"],
-    subCategoryLogoPath: json["sub_category_logo_path"]??"",
-    vendorsAndCouponsList: List<VendorsAndCouponsList>.from(json["vendors_and_coupons_list"].map((x) => VendorsAndCouponsList.fromJson(x))),
-  );
+  factory SubCatCouponModel.fromJson(Map<String, dynamic> json) =>
+      SubCatCouponModel(
+        subCategoryId: json["sub_category_id"],
+        subCategoryName: json["sub_category_name"],
+        subCategoryLogoPath: json["sub_category_logo_path"] ?? "",
+        vendorsAndCouponsList: List<VendorsAndCouponsList>.from(
+            json["vendors_and_coupons_list"]
+                .map((x) => VendorsAndCouponsList.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "sub_category_id": subCategoryId,
-    "sub_category_name": subCategoryName,
-    "sub_category_logo_path": subCategoryLogoPath,
-    "vendors_and_coupons_list": List<dynamic>.from(vendorsAndCouponsList.map((x) => x.toJson())),
-  };
+        "sub_category_id": subCategoryId,
+        "sub_category_name": subCategoryName,
+        "sub_category_logo_path": subCategoryLogoPath,
+        "vendors_and_coupons_list":
+            List<dynamic>.from(vendorsAndCouponsList.map((x) => x.toJson())),
+      };
 }
 
 class VendorsAndCouponsList {
@@ -45,32 +51,33 @@ class VendorsAndCouponsList {
   });
 
   int couponId;
-  double percentageOff;
+  dynamic percentageOff;
   DateTime endDate;
   String couponDescription;
   int vendorId;
   String vendorName;
   String vendorLogPath;
 
-  factory VendorsAndCouponsList.fromJson(Map<String, dynamic> json) => VendorsAndCouponsList(
-    couponId: json["coupon_id"],
-    percentageOff: json["percentage_off"],
-    endDate: DateTime.parse(json["end_date"]),
-    couponDescription: json["coupon_description"],
-    vendorId: json["vendor_id"],
-    vendorName: json["vendor_name"],
-    vendorLogPath: json["vendor_log_path"],
-  );
+  factory VendorsAndCouponsList.fromJson(Map<String, dynamic> json) =>
+      VendorsAndCouponsList(
+        couponId: json["coupon_id"],
+        percentageOff: json["percentage_off"],
+        endDate: DateTime.parse(json["end_date"]),
+        couponDescription: json["coupon_description"],
+        vendorId: json["vendor_id"],
+        vendorName: json["vendor_name"],
+        vendorLogPath: json["vendor_log_path"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "coupon_id": couponId,
-    "percentage_off": percentageOff,
-    "end_date": endDate.toIso8601String(),
-    "coupon_description": couponDescription,
-    "vendor_id": vendorId,
-    "vendor_name": vendorName,
-    "vendor_log_path": vendorLogPath,
-  };
+        "coupon_id": couponId,
+        "percentage_off": percentageOff,
+        "end_date": endDate.toIso8601String(),
+        "coupon_description": couponDescription,
+        "vendor_id": vendorId,
+        "vendor_name": vendorName,
+        "vendor_log_path": vendorLogPath,
+      };
 }
 
 
