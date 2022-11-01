@@ -110,7 +110,8 @@ class _ExpiredCouponsTabState extends State<ExpiredCouponsTab> {
                                       : couponColors.elementAt(1),
                                   percent: couponController.expriredCouponList
                                       .elementAt(index)
-                                      .percentageOff,
+                                      .percentageOff
+                                      .toString(),
                                   date: couponController.expriredCouponList
                                       .elementAt(index)
                                       .endDate

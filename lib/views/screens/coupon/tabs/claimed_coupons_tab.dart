@@ -194,11 +194,10 @@ class _ClaimedCouponsTabState extends State<ClaimedCouponsTab> {
                                   color: index % 2 == 0
                                       ? couponColors.elementAt(0)
                                       : couponColors.elementAt(1),
-                                  percent: double.parse(couponController
-                                      .claimedCouponList
+                                  percent: couponController.claimedCouponList
                                       .elementAt(index)
                                       .percentageOff
-                                      .toString()),
+                                      .toString(),
                                   date: couponController.claimedCouponList
                                       .elementAt(index)
                                       .claimedDate
