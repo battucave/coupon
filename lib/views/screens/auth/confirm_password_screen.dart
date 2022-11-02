@@ -17,8 +17,8 @@ import 'login_screen.dart';
 // import 'package:pin_code_text_field/pin_code_text_field.dart';
 
 class ConfirmPasswordScreen extends StatefulWidget {
-  bool isSignUp=false;
-  ConfirmPasswordScreen({Key? key,required this.isSignUp}) : super(key: key);
+  bool isSignUp = false;
+  ConfirmPasswordScreen({Key? key, required this.isSignUp}) : super(key: key);
 
   @override
   State<ConfirmPasswordScreen> createState() => _ConfirmPasswordScreenState();
@@ -26,25 +26,29 @@ class ConfirmPasswordScreen extends StatefulWidget {
 
 class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
   //TextEditingController pinCodeController = TextEditingController();
-  ResetPasswordController resetPasswordController=Get.put(ResetPasswordController());
-  RegisterController registerController=Get.put(RegisterController());
-  bool isLoading=false;
-  void stopLoading( ){
+  ResetPasswordController resetPasswordController =
+      Get.put(ResetPasswordController());
+  RegisterController registerController = Get.put(RegisterController());
+  bool isLoading = false;
+  void stopLoading() {
     setState(() {
-      isLoading=false;
+      isLoading = false;
     });
     Navigator.pop(context);
   }
-  void snackMessage( String  msg){
-    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+
+  void snackMessage(String msg) {
+    final snackBar =
+        SnackBar(content: Text(msg), duration: Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-  void startLoading(){
+
+  void startLoading() {
     setState(() {
-      isLoading=true;
+      isLoading = true;
     });
     showDialog(
-      // The user CANNOT close this dialog  by pressing outsite it
+        // The user CANNOT close this dialog  by pressing outsite it
         barrierDismissible: false,
         context: context,
         builder: (_) {
@@ -57,8 +61,9 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: const [
                   // The loading indicator
-                  CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
-
+                  CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(KColor.primary)),
                 ],
               ),
             ),
@@ -73,8 +78,25 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
         height: context.screenHeight,
         width: double.infinity,
         decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill),
-        ),
+            // image: DecorationImage(
+            // image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill)),
+            gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF0E5E71),
+            Color(0xFF1697B7),
+            Color(0xFF1697B7),
+            Color(0xFFF3F3F3),
+            Color(0xFFF3F3F3),
+
+            // KColor.blue,
+            // KColor.blue,
+            // KColor.blue,
+            // Colors.white,
+            // Colors.white,
+          ],
+        )),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Padding(
@@ -92,7 +114,8 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                 SizedBox(height: KSize.getHeight(context, 8)),
                 Text(
                   "Please enter 4 digit code you received",
-                  style: KTextStyle.headline2.copyWith(fontSize: 18, color: KColor.white),
+                  style: KTextStyle.headline2
+                      .copyWith(fontSize: 18, color: KColor.white),
                 ),
                 SizedBox(height: KSize.getHeight(context, 45)),
                 Stack(
@@ -101,17 +124,22 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                     Container(
                       padding: const EdgeInsets.all(20),
                       width: double.infinity,
-                      decoration: BoxDecoration(color: KColor.offWhite, borderRadius: BorderRadius.circular(24), boxShadow: [
-                        BoxShadow(
-                          color: KColor.black.withOpacity(0.16),
-                          blurRadius: 6,
-                        )
-                      ]),
+                      decoration: BoxDecoration(
+                          color: KColor.offWhite,
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [
+                            BoxShadow(
+                              color: KColor.black.withOpacity(0.16),
+                              blurRadius: 6,
+                            )
+                          ]),
                       child: Column(
                         children: [
                           SizedBox(height: KSize.getHeight(context, 30)),
-                            KTextField(
-                            controller: widget.isSignUp?registerController.passCodeController:resetPasswordController.passCodeController,
+                          KTextField(
+                            controller: widget.isSignUp
+                                ? registerController.passCodeController
+                                : resetPasswordController.passCodeController,
                             hintText: "Enter Passcode",
                             keyboardType: TextInputType.numberWithOptions(),
                           ),
@@ -158,60 +186,70 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                         left: KSize.getWidth(context, 150),
                         child: KArrowGoButton(
                           isLoading: isLoading,
-                          onpressed: () async{
-
-
-                            if(widget.isSignUp){
-                              if(registerController.emailController.text.isNotEmpty){
+                          onpressed: () async {
+                            if (widget.isSignUp) {
+                              if (registerController
+                                  .emailController.text.isNotEmpty) {
                                 startLoading();
-                                int? otpResult= await registerController.verifyOtp();
-                                if(otpResult==200 || otpResult==201){
+                                int? otpResult =
+                                    await registerController.verifyOtp();
+                                if (otpResult == 200 || otpResult == 201) {
                                   snackMessage("OTP verified successfully");
-                                  int? registerResult= await registerController.Register();
-                                   if(registerResult==200 || registerResult==201){
-                                     ///Remove credential
-                                     registerController.emailController.text="";
-                                     registerController.phoneController.text="";
-                                     registerController.passwordController.text="";
-                                     startLoading();
-                                     Navigator.pushReplacement(
-                                         context,
-                                         MaterialPageRoute(
-                                             builder: (context) =>
-                                             const LoginScreen()));
-                                     snackMessage("Successful registration");
-                                  }else{
-                                     snackMessage("Registration failed");
-                                   }
-
-                                }else{
+                                  int? registerResult =
+                                      await registerController.Register();
+                                  if (registerResult == 200 ||
+                                      registerResult == 201) {
+                                    ///Remove credential
+                                    registerController.emailController.text =
+                                        "";
+                                    registerController.phoneController.text =
+                                        "";
+                                    registerController.passwordController.text =
+                                        "";
+                                    startLoading();
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginScreen()));
+                                    snackMessage("Successful registration");
+                                  } else {
+                                    snackMessage("Registration failed");
+                                  }
+                                } else {
                                   stopLoading();
                                   snackMessage("Invalid or Expired Otp");
                                 }
-                              }else{
+                              } else {
                                 snackMessage("All fields are required");
                               }
-                            }else{
-                              if(resetPasswordController.emailPhoneController.text.isNotEmpty ){
+                            } else {
+                              if (resetPasswordController
+                                  .emailPhoneController.text.isNotEmpty) {
                                 ///get code tap by user
-                                resetPasswordController.data2["otp_code"]=resetPasswordController.passCodeController.text;
+                                resetPasswordController.data2["otp_code"] =
+                                    resetPasswordController
+                                        .passCodeController.text;
                                 startLoading();
-                                int? verifyResult= await resetPasswordController.verifyPasswordOtp();
-                                if(verifyResult==200 || verifyResult==201){
+                                int? verifyResult =
+                                    await resetPasswordController
+                                        .verifyPasswordOtp();
+                                if (verifyResult == 200 ||
+                                    verifyResult == 201) {
                                   stopLoading();
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ChangePasswordScreen()));
-
-                                }else{
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ChangePasswordScreen()));
+                                } else {
                                   stopLoading();
                                   snackMessage("Invalid code");
                                 }
-                              }else{
+                              } else {
                                 snackMessage("Code is required");
                               }
-
                             }
-
-
                           },
                         ))
                   ],
@@ -220,29 +258,29 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                 Center(
                   child: Text(
                     "Didn’t receive a verification code?",
-                    style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.black),
+                    style: KTextStyle.headline2
+                        .copyWith(fontSize: 14, color: KColor.black),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
-                      onTap: () async{
+                      onTap: () async {
                         print(registerController.emailController.text);
                         startLoading();
-                        int? otpResult= await registerController.sendOtp();
-                        if(otpResult==200 || otpResult==201){
+                        int? otpResult = await registerController.sendOtp();
+                        if (otpResult == 200 || otpResult == 201) {
                           snackMessage("OTP resend successfully");
                           stopLoading();
-
-
-                        }else{
+                        } else {
                           stopLoading();
                           snackMessage("Otp resend failed");
                         }
-
                       },
-                      child: Text("Resend code ", style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.primary)),
+                      child: Text("Resend code ",
+                          style: KTextStyle.headline2
+                              .copyWith(fontSize: 14, color: KColor.primary)),
                     ),
                     Container(
                       height: 12,
@@ -253,7 +291,9 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Text(" Change email", style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.primary)),
+                      child: Text(" Change email",
+                          style: KTextStyle.headline2
+                              .copyWith(fontSize: 14, color: KColor.primary)),
                     )
                   ],
                 ),

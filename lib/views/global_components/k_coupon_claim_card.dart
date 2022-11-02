@@ -223,16 +223,16 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                                 children: [
                                   RichText(
                                     text: TextSpan(
-                                      text: '${widget.percent}% ',
+                                      text: widget.percent.toString(),
                                       style: KTextStyle.headline4.copyWith(
-                                          fontSize: 30, color: KColor.orange),
+                                          fontSize: 25, color: KColor.orange),
                                       children: <TextSpan>[
-                                        TextSpan(
-                                            text: 'OFF',
-                                            style: KTextStyle.headline4
-                                                .copyWith(
-                                                    fontSize: 18,
-                                                    color: KColor.orange)),
+                                        // TextSpan(
+                                        //     text: 'OFF',
+                                        //     style: KTextStyle.headline4
+                                        //         .copyWith(
+                                        //             fontSize: 18,
+                                        //             color: KColor.orange)),
                                       ],
                                     ),
                                   ),
@@ -267,14 +267,14 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                           children: [
                             RichText(
                               text: TextSpan(
-                                text: '${widget.percent}% ',
+                                text: widget.percent.toString(),
                                 style: KTextStyle.headline4.copyWith(
-                                    fontSize: 30, color: KColor.orange),
+                                    fontSize: 25, color: KColor.orange),
                                 children: <TextSpan>[
-                                  TextSpan(
-                                      text: 'OFF',
-                                      style: KTextStyle.headline4.copyWith(
-                                          fontSize: 18, color: KColor.orange)),
+                                  // TextSpan(
+                                  //     text: 'OFF',
+                                  //     style: KTextStyle.headline4.copyWith(
+                                  //         fontSize: 18, color: KColor.orange)),
                                 ],
                               ),
                             ),

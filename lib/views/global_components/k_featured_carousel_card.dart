@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_network/image_network.dart';
 import 'package:logan/utils/extensions.dart';
+import 'package:logan/views/screens/services/service_details_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 
 import '../../constant/asset_path.dart';
@@ -65,7 +66,7 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Discount   ",
+                      "Discount",
                       style: KTextStyle.headline5.copyWith(fontSize: 20),
                     ),
                   ],
@@ -179,7 +180,17 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                   Icons.error,
                   color: Colors.red,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ServiceDetailsScreen(
+                        color: Colors.red,
+                        vendorId: widget.vid!,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ],

@@ -21,21 +21,22 @@ class ChangePasswordScreen extends StatefulWidget {
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool isSignupScreen = true;
 
-  ResetPasswordController resetPasswordController=Get.put(ResetPasswordController());
-  bool isLoading=false;
-  void stopLoading( ){
+  ResetPasswordController resetPasswordController =
+      Get.put(ResetPasswordController());
+  bool isLoading = false;
+  void stopLoading() {
     setState(() {
-      isLoading=false;
+      isLoading = false;
     });
     Navigator.pop(context);
   }
 
-  void startLoading(){
+  void startLoading() {
     setState(() {
-      isLoading=true;
+      isLoading = true;
     });
     showDialog(
-      // The user CANNOT close this dialog  by pressing outsite it
+        // The user CANNOT close this dialog  by pressing outsite it
         barrierDismissible: false,
         context: context,
         builder: (_) {
@@ -48,25 +49,48 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: const [
                   // The loading indicator
-                  CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
-
+                  CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(KColor.primary)),
                 ],
               ),
             ),
           );
         });
   }
-  void snackMessage( String  msg){
-    final snackBar = SnackBar(content: Text(msg),duration : const Duration(milliseconds: 3000));
+
+  void snackMessage(String msg) {
+    final snackBar = SnackBar(
+        content: Text(msg), duration: const Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
       height: context.screenHeight,
       width: double.infinity,
-      decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill)),
+      decoration: const BoxDecoration(
+          // image: DecorationImage(
+          // image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill)),
+          gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFF0E5E71),
+          Color(0xFF1697B7),
+          Color(0xFF1697B7),
+          Color(0xFFF3F3F3),
+          Color(0xFFF3F3F3),
+
+          // KColor.blue,
+          // KColor.blue,
+          // KColor.blue,
+          // Colors.white,
+          // Colors.white,
+        ],
+      )),
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -83,7 +107,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               SizedBox(height: KSize.getHeight(context, 8)),
               Text(
                 "Please update your password.",
-                style: KTextStyle.headline2.copyWith(fontSize: 18, color: KColor.white),
+                style: KTextStyle.headline2
+                    .copyWith(fontSize: 18, color: KColor.white),
               ),
               SizedBox(height: KSize.getHeight(context, 45)),
               Stack(
@@ -103,16 +128,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           children: [
                             KTextField(
                               passWordField: true,
-                              prefixIcon: Image.asset(AssetPath.lockIcon, height: 20, width: 16),
+                              prefixIcon: Image.asset(AssetPath.lockIcon,
+                                  height: 20, width: 16),
                               hintText: "Password",
-                              controller: resetPasswordController.newPasswordController,
+                              controller:
+                                  resetPasswordController.newPasswordController,
                             ),
                             SizedBox(height: KSize.getHeight(context, 30)),
                             KTextField(
                               passWordField: true,
-                              prefixIcon: Image.asset(AssetPath.lockIcon, height: 20, width: 16),
+                              prefixIcon: Image.asset(AssetPath.lockIcon,
+                                  height: 20, width: 16),
                               hintText: "Confirm Password",
-                              controller: resetPasswordController.confirmPasswordController,
+                              controller: resetPasswordController
+                                  .confirmPasswordController,
                             ),
                             SizedBox(height: KSize.getHeight(context, 50)),
                           ],
@@ -126,27 +155,37 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       left: KSize.getWidth(context, 150),
                       child: KArrowGoButton(
                         isLoading: isLoading,
-                        onpressed: () async{
-                          if(resetPasswordController.newPasswordController.text.isNotEmpty &&
-                              resetPasswordController.confirmPasswordController.text.isNotEmpty ){
+                        onpressed: () async {
+                          if (resetPasswordController
+                                  .newPasswordController.text.isNotEmpty &&
+                              resetPasswordController
+                                  .confirmPasswordController.text.isNotEmpty) {
                             startLoading();
-                            int? resetResult= await resetPasswordController.resetPassword();
+                            int? resetResult =
+                                await resetPasswordController.resetPassword();
                             print(resetResult);
-                            if(resetResult==200 || resetResult==201){
+                            if (resetResult == 200 || resetResult == 201) {
                               stopLoading();
 
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LoginScreen()));
                               snackMessage("Password reset successfully");
-                            }else{
+                            } else {
                               stopLoading();
-                              snackMessage("Reset password token has expired, please request a new one.");
+                              snackMessage(
+                                  "Reset password token has expired, please request a new one.");
                             }
-                          }else if(resetPasswordController.newPasswordController.text!=resetPasswordController.confirmPasswordController.text){
+                          } else if (resetPasswordController
+                                  .newPasswordController.text !=
+                              resetPasswordController
+                                  .confirmPasswordController.text) {
                             snackMessage("Passwords must be the same!");
-                          }else{
+                          } else {
                             snackMessage("Fields are required");
                           }
-
                         },
                       ))
                 ],

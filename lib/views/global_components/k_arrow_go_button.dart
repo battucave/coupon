@@ -5,7 +5,8 @@ import 'package:logan/views/styles/k_colors.dart';
 class KArrowGoButton extends StatefulWidget {
   final Function()? onpressed;
   final bool isLoading;
-  const KArrowGoButton({Key? key, this.onpressed,this.isLoading=false}) : super(key: key);
+  const KArrowGoButton({Key? key, this.onpressed, this.isLoading = false})
+      : super(key: key);
 
   @override
   State<KArrowGoButton> createState() => _KArrowGoButtonState();
@@ -17,15 +18,21 @@ class _KArrowGoButtonState extends State<KArrowGoButton> {
     return InkWell(
       onTap: widget.onpressed,
       child: Container(
-        decoration: const BoxDecoration(color: KColor.primary, shape: BoxShape.circle),
+        decoration:
+            const BoxDecoration(color: KColor.orange, shape: BoxShape.circle),
         padding: const EdgeInsets.all(23),
-        child: !widget.isLoading?Image.asset(AssetPath.arrowGo, height: 17, width: 30):
-        Container(
-          decoration: const BoxDecoration(color: KColor.primary, shape: BoxShape.circle),
-          child:   CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(KColor.white),strokeWidth: 2,),
-          height: 17,
-          width: 17,
-        ),
+        child: !widget.isLoading
+            ? Image.asset(AssetPath.arrowGo, height: 17, width: 30)
+            : Container(
+                decoration: const BoxDecoration(
+                    color: KColor.primary, shape: BoxShape.circle),
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(KColor.white),
+                  strokeWidth: 2,
+                ),
+                height: 17,
+                width: 17,
+              ),
       ),
     );
   }

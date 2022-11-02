@@ -21,24 +21,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   bool isSignupScreen = true;
   bool usePhone = false;
   //TextEditingController emailPhoneController = TextEditingController();
-  ResetPasswordController resetPasswordController=Get.put(ResetPasswordController());
-  bool isLoading=false;
-  void stopLoading( ){
+  ResetPasswordController resetPasswordController =
+      Get.put(ResetPasswordController());
+  bool isLoading = false;
+  void stopLoading() {
     setState(() {
-      isLoading=false;
+      isLoading = false;
     });
     Navigator.pop(context);
   }
-  void snackMessage( String  msg){
-    final snackBar = SnackBar(content: Text(msg),duration : Duration(milliseconds: 3000));
+
+  void snackMessage(String msg) {
+    final snackBar =
+        SnackBar(content: Text(msg), duration: Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-  void startLoading(){
+
+  void startLoading() {
     setState(() {
-      isLoading=true;
+      isLoading = true;
     });
     showDialog(
-      // The user CANNOT close this dialog  by pressing outsite it
+        // The user CANNOT close this dialog  by pressing outsite it
         barrierDismissible: false,
         context: context,
         builder: (_) {
@@ -51,21 +55,42 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: const [
                   // The loading indicator
-                  CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
-
+                  CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(KColor.primary)),
                 ],
               ),
             ),
           );
         });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         height: context.screenHeight,
         width: double.infinity,
-        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill)),
+        decoration: const BoxDecoration(
+            // image: DecorationImage(
+            // image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill)),
+            gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFF0E5E71),
+            Color(0xFF1697B7),
+            Color(0xFF1697B7),
+            Color(0xFFF3F3F3),
+            Color(0xFFF3F3F3),
+
+            // KColor.blue,
+            // KColor.blue,
+            // KColor.blue,
+            // Colors.white,
+            // Colors.white,
+          ],
+        )),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -88,7 +113,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 Text(
                   "Please type in your Email address",
-                  style: KTextStyle.headline2.copyWith(fontSize: 18, color: KColor.white),
+                  style: KTextStyle.headline2
+                      .copyWith(fontSize: 18, color: KColor.white),
                 ),
                 SizedBox(
                   height: KSize.getHeight(context, 45),
@@ -102,7 +128,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       decoration: BoxDecoration(
                           color: KColor.offWhite,
                           borderRadius: BorderRadius.circular(24),
-                          boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6)]),
+                          boxShadow: [
+                            BoxShadow(
+                                color: KColor.black.withOpacity(0.16),
+                                blurRadius: 6)
+                          ]),
                       child: Column(
                         children: [
                           SizedBox(height: KSize.getHeight(context, 30)),
@@ -110,11 +140,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             children: [
                               KTextField(
                                 prefixIcon: usePhone
-                                    ? Image.asset(AssetPath.phone, height: 20, width: 20)
-                                    : Image.asset(AssetPath.mailIcon, height: 16, width: 22),
-                                hintText: usePhone ? "Phone Number" : "Email Address",
-                                keyboardType: usePhone ? TextInputType.phone : TextInputType.emailAddress,
-                                controller:resetPasswordController.emailPhoneController,
+                                    ? Image.asset(AssetPath.phone,
+                                        height: 20, width: 20)
+                                    : Image.asset(AssetPath.mailIcon,
+                                        height: 16, width: 22),
+                                hintText:
+                                    usePhone ? "Phone Number" : "Email Address",
+                                keyboardType: usePhone
+                                    ? TextInputType.phone
+                                    : TextInputType.emailAddress,
+                                controller: resetPasswordController
+                                    .emailPhoneController,
                               ),
                               SizedBox(height: KSize.getHeight(context, 10)),
                               Align(
@@ -126,8 +162,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                       });
                                     },
                                     child: Text(
-                                      usePhone ? "Use email address" : "Use phone number ",
-                                      style: KTextStyle.headline2.copyWith(fontSize: 14, color: KColor.primary),
+                                      usePhone
+                                          ? "Use email address"
+                                          : "Use phone number ",
+                                      style: KTextStyle.headline2.copyWith(
+                                          fontSize: 14, color: KColor.primary),
                                     )),
                               ),
                               SizedBox(height: KSize.getHeight(context, 50)),
@@ -142,27 +181,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         left: KSize.getWidth(context, 150),
                         child: KArrowGoButton(
                           isLoading: isLoading,
-                          onpressed: () async{
-
-                              if(resetPasswordController.emailPhoneController.text.isNotEmpty ){
-                                startLoading();
-                                int? otpResult= await resetPasswordController.sendPasswordOtp();
-                                if(otpResult==200 || otpResult==201){
-                                  stopLoading();
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ConfirmPasswordScreen(isSignUp: false,)));
-
-                                }else{
-                                  stopLoading();
-                                  snackMessage("Error occurred when sending otp");
-                                }
-                              }else{
-                                snackMessage("Field is required");
+                          onpressed: () async {
+                            if (resetPasswordController
+                                .emailPhoneController.text.isNotEmpty) {
+                              startLoading();
+                              int? otpResult = await resetPasswordController
+                                  .sendPasswordOtp();
+                              if (otpResult == 200 || otpResult == 201) {
+                                stopLoading();
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ConfirmPasswordScreen(
+                                              isSignUp: false,
+                                            )));
+                              } else {
+                                stopLoading();
+                                snackMessage("Error occurred when sending otp");
                               }
-
-
-
-
-
+                            } else {
+                              snackMessage("Field is required");
+                            }
                           },
                         ))
                   ],

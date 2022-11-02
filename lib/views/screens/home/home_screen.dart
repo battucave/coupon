@@ -150,6 +150,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     image: couponController.featured2CouponList
                                         .elementAt(index)
                                         .vendorLogPath,
+                                    vid: vendorController.featuredVendorList
+                                        .firstWhere((element) =>
+                                            element.vendorName ==
+                                            couponController.featured2CouponList
+                                                .elementAt(index)
+                                                .vendorName)
+                                        .vid,
+                                    // vid: featured2CouponList,
+                                    // .elementAt(index)
+                                    // .v,
                                   );
                                 }),
                                 options: CarouselOptions(

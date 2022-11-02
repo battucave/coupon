@@ -152,7 +152,15 @@ class _KServicesManCardState extends State<KServicesManCard>
             child: Column(
               children: [
                 GestureDetector(
-                  onTap: widget.onProfilePressed,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ServiceDetailsScreen(
+                              color: widget.color, vendorId: widget.vid!)),
+                    );
+                    // widget.onProfilePressed();
+                  },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 12),
@@ -391,7 +399,7 @@ class _KServicesManCardState extends State<KServicesManCard>
                           children: [
                             RichText(
                               text: TextSpan(
-                                text: widget.percent,
+                                text: widget.percent.toString(),
                                 style: KTextStyle.headline4.copyWith(
                                     fontSize: 22,
                                     color: widget.couponExpired
