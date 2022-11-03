@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,6 +10,7 @@ import 'package:logan/constant/asset_path.dart';
 import 'package:logan/models/api/coupon_model.dart';
 import 'package:logan/models/api/single_coupon_model.dart';
 import 'package:logan/views/styles/b_style.dart';
+import 'package:quiver/async.dart';
 
 import '../../controllers/coupon_controller.dart';
 import '../../controllers/vendor_controller.dart';
@@ -320,21 +324,40 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                 ],
               ),
             ),
+            widget.couponDetails ? const TimerWidget() : const SizedBox(),
+            !widget.couponDetails
+                ? const Padding(
+                    padding: EdgeInsets.only(left: 15),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "* Redeem code ONLY when asked at checkout",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: KColor.orange,
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
             widget.couponDetails
                 ? Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: KSize.getWidth(context, 22)),
-                    child: Row(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                            child: Text(
+                        Text(
                           "Redeem Code",
                           style: KTextStyle.headline2.copyWith(
                               fontSize: 18,
                               height: 25 / 18,
                               color: KColor.orange),
-                        )),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
                         (widget.couponCode != null)
                             ? Container(
                                 padding: EdgeInsets.symmetric(
@@ -395,6 +418,73 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TimerWidget extends StatefulWidget {
+  const TimerWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<TimerWidget> createState() => _TimerWidgetState();
+}
+
+class _TimerWidgetState extends State<TimerWidget> {
+  final int _start = 30;
+  int _current = 30;
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
+
+  void startTimer() {
+    CountdownTimer countDownTimer = CountdownTimer(
+      Duration(seconds: _start),
+      const Duration(seconds: 1),
+    );
+
+    var sub = countDownTimer.listen(null);
+    sub.onData((duration) {
+      setState(() {
+        _current = _start - duration.elapsed.inSeconds;
+      });
+    });
+
+    sub.onDone(() {
+      Navigator.pop(context);
+      sub.cancel();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const SizedBox(),
+          Row(
+            children: [
+              const Icon(
+                Icons.timer_outlined,
+                color: KColor.orange,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                "00:00:${_current.toString()}",
+                style: const TextStyle(color: Colors.black),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

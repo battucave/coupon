@@ -14,8 +14,25 @@ class PrivacyPolicyScreen extends StatelessWidget {
         height: context.screenHeight,
         width: double.infinity,
         decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF0E5E71),
+              Color(0xFF1697B7),
+              Color(0xFF1697B7),
+              Color(0xFFF3F3F3),
+              Color(0xFFF3F3F3),
+
+              // KColor.blue,
+              // KColor.blue,
+              // KColor.blue,
+              // Colors.white,
+              // Colors.white,
+            ],
+          ),
+          // image: DecorationImage(
+          //     image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill),
         ),
         child: SingleChildScrollView(
           child: Padding(

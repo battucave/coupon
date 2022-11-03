@@ -21,11 +21,30 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
         height: context.screenHeight,
         width: double.infinity,
         decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF0E5E71),
+              Color(0xFF1697B7),
+              Color(0xFF1697B7),
+              Color(0xFFF3F3F3),
+              Color(0xFFF3F3F3),
+
+              // KColor.blue,
+              // KColor.blue,
+              // KColor.blue,
+              // Colors.white,
+              // Colors.white,
+            ],
+          ),
+          // image: DecorationImage(image: AssetImage(AssetPath.authBackground), fit: BoxFit.fill),
         ),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 25), vertical: KSize.getHeight(context, 72)),
+            padding: EdgeInsets.symmetric(
+                horizontal: KSize.getWidth(context, 25),
+                vertical: KSize.getHeight(context, 72)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -40,12 +59,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 Container(
                     padding: const EdgeInsets.all(25),
                     width: context.screenWidth - 40,
-                    decoration: BoxDecoration(color: KColor.offWhite, borderRadius: BorderRadius.circular(24), boxShadow: [
-                      BoxShadow(
-                        color: KColor.black.withOpacity(0.16),
-                        blurRadius: 8,
-                      )
-                    ]),
+                    decoration: BoxDecoration(
+                        color: KColor.offWhite,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: KColor.black.withOpacity(0.16),
+                            blurRadius: 8,
+                          )
+                        ]),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -53,7 +75,8 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                           crossAxisAlignment: WrapCrossAlignment.start,
                           spacing: 20,
                           runSpacing: 25,
-                          children: List.generate(contactMethod.length, (index) {
+                          children:
+                              List.generate(contactMethod.length, (index) {
                             return KContactMethod(
                               onPressed: () {},
                               text: contactMethod[index].text,
@@ -64,15 +87,19 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         const SizedBox(
                           height: 65,
                         ),
-                        Text("Social Media ", style: KTextStyle.headline4.copyWith(fontSize: 18, color: KColor.black)),
+                        Text("Social Media ",
+                            style: KTextStyle.headline4
+                                .copyWith(fontSize: 18, color: KColor.black)),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           physics: const BouncingScrollPhysics(),
                           child: Padding(
-                            padding: const EdgeInsets.only(top: 17, bottom: 141),
+                            padding:
+                                const EdgeInsets.only(top: 17, bottom: 141),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: List.generate(socialMedia.length, (index) {
+                              children:
+                                  List.generate(socialMedia.length, (index) {
                                 return Padding(
                                   padding: const EdgeInsets.only(right: 25),
                                   child: KSocialMediaButton(
@@ -105,7 +132,8 @@ class KContactMethod extends StatefulWidget {
   final String? text;
   final Function()? onPressed;
 
-  const KContactMethod({Key? key, this.image, this.text, this.onPressed}) : super(key: key);
+  const KContactMethod({Key? key, this.image, this.text, this.onPressed})
+      : super(key: key);
 
   @override
   State<KContactMethod> createState() => _KContactMethodState();
@@ -118,7 +146,9 @@ class _KContactMethodState extends State<KContactMethod> {
       width: 100,
       child: Column(
         children: [
-          Text(widget.text!, style: KTextStyle.headline4.copyWith(fontSize: 18, color: KColor.black)),
+          Text(widget.text!,
+              style: KTextStyle.headline4
+                  .copyWith(fontSize: 18, color: KColor.black)),
           const SizedBox(height: 11),
           InkWell(
             onTap: widget.onPressed,
@@ -129,7 +159,10 @@ class _KContactMethodState extends State<KContactMethod> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: KColor.white,
-                boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 4)],
+                boxShadow: [
+                  BoxShadow(
+                      color: KColor.black.withOpacity(0.16), blurRadius: 4)
+                ],
               ),
               child: Image.asset(
                 widget.image!,

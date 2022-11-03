@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:confetti/confetti.dart';
@@ -161,8 +161,8 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                               image: controller.vendor.value.vendorLogPath,
                               imageCache: CachedNetworkImageProvider(
                                   vendorController.vendor.value.vendorLogPath),
-                              height: 144,
-                              width: 144,
+                              height: 124,
+                              width: 124,
                               duration: 1500,
                               curve: Curves.easeIn,
                               onPointer: true,
@@ -243,6 +243,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                   title: "Hours :",
                   subtitle: vendorController.vendor.value.hours,
                   image: AssetPath.clock,
+                  tapState: TapState.other,
                 ),
                 //subtitle: "123 somewhere pl, Logan, Ut 12345",
                 ServiceDescriptionComponent(
@@ -255,21 +256,25 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                       " " +
                       vendorController.vendor.value.zipCode,
                   image: AssetPath.address,
+                  tapState: TapState.address,
                 ),
                 ServiceDescriptionComponent(
                   title: "Phone :",
                   subtitle: vendorController.vendor.value.phone,
                   image: AssetPath.phone1,
+                  tapState: TapState.phone,
                 ),
                 ServiceDescriptionComponent(
                   title: "Email :",
                   subtitle: vendorController.vendor.value.email,
                   image: AssetPath.mail,
+                  tapState: TapState.email,
                 ),
                 ServiceDescriptionComponent(
                   title: "Website :",
                   subtitle: vendorController.vendor.value.website,
                   image: AssetPath.website,
+                  tapState: TapState.website,
                 ),
               ]),
             ),

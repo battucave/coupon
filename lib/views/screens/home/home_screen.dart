@@ -45,13 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(
-          MediaQuery.of(context).size.height * 0.135,
+          MediaQuery.of(context).size.height * 0.09,
         ), // here the desired height
         child: Container(
           color: Colors.white,
           child: Column(
             children: [
-              const SizedBox(height: 50),
+              const SizedBox(height: 25),
               Row(
                 children: [
                   const SizedBox(
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 0),
               Row(
                 children: [
                   const SizedBox(
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //     )
                   //   ],
                   // ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 20),
                   Obx(
                     () => couponController.featured2CouponList.isNotEmpty
                         ? SizedBox(
@@ -169,9 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   enableInfiniteScroll: true,
                                   reverse: false,
                                   autoPlay: true,
-                                  autoPlayInterval: const Duration(seconds: 3),
+                                  autoPlayInterval: const Duration(seconds: 7),
                                   autoPlayAnimationDuration:
-                                      const Duration(milliseconds: 800),
+                                      const Duration(milliseconds: 1000),
                                   enlargeCenterPage: true,
                                   scrollDirection: Axis.horizontal,
                                 )),
@@ -179,13 +179,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Container(),
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
                   Text(
                     "Categories",
                     style: KTextStyle.headline4
                         .copyWith(fontSize: 20, color: KColor.blueSapphire),
                   ),
-                  const SizedBox(height: 3),
+                  const SizedBox(height: 15),
                   Obx(() => SizedBox(
                         // color: Colors.red,
                         // height: context.screenHeight * 0.35,
@@ -193,7 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             // clipBehavior: Clip.none,
                             shrinkWrap: true,
                             padding: const EdgeInsets.only(
-                                top: 5, left: 10, right: 10),
+                                top: 5, left: 15, right: 15),
                             itemCount: viewScreens
                                 ? categoriesViewsItem.length
                                 : categoryController.allCategory.length,
@@ -201,8 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               mainAxisExtent: context.screenHeight * 0.126,
-                              mainAxisSpacing: context.screenWidth * 0.009,
-                              crossAxisSpacing: context.screenWidth * 0.1,
+                              mainAxisSpacing: context.screenWidth * 0.002,
+                              crossAxisSpacing: context.screenWidth * 0.09,
                               crossAxisCount: 3,
                             ),
                             itemBuilder: (context, index) {
@@ -328,8 +328,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               }
                                             },
                                             child: Container(
-                                              width: 57,
-                                              height: 57,
+                                              width: 55,
+                                              height: 55,
                                               // padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
@@ -382,6 +382,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   // SizedBox(height: KSize.getHeight(context, 20)),
                 ],
               ),
+            ),
+          ),
+          Align(
+            alignment: const Alignment(1, 0.50),
+            child: Container(
+              width: context.screenWidth,
+              height: context.screenHeight * 0.05,
+              color: const Color(0xff1697B7),
             ),
           ),
           Align(
