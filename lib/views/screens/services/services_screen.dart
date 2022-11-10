@@ -130,15 +130,15 @@ class _ServicesScreen extends State<ServicesScreen> {
         (cBottomNavigationBarOptionSize - (cBottomNavigationBarCurve / 2)) +
             (cBottomNavigationBarOptionSize / 2);
     _controllerCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 4));
     _controllerCenterRight =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 4));
     _controllerCenterLeft =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 4));
     _controllerTopCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 4));
     _controllerBottomCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 4));
     super.initState();
   }
 
@@ -458,16 +458,18 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                               // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
                                                               // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:
                                                               "0",
-                                                          date: couponController
-                                                                  .vendorAndCouponList
-                                                                  .isNotEmpty
-                                                              ? "${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
-                                                              //  couponController
-                                                              //     .vendorAndCouponList
-                                                              //     .elementAt(index)
-                                                              //     .endDate
-                                                              //     .toString()
-                                                              :
+                                                          date:
+                                                              //TODO: Uncomment
+                                                              // couponController
+                                                              //         .vendorAndCouponList
+                                                              //         .isNotEmpty
+                                                              //     ? "${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
+                                                              //     //  couponController
+                                                              //     //     .vendorAndCouponList
+                                                              //     //     .elementAt(index)
+                                                              //     //     .endDate
+                                                              //     //     .toString()
+                                                              //     :
                                                               // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
                                                               // couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():
                                                               "------------",
@@ -508,7 +510,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                                           BlastDirectionality
                                                                               .explosive, // don't specify a direction, blast randomly
                                                                       shouldLoop:
-                                                                          true, // start again as soon as the animation is finished
+                                                                          false, // start again as soon as the animation is finished
                                                                       colors: ConfettiHandler
                                                                           .starColors, // manually specify the colors to be used
                                                                       createParticlePath:

@@ -56,18 +56,8 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      widget.percent.toString(),
-                      style: KTextStyle.headline5.copyWith(fontSize: 14),
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
                       "Discount",
-                      style: KTextStyle.headline5.copyWith(fontSize: 20),
+                      style: KTextStyle.headline5.copyWith(fontSize: 28),
                     ),
                   ],
                 ),
@@ -78,8 +68,19 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "From Our Store",
-                      style: KTextStyle.headline5.copyWith(fontSize: 14),
+                      widget.percent.toString(),
+                      style: KTextStyle.headline5.copyWith(fontSize: 16),
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Click for details",
+                      style: KTextStyle.headline5.copyWith(fontSize: 12),
                     ),
                   ],
                 )
