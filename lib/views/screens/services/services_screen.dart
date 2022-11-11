@@ -458,18 +458,16 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                               // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
                                                               // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:
                                                               "0",
-                                                          date:
-                                                              //TODO: Uncomment
-                                                              // couponController
-                                                              //         .vendorAndCouponList
-                                                              //         .isNotEmpty
-                                                              //     ? "${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
-                                                              //     //  couponController
-                                                              //     //     .vendorAndCouponList
-                                                              //     //     .elementAt(index)
-                                                              //     //     .endDate
-                                                              //     //     .toString()
-                                                              //     :
+                                                          date: couponController
+                                                                  .vendorAndCouponList
+                                                                  .isNotEmpty
+                                                              ? "${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
+                                                              //  couponController
+                                                              //     .vendorAndCouponList
+                                                              //     .elementAt(index)
+                                                              //     .endDate
+                                                              //     .toString()
+                                                              :
                                                               // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
                                                               // couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():
                                                               "------------",
