@@ -19,6 +19,7 @@ import '../../../controllers/vendor_controller.dart';
 import '../../global_components/k_brands_card.dart';
 import '../../global_components/k_featured_carousel_card.dart';
 import '../services/service_details_screen.dart';
+import '../subscription/subscription_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -115,6 +116,21 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  //TODO: For now removed then[subscription]
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => SubscriptionScreen()));
+                  //   },
+                  //   child: Container(
+                  //     height: 50.0,
+                  //     width: 140.0,
+                  //     color: Colors.red,
+                  //     child: Text('Go to subscription'),
+                  //   ),
+                  // ),
                   // SizedBox(height: KSize.getHeight(context, 70)),
                   // Text(
                   //   "Welcome shopvoo!",
