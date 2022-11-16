@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:get/state_manager.dart';
@@ -19,6 +20,7 @@ class LoginController extends GetxController {
         await NetWorkHandler.postFormData(loginModel.toJson(), ApiRoutes.login);
     if (response.statusCode == 200 || response.statusCode == 201) {
       var data = json.decode(response.body);
+      log('LOGIN RESPONSE::: $data');
 
       ///Store user token
       NetWorkHandler.storeToken(data['access_token']);

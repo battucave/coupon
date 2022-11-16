@@ -11,6 +11,7 @@ import 'package:logan/views/global_components/k_social_media_button.dart';
 import 'package:logan/views/global_components/k_text_field.dart';
 import 'package:logan/views/screens/auth/forgot_password_screen.dart';
 import 'package:logan/views/screens/home/home_screen.dart';
+import 'package:logan/views/screens/subscription/subscription_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
@@ -409,11 +410,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     isSignupScreen = false;
                                   });
                                   // Navigator.pop(context);
-                                  // Navigator.pushReplacement(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             const LoginScreen()));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SubscriptionScreen()));
                                   snackMessage("Successful registration");
                                   registerController.emailController.clear();
                                   registerController.phoneController.clear();
