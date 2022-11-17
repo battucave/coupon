@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_network/image_network.dart';
@@ -18,6 +19,8 @@ import 'package:logan/views/global_components/k_services_man_card.dart';
 import 'package:logan/views/screens/services/components/service_description_component.dart';
 import 'package:logan/views/screens/services/vendor_service_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../../controllers/vendor_controller.dart';
 import '../../animation/confetti_handler.dart';
 
@@ -179,7 +182,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                 color: Colors.red,
                               ),
                             )
-                          : CircularProgressIndicator(),
+                          : const CircularProgressIndicator(),
 
                       // Image.asset(widget.image!, height: 114, width: 114),
                     ))
@@ -207,29 +210,61 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Name of Company",
-                    style: KTextStyle.headline4
-                        .copyWith(fontSize: 18, color: KColor.black),
-                  ),
-                  const SizedBox(height: 7),
+                  // Text(
+                  //   "Name of Company",
+                  //   style: KTextStyle.headline4
+                  //       .copyWith(fontSize: 18, color: KColor.black),
+                  // ),
+                  // const SizedBox(height: 7),
                   RichText(
                     text: TextSpan(
                       text: controller.vendor.value.description,
                       style: KTextStyle.headline2.copyWith(
                           fontSize: 14, color: KColor.black.withOpacity(0.5)),
                       children: <TextSpan>[
-                        TextSpan(
-                            text: '  See More....',
-                            style: KTextStyle.headline4
-                                .copyWith(fontSize: 14, color: KColor.orange),
-                            recognizer: TapGestureRecognizer()..onTap = () {}),
+                        // TextSpan(
+                        //     text: '  See More....',
+                        //     style: KTextStyle.headline4
+                        //         .copyWith(fontSize: 14, color: KColor.orange),
+                        //     recognizer: TapGestureRecognizer()..onTap = () {}),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
+            // Container(
+            //   margin: const EdgeInsets.symmetric(vertical: 25),
+            //   width: double.infinity,
+            //   height: 1,
+            //   color: KColor.silver.withOpacity(0.3),
+            // ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 25)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Best of Logan Picks",
+                    style: KTextStyle.headline4
+                        .copyWith(fontSize: 18, color: const Color(0xff0E5E71)),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    vendorController.vendor.value.best_of_logan_picks ?? "",
+                    style: KTextStyle.headline2.copyWith(
+                        fontSize: 14, color: KColor.black.withOpacity(0.5)),
+                  ),
+                ],
+              ),
+            ),
+
             Container(
               margin: const EdgeInsets.symmetric(vertical: 25),
               width: double.infinity,
@@ -277,6 +312,77 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                   tapState: TapState.website,
                 ),
               ]),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  vendorController.vendor.value.instagram != null
+                      ? GestureDetector(
+                          onTap: () async {
+                            if (vendorController.vendor.value.instagram !=
+                                null) {
+                              await launchUrlString(checkHttpsProtocol(
+                                  vendorController.vendor.value.instagram!));
+                            }
+                          },
+                          child: const FaIcon(
+                            FontAwesomeIcons.instagram,
+                            color: Colors.redAccent,
+                            size: 34,
+                          ),
+                        )
+                      : const SizedBox(),
+                  vendorController.vendor.value.facebook != null
+                      ? GestureDetector(
+                          onTap: () async {
+                            if (vendorController.vendor.value.facebook !=
+                                null) {
+                              await launchUrlString(checkHttpsProtocol(
+                                  vendorController.vendor.value.facebook!));
+                            }
+                          },
+                          child: const FaIcon(
+                            FontAwesomeIcons.facebook,
+                            color: Colors.blue,
+                            size: 34,
+                          ),
+                        )
+                      : const SizedBox(),
+                  vendorController.vendor.value.youtube != null
+                      ? GestureDetector(
+                          onTap: () async {
+                            if (vendorController.vendor.value.youtube != null) {
+                              await launchUrlString(checkHttpsProtocol(
+                                  vendorController.vendor.value.youtube!));
+                            }
+                          },
+                          child: const FaIcon(
+                            FontAwesomeIcons.youtube,
+                            color: Colors.red,
+                            size: 34,
+                          ),
+                        )
+                      : const SizedBox(),
+                  vendorController.vendor.value.twitter != null
+                      ? GestureDetector(
+                          onTap: () async {
+                            if (vendorController.vendor.value.twitter != null) {
+                              await launchUrlString(checkHttpsProtocol(
+                                  vendorController.vendor.value.twitter!));
+                            }
+                          },
+                          child: const FaIcon(
+                            FontAwesomeIcons.twitter,
+                            color: Colors.blue,
+                            size: 34,
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 25),
@@ -482,5 +588,13 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
         ),
       ),
     ));
+  }
+
+  String checkHttpsProtocol(String url) {
+    if (url.startsWith("http")) {
+      return url;
+    } else {
+      return "https://$url";
+    }
   }
 }

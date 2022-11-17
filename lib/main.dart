@@ -11,8 +11,11 @@ void main() {
   // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
   //   statusBarColor:  KColor.blueGreen, // status bar color
   // ));
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  ).then((_) {
     runApp(const MyApp());
   });
 }

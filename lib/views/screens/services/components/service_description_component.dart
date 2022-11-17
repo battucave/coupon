@@ -56,7 +56,13 @@ class ServiceDescriptionComponent extends StatelessWidget {
                       if (subtitle!.startsWith("http")) {
                         await launchUrl(Uri.parse(subtitle!));
                       } else {
-                        await launchUrl(Uri.parse("https://${subtitle!}"));
+                        await launchUrl(
+                          Uri.parse(
+                            "https://${subtitle!}",
+                          ),
+                          mode: LaunchMode.externalApplication,
+                          // webViewConfiguration: WebViewConfiguration
+                        );
                       }
 
                       break;

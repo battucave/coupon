@@ -35,8 +35,8 @@ class _KBrandsCardState extends State<KBrandsCard> {
     return GestureDetector(
       onTap: widget.onPressed,
       child: Container(
-        width: 115,
-        height: 120,
+        width: 100,
+        height: 105,
         margin: const EdgeInsets.only(right: 9),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(

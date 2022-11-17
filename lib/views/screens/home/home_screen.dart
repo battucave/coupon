@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
           MediaQuery.of(context).size.height * 0.09,
         ), // here the desired height
         child: Container(
-          color: Colors.white,
+          color: KColor.offWhite,
           child: Column(
             children: [
               const SizedBox(height: 25),
@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //     )
                   //   ],
                   // ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   Obx(
                     () => couponController.featured2CouponList.isNotEmpty
                         ? SizedBox(
@@ -195,13 +195,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Container(),
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   Text(
                     "Categories",
                     style: KTextStyle.headline4
                         .copyWith(fontSize: 20, color: KColor.blueSapphire),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 5),
                   Obx(() => SizedBox(
                         // color: Colors.red,
                         // height: context.screenHeight * 0.35,
@@ -216,8 +216,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             physics: const NeverScrollableScrollPhysics(),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
-                              mainAxisExtent: context.screenHeight * 0.126,
-                              mainAxisSpacing: context.screenWidth * 0.002,
+                              mainAxisExtent: context.screenHeight * 0.140,
+                              mainAxisSpacing: context.screenWidth * 0.004,
                               crossAxisSpacing: context.screenWidth * 0.09,
                               crossAxisCount: 3,
                             ),
@@ -344,8 +344,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                               }
                                             },
                                             child: Container(
-                                              width: 55,
-                                              height: 55,
+                                              width: context.screenWidth * 0.18,
+                                              height:
+                                                  context.screenHeight * 0.09,
                                               // padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
@@ -401,7 +402,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Align(
-            alignment: const Alignment(1, 0.50),
+            alignment: const Alignment(1, 0.545),
             child: Container(
               width: context.screenWidth,
               height: context.screenHeight * 0.05,
