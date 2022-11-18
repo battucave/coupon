@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:get/state_manager.dart';
@@ -162,7 +163,7 @@ class CouponController extends GetxController {
     ClaimModel claimModel = ClaimModel(couponId: coupon_id);
     Response response = await NetWorkHandler().postWithAuthorization(
         claimModelToJson(claimModel), ApiRoutes.claimCoupon);
-    //print(response.body);
+    print("CLAIM COUPON POST REQUEST ::: ${response.body}");
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response.statusCode;
     } else {
@@ -172,6 +173,7 @@ class CouponController extends GetxController {
 
   Future<int?> getClaimCoupon() async {
     Response response = await NetWorkHandler().get(ApiRoutes.claimCouponList);
+    log('CLAIMED COUPON GET REQUEST:::: ${response.body}');
     if (response.statusCode == 200 || response.statusCode == 201) {
       claimedCouponList.value = claimedCouponModelFromJson(response.body);
       return response.statusCode;

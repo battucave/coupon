@@ -50,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ), // here the desired height
         child: Container(
           color: KColor.offWhite,
+          padding: const EdgeInsets.only(top: 20.0),
           child: Column(
             children: [
               const SizedBox(height: 25),
@@ -158,6 +159,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                 items: List.generate(
                                     couponController.featured2CouponList.length,
                                     (index) {
+                                  print(vendorController
+                                      .featuredVendorList.first
+                                      .toJson());
+                                  print(vendorController
+                                      .featuredVendorList.length
+                                      .toString());
+                                  print(couponController
+                                      .featured2CouponList.length
+                                      .toString());
+                                  print(couponController
+                                      .featured2CouponList[index].percentageOff
+                                      .toString());
                                   return KFeaturedCarouselCard(
                                     percent: couponController
                                         .featured2CouponList
@@ -173,6 +186,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 .elementAt(index)
                                                 .vendorName)
                                         .vid,
+                                    vendorName: couponController
+                                        .featured2CouponList
+                                        .elementAt(index)
+                                        .vendorName,
                                     // vid: featured2CouponList,
                                     // .elementAt(index)
                                     // .v,

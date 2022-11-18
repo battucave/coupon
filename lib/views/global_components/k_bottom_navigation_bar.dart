@@ -30,7 +30,8 @@ class _KBottomNavBarState extends State<KBottomNavigationBar> {
         extendBody: true,
         body: _bottomNavPages[_currentIndex],
         bottomNavigationBar: Container(
-          height: 64,
+          height: 60,
+          margin: const EdgeInsets.only(bottom: 10.0),
           decoration: BoxDecoration(
             color: KColor.white,
             boxShadow: [

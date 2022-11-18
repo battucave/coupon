@@ -16,7 +16,9 @@ class KFeaturedCarouselCard extends StatefulWidget {
   final String? percent;
   final String? image;
   final int? vid;
-  const KFeaturedCarouselCard({Key? key, this.image, this.percent, this.vid})
+  final String? vendorName;
+  const KFeaturedCarouselCard(
+      {Key? key, this.image, this.percent, this.vid, this.vendorName})
       : super(key: key);
 
   @override
@@ -56,31 +58,31 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Discount",
-                      style: KTextStyle.headline5.copyWith(fontSize: 28),
+                      widget.vendorName ?? "Discount",
+                      style: KTextStyle.headline5.copyWith(fontSize: 36),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
+                // const SizedBox(
+                //   height: 5,
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      widget.percent.toString(),
-                      style: KTextStyle.headline5.copyWith(fontSize: 16),
+                      '${widget.percent} % off',
+                      style: KTextStyle.headline5.copyWith(fontSize: 26.0),
                       textAlign: TextAlign.left,
                     ),
                   ],
                 ),
-                const SizedBox(height: 5.0),
+                const SizedBox(height: 10.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       "Click for details",
-                      style: KTextStyle.headline5.copyWith(fontSize: 12),
+                      style: KTextStyle.headline5.copyWith(fontSize: 16.0),
                     ),
                   ],
                 )
