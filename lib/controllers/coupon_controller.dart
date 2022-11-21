@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:get/state_manager.dart';
+import 'package:logan/controllers/builder_ids/builder_ids.dart';
 import 'package:logan/models/api/category_model.dart';
 import 'package:logan/models/api/featured_coupon_model.dart';
 import '../constant/api_routes.dart';
@@ -43,6 +44,9 @@ class CouponController extends GetxController {
 
   RxList<VendorsAndCouponsList> vendorAndCouponList =
       <VendorsAndCouponsList>[].obs;
+
+  int timeRemaining = 0;
+
   @override
   void onInit() {
     super.onInit();
@@ -205,5 +209,12 @@ class CouponController extends GetxController {
     print(response.body);
     singleCouponModel.value = singleCouponModelFromJson(response.body);
     return singleCouponModel.value;
+  }
+
+  void setTimer(seconds) {
+    timeRemaining = seconds;
+    if (timeRemaining == 1) {
+      update([kCouponClaimCardBuilder]);
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -243,6 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisCount: 3,
                             ),
                             itemBuilder: (context, index) {
+                              log(index.toString());
                               return GestureDetector(
                                 onTap: () {
                                   if (categoryController.allCategory
@@ -443,18 +445,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             vendorController.featuredVendorList.length,
                             (index) {
                           return GestureDetector(
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ServiceDetailsScreen(
-                                      color: colors[0],
-                                      vendorId: vendorController
-                                          .featuredVendorList
-                                          .elementAt(index)
-                                          .vid)),
-                            ),
-                            child: KBrandsCard(
-                              onPressed: () => Navigator.push(
+                            onTap: () {
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ServiceDetailsScreen(
@@ -463,7 +455,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                             .featuredVendorList
                                             .elementAt(index)
                                             .vid)),
-                              ),
+                              );
+                            },
+                            child: KBrandsCard(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ServiceDetailsScreen(
+                                              color: colors[0],
+                                              vendorId: vendorController
+                                                  .featuredVendorList
+                                                  .elementAt(index)
+                                                  .vid)),
+                                );
+                              },
                               image: vendorController.featuredVendorList
                                   .elementAt(index)
                                   .vendorLogPath,

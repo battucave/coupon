@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:image_network/image_network.dart';
 import 'package:logan/constant/asset_path.dart';
+import 'package:logan/controllers/builder_ids/builder_ids.dart';
 import 'package:logan/models/api/coupon_model.dart';
 import 'package:logan/models/api/single_coupon_model.dart';
 import 'package:logan/views/styles/b_style.dart';
@@ -68,195 +69,167 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
     super.initState();
   }
 
-  Timer? timer;
-  int totalSeconds = 30;
-  int secondsRemaining = 0;
-  double progressFraction = 1.0;
-
-  startTime() {
-    // print('Timer started');
-    timer = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (secondsRemaining == 30) {
-        return;
-      }
-      if (mounted) {
-        setState(() {
-          secondsRemaining += 1;
-          progressFraction = (totalSeconds - secondsRemaining) / totalSeconds;
-          // log('PROGRESS FRACTION:: $progressFraction');
-        });
-      }
-    });
-  }
-
   @override
   void dispose() {
     super.dispose();
-    timer!.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StatefulBuilder(builder: (context, setState) {
-      setState(() {
-        // log('BUTTON TEXT:::: ${widget.buttonText}');
-        if (widget.buttonText != 'Claim This Coupon') {
-          startTime();
-        }
-      });
-      return AnimatedOpacity(
-        opacity: widget.showGreyOut! ? progressFraction : 1.0,
-        duration: const Duration(seconds: 20),
-        child: Container(
-          decoration: BoxDecoration(
-              color: KColor.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                    color: KColor.silver.withOpacity(0.2),
-                    blurRadius: 4,
-                    spreadRadius: 2)
-              ]),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  decoration: BoxDecoration(
-                      color: widget.color,
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15))),
-                  child: Row(
-                    children: [
-                      (widget.image == null)
-                          ? StreamBuilder<SingleVendorModel>(
-                              stream: getVendor().asStream(),
-                              builder: (context,
-                                  AsyncSnapshot<SingleVendorModel> snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const CircularProgressIndicator();
-                                } else {
-                                  if (snapshot.hasData) {
-                                    return GestureDetector(
-                                      onTap: () {},
-                                      child: ImageNetwork(
-                                        image: snapshot.data!.vendorLogPath,
-                                        imageCache: CachedNetworkImageProvider(
-                                          snapshot.data!.vendorLogPath,
-                                        ),
-                                        height: 55,
-                                        width: 55,
-                                        duration: 1500,
-                                        curve: Curves.easeIn,
-                                        onPointer: true,
-                                        debugPrint: false,
-                                        fullScreen: false,
-                                        fitAndroidIos: BoxFit.cover,
-                                        fitWeb: BoxFitWeb.cover,
-                                        borderRadius: BorderRadius.circular(70),
-                                        onLoading:
-                                            const CircularProgressIndicator(
-                                          color: Colors.indigoAccent,
-                                        ),
-                                        onError: const Icon(
-                                          Icons.error,
-                                          color: Colors.red,
-                                        ),
-                                        onTap: () {},
-                                      ),
-                                    );
-                                  } else {
-                                    return Container();
-                                  }
-                                }
-                              },
-                            )
-                          : ImageNetwork(
-                              image: widget.image!,
-                              imageCache:
-                                  CachedNetworkImageProvider(widget.image!),
-                              height: 55,
-                              width: 55,
-                              duration: 1500,
-                              curve: Curves.easeIn,
-                              onPointer: true,
-                              debugPrint: false,
-                              fullScreen: false,
-                              fitAndroidIos: BoxFit.cover,
-                              fitWeb: BoxFitWeb.scaleDown,
-                              borderRadius: BorderRadius.circular(70),
-                              onLoading: const CircularProgressIndicator(
-                                color: Colors.indigoAccent,
-                              ),
-                              onError: const Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              ),
-                              onTap: () {},
-                            ),
-                      SizedBox(width: KSize.getWidth(context, 10)),
-                      (widget.name == null)
-                          ? StreamBuilder<SingleVendorModel>(
-                              stream: getVendor().asStream(),
-                              builder: (context,
-                                  AsyncSnapshot<SingleVendorModel> snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Text("");
-                                } else {
-                                  if (snapshot.hasData) {
-                                    return Expanded(
-                                      flex: 3,
-                                      child: Text(
-                                        snapshot.data!.vendorName,
-                                        style: KTextStyle.headline4
-                                            .copyWith(fontSize: 18),
-                                      ),
-                                    );
-                                  } else {
-                                    return Container();
-                                  }
-                                }
-                              },
-                            )
-                          : Expanded(
-                              flex: 3,
-                              child: Text(
-                                widget.name!,
-                                style:
-                                    KTextStyle.headline4.copyWith(fontSize: 18),
-                              ),
-                            ),
-                      Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Icon(
-                          Icons.close,
-                          color: Colors.white,
+    return Container(
+      decoration: BoxDecoration(
+          color: KColor.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+                color: KColor.silver.withOpacity(0.2),
+                blurRadius: 4,
+                spreadRadius: 2)
+          ]),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              decoration: BoxDecoration(
+                  color: widget.color,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15))),
+              child: Row(
+                children: [
+                  (widget.image == null)
+                      ? StreamBuilder<SingleVendorModel>(
+                          stream: getVendor().asStream(),
+                          builder: (context,
+                              AsyncSnapshot<SingleVendorModel> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              if (snapshot.hasData) {
+                                return GestureDetector(
+                                  onTap: () {},
+                                  child: ImageNetwork(
+                                    image: snapshot.data!.vendorLogPath,
+                                    imageCache: CachedNetworkImageProvider(
+                                      snapshot.data!.vendorLogPath,
+                                    ),
+                                    height: 55,
+                                    width: 55,
+                                    duration: 1500,
+                                    curve: Curves.easeIn,
+                                    onPointer: true,
+                                    debugPrint: false,
+                                    fullScreen: false,
+                                    fitAndroidIos: BoxFit.cover,
+                                    fitWeb: BoxFitWeb.cover,
+                                    borderRadius: BorderRadius.circular(70),
+                                    onLoading: const CircularProgressIndicator(
+                                      color: Colors.indigoAccent,
+                                    ),
+                                    onError: const Icon(
+                                      Icons.error,
+                                      color: Colors.red,
+                                    ),
+                                    onTap: () {},
+                                  ),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            }
+                          },
+                        )
+                      : ImageNetwork(
+                          image: widget.image!,
+                          imageCache: CachedNetworkImageProvider(widget.image!),
+                          height: 55,
+                          width: 55,
+                          duration: 1500,
+                          curve: Curves.easeIn,
+                          onPointer: true,
+                          debugPrint: false,
+                          fullScreen: false,
+                          fitAndroidIos: BoxFit.cover,
+                          fitWeb: BoxFitWeb.scaleDown,
+                          borderRadius: BorderRadius.circular(70),
+                          onLoading: const CircularProgressIndicator(
+                            color: Colors.indigoAccent,
+                          ),
+                          onError: const Icon(
+                            Icons.error,
+                            color: Colors.red,
+                          ),
+                          onTap: () {},
                         ),
-                        //  Container(
-                        //   height: 50,
-                        //   width: 50,
-                        //   decoration: const BoxDecoration(
-                        //       color: Colors.red,
-                        //       borderRadius: BorderRadius.all(Radius.circular(200))),
-                        //   child: const Icon(
-                        //     Icons.close,
-                        //     color: Colors.white,
-                        //   ),
-                        // ),
-                      ),
-                      SizedBox(width: KSize.getWidth(context, 5)),
-                    ],
+                  SizedBox(width: KSize.getWidth(context, 10)),
+                  (widget.name == null)
+                      ? StreamBuilder<SingleVendorModel>(
+                          stream: getVendor().asStream(),
+                          builder: (context,
+                              AsyncSnapshot<SingleVendorModel> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Text("");
+                            } else {
+                              if (snapshot.hasData) {
+                                return Expanded(
+                                  flex: 3,
+                                  child: Text(
+                                    snapshot.data!.vendorName,
+                                    style: KTextStyle.headline4
+                                        .copyWith(fontSize: 18),
+                                  ),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            }
+                          },
+                        )
+                      : Expanded(
+                          flex: 3,
+                          child: Text(
+                            widget.name!,
+                            style: KTextStyle.headline4.copyWith(fontSize: 18),
+                          ),
+                        ),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                    //  Container(
+                    //   height: 50,
+                    //   width: 50,
+                    //   decoration: const BoxDecoration(
+                    //       color: Colors.red,
+                    //       borderRadius: BorderRadius.all(Radius.circular(200))),
+                    //   child: const Icon(
+                    //     Icons.close,
+                    //     color: Colors.white,
+                    //   ),
+                    // ),
                   ),
-                ),
-                Padding(
+                  SizedBox(width: KSize.getWidth(context, 5)),
+                ],
+              ),
+            ),
+            GetBuilder<CouponController>(
+              id: kCouponClaimCardBuilder,
+              builder: (controller) => AnimatedOpacity(
+                opacity:
+                    widget.showGreyOut! && couponController.timeRemaining == 1
+                        ? 0.4
+                        : 1.0,
+                duration: const Duration(milliseconds: 500),
+                child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
                   child: Column(
@@ -371,109 +344,104 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                     ],
                   ),
                 ),
-                widget.couponDetails ? const TimerWidget() : const SizedBox(),
-                !widget.couponDetails
-                    ? const Padding(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "* Redeem code ONLY when asked at checkout",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: KColor.orange,
-                            ),
-                          ),
-                        ),
-                      )
-                    : const SizedBox(),
-                widget.couponDetails
-                    ? Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: KSize.getWidth(context, 22)),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Redeem Code",
-                              style: KTextStyle.headline2.copyWith(
-                                  fontSize: 18,
-                                  height: 25 / 18,
-                                  color: KColor.orange),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            (widget.couponCode != null)
-                                ? Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: KSize.getWidth(context, 33),
-                                        vertical: KSize.getHeight(context, 8)),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: KColor.blue),
-                                    child: Text(
-                                      "${widget.couponCode}",
-                                      style: KTextStyle.headline2.copyWith(
-                                          fontSize: 18, height: 25 / 18),
-                                    ),
-                                  )
-                                :
-
-                                ///To get coupon code using coupon Id, working on it
-                                StreamBuilder<SingleCouponModel>(
-                                    stream: getCoupon().asStream(),
-                                    builder: (context,
-                                        AsyncSnapshot<SingleCouponModel>
-                                            snapshot) {
-                                      if (snapshot.hasData) {
-                                        print(snapshot.data!.couponCode);
-                                        return Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal:
-                                                  KSize.getWidth(context, 33),
-                                              vertical:
-                                                  KSize.getHeight(context, 8)),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              color: KColor.blue),
-                                          child: Text(
-                                            snapshot.data!.couponCode
-                                                .toString(),
-                                            style: KTextStyle.headline2
-                                                .copyWith(
-                                                    fontSize: 18,
-                                                    height: 25 / 18),
-                                          ),
-                                        );
-                                      } else {
-                                        return Container(
-                                          child: Text("jjjjj"),
-                                        );
-                                      }
-                                    },
-                                  )
-                          ],
-                        ),
-                      )
-                    : Container(),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 40, horizontal: 22),
-                  child: KButton(
-                    isCoupon: true,
-                    text: widget.buttonText,
-                    onPressed: widget.onPressed,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+            widget.couponDetails ? const TimerWidget() : const SizedBox(),
+            !widget.couponDetails
+                ? const Padding(
+                    padding: EdgeInsets.only(left: 15),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "* Redeem code ONLY when asked at checkout",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: KColor.orange,
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+            widget.couponDetails
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: KSize.getWidth(context, 22)),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Redeem Code",
+                          style: KTextStyle.headline2.copyWith(
+                              fontSize: 18,
+                              height: 25 / 18,
+                              color: KColor.orange),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        (widget.couponCode != null)
+                            ? Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: KSize.getWidth(context, 33),
+                                    vertical: KSize.getHeight(context, 8)),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: KColor.blue),
+                                child: Text(
+                                  "${widget.couponCode}",
+                                  style: KTextStyle.headline2
+                                      .copyWith(fontSize: 18, height: 25 / 18),
+                                ),
+                              )
+                            :
+
+                            ///To get coupon code using coupon Id, working on it
+                            StreamBuilder<SingleCouponModel>(
+                                stream: getCoupon().asStream(),
+                                builder: (context,
+                                    AsyncSnapshot<SingleCouponModel> snapshot) {
+                                  if (snapshot.hasData) {
+                                    print(snapshot.data!.couponCode);
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              KSize.getWidth(context, 33),
+                                          vertical:
+                                              KSize.getHeight(context, 8)),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: KColor.blue),
+                                      child: Text(
+                                        snapshot.data!.couponCode.toString(),
+                                        style: KTextStyle.headline2.copyWith(
+                                            fontSize: 18, height: 25 / 18),
+                                      ),
+                                    );
+                                  } else {
+                                    return Container(
+                                      child: Text("jjjjj"),
+                                    );
+                                  }
+                                },
+                              )
+                      ],
+                    ),
+                  )
+                : Container(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 22),
+              child: KButton(
+                isCoupon: true,
+                text: widget.buttonText,
+                onPressed: widget.onPressed,
+              ),
+            ),
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 }
 
@@ -489,6 +457,8 @@ class TimerWidget extends StatefulWidget {
 class _TimerWidgetState extends State<TimerWidget> {
   final int _start = 30;
   int _current = 30;
+
+  final couponController = Get.find<CouponController>();
 
   @override
   void initState() {
@@ -506,6 +476,8 @@ class _TimerWidgetState extends State<TimerWidget> {
     sub.onData((duration) {
       setState(() {
         _current = _start - duration.elapsed.inSeconds;
+        log('Current time;:: $_current');
+        couponController.setTimer(_current);
       });
     });
 
