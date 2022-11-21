@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:developer' as developer;
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
@@ -114,6 +115,11 @@ class _ClaimedCouponsTabState extends State<ClaimedCouponsTab> {
 
   @override
   void initState() {
+    super.initState();
+    developer.log('INIT STATE');
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await couponController.getClaimCoupon();
+    });
     scrollController.addListener(_scrollListener);
     cFloatingActionButtonHeight =
         (cBottomNavigationBarOptionSize - (cBottomNavigationBarCurve / 2)) +
@@ -128,10 +134,6 @@ class _ClaimedCouponsTabState extends State<ClaimedCouponsTab> {
         ConfettiController(duration: const Duration(seconds: 5));
     _controllerBottomCenter =
         ConfettiController(duration: const Duration(seconds: 5));
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await couponController.getClaimCoupon();
-    });
-    super.initState();
   }
 
   @override

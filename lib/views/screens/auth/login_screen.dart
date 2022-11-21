@@ -411,13 +411,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
                                   Navigator.pop(context);
 
-                                  //TODO: UNCOMMENT
-
-                                  // Navigator.pushReplacement(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             const SubscriptionScreen()));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SubscriptionScreen()));
                                   snackMessage("Successful registration");
                                   registerController.emailController.clear();
                                   registerController.phoneController.clear();

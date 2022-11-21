@@ -165,6 +165,7 @@ class CouponController extends GetxController {
         claimModelToJson(claimModel), ApiRoutes.claimCoupon);
     print("CLAIM COUPON POST REQUEST ::: ${response.body}");
     if (response.statusCode == 200 || response.statusCode == 201) {
+      await getClaimCoupon();
       return response.statusCode;
     } else {
       return response.statusCode;
