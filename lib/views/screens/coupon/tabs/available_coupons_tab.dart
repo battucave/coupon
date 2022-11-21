@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'dart:developer' as developer;
+
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,6 +33,7 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab> {
   double cBottomNavigationBarOptionSize = 78.0;
   Color cBottomNavigationBarOptionColor = const Color(0xFFD3D3E8);
   double? cFloatingActionButtonHeight;
+
   void _scrollListener() {
     setState(() {
       scrollOffset = scrollController.offset;
@@ -95,15 +98,15 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab> {
         (cBottomNavigationBarOptionSize - (cBottomNavigationBarCurve / 2)) +
             (cBottomNavigationBarOptionSize / 2);
     _controllerCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerCenterRight =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerCenterLeft =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerTopCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerBottomCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     super.initState();
   }
 
@@ -115,6 +118,7 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab> {
 
   @override
   Widget build(BuildContext context) {
+    print('AVAILABLE COUPONS');
     return CustomScrollView(
       controller: scrollController,
       physics: const BouncingScrollPhysics(),
@@ -209,6 +213,7 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab> {
                                     showConfirmClaimDialogue(
                                       context,
                                       onpressed: () {
+                                        developer.log('Claim coupon');
                                         KDialog.kShowDialog(
                                           context: context,
                                           dialogContent: Dialog(
@@ -250,6 +255,7 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab> {
                                                     result == 201) {
                                                   stopLoading();
                                                   Navigator.pop(context);
+
                                                   KDialog.kShowDialog(
                                                     context: context,
                                                     dialogContent: Dialog(
@@ -267,7 +273,7 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab> {
                                                               BlastDirectionality
                                                                   .explosive, // don't specify a direction, blast randomly
                                                           shouldLoop:
-                                                              true, // start again as soon as the animation is finished
+                                                              false, // start again as soon as the animation is finished
                                                           colors: ConfettiHandler
                                                               .starColors, // manually specify the colors to be used
                                                           createParticlePath:
@@ -275,6 +281,7 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab> {
                                                                   .drawStar,
                                                           child:
                                                               KCouponClaimCard(
+                                                            showGreyOut: true,
                                                             couponDetails: true,
                                                             percent:
                                                                 couponController

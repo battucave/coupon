@@ -173,11 +173,13 @@ class CouponController extends GetxController {
 
   Future<int?> getClaimCoupon() async {
     Response response = await NetWorkHandler().get(ApiRoutes.claimCouponList);
-    log('CLAIMED COUPON GET REQUEST:::: ${response.body}');
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       claimedCouponList.value = claimedCouponModelFromJson(response.body);
+      log('CLAIMED COUPON GET REQUEST:::: ${response.body}');
       return response.statusCode;
     } else {
+      log('CLAIMED COUPON GET REQUEST:::: ${response.body} ${response.statusCode}');
       return response.statusCode;
     }
   }

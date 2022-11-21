@@ -101,15 +101,15 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
     vendorController.getVendorById(widget.vendorId);
     couponController.getCouponByVendorId(widget.vendorId);
     _controllerCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerCenterRight =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerCenterLeft =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerTopCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerBottomCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
   }
 
   @override
@@ -457,6 +457,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                 .percentageOff,
                             vid: vendorController.vendor.value.vid,
                             onPressed: () {
+                              log('CLAIM COUPON:::');
                               showConfirmClaimDialogue(context, onpressed: () {
                                 KDialog.kShowDialog(
                                   context: context,
@@ -510,12 +511,13 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                                       BlastDirectionality
                                                           .explosive, // don't specify a direction, blast randomly
                                                   shouldLoop:
-                                                      true, // start again as soon as the animation is finished
+                                                      false, // start again as soon as the animation is finished
                                                   colors: ConfettiHandler
                                                       .starColors, // manually specify the colors to be used
                                                   createParticlePath:
                                                       ConfettiHandler.drawStar,
                                                   child: KCouponClaimCard(
+                                                    showGreyOut: true,
                                                     couponDetails: true,
                                                     name: vendorController
                                                         .vendor

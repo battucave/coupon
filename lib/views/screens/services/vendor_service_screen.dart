@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:developer' as developer;
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
@@ -103,15 +104,15 @@ class _VendorServiceSreen extends State<VendorServiceSreen> {
         (cBottomNavigationBarOptionSize - (cBottomNavigationBarCurve / 2)) +
             (cBottomNavigationBarOptionSize / 2);
     _controllerCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerCenterRight =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerCenterLeft =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerTopCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     _controllerBottomCenter =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 5));
     super.initState();
   }
 
@@ -199,6 +200,8 @@ class _VendorServiceSreen extends State<VendorServiceSreen> {
                                   onPressed: () {
                                     showConfirmClaimDialogue(context,
                                         onpressed: () {
+                                      developer.log('CLAIM COUPON:::');
+
                                       KDialog.kShowDialog(
                                         context: context,
                                         dialogContent: Dialog(
@@ -254,13 +257,14 @@ class _VendorServiceSreen extends State<VendorServiceSreen> {
                                                             BlastDirectionality
                                                                 .explosive, // don't specify a direction, blast randomly
                                                         shouldLoop:
-                                                            true, // start again as soon as the animation is finished
+                                                            false, // start again as soon as the animation is finished
                                                         colors: ConfettiHandler
                                                             .starColors, // manually specify the colors to be used
                                                         createParticlePath:
                                                             ConfettiHandler
                                                                 .drawStar,
                                                         child: KCouponClaimCard(
+                                                          showGreyOut: true,
                                                           couponDetails: true,
                                                           name: widget.name,
                                                           percent: couponController

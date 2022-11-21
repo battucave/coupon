@@ -37,7 +37,7 @@ class _KBrandsCardStartupState extends State<KBrandsCardStartup> {
             // BoxShadow(color: KColor.primary.withOpacity(0.62), blurRadius: 25),
           ],
         ),
-        child: Image.asset(
+        child: Image.network(
           widget.image!,
           // height: 40,
           // width: 40,

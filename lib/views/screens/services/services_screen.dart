@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -47,6 +48,9 @@ class _ServicesScreen extends State<ServicesScreen> {
   ];
   int _currentIndex = 0;
   int _currentSubCatId = 1;
+
+  bool visible = true;
+
   CategoryController categoryController = Get.put(CategoryController());
   VendorController vendorController = Get.put(VendorController());
   CouponController couponController = Get.put(CouponController());
@@ -427,6 +431,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                 onPressed: () {
                                                   showConfirmClaimDialogue(
                                                       context, onpressed: () {
+                                                    log('CLAIM COUPON');
                                                     KDialog.kShowDialog(
                                                       context: context,
                                                       dialogContent: Dialog(
@@ -458,16 +463,19 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                               // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
                                                               // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.elementAt(0).percentageOff:
                                                               "0",
-                                                          date: couponController
-                                                                  .vendorAndCouponList
-                                                                  .isNotEmpty
-                                                              ? "${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
+                                                          date:
+                                                              //TODO: uncomment
+
+                                                              // date: couponController
+                                                              //         .vendorAndCouponList
+                                                              //         .isNotEmpty
+                                                              //     ? "${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
                                                               //  couponController
                                                               //     .vendorAndCouponList
                                                               //     .elementAt(index)
                                                               //     .endDate
                                                               //     .toString()
-                                                              :
+                                                              // :
                                                               // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
                                                               // couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():
                                                               "------------",
@@ -475,6 +483,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                               "Claim This Coupon",
                                                           onPressed: () async {
                                                             startLoading();
+
                                                             int? result = await couponController.claimCoupon(
                                                                 couponController
                                                                     .vendorAndCouponList
@@ -491,60 +500,64 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                                 context:
                                                                     context,
                                                                 dialogContent:
-                                                                    Dialog(
-                                                                  shape: RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              15.0)), //this right here
-                                                                  child: Align(
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
+                                                                    StatefulBuilder(builder:
+                                                                        (context,
+                                                                            setState) {
+                                                                  return Dialog(
+                                                                    shape: RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(15.0)), //this right here
                                                                     child:
-                                                                        ConfettiWidget(
-                                                                      confettiController:
-                                                                          _controllerCenter,
-                                                                      blastDirectionality:
-                                                                          BlastDirectionality
-                                                                              .explosive, // don't specify a direction, blast randomly
-                                                                      shouldLoop:
-                                                                          false, // start again as soon as the animation is finished
-                                                                      colors: ConfettiHandler
-                                                                          .starColors, // manually specify the colors to be used
-                                                                      createParticlePath:
-                                                                          ConfettiHandler
-                                                                              .drawStar,
+                                                                        Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .center,
                                                                       child:
-                                                                          KCouponClaimCard(
-                                                                        couponDetails:
-                                                                            true,
-                                                                        coupon_id: couponController.vendorAndCouponList.isNotEmpty
-                                                                            ? couponController.vendorAndCouponList.elementAt(0).couponId
-                                                                            : 0,
-                                                                        name: couponController
-                                                                            .vendorAndCouponList
-                                                                            .elementAt(index)
-                                                                            .vendorName,
-                                                                        image: couponController
-                                                                            .vendorAndCouponList
-                                                                            .elementAt(index)
-                                                                            .vendorLogPath,
-                                                                        color: couponColors
-                                                                            .elementAt(0),
-                                                                        percent: couponController.vendorAndCouponList.isNotEmpty
-                                                                            ? couponController.vendorAndCouponList.elementAt(0).percentageOff
-                                                                            : "0",
-                                                                        date: couponController.vendorAndCouponList.isNotEmpty
-                                                                            ? couponController.vendorAndCouponList.elementAt(0).endDate.toString()
-                                                                            : "------------",
-                                                                        buttonText:
-                                                                            "Coupon Claimed",
-                                                                        onPressed:
-                                                                            () {},
-                                                                      ), // define a custom shape/path.
+                                                                          ConfettiWidget(
+                                                                        confettiController:
+                                                                            _controllerCenter,
+                                                                        blastDirectionality:
+                                                                            BlastDirectionality.explosive, // don't specify a direction, blast randomly
+                                                                        shouldLoop:
+                                                                            false, // start again as soon as the animation is finished
+                                                                        colors:
+                                                                            ConfettiHandler.starColors, // manually specify the colors to be used
+                                                                        createParticlePath:
+                                                                            ConfettiHandler.drawStar,
+                                                                        child:
+                                                                            KCouponClaimCard(
+                                                                          showGreyOut:
+                                                                              true,
+                                                                          couponDetails:
+                                                                              true,
+                                                                          coupon_id: couponController.vendorAndCouponList.isNotEmpty
+                                                                              ? couponController.vendorAndCouponList.elementAt(0).couponId
+                                                                              : 0,
+                                                                          name: couponController
+                                                                              .vendorAndCouponList
+                                                                              .elementAt(index)
+                                                                              .vendorName,
+                                                                          image: couponController
+                                                                              .vendorAndCouponList
+                                                                              .elementAt(index)
+                                                                              .vendorLogPath,
+                                                                          color:
+                                                                              couponColors.elementAt(0),
+                                                                          percent: couponController.vendorAndCouponList.isNotEmpty
+                                                                              ? couponController.vendorAndCouponList.elementAt(0).percentageOff
+                                                                              : "0",
+                                                                          date: couponController.vendorAndCouponList.isNotEmpty
+                                                                              ? couponController.vendorAndCouponList.elementAt(0).endDate.toString()
+                                                                              : "------------",
+                                                                          buttonText:
+                                                                              "Coupon Claimed",
+                                                                          onPressed:
+                                                                              () {},
+                                                                        ), // define a custom shape/path.
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ),
+                                                                  );
+                                                                }),
                                                               );
                                                               _controllerCenter
                                                                   .play();
@@ -724,6 +737,8 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                                           .drawStar,
                                                                   child:
                                                                       KCouponClaimCard(
+                                                                    showGreyOut:
+                                                                        true,
                                                                     couponDetails:
                                                                         true,
                                                                     name: couponController
