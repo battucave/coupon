@@ -195,7 +195,6 @@ class _SubscriptionAlertDialogState extends State<SubscriptionAlertDialog> {
             ),
             GestureDetector(
               onTap: () async {
-                //TODO: Show subscription sheet
                 final productDetails =
                     await subscriptionController.loadPurchases();
                 if (productDetails != null || productDetails!.isNotEmpty) {

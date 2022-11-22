@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:logan/views/styles/b_style.dart';
+import 'package:logan/views/styles/k_text_style.dart';
 
 import '../../../../controllers/subscription_controller.dart';
 
@@ -53,6 +55,7 @@ class ShowSubscriptionSheet extends StatelessWidget {
                 ListView.builder(
                     itemCount: productDetails.length,
                     itemBuilder: (context, index) {
+                      print(index);
                       return PurchaseWidget(
                         product: productDetails[index],
                         onPressed: () async {
@@ -85,7 +88,7 @@ class PurchaseWidget extends StatelessWidget {
     return ListTile(
       title: Text(
         product.title,
-        // style: AppTextStyle.kBlack,
+        style: KTextStyle.headline5.copyWith(color: KColor.black),
       ),
       trailing: GestureDetector(
         onTap: onPressed,
@@ -93,12 +96,11 @@ class PurchaseWidget extends StatelessWidget {
           height: 40.0,
           width: 150.0,
           decoration: BoxDecoration(
-              // color: AppColors.kBlue,
-              borderRadius: BorderRadius.circular(15.0)),
+              color: KColor.primary, borderRadius: BorderRadius.circular(15.0)),
           child: Center(
             child: Text(
               'Buy ${product.price}',
-              // style: AppTextStyle.kWhite,
+              style: KTextStyle.headline5.copyWith(color: KColor.white),
             ),
           ),
         ),
