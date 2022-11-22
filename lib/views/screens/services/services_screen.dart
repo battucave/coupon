@@ -134,15 +134,15 @@ class _ServicesScreen extends State<ServicesScreen> {
         (cBottomNavigationBarOptionSize - (cBottomNavigationBarCurve / 2)) +
             (cBottomNavigationBarOptionSize / 2);
     _controllerCenter =
-        ConfettiController(duration: const Duration(seconds: 4));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerCenterRight =
-        ConfettiController(duration: const Duration(seconds: 4));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerCenterLeft =
-        ConfettiController(duration: const Duration(seconds: 4));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerTopCenter =
-        ConfettiController(duration: const Duration(seconds: 4));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerBottomCenter =
-        ConfettiController(duration: const Duration(seconds: 4));
+        ConfettiController(duration: const Duration(seconds: 1));
     super.initState();
   }
 
@@ -466,17 +466,16 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                           // date:
                                                           //TODO: uncomment
 
-                                                          date:
-                                                              // couponController
-                                                              //         .vendorAndCouponList
-                                                              //         .isNotEmpty
-                                                              //     ? "${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
-                                                              //     //  couponController
-                                                              //     //     .vendorAndCouponList
-                                                              //     //     .elementAt(index)
-                                                              //     //     .endDate
-                                                              //     //     .toString()
-                                                              //     :
+                                                          date: couponController
+                                                                  .vendorAndCouponList
+                                                                  .isNotEmpty
+                                                              ? "${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
+                                                              //  couponController
+                                                              //     .vendorAndCouponList
+                                                              //     .elementAt(index)
+                                                              //     .endDate
+                                                              //     .toString()
+                                                              :
                                                               // couponController.vendorAndCouponList.elementAt(index).vendorCouponsList.isNotEmpty?
                                                               // couponController.vendorAndCouponList.elementAt(0).vendorCouponsList.elementAt(0).endDate.toString():
                                                               "------------",

@@ -101,15 +101,15 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
     vendorController.getVendorById(widget.vendorId);
     couponController.getCouponByVendorId(widget.vendorId);
     _controllerCenter =
-        ConfettiController(duration: const Duration(seconds: 5));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerCenterRight =
-        ConfettiController(duration: const Duration(seconds: 5));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerCenterLeft =
-        ConfettiController(duration: const Duration(seconds: 5));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerTopCenter =
-        ConfettiController(duration: const Duration(seconds: 5));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerBottomCenter =
-        ConfettiController(duration: const Duration(seconds: 5));
+        ConfettiController(duration: const Duration(seconds: 1));
   }
 
   @override

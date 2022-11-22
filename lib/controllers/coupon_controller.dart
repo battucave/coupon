@@ -45,7 +45,7 @@ class CouponController extends GetxController {
   RxList<VendorsAndCouponsList> vendorAndCouponList =
       <VendorsAndCouponsList>[].obs;
 
-  int timeRemaining = 0;
+  int timeRemaining = 30;
 
   @override
   void onInit() {
@@ -211,9 +211,14 @@ class CouponController extends GetxController {
     return singleCouponModel.value;
   }
 
-  void setTimer(seconds) {
+  void setTimer(int seconds) {
     timeRemaining = seconds;
-    if (timeRemaining == 1) {
+    print('REMAINING::: $timeRemaining');
+    if (timeRemaining == 3) {
+      update([kCouponClaimCardBuilder]);
+    }
+    if (timeRemaining == 0) {
+      timeRemaining = 30;
       update([kCouponClaimCardBuilder]);
     }
   }

@@ -104,15 +104,15 @@ class _VendorServiceSreen extends State<VendorServiceSreen> {
         (cBottomNavigationBarOptionSize - (cBottomNavigationBarCurve / 2)) +
             (cBottomNavigationBarOptionSize / 2);
     _controllerCenter =
-        ConfettiController(duration: const Duration(seconds: 5));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerCenterRight =
-        ConfettiController(duration: const Duration(seconds: 5));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerCenterLeft =
-        ConfettiController(duration: const Duration(seconds: 5));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerTopCenter =
-        ConfettiController(duration: const Duration(seconds: 5));
+        ConfettiController(duration: const Duration(seconds: 1));
     _controllerBottomCenter =
-        ConfettiController(duration: const Duration(seconds: 5));
+        ConfettiController(duration: const Duration(seconds: 1));
     super.initState();
   }
 

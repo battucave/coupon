@@ -78,7 +78,10 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: KColor.white,
+          // color: widget.showGreyOut! ? Colors.grey : Colors.white,
+          // color: KColor.blueGreen,
+          // color: Colors.grey,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
@@ -94,6 +97,7 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               decoration: BoxDecoration(
                   color: widget.color,
+                  // color: Colors.grey,
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15))),
@@ -110,60 +114,86 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                             } else {
                               if (snapshot.hasData) {
                                 return GestureDetector(
-                                  onTap: () {},
-                                  child: ImageNetwork(
-                                    image: snapshot.data!.vendorLogPath,
-                                    imageCache: CachedNetworkImageProvider(
-                                      snapshot.data!.vendorLogPath,
-                                    ),
-                                    height: 55,
-                                    width: 55,
-                                    duration: 1500,
-                                    curve: Curves.easeIn,
-                                    onPointer: true,
-                                    debugPrint: false,
-                                    fullScreen: false,
-                                    fitAndroidIos: BoxFit.cover,
-                                    fitWeb: BoxFitWeb.cover,
-                                    borderRadius: BorderRadius.circular(70),
-                                    onLoading: const CircularProgressIndicator(
-                                      color: Colors.indigoAccent,
-                                    ),
-                                    onError: const Icon(
-                                      Icons.error,
-                                      color: Colors.red,
-                                    ),
                                     onTap: () {},
-                                  ),
-                                );
+                                    child: Container(
+                                      height: 55.0,
+                                      width: 55.0,
+
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                              snapshot.data!.vendorLogPath,
+                                            ),
+                                            fit: BoxFit.fill),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      // ImageNetwork(
+                                      //   image: snapshot.data!.vendorLogPath,
+                                      //   imageCache: CachedNetworkImageProvider(
+                                      //     snapshot.data!.vendorLogPath,
+                                      //   ),
+                                      //   height: 55,
+                                      //   width: 55,
+                                      //   // duration: 1500,
+                                      //   // curve: Curves.easeIn,
+                                      //   onPointer: true,
+                                      //   debugPrint: false,
+                                      //   fullScreen: false,
+                                      //   fitAndroidIos: BoxFit.cover,
+                                      //   fitWeb: BoxFitWeb.cover,
+                                      //   borderRadius: BorderRadius.circular(70),
+                                      //   // onLoading: const CircularProgressIndicator(
+                                      //   //   color: Colors.indigoAccent,
+                                      //   // ),
+                                      //   onError: const Icon(
+                                      //     Icons.error,
+                                      //     color: Colors.red,
+                                      //   ),
+                                      //   onTap: () {},
+                                      // ),
+                                      // );
+                                    ));
                               } else {
                                 return Container();
                               }
                             }
                           },
                         )
-                      : ImageNetwork(
-                          image: widget.image!,
-                          imageCache: CachedNetworkImageProvider(widget.image!),
-                          height: 55,
-                          width: 55,
-                          duration: 1500,
-                          curve: Curves.easeIn,
-                          onPointer: true,
-                          debugPrint: false,
-                          fullScreen: false,
-                          fitAndroidIos: BoxFit.cover,
-                          fitWeb: BoxFitWeb.scaleDown,
-                          borderRadius: BorderRadius.circular(70),
-                          onLoading: const CircularProgressIndicator(
-                            color: Colors.indigoAccent,
+                      : Container(
+                          height: 55.0,
+                          width: 55.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                  widget.image!,
+                                ),
+                                fit: BoxFit.fill),
+                            shape: BoxShape.circle,
                           ),
-                          onError: const Icon(
-                            Icons.error,
-                            color: Colors.red,
-                          ),
-                          onTap: () {},
                         ),
+
+                  // ImageNetwork(
+                  //     image: widget.image!,
+                  //     imageCache: CachedNetworkImageProvider(widget.image!),
+                  //     height: 55,
+                  //     width: 55,
+                  //     // duration: 1500,
+                  //     // curve: Curves.easeIn,
+                  //     onPointer: true,
+                  //     debugPrint: false,
+                  //     fullScreen: false,
+                  //     fitAndroidIos: BoxFit.cover,
+                  //     fitWeb: BoxFitWeb.scaleDown,
+                  //     borderRadius: BorderRadius.circular(70),
+                  //     // onLoading: const CircularProgressIndicator(
+                  //     //   color: Colors.indigoAccent,
+                  //     // ),
+                  //     onError: const Icon(
+                  //       Icons.error,
+                  //       color: Colors.red,
+                  //     ),
+                  //     onTap: () {},
+                  //   ),
                   SizedBox(width: KSize.getWidth(context, 10)),
                   (widget.name == null)
                       ? StreamBuilder<SingleVendorModel>(
@@ -223,12 +253,19 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
             ),
             GetBuilder<CouponController>(
               id: kCouponClaimCardBuilder,
-              builder: (controller) => AnimatedOpacity(
-                opacity:
-                    widget.showGreyOut! && couponController.timeRemaining == 1
-                        ? 0.4
-                        : 1.0,
-                duration: const Duration(milliseconds: 500),
+              builder: (controller) =>
+                  // AnimatedOpacity(
+                  // opacity:
+                  //     widget.showGreyOut! && couponController.timeRemaining == 1
+                  //         ? 0.4
+                  //         : 1.0,
+                  // duration: const Duration(milliseconds: 500),
+                  // child:
+                  Container(
+                color:
+                    widget.showGreyOut! && couponController.timeRemaining <= 3
+                        ? Colors.grey
+                        : Colors.white,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
@@ -342,100 +379,136 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                         ),
                       ),
                     ],
+                    // ),
                   ),
                 ),
               ),
             ),
-            widget.couponDetails ? const TimerWidget() : const SizedBox(),
+            widget.couponDetails
+                ? GetBuilder<CouponController>(
+                    id: kCouponClaimCardBuilder,
+                    builder: (controller) => Container(
+                        color:
+                            widget.showGreyOut! && controller.timeRemaining <= 3
+                                ? Colors.grey
+                                : Colors.white,
+                        child: const TimerWidget()),
+                  )
+                : const SizedBox(),
             !widget.couponDetails
-                ? const Padding(
-                    padding: EdgeInsets.only(left: 15),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "* Redeem code ONLY when asked at checkout",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: KColor.orange,
+                ? GetBuilder<CouponController>(
+                    id: kCouponClaimCardBuilder,
+                    builder: (controller) => Container(
+                      color:
+                          widget.showGreyOut! && controller.timeRemaining <= 3
+                              ? Colors.grey
+                              : Colors.white,
+                      child: const Padding(
+                        padding: EdgeInsets.only(left: 15),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "* Redeem code ONLY when asked at checkout",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: KColor.orange,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   )
                 : const SizedBox(),
             widget.couponDetails
-                ? Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: KSize.getWidth(context, 22)),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Redeem Code",
-                          style: KTextStyle.headline2.copyWith(
-                              fontSize: 18,
-                              height: 25 / 18,
-                              color: KColor.orange),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        (widget.couponCode != null)
-                            ? Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: KSize.getWidth(context, 33),
-                                    vertical: KSize.getHeight(context, 8)),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: KColor.blue),
-                                child: Text(
-                                  "${widget.couponCode}",
-                                  style: KTextStyle.headline2
-                                      .copyWith(fontSize: 18, height: 25 / 18),
-                                ),
-                              )
-                            :
+                ? GetBuilder<CouponController>(
+                    id: kCouponClaimCardBuilder,
+                    builder: (controller) => Container(
+                      width: Get.width,
+                      color:
+                          widget.showGreyOut! && controller.timeRemaining <= 3
+                              ? Colors.grey
+                              : Colors.white,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Redeem Code",
+                            style: KTextStyle.headline2.copyWith(
+                                fontSize: 18,
+                                height: 25 / 18,
+                                color: KColor.orange),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          (widget.couponCode != null)
+                              ? Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: KSize.getWidth(context, 33),
+                                      vertical: KSize.getHeight(context, 8)),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: KColor.blue),
+                                  child: Text(
+                                    "${widget.couponCode}",
+                                    style: KTextStyle.headline2.copyWith(
+                                        fontSize: 18, height: 25 / 18),
+                                  ),
+                                )
+                              :
 
-                            ///To get coupon code using coupon Id, working on it
-                            StreamBuilder<SingleCouponModel>(
-                                stream: getCoupon().asStream(),
-                                builder: (context,
-                                    AsyncSnapshot<SingleCouponModel> snapshot) {
-                                  if (snapshot.hasData) {
-                                    print(snapshot.data!.couponCode);
-                                    return Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              KSize.getWidth(context, 33),
-                                          vertical:
-                                              KSize.getHeight(context, 8)),
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: KColor.blue),
-                                      child: Text(
-                                        snapshot.data!.couponCode.toString(),
-                                        style: KTextStyle.headline2.copyWith(
-                                            fontSize: 18, height: 25 / 18),
-                                      ),
-                                    );
-                                  } else {
-                                    return Container(
-                                      child: Text("jjjjj"),
-                                    );
-                                  }
-                                },
-                              )
-                      ],
+                              ///To get coupon code using coupon Id, working on it
+                              StreamBuilder<SingleCouponModel>(
+                                  stream: getCoupon().asStream(),
+                                  builder: (context,
+                                      AsyncSnapshot<SingleCouponModel>
+                                          snapshot) {
+                                    if (snapshot.hasData) {
+                                      print(snapshot.data!.couponCode);
+                                      return Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                KSize.getWidth(context, 33),
+                                            vertical:
+                                                KSize.getHeight(context, 8)),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: KColor.blue),
+                                        child: Text(
+                                          snapshot.data!.couponCode.toString(),
+                                          style: KTextStyle.headline2.copyWith(
+                                              fontSize: 18, height: 25 / 18),
+                                        ),
+                                      );
+                                    } else {
+                                      return Container(
+                                        child: Text("jjjjj"),
+                                      );
+                                    }
+                                  },
+                                )
+                        ],
+                      ),
                     ),
                   )
                 : Container(),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 22),
-              child: KButton(
-                isCoupon: true,
-                text: widget.buttonText,
-                onPressed: widget.onPressed,
+            GetBuilder<CouponController>(
+              id: kCouponClaimCardBuilder,
+              builder: (controller) => Container(
+                color: widget.showGreyOut! && controller.timeRemaining <= 3
+                    ? Colors.grey
+                    : Colors.white,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 40, horizontal: 22),
+                  child: KButton(
+                    isCoupon: true,
+                    text: widget.buttonText,
+                    onPressed: widget.onPressed,
+                  ),
+                ),
               ),
             ),
           ],
@@ -455,8 +528,8 @@ class TimerWidget extends StatefulWidget {
 }
 
 class _TimerWidgetState extends State<TimerWidget> {
-  final int _start = 30;
-  int _current = 30;
+  final int _start = 33;
+  int _current = 33;
 
   final couponController = Get.find<CouponController>();
 
@@ -476,7 +549,8 @@ class _TimerWidgetState extends State<TimerWidget> {
     sub.onData((duration) {
       setState(() {
         _current = _start - duration.elapsed.inSeconds;
-        log('Current time;:: $_current');
+
+        log('Current time;:: ${_current}');
         couponController.setTimer(_current);
       });
     });
@@ -505,7 +579,9 @@ class _TimerWidgetState extends State<TimerWidget> {
                 width: 10,
               ),
               Text(
-                "00:00:${_current.toString()}",
+                _current <= 3
+                    ? "00:00:00"
+                    : "00:00:${(_current - 3).toString()}",
                 style: const TextStyle(color: Colors.black),
               ),
             ],

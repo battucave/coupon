@@ -270,18 +270,18 @@ class _KServicesManCardState extends State<KServicesManCard>
                                             vendorProfile.value.vendorLogPath),
                                         height: 55,
                                         width: 55,
-                                        duration: 1500,
-                                        curve: Curves.easeIn,
+                                        // duration: 1500,
+                                        // curve: Curves.easeIn,
                                         onPointer: true,
                                         debugPrint: false,
                                         fullScreen: false,
                                         fitAndroidIos: BoxFit.cover,
                                         fitWeb: BoxFitWeb.cover,
                                         borderRadius: BorderRadius.circular(70),
-                                        onLoading:
-                                            const CircularProgressIndicator(
-                                          color: Colors.indigoAccent,
-                                        ),
+                                        // onLoading:
+                                        //     const CircularProgressIndicator(
+                                        //   color: Colors.indigoAccent,
+                                        // ),
                                         onError: const Icon(
                                           Icons.error,
                                           color: Colors.red,
@@ -309,17 +309,17 @@ class _KServicesManCardState extends State<KServicesManCard>
                                     CachedNetworkImageProvider(widget.image!),
                                 height: 55,
                                 width: 55,
-                                duration: 1500,
-                                curve: Curves.easeIn,
+                                // duration: 1500,
+                                // curve: Curves.easeIn,
                                 onPointer: true,
                                 debugPrint: false,
                                 fullScreen: false,
                                 fitAndroidIos: BoxFit.cover,
                                 fitWeb: BoxFitWeb.cover,
                                 borderRadius: BorderRadius.circular(70),
-                                onLoading: const CircularProgressIndicator(
-                                  color: Colors.indigoAccent,
-                                ),
+                                // onLoading: const CircularProgressIndicator(
+                                //   color: Colors.indigoAccent,
+                                // ),
                                 onError: const Icon(
                                   Icons.error,
                                   color: Colors.red,

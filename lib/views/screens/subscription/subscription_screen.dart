@@ -161,7 +161,7 @@ class _SubscriptionAlertDialogState extends State<SubscriptionAlertDialog> {
                             const EdgeInsets.only(bottom: 140.0, right: 20.0),
                         child: Center(
                           child: Text(
-                            'Save \$10',
+                            'Save \$5',
                             style: KTextStyle.headline1.copyWith(
                                 fontSize: 10.0, color: Colors.purple[800]),
                           ),
@@ -181,7 +181,7 @@ class _SubscriptionAlertDialogState extends State<SubscriptionAlertDialog> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: Text(
-                      isYearlySubscription == false ? '5' : '50',
+                      isYearlySubscription == false ? '5' : '55',
                       style: KTextStyle.headline1.copyWith(fontSize: 25.0),
                     ),
                   ),
@@ -222,7 +222,7 @@ class _SubscriptionAlertDialogState extends State<SubscriptionAlertDialog> {
                             color: KColor.white,
                           )
                         : Text(
-                            '7-Day Trial',
+                            '3-Day Trial',
                             style: KTextStyle.headline1,
                           ),
                   ),
