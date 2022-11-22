@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:logan/views/screens/auth/login_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 import 'package:logan/views/styles/k_text_style.dart';
 
@@ -60,6 +61,12 @@ class ShowSubscriptionSheet extends StatelessWidget {
                         product: productDetails[index],
                         onPressed: () async {
                           await controller.buy(productDetails[index]);
+
+                          //TODO: for now
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()));
                         },
                       );
                     }),

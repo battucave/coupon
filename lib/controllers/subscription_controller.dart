@@ -81,9 +81,6 @@ class SubscriptionController extends GetxController {
       log('PRODUCT ID::::;; ${purchaseDetails.productID}');
       log('PRODUCT ID::::;; ${purchaseDetails.purchaseID}');
 
-      // Future.delayed(const Duration(seconds: 1)).then((_) {
-      //   Get.offAllNamed(Routes.HOME);
-      // });
       //     break;
       //   case storeKeyConsumable:
       //     print('Consumable done');
