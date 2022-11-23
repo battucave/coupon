@@ -60,13 +60,8 @@ class ShowSubscriptionSheet extends StatelessWidget {
                       return PurchaseWidget(
                         product: productDetails[index],
                         onPressed: () async {
+                          // Get.offAll(LoginScreen());
                           await controller.buy(productDetails[index]);
-
-                          //TODO: for now
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
                         },
                       );
                     }),

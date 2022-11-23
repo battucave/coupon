@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:logan/controllers/builder_ids/builder_ids.dart';
+import 'package:logan/views/screens/auth/login_screen.dart';
 
 import '../models/subscription/purchasable_product.dart';
 
@@ -80,6 +81,7 @@ class SubscriptionController extends GetxController {
       log('TRANSACTION DATE:::; ${purchaseDetails.transactionDate.toString()}');
       log('PRODUCT ID::::;; ${purchaseDetails.productID}');
       log('PRODUCT ID::::;; ${purchaseDetails.purchaseID}');
+      Get.offAll(LoginScreen());
 
       //     break;
       //   case storeKeyConsumable:

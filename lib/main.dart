@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/route_manager.dart';
 
 import 'package:logan/views/screens/startup/splash_screen.dart';
 import 'package:logan/views/styles/k_colors.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Logan',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
