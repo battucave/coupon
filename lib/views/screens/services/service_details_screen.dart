@@ -275,16 +275,16 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(children: [
                 ServiceDescriptionComponent(
-                  title: "Hours :",
+                  title: "",
                   subtitle: vendorController.vendor.value.hours,
                   image: AssetPath.clock,
                   tapState: TapState.other,
                 ),
                 //subtitle: "123 somewhere pl, Logan, Ut 12345",
                 ServiceDescriptionComponent(
-                  title: "Address :",
+                  title: "",
                   subtitle: vendorController.vendor.value.street1 +
-                      " " +
+                      "\n" +
                       vendorController.vendor.value.state +
                       " " +
                       vendorController.vendor.value.city +
@@ -294,20 +294,20 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                   tapState: TapState.address,
                 ),
                 ServiceDescriptionComponent(
-                  title: "Phone :",
+                  title: "",
                   subtitle: vendorController.vendor.value.phone,
                   image: AssetPath.phone1,
                   tapState: TapState.phone,
                 ),
                 ServiceDescriptionComponent(
-                  title: "Email :",
+                  title: "",
                   subtitle: vendorController.vendor.value.email,
                   image: AssetPath.mail,
                   tapState: TapState.email,
                 ),
                 ServiceDescriptionComponent(
-                  title: "Website :",
-                  subtitle: vendorController.vendor.value.website,
+                  title: "",
+                  subtitle: 'https://${vendorController.vendor.value.website}/',
                   image: AssetPath.website,
                   tapState: TapState.website,
                 ),

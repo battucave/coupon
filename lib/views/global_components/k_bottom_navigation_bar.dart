@@ -20,7 +20,7 @@ class _KBottomNavBarState extends State<KBottomNavigationBar> {
   final List<Widget> _bottomNavPages = [
     const HomeScreen(),
     const CouponHistoryScreen(),
-    const NotificationScreen(),
+    // const NotificationScreen(),
     const ProfileScreen(),
   ];
 
@@ -45,8 +45,9 @@ class _KBottomNavBarState extends State<KBottomNavigationBar> {
             children: [
               _buildBottomNavItem(context, AssetPath.home, 0),
               _buildBottomNavItem(context, AssetPath.cupon, 1),
-              _buildBottomNavItem(context, AssetPath.notification, 2),
-              _buildBottomNavItem(context, AssetPath.profile, 3),
+              // _buildBottomNavItem(context, AssetPath.notification, 2),
+              //TODO: For now profile naviagtion index 2.. Change to 3 when get notification back
+              _buildBottomNavItem(context, AssetPath.profile, 2),
             ],
           ),
         ));

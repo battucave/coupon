@@ -78,7 +78,7 @@ class ServiceDescriptionComponent extends StatelessWidget {
                       .copyWith(fontSize: 15, color: KColor.black),
                   children: <TextSpan>[
                     TextSpan(
-                      text: subtitle,
+                      text: ' $subtitle',
                       style: KTextStyle.headline4.copyWith(
                           fontSize: 15, color: KColor.black.withOpacity(0.5)),
                     )

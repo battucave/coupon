@@ -394,12 +394,18 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                     .vendorAndCouponList
                                                     .elementAt(index)
                                                     .vendorName,
+                                                // name: couponController
+                                                //     .vendorAndCouponList
+                                                //     .elementAt(index)
+                                                //     .vendorName,
                                                 image: couponController
                                                     .vendorAndCouponList
                                                     .elementAt(index)
                                                     .vendorLogPath,
-                                                color:
-                                                    couponColors.elementAt(0),
+
+                                                color: index % 2 == 0
+                                                    ? couponColors.elementAt(0)
+                                                    : couponColors.elementAt(1),
                                                 percent: couponController
                                                         .vendorAndCouponList
                                                         .isNotEmpty

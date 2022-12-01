@@ -122,37 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //TODO: For now removed then[subscription]
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (context) => SubscriptionScreen()));
-                  //   },
-                  //   child: Container(
-                  //     height: 50.0,
-                  //     width: 140.0,
-                  //     color: Colors.red,
-                  //     child: Text('Go to subscription'),
-                  //   ),
-                  // ),
-                  // SizedBox(height: KSize.getHeight(context, 70)),
-                  // Text(
-                  //   "Welcome shopvoo!",
-                  //   style: KTextStyle.headline4.copyWith(color: KColor.black),
-                  // ),
-                  // const SizedBox(height: 10),
-                  // Row(
-                  //   children: [
-                  //     Image.asset(AssetPath.location, height: 22, width: 18),
-                  //     const SizedBox(width: 18),
-                  //     Text(
-                  //       "Logan, UT, USA",
-                  //       style: KTextStyle.headline2.copyWith(color: KColor.orange, fontSize: 16),
-                  //     )
-                  //   ],
-                  // ),
                   const SizedBox(height: 10),
                   Obx(
                     () => couponController.featured2CouponList.isNotEmpty
@@ -244,7 +213,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisCount: 3,
                             ),
                             itemBuilder: (context, index) {
-                              log(index.toString());
+                              // log(categoriesViewsItem[index].image.toString());
+                              // log(categoryController
+                              //     .allCategory[index].categoryLogoPath
+                              //     .toString());
                               return GestureDetector(
                                 onTap: () {
                                   if (categoryController.allCategory
