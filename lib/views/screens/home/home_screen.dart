@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
               : const EdgeInsets.only(top: 20.0),
           child: Column(
             children: [
-              const SizedBox(height: 25),
+              const SizedBox(height: 40),
               Row(
                 children: [
                   const SizedBox(
@@ -186,13 +186,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Container(),
                   ),
 
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 10),
                   Text(
                     "Categories",
                     style: KTextStyle.headline4
                         .copyWith(fontSize: 20, color: KColor.blueSapphire),
                   ),
-                  // const SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Obx(() => SizedBox(
                         // color: Colors.red,
                         // height: context.screenHeight * 0.35,
