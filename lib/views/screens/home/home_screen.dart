@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              const SizedBox(height: 0),
+              // const SizedBox(height: 0),
               Row(
                 children: [
                   const SizedBox(
@@ -122,12 +122,12 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10),
+                  // const SizedBox(height: 10),
                   Obx(
                     () => couponController.featured2CouponList.isNotEmpty
                         ? SizedBox(
                             width: context.screenWidth,
-                            height: context.screenHeight * 0.14,
+                            height: context.screenHeight * 0.13,
                             child: CarouselSlider(
                                 carouselController: buttonCarouselController,
                                 items: List.generate(
@@ -186,13 +186,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Container(),
                   ),
 
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 5),
                   Text(
                     "Categories",
                     style: KTextStyle.headline4
                         .copyWith(fontSize: 20, color: KColor.blueSapphire),
                   ),
-                  const SizedBox(height: 5),
+                  // const SizedBox(height: 5),
                   Obx(() => SizedBox(
                         // color: Colors.red,
                         // height: context.screenHeight * 0.35,
@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             // clipBehavior: Clip.none,
                             shrinkWrap: true,
                             padding: const EdgeInsets.only(
-                                top: 5, left: 15, right: 15),
+                                top: 5, left: 0, right: 0),
                             itemCount: viewScreens
                                 ? categoriesViewsItem.length
                                 : categoryController.allCategory.length,
@@ -208,8 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               mainAxisExtent: context.screenHeight * 0.140,
-                              mainAxisSpacing: context.screenWidth * 0.004,
-                              crossAxisSpacing: context.screenWidth * 0.09,
+                              // mainAxisSpacing: context.screenWidth * 0.004,
+                              // crossAxisSpacing: context.screenWidth * 0.09,
                               crossAxisCount: 3,
                             ),
                             itemBuilder: (context, index) {
@@ -339,9 +339,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               }
                                             },
                                             child: Container(
-                                              width: context.screenWidth * 0.18,
-                                              height:
-                                                  context.screenHeight * 0.09,
+                                              width: 90,
+                                              height: 90,
                                               // padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
@@ -370,7 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(height: 2),
+                                          const SizedBox(height: 7),
                                           Container(
                                             // color: Colors.red,
                                             child: Text(
@@ -378,10 +377,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .allCategory[index]
                                                   .categoryName,
                                               textAlign: TextAlign.center,
-                                              style: KTextStyle.headline2
-                                                  .copyWith(
-                                                      fontSize: 12,
-                                                      color: KColor.black),
+                                              style:
+                                                  KTextStyle.headline2.copyWith(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600,
+                                                color: KColor.black,
+                                              ),
                                             ),
                                           )
                                         ],

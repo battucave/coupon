@@ -68,7 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     SizedBox(height: KSize.getHeight(context, 5)),
                     Center(
                         child: Text(
-                      " Save money while supporting your favorite local businesses!",
+                      "Welcome to the Best of Logan App, Where Locals support Locals! Gain exclusive access to over \$500 in local deals for less than \$5 a month!.",
                       textAlign: TextAlign.center,
                       style: KTextStyle.headline3
                           .copyWith(color: KColor.black, height: 1.7),
