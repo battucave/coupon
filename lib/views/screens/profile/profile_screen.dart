@@ -532,7 +532,8 @@ class KSettingsItem extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Image.asset(navIcon!, height: 22, width: 22),
+                    Image.asset(navIcon!,
+                        height: 22, width: 22, color: KColor.orange),
                     SizedBox(width: KSize.getWidth(context, 15)),
                     Text(
                       text!,
