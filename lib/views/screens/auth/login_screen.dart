@@ -460,11 +460,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             }
                             //TODO: REMOVE
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SubscriptionScreen()));
+                            // Navigator.pushReplacement(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             const SubscriptionScreen()));
                           },
                         ),
                       )
