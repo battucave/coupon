@@ -66,6 +66,9 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(
+                    height: 8,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -75,9 +78,7 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                       ),
                     ],
                   ),
-                  // const SizedBox(
-                  //   height: 5,
-                  // ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -89,15 +90,15 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                     ],
                   ),
                   const SizedBox(height: 10.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Click for details",
-                        style: KTextStyle.headline5.copyWith(fontSize: 16.0),
-                      ),
-                    ],
-                  )
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     Text(
+                  //       "Click for details",
+                  //       style: KTextStyle.headline5.copyWith(fontSize: 16.0),
+                  //     ),
+                  //   ],
+                  // )
                 ],
               ),
               const Spacer(),
@@ -175,11 +176,22 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
 
               Container(
                 margin: const EdgeInsets.only(right: 20),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
                 child: ImageNetwork(
                   image: widget.image!,
                   imageCache: CachedNetworkImageProvider(widget.image!),
-                  height: 80,
-                  width: 80,
+                  height: 90,
+                  width: 90,
                   duration: 1500,
                   curve: Curves.easeIn,
                   onPointer: true,
@@ -195,6 +207,17 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                     Icons.error,
                     color: Colors.red,
                   ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ServiceDetailsScreen(
+                          color: KColor.blueGreen,
+                          vendorId: widget.vid!,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

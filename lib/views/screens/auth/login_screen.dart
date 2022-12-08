@@ -403,6 +403,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 int? registerResult =
                                     await registerController.Register();
+
                                 if (registerResult == 200 ||
                                     registerResult == 201) {
                                   stopLoading();
@@ -458,6 +459,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 snackMessage("All fields are required");
                               }
                             }
+                            //TODO: REMOVE
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SubscriptionScreen()));
                           },
                         ),
                       )
