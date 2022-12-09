@@ -135,7 +135,7 @@ class SubscriptionController extends GetxController {
     ids = <String>{'monthly_subscription', 'yearly_subscription'};
     // } else {
     //TODO: Set IDs for Android
-    ids = <String>{'monthly_subscription', 'yearly_subscription'};
+    // ids = <String>{'monthly_subscription', 'yearly_subscription'};
     // }
     final response = await iaPurchase.queryProductDetails(ids);
     for (var element in response.notFoundIDs) {

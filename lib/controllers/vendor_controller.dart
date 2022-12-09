@@ -96,6 +96,7 @@ class VendorController extends GetxController {
     Response response = await NetWorkHandler().get(ApiRoutes.featuredVendor);
     if (response.statusCode == 200 || response.statusCode == 201) {
       featuredVendorList.value = vendorModelFromJson(response.body);
+      log('VENDOR LIST::: ${featuredVendorList.length}');
       return response.statusCode;
     } else {
       return response.statusCode;
