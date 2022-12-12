@@ -1,17 +1,10 @@
-import 'dart:developer';
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:image_network/image_network.dart';
 import 'package:logan/constant/asset_path.dart';
-import 'package:logan/extensions/string_extension.dart';
 import 'package:logan/models/categories_models.dart';
 import 'package:logan/utils/extensions.dart';
-import 'package:logan/views/global_components/k_vendor_brands_list_component.dart';
-import 'package:logan/views/screens/services/services_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -21,17 +14,16 @@ import '../../../controllers/profile_controller.dart';
 import '../../../controllers/vendor_controller.dart';
 import '../../global_components/k_brands_card.dart';
 import '../../global_components/k_featured_carousel_card.dart';
-import '../services/service_details_screen.dart';
 import '../subscription/subscription_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class UnsubscribeHomeScreen extends StatefulWidget {
+  const UnsubscribeHomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<UnsubscribeHomeScreen> createState() => _UnsubscribeHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _UnsubscribeHomeScreenState extends State<UnsubscribeHomeScreen> {
   CarouselController buttonCarouselController = CarouselController();
   bool viewScreens = false;
   List<Color> colors = [
@@ -147,24 +139,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                       .toString());
                                   return KFeaturedCarouselCard(
                                     onTap: () {
+                                      //TODO: Subscribe dialog
+                                      print('Please subscribe first');
                                       Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ServiceDetailsScreen(
-                                            color: KColor.blueGreen,
-                                            vendorId: vendorController
-                                                .featuredVendorList
-                                                .firstWhere((element) =>
-                                                    element.vendorName ==
-                                                    couponController
-                                                        .featured2CouponList
-                                                        .elementAt(index)
-                                                        .vendorName)
-                                                .vid,
-                                          ),
-                                        ),
-                                      );
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SubscriptionScreen()));
                                     },
                                     percent: couponController
                                         .featured2CouponList
@@ -239,42 +220,51 @@ class _HomeScreenState extends State<HomeScreen> {
                               //     .toString());
                               return GestureDetector(
                                 onTap: () {
-                                  if (categoryController.allCategory
-                                          .elementAt(index)
-                                          .categoryName ==
-                                      "Featured") {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ServicesScreen(
-                                                  catId: categoryController
-                                                      .allCategory
-                                                      .elementAt(index)
-                                                      .cid,
-                                                  isFeatured: true,
-                                                  title: categoryController
-                                                      .allCategory
-                                                      .elementAt(index)
-                                                      .categoryName,
-                                                )));
-                                  } else {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ServicesScreen(
-                                                  catId: categoryController
-                                                      .allCategory
-                                                      .elementAt(index)
-                                                      .cid,
-                                                  title: categoryController
-                                                      .allCategory
-                                                      .elementAt(index)
-                                                      .categoryName,
-                                                  isFeatured: false,
-                                                )));
-                                  }
+                                  //TODO: Subscribe dialog
+                                  print('Please subscribe first');
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SubscriptionScreen()));
+
+                                  //TODO: OLD LOGIC
+                                  // if (categoryController.allCategory
+                                  //         .elementAt(index)
+                                  //         .categoryName ==
+                                  //     "Featured") {
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) =>
+                                  //               ServicesScreen(
+                                  //                 catId: categoryController
+                                  //                     .allCategory
+                                  //                     .elementAt(index)
+                                  //                     .cid,
+                                  //                 isFeatured: true,
+                                  //                 title: categoryController
+                                  //                     .allCategory
+                                  //                     .elementAt(index)
+                                  //                     .categoryName,
+                                  //               )));
+                                  // } else {
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) =>
+                                  //               ServicesScreen(
+                                  //                 catId: categoryController
+                                  //                     .allCategory
+                                  //                     .elementAt(index)
+                                  //                     .cid,
+                                  //                 title: categoryController
+                                  //                     .allCategory
+                                  //                     .elementAt(index)
+                                  //                     .categoryName,
+                                  //                 isFeatured: false,
+                                  //               )));
+                                  // }
                                 },
                                 child: viewScreens
                                     ? Column(
@@ -320,43 +310,52 @@ class _HomeScreenState extends State<HomeScreen> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              if (categoryController.allCategory
-                                                      .elementAt(index)
-                                                      .categoryName ==
-                                                  "Featured") {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => ServicesScreen(
-                                                            catId:
-                                                                categoryController
-                                                                    .allCategory
-                                                                    .elementAt(
-                                                                        index)
-                                                                    .cid,
-                                                            isFeatured: true,
-                                                            title: categoryController
-                                                                .allCategory
-                                                                .elementAt(
-                                                                    index)
-                                                                .categoryName)));
-                                              } else {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => ServicesScreen(
-                                                            catId:
-                                                                categoryController
-                                                                    .allCategory
-                                                                    .elementAt(
-                                                                        index)
-                                                                    .cid,
-                                                            title: categoryController
-                                                                .allCategory
-                                                                .elementAt(
-                                                                    index)
-                                                                .categoryName)));
-                                              }
+                                              //TODO: Subscribe dialog
+                                              print('Please subscribe first');
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const SubscriptionScreen()));
+
+                                              //TODO: OLD LOGIC REMOVE THEN
+                                              // if (categoryController.allCategory
+                                              //         .elementAt(index)
+                                              //         .categoryName ==
+                                              //     "Featured") {
+                                              //   Navigator.push(
+                                              //       context,
+                                              //       MaterialPageRoute(
+                                              //           builder: (context) => ServicesScreen(
+                                              //               catId:
+                                              //                   categoryController
+                                              //                       .allCategory
+                                              //                       .elementAt(
+                                              //                           index)
+                                              //                       .cid,
+                                              //               isFeatured: true,
+                                              //               title: categoryController
+                                              //                   .allCategory
+                                              //                   .elementAt(
+                                              //                       index)
+                                              //                   .categoryName)));
+                                              // } else {
+                                              //   Navigator.push(
+                                              //       context,
+                                              //       MaterialPageRoute(
+                                              //           builder: (context) => ServicesScreen(
+                                              //               catId:
+                                              //                   categoryController
+                                              //                       .allCategory
+                                              //                       .elementAt(
+                                              //                           index)
+                                              //                       .cid,
+                                              //               title: categoryController
+                                              //                   .allCategory
+                                              //                   .elementAt(
+                                              //                       index)
+                                              //                   .categoryName)));
+                                              // }
                                             },
                                             child: Container(
                                               width: 90,
@@ -439,30 +438,43 @@ class _HomeScreenState extends State<HomeScreen> {
                             (index) {
                           return GestureDetector(
                             onTap: () {
+                              //TODO: Subscribe dialog
+                              print('Please subscribe first');
                               Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ServiceDetailsScreen(
-                                        color: colors[0],
-                                        vendorId: vendorController
-                                            .featuredVendorList
-                                            .elementAt(index)
-                                            .vid)),
-                              );
-                            },
-                            child: KBrandsCard(
-                              onPressed: () {
-                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          ServiceDetailsScreen(
-                                              color: colors[0],
-                                              vendorId: vendorController
-                                                  .featuredVendorList
-                                                  .elementAt(index)
-                                                  .vid)),
-                                );
+                                          const SubscriptionScreen()));
+
+                              //TODO: Old logic remove then
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => ServiceDetailsScreen(
+                              //           color: colors[0],
+                              //           vendorId: vendorController
+                              //               .featuredVendorList
+                              //               .elementAt(index)
+                              //               .vid)),
+                              // );
+                            },
+                            child: KBrandsCard(
+                              onPressed: () {
+                                //TODO: Subscribe dialog
+                                print('Please subscribe first');
+
+                                // TODO: Old logic remove then
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) =>
+                                //           ServiceDetailsScreen(
+                                //               color: colors[0],
+                                //               vendorId: vendorController
+                                //                   .featuredVendorList
+                                //                   .elementAt(index)
+                                //                   .vid)),
+                                // );
                               },
                               image: vendorController.featuredVendorList
                                   .elementAt(index)

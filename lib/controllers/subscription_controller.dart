@@ -5,7 +5,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:logan/common/ui.dart';
+import 'package:logan/constant/api_routes.dart';
 import 'package:logan/controllers/builder_ids/builder_ids.dart';
+import 'package:logan/network_services/network_handler.dart';
+import 'package:logan/views/global_components/k_bottom_navigation_bar.dart';
 import 'package:logan/views/screens/auth/login_screen.dart';
 
 import '../models/subscription/purchasable_product.dart';
@@ -18,8 +22,7 @@ class SubscriptionController extends GetxController {
   ProductStatus productStatus = ProductStatus.pending;
   List<ProductDetails> products = List.empty(growable: true);
 
-  String email = '';
-  String password = '';
+  final network = NetWorkHandler();
 
   bool isLoading = false;
 
@@ -72,16 +75,20 @@ class SubscriptionController extends GetxController {
       //   case storeKeySubscription:
       String serverKey =
           purchaseDetails.verificationData.serverVerificationData;
-      // String email = Get.arguments['email'];
-      // String password = Get.arguments['password'];
-      log('EMAIL IN CONTROLLER ::::::; $email');
-      log('PASSWORD IN CONTROLLER ::::::; $password');
       log('LOCAL VERIFICATION::: ${purchaseDetails.verificationData.localVerificationData}');
       log('SERVER VERIFICATION:::: ${purchaseDetails.verificationData.serverVerificationData}');
       log('TRANSACTION DATE:::; ${purchaseDetails.transactionDate.toString()}');
       log('PRODUCT ID::::;; ${purchaseDetails.productID}');
       log('PRODUCT ID::::;; ${purchaseDetails.purchaseID}');
-      Get.offAll(LoginScreen());
+      int response = await createSubscripton(receipt: serverKey);
+      if (response == 200 || response == 201) {
+        //TODO: Subscription routing logic
+        Get.offAll(() => KBottomNavigationBar());
+      } else {
+        //TODO: Error logic
+        Get.showSnackbar(
+            Ui.ErrorSnackBar(message: 'An error occured please try again'));
+      }
 
       //     break;
       //   case storeKeyConsumable:
@@ -131,12 +138,7 @@ class SubscriptionController extends GetxController {
       storeState = StoreState.notAvailable;
       return null;
     }
-    // if (Platform.isIOS) {
     ids = <String>{'monthly_subscription', 'yearly_subscription'};
-    // } else {
-    //TODO: Set IDs for Android
-    // ids = <String>{'monthly_subscription', 'yearly_subscription'};
-    // }
     final response = await iaPurchase.queryProductDetails(ids);
     for (var element in response.notFoundIDs) {
       debugPrint('Purchase $element not found');
@@ -147,6 +149,25 @@ class SubscriptionController extends GetxController {
     isLoading = false;
     update([kProductDetailBuilder]);
     return products;
+  }
+
+  //TODO: CHECK, DELETE AND POST SUBSCRIPTION
+
+  Future<int> getSubscription() async {
+    //TODO: save Subscription details
+    final response = await network.getSubscription(ApiRoutes.getSubscription);
+    return response.statusCode;
+  }
+
+  Future<int> createSubscripton({required String receipt}) async {
+    //TODO: Save subscription details
+    final response = await network.createSubscription(
+        endpoint: ApiRoutes.createSubscription,
+        platform: Platform.isAndroid ? 'Android' : 'IOS',
+        receipt: receipt);
+    log(response.statusCode.toString());
+    log(response.body);
+    return response.statusCode;
   }
 
   @override

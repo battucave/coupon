@@ -1,6 +1,6 @@
 class ApiRoutes {
   ///All api endpoint
-  static const apiHost = "http://18.222.199.244/";
+  static const apiHost = "http://3.131.82.99/";
 
   ///Auth
   static const register = "api/v1/auth/register";
@@ -40,4 +40,9 @@ class ApiRoutes {
   static const vendorById = "api/v1/vendor/";
   static const allVendor = "api/v1/vendor/all/";
   static const featuredVendor = "api/v1/vendor/featured/all/";
+
+  //Subscription
+  static const getSubscription = "/api/v1/subscriptions/";
+  static const createSubscription = "/api/v1/subscriptions/create";
+  static const deleteSubscription = "/api/v1/subscriptions/delete";
 }

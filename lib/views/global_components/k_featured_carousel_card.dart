@@ -17,8 +17,14 @@ class KFeaturedCarouselCard extends StatefulWidget {
   final String? image;
   final int? vid;
   final String? vendorName;
+  final VoidCallback onTap;
   const KFeaturedCarouselCard(
-      {Key? key, this.image, this.percent, this.vid, this.vendorName})
+      {Key? key,
+      this.image,
+      this.percent,
+      this.vid,
+      this.vendorName,
+      required this.onTap})
       : super(key: key);
 
   @override
@@ -40,17 +46,19 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ServiceDetailsScreen(
-              color: KColor.blueGreen,
-              vendorId: widget.vid!,
-            ),
-          ),
-        );
-      },
+      //TODO: Old logic
+      //  onTap: () {
+      //   Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => ServiceDetailsScreen(
+      //         color: KColor.blueGreen,
+      //         vendorId: widget.vid!,
+      //       ),
+      //     ),
+      //   );
+      // },
+      onTap: widget.onTap,
       child: Container(
           padding: const EdgeInsets.only(
             left: 30,

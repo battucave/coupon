@@ -29,6 +29,7 @@ class ProfileController extends GetxController {
   Future<int?> getProfile() async {
     Response response = (await NetWorkHandler().get(ApiRoutes.profile));
     if (response.statusCode == 200 || response.statusCode == 201) {
+      log('PROFILE:: ${response.body}');
       dynamic data = json.decode(response.body);
       NetWorkHandler.storeUserId(data['id']);
 

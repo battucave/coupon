@@ -3,12 +3,15 @@ import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/controllers/login_controller.dart';
+import 'package:logan/controllers/profile_controller.dart';
 import 'package:logan/controllers/register_controller.dart';
+import 'package:logan/controllers/subscription_controller.dart';
 import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/global_components/k_arrow_go_button.dart';
 import 'package:logan/views/global_components/k_bottom_navigation_bar.dart';
 import 'package:logan/views/global_components/k_social_media_button.dart';
 import 'package:logan/views/global_components/k_text_field.dart';
+import 'package:logan/views/global_components/k_unsubscribe_bottom_navigation_bar.dart';
 import 'package:logan/views/screens/auth/forgot_password_screen.dart';
 import 'package:logan/views/screens/home/home_screen.dart';
 import 'package:logan/views/screens/subscription/subscription_screen.dart';
@@ -30,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isSignupScreen = true;
   RegisterController registerController = Get.put(RegisterController());
   LoginController loginController = Get.put(LoginController());
+  final subscriptionController = Get.put(SubscriptionController());
+  final profileController = Get.put(ProfileController());
   bool isLoading = false;
   bool validateEmail(String value) {
     Pattern pattern =
@@ -366,6 +371,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: KArrowGoButton(
                           isLoading: isLoading,
                           onpressed: () async {
+                            //TODO: REMOVE [TESTING ROUTING]
+                            // Navigator.pushReplacement(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             const KUnsubscribeBottomNavigationBar()));
+                            //TODO: Uncomment
+
                             if (isSignupScreen) {
                               if (registerController.emailController.text.isNotEmpty &&
                                   registerController
@@ -411,14 +424,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     isSignupScreen = false;
                                   });
                                   // Navigator.pop(context);
-
-                                  //TODO: UNCOMMENT
-
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const SubscriptionScreen()));
+                                              const KUnsubscribeBottomNavigationBar()));
+
+                                  //TODO: UNCOMMENT
+                                  // Navigator.pushReplacement(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             const SubscriptionScreen()));
                                   snackMessage("Successful registration");
                                   registerController.emailController.clear();
                                   registerController.phoneController.clear();
@@ -443,13 +460,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ///Remove credential
                                   loginController.emailController.text = "";
                                   loginController.passwordController.text = "";
-
-                                  stopLoading();
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const KBottomNavigationBar()));
+                                  int? profileResult =
+                                      await profileController.getProfile();
+                                  if (profileResult == 200 ||
+                                      profileResult == 201) {
+                                    int subscriptonResponse =
+                                        await subscriptionController
+                                            .getSubscription();
+                                    stopLoading();
+                                    if (subscriptonResponse == 200 ||
+                                        subscriptonResponse == 201) {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const KBottomNavigationBar()));
+                                    } else {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const KUnsubscribeBottomNavigationBar()));
+                                    }
+                                  }
                                 } else {
                                   stopLoading();
                                   snackMessage(
@@ -460,11 +493,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             }
                             //TODO: REMOVE
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const SubscriptionScreen()));
+                            // Navigator.pushReplacement(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             const SubscriptionScreen()));
                           },
                         ),
                       )

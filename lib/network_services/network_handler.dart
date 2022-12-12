@@ -112,6 +112,32 @@ class NetWorkHandler {
     return request;
   }
 
+  //Subscription
+  Future<http.Response> getSubscription(String endpoint) async {
+    // String? token = await getToken();
+    int? userId = await getUserId();
+    log('USERID:: $userId');
+    await setHeaderToken();
+    http.Response request = await get('$endpoint$userId');
+    log('STATUS CODE:: ${request.statusCode}');
+    return request;
+  }
+
+  Future<http.Response> createSubscription(
+      {required String endpoint,
+      required String platform,
+      required String receipt}) async {
+    // String? token = await getToken();
+    int? userId = await getUserId();
+    log('USERID:: $userId');
+    await setHeaderToken();
+    http.Response request = await post(
+        {'user_id': userId, 'platform': platform, 'receipt': receipt},
+        endpoint);
+    log('STATUS CODE:: ${request.statusCode}');
+    return request;
+  }
+
   static Uri buildUrl(String endpoint) {
     final apiPath = ApiRoutes.apiHost + endpoint;
     return Uri.parse(apiPath);
