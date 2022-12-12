@@ -416,6 +416,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 int? registerResult =
                                     await registerController.Register();
+                                int? profileResult =
+                                    await profileController.getProfile();
 
                                 if (registerResult == 200 ||
                                     registerResult == 201) {
