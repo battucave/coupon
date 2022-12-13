@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -131,9 +132,8 @@ class NetWorkHandler {
     int? userId = await getUserId();
     log('USERID:: $userId');
     await setHeaderToken();
-    http.Response request = await post(
-        {'user_id': userId, 'platform': platform, 'receipt': receipt},
-        endpoint);
+    final body = {'user_id': userId, 'platform': platform, 'receipt': receipt};
+    http.Response request = await post(jsonEncode(body), endpoint);
     log('STATUS CODE:: ${request.statusCode}');
     return request;
   }
