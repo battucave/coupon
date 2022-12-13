@@ -133,9 +133,11 @@ class NetWorkHandler {
     log('USERID:: $userId');
     await setHeaderToken();
     final body = {'user_id': userId, 'platform': platform, 'receipt': receipt};
-    http.Response request = await post(jsonEncode(body), endpoint);
-    log('STATUS CODE:: ${request.statusCode}');
-    return request;
+    // http.Response request = await post(jsonEncode(body), endpoint);
+    final response = await http.post(buildUrl(endpoint),
+        body: jsonEncode(body), headers: {"Content-type": "application/json"});
+    log('STATUS CODE:: ${response.statusCode}');
+    return response;
   }
 
   static Uri buildUrl(String endpoint) {
