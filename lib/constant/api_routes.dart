@@ -42,7 +42,7 @@ class ApiRoutes {
   static const featuredVendor = "api/v1/vendor/featured/all/";
 
   //Subscription
-  static const getSubscription = "/api/v1/subscriptions/";
-  static const createSubscription = "/api/v1/subscriptions/create";
-  static const deleteSubscription = "/api/v1/subscriptions/delete";
+  static const getSubscription = "api/v1/subscriptions/";
+  static const createSubscription = "api/v1/subscriptions/create";
+  static const deleteSubscription = "api/v1/subscriptions/delete";
 }
