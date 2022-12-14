@@ -83,6 +83,8 @@ class SubscriptionController extends GetxController {
       int response = await createSubscripton(receipt: serverKey);
       if (response == 200 || response == 201) {
         //TODO: Subscription routing logic
+        Get.showSnackbar(
+            Ui.SuccessSnackBar(message: 'Purchase done successfully'));
         Get.offAll(() => KBottomNavigationBar());
       } else {
         //TODO: Error logic
