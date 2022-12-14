@@ -261,7 +261,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.offAll(() => const LoginScreen());
+                  // Get.offAll(() => const LoginScreen());
+                  Get.back();
                 },
                 child: Text(
                   'No Thanks',
