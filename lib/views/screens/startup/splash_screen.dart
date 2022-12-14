@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/instance_manager.dart';
 import 'package:logan/constant/asset_path.dart';
+import 'package:logan/controllers/subscription_controller.dart';
 import 'package:logan/network_services/network_handler.dart';
 import 'package:logan/views/global_components/k_bottom_navigation_bar.dart';
 import 'package:logan/views/screens/subscription/subscription_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
+import '../../global_components/k_unsubscribe_bottom_navigation_bar.dart';
 import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,6 +17,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final subscriptionController = Get.put(SubscriptionController());
+
   @override
   void initState() {
     super.initState();
@@ -25,18 +30,29 @@ class _SplashScreenState extends State<SplashScreen> {
 
   initData() async {
     String? session = await NetWorkHandler.getToken();
-    Future.delayed(const Duration(seconds: 3), () {
-      if (session != null) {
-        //If user already have session, go to homeScreen
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const KBottomNavigationBar()));
-      } else {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const OnboardingScreen()));
-      }
-    });
+
+    if (session != null) {
+      //If user already have session, and subscription go to Home
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        int subscriptonResponse =
+            await subscriptionController.getSubscription();
+        if (subscriptonResponse == 200 || subscriptonResponse == 201) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const KBottomNavigationBar()));
+        } else {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const KUnsubscribeBottomNavigationBar()));
+        }
+      });
+    } else {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const OnboardingScreen()));
+    }
   }
 
   @override

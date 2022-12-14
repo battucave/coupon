@@ -59,6 +59,7 @@ class ProfileController extends GetxController {
       mailController.text = data["email"];
       return response.statusCode;
     } else {
+      log('IN PROFILE:: ${response.statusCode}');
       return response.statusCode;
     }
   }

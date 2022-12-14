@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/utils/extensions.dart';
-import 'package:logan/views/screens/coupon/coupon_history_screens.dart';
-import 'package:logan/views/screens/home/home_screen.dart';
-import 'package:logan/views/screens/notification/notification_screen.dart';
-import 'package:logan/views/screens/profile/profile_screen.dart';
 import 'package:logan/views/screens/unsubscribe_screens/unsubscribe_home_screen.dart';
 import 'package:logan/views/styles/k_colors.dart';
 
+import '../screens/coupon/coupon_history_screens.dart';
+import '../screens/profile/profile_screen.dart';
 import '../screens/subscription/subscription_screen.dart';
 
 class KUnsubscribeBottomNavigationBar extends StatefulWidget {
@@ -24,9 +22,9 @@ class _KUnsubscribeBottomNavigationBarState
 
   final List<Widget> _bottomNavPages = [
     const UnsubscribeHomeScreen(),
-    // const CouponHistoryScreen(),
+    const CouponHistoryScreen(),
     // const NotificationScreen(),
-    // const ProfileScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -63,11 +61,9 @@ class _KUnsubscribeBottomNavigationBarState
     return GestureDetector(
       onTap: () {
         setState(() {
-          if (navIndex == 0) {
+          if (navIndex == 0 || navIndex == 2) {
             _currentIndex = navIndex;
           } else {
-            //TODO: Subscribe dialog
-            print('Please subscribe first');
             Navigator.push(
                 context,
                 MaterialPageRoute(

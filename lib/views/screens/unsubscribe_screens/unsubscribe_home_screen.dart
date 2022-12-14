@@ -36,6 +36,7 @@ class _UnsubscribeHomeScreenState extends State<UnsubscribeHomeScreen> {
   VendorController vendorController = Get.put(VendorController());
   ProfileController profileController = Get.put(ProfileController());
   List<Widget>? featuredCarousel = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

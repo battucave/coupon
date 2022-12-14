@@ -416,8 +416,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 int? registerResult =
                                     await registerController.Register();
-                                int? profileResult =
-                                    await profileController.getProfile();
 
                                 if (registerResult == 200 ||
                                     registerResult == 201) {
@@ -426,18 +424,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     isSignupScreen = false;
                                   });
                                   // Navigator.pop(context);
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const KUnsubscribeBottomNavigationBar()));
-
-                                  //TODO: UNCOMMENT
-                                  // Navigator.pushReplacement(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             const SubscriptionScreen()));
                                   snackMessage("Successful registration");
                                   registerController.emailController.clear();
                                   registerController.phoneController.clear();

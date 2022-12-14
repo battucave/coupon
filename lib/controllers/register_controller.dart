@@ -60,6 +60,7 @@ class RegisterController extends GetxController {
       return response.statusCode;
     } else {
       log('RESPONSE::: ${response.statusCode}');
+      log('RESPONSE::: ${response.body}');
       return response.statusCode;
     }
   }
