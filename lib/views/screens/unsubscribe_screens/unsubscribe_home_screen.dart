@@ -371,7 +371,7 @@ class _UnsubscribeHomeScreenState extends State<UnsubscribeHomeScreen> {
                                                         .allCategory
                                                         .elementAt(index)
                                                         .categoryLogoPath,
-                                                    scale: 2.0,
+                                                    // scale: 2.0,
                                                   ),
                                                 ),
                                                 border: Border.all(

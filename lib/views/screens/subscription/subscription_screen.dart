@@ -33,6 +33,12 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        leading: const BackButton(),
+        iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: SafeArea(
         child: Container(
           height: Get.height,
@@ -120,32 +126,34 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               ),
               Stack(
                 children: [
-                  isYearlySubscription == true
-                      ? const Padding(
-                          padding: EdgeInsets.only(right: 5),
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: SizedBox(
-                              width: 100,
-                              height: 48,
-                              child: Card(
-                                color: KColor.blueSapphire,
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Center(
-                                    child: Text(
-                                      "Save \$5",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      : const SizedBox(),
+                  //TODO: Save button [Not Needed now]
+
+                  // isYearlySubscription == true
+                  //     ? const Padding(
+                  //         padding: EdgeInsets.only(right: 5),
+                  //         child: Align(
+                  //           alignment: Alignment.topRight,
+                  //           child: SizedBox(
+                  //             width: 100,
+                  //             height: 48,
+                  //             child: Card(
+                  //               color: KColor.blueSapphire,
+                  //               child: Padding(
+                  //                 padding: EdgeInsets.all(8.0),
+                  //                 child: Center(
+                  //                   child: Text(
+                  //                     "Save \$5",
+                  //                     style: TextStyle(
+                  //                         fontWeight: FontWeight.bold,
+                  //                         fontSize: 17),
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       )
+                  //     : const SizedBox(),
                   Row(
                     mainAxisAlignment: isYearlySubscription == true
                         ? MainAxisAlignment.center
@@ -164,26 +172,52 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 height: 30,
               ),
               isYearlySubscription == true
-                  ? const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Text(
-                        "Enjoy your free 3 day trial of the Best of Logan App! Then pay only \$55/Yearly (Save \$5 over our monthly option) and gain exclusive access to over \$500 in local savings and offers!",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                        textAlign: TextAlign.center,
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Column(
+                        children: const [
+                          Text(
+                            'Enjoy your free 3 day trial of \nThe Best of Logan App!',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 35.0),
+                          Text(
+                            "Then pay only \$55/Yearly to gain \nexclusive access to over \$500 in \nlocal savings and offers!",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     )
-                  : const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Text(
-                        "Enjoy your free 3 day trial of the Best of Logan App! Then pay only \$4.99/month (less than a trip to Starbucks) and gain exclusive access to over \$500 in local savings and offers!",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                        textAlign: TextAlign.center,
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: Column(
+                        children: const [
+                          Text(
+                            'Enjoy your free 3 day trial of \nThe Best of Logan App!',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 35.0),
+                          Text(
+                            "Then pay only \$4.99/month \n(less than a trip to Starbucks) to \ngain exclusive access to over \$500 \nin local savings and offers!",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
                     ),
               SizedBox(
@@ -200,18 +234,17 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                         style: KTextStyle.headline3
                             .copyWith(fontSize: 25.0, color: Colors.black),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          isYearlySubscription == false ? '5' : '55',
-                          style: KTextStyle.headline1
-                              .copyWith(fontSize: 25.0, color: Colors.black),
-                        ),
+                      Text(
+                        isYearlySubscription == false ? '4.99' : '55',
+                        style: KTextStyle.headline1.copyWith(
+                            fontSize: 25.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.normal),
                       ),
                       Text(
                         isYearlySubscription == false
                             ? ' /month'
-                            : ' /annually',
+                            : ' /yearly (\$5 annual savings)',
                         style: KTextStyle.headline3.copyWith(
                             fontSize: 16.0,
                             color: Colors.black.withOpacity(0.7)),
@@ -249,8 +282,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                               color: KColor.white,
                             )
                           : Text(
-                              '3-Day Trial',
-                              style: KTextStyle.headline1.copyWith(),
+                              'Start Your 3-Day Trial',
+                              style:
+                                  KTextStyle.headline1.copyWith(fontSize: 22.0),
                             ),
                     ),
                   ),
@@ -259,19 +293,18 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
               const SizedBox(
                 height: 10,
               ),
-              GestureDetector(
-                onTap: () {
-                  // Get.offAll(() => const LoginScreen());
-                  Get.back();
-                },
-                child: Text(
-                  'No Thanks',
-                  style: KTextStyle.headline6.copyWith(
-                    color: Colors.grey.withOpacity(0.7),
-                    fontSize: 18,
-                  ),
-                ),
-              )
+              // GestureDetector(
+              //   onTap: () {
+              //     Get.back();
+              //   },
+              //   child: Text(
+              //     'No Thanks',
+              //     style: KTextStyle.headline6.copyWith(
+              //       color: Colors.grey.withOpacity(0.7),
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),
