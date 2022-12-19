@@ -371,7 +371,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         .allCategory
                                                         .elementAt(index)
                                                         .categoryLogoPath,
-                                                    scale: 2.0,
+                                                    // scale: 2.0,
                                                   ),
                                                 ),
                                                 border: Border.all(

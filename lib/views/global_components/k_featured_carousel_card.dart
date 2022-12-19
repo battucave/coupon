@@ -61,7 +61,7 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
       onTap: widget.onTap,
       child: Container(
           padding: const EdgeInsets.only(
-            left: 30,
+            left: 20,
           ),
           width: context.screenWidth,
           decoration: const BoxDecoration(

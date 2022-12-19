@@ -39,8 +39,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.spaceAround,
+            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -49,7 +49,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   children: [
                     SizedBox(height: KSize.getHeight(context, 40)),
                     SizedBox(
-                      height: context.screenHeight * 0.3,
+                      height: context.screenHeight * 0.24,
                       child: SizedBox(
                         width: context.screenWidth * 0.5,
                         // height: context.screenWidth * 0.5,
@@ -68,7 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     SizedBox(height: KSize.getHeight(context, 5)),
                     Center(
                         child: Text(
-                      "Welcome to the Best of Logan App, Where Locals support Locals! Gain exclusive access to over \$500 in local deals for less than \$5 a month!.",
+                      "Welcome to the Best of Logan App, Where Locals support Locals! Gain exclusive access to over \$500 in local deals for less than \$5 a month!",
                       textAlign: TextAlign.center,
                       style: KTextStyle.headline3
                           .copyWith(color: KColor.black, height: 1.7),
