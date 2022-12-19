@@ -439,43 +439,23 @@ class _UnsubscribeHomeScreenState extends State<UnsubscribeHomeScreen> {
                             (index) {
                           return GestureDetector(
                             onTap: () {
-                              //TODO: Subscribe dialog
                               print('Please subscribe first');
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           const SubscriptionScreen()));
-
-                              //TODO: Old logic remove then
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => ServiceDetailsScreen(
-                              //           color: colors[0],
-                              //           vendorId: vendorController
-                              //               .featuredVendorList
-                              //               .elementAt(index)
-                              //               .vid)),
-                              // );
                             },
                             child: KBrandsCard(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SubscriptionScreen()));
+                              },
                               onPressed: () {
-                                //TODO: Subscribe dialog
                                 print('Please subscribe first');
-
-                                // TODO: Old logic remove then
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           ServiceDetailsScreen(
-                                //               color: colors[0],
-                                //               vendorId: vendorController
-                                //                   .featuredVendorList
-                                //                   .elementAt(index)
-                                //                   .vid)),
-                                // );
                               },
                               image: vendorController.featuredVendorList
                                   .elementAt(index)

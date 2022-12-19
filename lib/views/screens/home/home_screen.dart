@@ -451,6 +451,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                             child: KBrandsCard(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ServiceDetailsScreen(
+                                              color: colors[0],
+                                              vendorId: vendorController
+                                                  .featuredVendorList
+                                                  .elementAt(index)
+                                                  .vid)),
+                                );
+                              },
                               onPressed: () {
                                 Navigator.push(
                                   context,

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:image_network/image_network.dart';
 import 'package:logan/views/styles/b_style.dart';
 
@@ -11,13 +12,15 @@ class KBrandsCard extends StatefulWidget {
   final Function()? onPressed;
   final bool? isRound;
   final int vid;
+  final Function? onTap;
   const KBrandsCard(
       {Key? key,
       this.image,
       this.onPressed,
       this.text,
       this.isRound,
-      required this.vid})
+      required this.vid,
+      required this.onTap})
       : super(key: key);
 
   @override
@@ -38,9 +41,10 @@ class _KBrandsCardState extends State<KBrandsCard> {
         width: 100,
         height: 105,
         margin: const EdgeInsets.only(right: 9),
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: KColor.white,
+          // color: Colors.red,
           shape: widget.isRound != null ? BoxShape.circle : BoxShape.rectangle,
           borderRadius:
               widget.isRound != null ? null : BorderRadius.circular(23),
@@ -55,7 +59,7 @@ class _KBrandsCardState extends State<KBrandsCard> {
         child: LayoutBuilder(builder: (context, constraints) {
           return ImageNetwork(
             width: constraints.maxWidth * 0.9,
-            height: constraints.maxHeight * 0.7,
+            height: constraints.maxHeight * 0.9,
             image: widget.image!,
             imageCache: CachedNetworkImageProvider(widget.image!),
             duration: 1500,
@@ -63,7 +67,7 @@ class _KBrandsCardState extends State<KBrandsCard> {
             onPointer: true,
             debugPrint: false,
             fullScreen: false,
-            fitAndroidIos: BoxFit.cover,
+            fitAndroidIos: BoxFit.contain,
             fitWeb: BoxFitWeb.cover,
             // borderRadius: BorderRadius.circular(70),
             onLoading: const CircularProgressIndicator(
@@ -73,14 +77,7 @@ class _KBrandsCardState extends State<KBrandsCard> {
               Icons.error,
               color: Colors.red,
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ServiceDetailsScreen(
-                        color: colors[0], vendorId: widget.vid)),
-              );
-            },
+            onTap: widget.onTap,
           );
         }),
       ),

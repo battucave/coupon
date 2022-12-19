@@ -5,6 +5,8 @@ import 'package:logan/utils/extensions.dart';
 import 'package:logan/views/global_components/k_back_button.dart';
 import 'package:logan/views/global_components/k_social_media_button.dart';
 import 'package:logan/views/styles/b_style.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({Key? key}) : super(key: key);
@@ -78,7 +80,17 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                           children:
                               List.generate(contactMethod.length, (index) {
                             return KContactMethod(
-                              onPressed: () {},
+                              onPressed: () {
+                                if (index == 0) {
+                                  launchUrlString(
+                                      "mailto:info@thebestoflogan.com");
+                                } else if (index == 1) {
+                                  launchUrl(
+                                      Uri.parse('https://thebestoflogan.com/'));
+                                } else {
+                                  return;
+                                }
+                              },
                               text: contactMethod[index].text,
                               image: contactMethod[index].image,
                             );
@@ -101,9 +113,13 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                               children:
                                   List.generate(socialMedia.length, (index) {
                                 return Padding(
-                                  padding: const EdgeInsets.only(right: 25),
+                                  padding: const EdgeInsets.only(left: 25.0),
                                   child: KSocialMediaButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      //
+                                      launchUrl(Uri.parse(
+                                          'http://www.instagram.com/best.of.logan'));
+                                    },
                                     image: socialMedia[index].image!,
                                     height: 30,
                                     width: 30,

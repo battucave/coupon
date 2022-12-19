@@ -8,11 +8,12 @@ class KContactModel {
 }
 
 List<KContactModel> contactMethod = [
-  KContactModel("Phone", AssetPath.phone),
+  // KContactModel("Phone", AssetPath.phone),
   KContactModel("Email", AssetPath.mail),
   KContactModel("Website", AssetPath.website),
-  KContactModel("Youtube", AssetPath.youtube),
+  // KContactModel("Youtube", AssetPath.youtube),
 ];
+
 class KSocialMediaModel {
   final String? image;
 
@@ -20,8 +21,8 @@ class KSocialMediaModel {
 }
 
 List<KSocialMediaModel> socialMedia = [
-  KSocialMediaModel(AssetPath.facebook),
+  // KSocialMediaModel(AssetPath.facebook),
   KSocialMediaModel(AssetPath.insta),
-  KSocialMediaModel(AssetPath.twitter),
-  KSocialMediaModel(AssetPath.linkdin),
+  // KSocialMediaModel(AssetPath.twitter),
+  // KSocialMediaModel(AssetPath.linkdin),
 ];
