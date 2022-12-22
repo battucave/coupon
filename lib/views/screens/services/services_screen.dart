@@ -374,7 +374,8 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                   0.7,
                                               child: KServicesManCard(
                                                 onProfilePressed: () {
-                                                  print("OK");
+                                                  print(
+                                                      "${couponController.vendorAndCouponList.elementAt(index).endDate.toString()}");
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -437,7 +438,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                 onPressed: () {
                                                   showConfirmClaimDialogue(
                                                       context, onpressed: () {
-                                                    log('CLAIM COUPON $index ${couponController.vendorAndCouponList.length}');
+                                                    log('CLAIM COUPON $index ${couponController.vendorAndCouponList[index]}');
                                                     KDialog.kShowDialog(
                                                       context: context,
                                                       dialogContent: Dialog(
