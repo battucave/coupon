@@ -231,7 +231,7 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab> {
                                                       couponColors.length)),
                                               buttonText: "Click Here To Deal",
                                               date:
-                                                  "${couponController.allCoupon.elementAt(index).endDate.month}-${couponController.allCoupon.elementAt(index).endDate.day}-${couponController.allCoupon.elementAt(index).endDate.year}",
+                                                  "${couponController.allCoupon.elementAt(index).endDate.day}-${couponController.allCoupon.elementAt(index).endDate.month}-${couponController.allCoupon.elementAt(index).endDate.year}",
                                               // couponController.allCoupon
                                               //     .elementAt(index)
                                               //     .endDate

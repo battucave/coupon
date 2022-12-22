@@ -220,7 +220,7 @@ class _VendorServiceSreen extends State<VendorServiceSreen> {
                                                     couponColors.length)),
                                             buttonText: "Claim This Coupon",
                                             date:
-                                                "${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
+                                                "${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
                                             // couponController
                                             //     .vendorCouponList
                                             //     .elementAt(index)

@@ -474,7 +474,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                       color: widget.color,
                                       buttonText: "Claim This Coupon",
                                       date:
-                                          "${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
+                                          "${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
                                       //  couponController.vendorCouponList
                                       //     .elementAt(0)
                                       //     .endDate
