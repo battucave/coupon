@@ -262,10 +262,6 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                   // duration: const Duration(milliseconds: 500),
                   // child:
                   Container(
-                color:
-                    widget.showGreyOut! && couponController.timeRemaining <= 3
-                        ? Colors.grey
-                        : Colors.white,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
@@ -388,21 +384,14 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                 ? GetBuilder<CouponController>(
                     id: kCouponClaimCardBuilder,
                     builder: (controller) => Container(
-                        color:
-                            widget.showGreyOut! && controller.timeRemaining <= 3
-                                ? Colors.grey
-                                : Colors.white,
-                        child: const TimerWidget()),
+                        color: Colors.white, child: const TimerWidget()),
                   )
                 : const SizedBox(),
             !widget.couponDetails
                 ? GetBuilder<CouponController>(
                     id: kCouponClaimCardBuilder,
                     builder: (controller) => Container(
-                      color:
-                          widget.showGreyOut! && controller.timeRemaining <= 3
-                              ? Colors.grey
-                              : Colors.white,
+                      color: Colors.white,
                       child: const Padding(
                         padding: EdgeInsets.only(left: 15),
                         child: Align(
@@ -424,10 +413,7 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                     id: kCouponClaimCardBuilder,
                     builder: (controller) => Container(
                       width: Get.width,
-                      color:
-                          widget.showGreyOut! && controller.timeRemaining <= 3
-                              ? Colors.grey
-                              : Colors.white,
+                      color: Colors.white,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -497,9 +483,7 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
             GetBuilder<CouponController>(
               id: kCouponClaimCardBuilder,
               builder: (controller) => Container(
-                color: widget.showGreyOut! && controller.timeRemaining <= 3
-                    ? Colors.grey
-                    : Colors.white,
+                color: Colors.white,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(vertical: 40, horizontal: 22),
@@ -528,8 +512,8 @@ class TimerWidget extends StatefulWidget {
 }
 
 class _TimerWidgetState extends State<TimerWidget> {
-  final int _start = 33;
-  int _current = 33;
+  final int _start = 30;
+  int _current = 30;
 
   final couponController = Get.find<CouponController>();
 
@@ -549,9 +533,6 @@ class _TimerWidgetState extends State<TimerWidget> {
     sub.onData((duration) {
       setState(() {
         _current = _start - duration.elapsed.inSeconds;
-
-        log('Current time;:: ${_current}');
-        couponController.setTimer(_current);
       });
     });
 
@@ -579,9 +560,7 @@ class _TimerWidgetState extends State<TimerWidget> {
                 width: 10,
               ),
               Text(
-                _current <= 3
-                    ? "00:00:00"
-                    : "00:00:${(_current - 3).toString()}",
+                "00:00:${(_current).toString()}",
                 style: const TextStyle(color: Colors.black),
               ),
             ],

@@ -50,7 +50,7 @@ void showConfirmClaimDialogue(BuildContext context,
               children: [
                 Expanded(
                   child: Text(
-                    "Are you sure you want to claim this coupon ?",
+                    "Are you sure you want to claim this coupon?",
                     textAlign: TextAlign.center,
                     style: KTextStyle.headline2.copyWith(
                       fontSize: 18,

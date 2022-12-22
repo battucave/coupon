@@ -437,7 +437,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                 onPressed: () {
                                                   showConfirmClaimDialogue(
                                                       context, onpressed: () {
-                                                    log('CLAIM COUPON');
+                                                    log('CLAIM COUPON $index ${couponController.vendorAndCouponList.length}');
                                                     KDialog.kShowDialog(
                                                       context: context,
                                                       dialogContent: Dialog(
@@ -475,7 +475,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                           date: couponController
                                                                   .vendorAndCouponList
                                                                   .isNotEmpty
-                                                              ? "${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
+                                                              ? "${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
                                                               //  couponController
                                                               //     .vendorAndCouponList
                                                               //     .elementAt(index)
