@@ -376,7 +376,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                               child: KServicesManCard(
                                                 onProfilePressed: () {
                                                   log("${couponController.vendorAndCouponList.elementAt(index).endDate}");
-                                                  log("${couponController.vendorAndCouponList.elementAt(index).toJson()}");
+                                                  log("${couponController.vendorAndCouponList.elementAt(index)}");
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -477,7 +477,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                           date: couponController
                                                                   .vendorAndCouponList
                                                                   .isNotEmpty
-                                                              ? "${couponController.vendorAndCouponList.elementAt(index).endDate.day}-${couponController.vendorAndCouponList.elementAt(index).endDate.month}-${couponController.vendorAndCouponList.elementAt(index).endDate.year}"
+                                                              ? "${couponController.vendorAndCouponList.elementAt(index).endDate.month}-${couponController.vendorAndCouponList.elementAt(index).endDate.day}-${couponController.vendorAndCouponList.elementAt(index).endDate.year}"
                                                               //  couponController
                                                               //     .vendorAndCouponList
                                                               //     .elementAt(index)
@@ -555,7 +555,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                                               ? couponController.vendorAndCouponList.elementAt(0).percentageOff
                                                                               : "0",
                                                                           date: couponController.vendorAndCouponList.isNotEmpty
-                                                                              ? couponController.vendorAndCouponList.elementAt(0).endDate.toString()
+                                                                              ? '${couponController.vendorAndCouponList.elementAt(0).endDate.month}-${couponController.vendorAndCouponList.elementAt(0).endDate.day}-${couponController.vendorAndCouponList.elementAt(0).endDate.year}'
                                                                               : "------------",
                                                                           buttonText:
                                                                               "Coupon Claimed",
