@@ -357,6 +357,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                       (difference /
                                           (itemHeight * heightFactor));
                                   final result = percent.clamp(0.0, 1.0);
+
                                   return Align(
                                     heightFactor: heightFactor,
                                     child: SizedBox(
@@ -374,8 +375,8 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                   0.7,
                                               child: KServicesManCard(
                                                 onProfilePressed: () {
-                                                  print(
-                                                      "${couponController.vendorAndCouponList.elementAt(index).endDate.toString()}");
+                                                  log("${couponController.vendorAndCouponList.elementAt(index).endDate}");
+                                                  log("${couponController.vendorAndCouponList.elementAt(index).toJson()}");
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -474,16 +475,9 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                           //TODO: uncomment
 
                                                           date: couponController
-                                                                      .vendorAndCouponList
-                                                                      .isNotEmpty &&
-                                                                  couponController
-                                                                      .vendorAndCouponList
-                                                                      .elementAt(
-                                                                          index)
-                                                                      .endDate
-                                                                      .toIso8601String()
-                                                                      .isNotEmpty
-                                                              ? "${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
+                                                                  .vendorAndCouponList
+                                                                  .isNotEmpty
+                                                              ? "${couponController.vendorAndCouponList.elementAt(index).endDate.day}-${couponController.vendorAndCouponList.elementAt(index).endDate.month}-${couponController.vendorAndCouponList.elementAt(index).endDate.year}"
                                                               //  couponController
                                                               //     .vendorAndCouponList
                                                               //     .elementAt(index)
