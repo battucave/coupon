@@ -474,8 +474,15 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                           //TODO: uncomment
 
                                                           date: couponController
-                                                                  .vendorAndCouponList
-                                                                  .isNotEmpty
+                                                                      .vendorAndCouponList
+                                                                      .isNotEmpty &&
+                                                                  couponController
+                                                                      .vendorAndCouponList
+                                                                      .elementAt(
+                                                                          index)
+                                                                      .endDate
+                                                                      .toIso8601String()
+                                                                      .isNotEmpty
                                                               ? "${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.year}"
                                                               //  couponController
                                                               //     .vendorAndCouponList
