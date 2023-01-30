@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(
-          MediaQuery.of(context).size.height * 0.09,
+          MediaQuery.of(context).size.height * 0.1,
         ), // here the desired height
         child: Container(
           color: KColor.offWhite,
@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
               : const EdgeInsets.only(top: 20.0),
           child: Column(
             children: [
-              const SizedBox(height: 40),
+              // const SizedBox(height: 40),
               Row(
                 children: [
                   const SizedBox(
@@ -359,8 +359,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                               }
                                             },
                                             child: Container(
-                                              width: 90,
-                                              height: 90,
+                                              // width: 90,
+                                              // height: 90,
+                                              height:
+                                                  context.screenHeight * 0.09,
+                                              width: context.screenWidth * 0.18,
                                               // padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                 image: DecorationImage(
