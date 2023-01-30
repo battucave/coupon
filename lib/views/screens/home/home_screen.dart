@@ -51,63 +51,61 @@ class _HomeScreenState extends State<HomeScreen> {
         preferredSize: Size.fromHeight(
           MediaQuery.of(context).size.height * 0.1,
         ), // here the desired height
-        child: Container(
-          color: KColor.offWhite,
-          padding: Platform.isAndroid
-              ? const EdgeInsets.all(0.0)
-              : const EdgeInsets.only(top: 20.0),
-          child: Column(
-            children: [
-              // const SizedBox(height: 40),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    "Welcome ",
-                    style: KTextStyle.headline4
-                        .copyWith(color: KColor.blueSapphire),
-                  ),
-                  Obx(
-                    () => profileController.username.value.isNotEmpty
-                        ? Text(
-                            profileController.username.value
-                                .split(' ')[0]
-                                .capitalizeFirst!,
-                            style: KTextStyle.headline4.copyWith(
-                              color: KColor.blueSapphire,
-                            ),
+        child: SafeArea(
+          child: Container(
+            color: KColor.offWhite,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      "Welcome ",
+                      style: KTextStyle.headline4
+                          .copyWith(color: KColor.blueSapphire),
+                    ),
+                    Obx(
+                      () => profileController.username.value.isNotEmpty
+                          ? Text(
+                              profileController.username.value
+                                  .split(' ')[0]
+                                  .capitalizeFirst!,
+                              style: KTextStyle.headline4.copyWith(
+                                color: KColor.blueSapphire,
+                              ),
 
-                            ///Get only user firstname
-                            // style: KTextStyle.headline4
-                            //     .copyWith(color: KColor.black),
-                          )
-                        : Text(
-                            "",
-                            style: KTextStyle.headline4.copyWith(
-                              color: KColor.blueSapphire,
+                              ///Get only user firstname
+                              // style: KTextStyle.headline4
+                              //     .copyWith(color: KColor.black),
+                            )
+                          : Text(
+                              "",
+                              style: KTextStyle.headline4.copyWith(
+                                color: KColor.blueSapphire,
+                              ),
                             ),
-                          ),
-                  )
-                ],
-              ),
-              // const SizedBox(height: 0),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Image.asset(AssetPath.location, height: 22, width: 18),
-                  const SizedBox(width: 18),
-                  Text(
-                    "Logan, UT, USA",
-                    style: KTextStyle.headline2
-                        .copyWith(color: KColor.orange, fontSize: 16),
-                  )
-                ],
-              ),
-            ],
+                    )
+                  ],
+                ),
+                // const SizedBox(height: 0),
+                Row(
+                  children: [
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Image.asset(AssetPath.location, height: 22, width: 18),
+                    const SizedBox(width: 18),
+                    Text(
+                      "Logan, UT, USA",
+                      style: KTextStyle.headline2
+                          .copyWith(color: KColor.orange, fontSize: 16),
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -133,18 +131,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 items: List.generate(
                                     couponController.featured2CouponList.length,
                                     (index) {
-                                  print(vendorController
-                                      .featuredVendorList.first
-                                      .toJson());
-                                  print(vendorController
-                                      .featuredVendorList.length
-                                      .toString());
-                                  print(couponController
-                                      .featured2CouponList.length
-                                      .toString());
-                                  print(couponController
-                                      .featured2CouponList[index].percentageOff
-                                      .toString());
                                   return KFeaturedCarouselCard(
                                     onTap: () {
                                       Navigator.push(
