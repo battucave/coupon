@@ -48,264 +48,277 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             // color: KColor.primary,
             borderRadius: BorderRadius.circular(15.0),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                'Subscribe',
-                style: KTextStyle.headline3
-                    .copyWith(fontSize: 24.0, color: Colors.black),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Bill Monthly',
-                    style: isYearlySubscription == true
-                        ? KTextStyle.headline3
-                            .copyWith(fontSize: 16.0, color: Colors.black)
-                        : KTextStyle.headline1
-                            .copyWith(fontSize: 16.0, color: Colors.black),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  CustomSwitch(
-                      width: 60.0,
-                      height: 26.0,
-                      value: isYearlySubscription,
-                      enableColor: KColor.blueSapphire,
-                      disableColor: KColor.white,
-                      onChanged: (value) {
-                        print('value');
-                        setState(() {
-                          isYearlySubscription = value;
-                          print(isYearlySubscription);
-                        });
-                      }),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Bill Annually',
-                    style: isYearlySubscription == true
-                        ? KTextStyle.headline1
-                            .copyWith(fontSize: 16.0, color: Colors.black)
-                        : KTextStyle.headline3
-                            .copyWith(fontSize: 16.0, color: Colors.black),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 7,
-              ),
-              Text(
-                'Exclusive Deals',
-                style: KTextStyle.headline3
-                    .copyWith(fontSize: 18.0, color: Colors.black),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-              //   child: Row(
-              //     children: [
-              //       const Icon(
-              //         Icons.done,
-              //         size: 18.0,
-              //         color: KColor.white,
-              //       ),
-              //       const SizedBox(width: 15.0),
-              //       Text(
-              //         'Exclusive Deals',
-              //         style: KTextStyle.headline2,
-              //       )
-              //     ],
-              //   ),
-              // ),
-              const SizedBox(
-                height: 10,
-              ),
-              Stack(
-                children: [
-                  //TODO: Save button [Not Needed now]
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Subscribe',
+                  style: KTextStyle.headline3
+                      .copyWith(fontSize: 24.0, color: Colors.black),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Bill Monthly',
+                      style: isYearlySubscription == true
+                          ? KTextStyle.headline3
+                              .copyWith(fontSize: 16.0, color: Colors.black)
+                          : KTextStyle.headline1
+                              .copyWith(fontSize: 16.0, color: Colors.black),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    CustomSwitch(
+                        width: 60.0,
+                        height: 26.0,
+                        value: isYearlySubscription,
+                        enableColor: KColor.blueSapphire,
+                        disableColor: Colors.grey,
+                        onChanged: (value) {
+                          print('value');
+                          setState(() {
+                            isYearlySubscription = value;
+                            print(isYearlySubscription);
+                          });
+                        }),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'Bill Annually',
+                      style: isYearlySubscription == true
+                          ? KTextStyle.headline1
+                              .copyWith(fontSize: 16.0, color: Colors.black)
+                          : KTextStyle.headline3
+                              .copyWith(fontSize: 16.0, color: Colors.black),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 7,
+                ),
+                Text(
+                  'Exclusive Deals',
+                  style: KTextStyle.headline3
+                      .copyWith(fontSize: 18.0, color: Colors.black),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                //   child: Row(
+                //     children: [
+                //       const Icon(
+                //         Icons.done,
+                //         size: 18.0,
+                //         color: KColor.white,
+                //       ),
+                //       const SizedBox(width: 15.0),
+                //       Text(
+                //         'Exclusive Deals',
+                //         style: KTextStyle.headline2,
+                //       )
+                //     ],
+                //   ),
+                // ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Stack(
+                  children: [
+                    //TODO: Save button [Not Needed now]
 
-                  // isYearlySubscription == true
-                  //     ? const Padding(
-                  //         padding: EdgeInsets.only(right: 5),
-                  //         child: Align(
-                  //           alignment: Alignment.topRight,
-                  //           child: SizedBox(
-                  //             width: 100,
-                  //             height: 48,
-                  //             child: Card(
-                  //               color: KColor.blueSapphire,
-                  //               child: Padding(
-                  //                 padding: EdgeInsets.all(8.0),
-                  //                 child: Center(
-                  //                   child: Text(
-                  //                     "Save \$5",
-                  //                     style: TextStyle(
-                  //                         fontWeight: FontWeight.bold,
-                  //                         fontSize: 17),
-                  //                   ),
-                  //                 ),
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       )
-                  //     : const SizedBox(),
-                  Row(
-                    mainAxisAlignment: isYearlySubscription == true
-                        ? MainAxisAlignment.center
-                        : MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: Get.width * 0.3,
-                        width: Get.width * 0.4,
-                        child: Image.asset(AssetPath.logo),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              isYearlySubscription == true
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Column(
-                        children: const [
-                          Text(
-                            'Enjoy your free 3 day trial of \nThe Best of Logan App!',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 35.0),
-                          Text(
-                            "Then pay only \$55/Yearly to gain \nexclusive access to over \$500 in \nlocal savings and offers!",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: Column(
-                        children: const [
-                          Text(
-                            'Enjoy your free 3 day trial of \nThe Best of Logan App!',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 35.0),
-                          Text(
-                            "Then pay only \$4.99/month \n(less than a trip to Starbucks) to \ngain exclusive access to over \$500 \nin local savings and offers!",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
+                    // isYearlySubscription == true
+                    //     ? const Padding(
+                    //         padding: EdgeInsets.only(right: 5),
+                    //         child: Align(
+                    //           alignment: Alignment.topRight,
+                    //           child: SizedBox(
+                    //             width: 100,
+                    //             height: 48,
+                    //             child: Card(
+                    //               color: KColor.blueSapphire,
+                    //               child: Padding(
+                    //                 padding: EdgeInsets.all(8.0),
+                    //                 child: Center(
+                    //                   child: Text(
+                    //                     "Save \$5",
+                    //                     style: TextStyle(
+                    //                         fontWeight: FontWeight.bold,
+                    //                         fontSize: 17),
+                    //                   ),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       )
+                    //     : const SizedBox(),
+                    Row(
+                      mainAxisAlignment: isYearlySubscription == true
+                          ? MainAxisAlignment.center
+                          : MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          height: Get.width * 0.3,
+                          width: Get.width * 0.4,
+                          child: Image.asset(AssetPath.logo),
+                        ),
+                      ],
                     ),
-              SizedBox(
-                height: context.height * 0.1,
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        '\$',
-                        style: KTextStyle.headline3
-                            .copyWith(fontSize: 25.0, color: Colors.black),
-                      ),
-                      Text(
-                        isYearlySubscription == false ? '4.99' : '55',
-                        style: KTextStyle.headline1.copyWith(
-                            fontSize: 25.0,
-                            color: Colors.black,
-                            fontWeight: FontWeight.normal),
-                      ),
-                      Text(
-                        isYearlySubscription == false
-                            ? ' /month'
-                            : ' /yearly (\$5 annual savings)',
-                        style: KTextStyle.headline3.copyWith(
-                            fontSize: 16.0,
-                            color: Colors.black.withOpacity(0.7)),
-                      )
-                    ],
-                  ),
+                  ],
                 ),
-              ),
-              GestureDetector(
-                onTap: () async {
-                  final productDetails =
-                      await subscriptionController.loadPurchases();
-                  if (productDetails != null || productDetails!.isNotEmpty) {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (_) => ShowSubscriptionSheet(
-                              productDetails: productDetails,
-                            ));
-                  } else {
-                    print('No products found');
-                  }
-                },
-                child: Container(
-                  height: Get.height * 0.07,
-                  width: Get.width * 0.9,
-                  decoration: BoxDecoration(
-                    color: KColor.orange,
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  child: Center(
-                    child: GetBuilder<SubscriptionController>(
-                      id: kProductDetailBuilder,
-                      builder: (controller) => controller.isLoading == true
-                          ? const CircularProgressIndicator(
-                              color: KColor.white,
-                            )
-                          : Text(
-                              'Start Your 3-Day Trial',
-                              style:
-                                  KTextStyle.headline1.copyWith(fontSize: 22.0),
+                const SizedBox(
+                  height: 30,
+                ),
+                isYearlySubscription == true
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Column(
+                          children: const [
+                            Text(
+                              'Enjoy your free 3 day trial of \nThe Best of Logan App!',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                              textAlign: TextAlign.center,
                             ),
+                            SizedBox(height: 35.0),
+                            Text(
+                              "Then pay only \$55/Yearly to gain \nexclusive access to over \$500 in \nlocal savings and offers!",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Column(
+                          children: const [
+                            Text(
+                              'Enjoy your free 3 day trial of \nThe Best of Logan App!',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 35.0),
+                            Text(
+                              "Then pay only \$4.99/month \n(less than a trip to Starbucks) to \ngain exclusive access to over \$500 \nin local savings and offers!",
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                SizedBox(
+                  height: context.height * 0.1,
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          '\$',
+                          style: KTextStyle.headline3
+                              .copyWith(fontSize: 25.0, color: Colors.black),
+                        ),
+                        Text(
+                          isYearlySubscription == false ? '4.99' : '55',
+                          style: KTextStyle.headline1.copyWith(
+                              fontSize: 25.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                        ),
+                        Text(
+                          isYearlySubscription == false
+                              ? ' /month'
+                              : ' /yearly (\$5 annual savings)',
+                          style: KTextStyle.headline3.copyWith(
+                              fontSize: 16.0,
+                              color: Colors.black.withOpacity(0.7)),
+                        )
+                      ],
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              // GestureDetector(
-              //   onTap: () {
-              //     Get.back();
-              //   },
-              //   child: Text(
-              //     'No Thanks',
-              //     style: KTextStyle.headline6.copyWith(
-              //       color: Colors.grey.withOpacity(0.7),
-              //       fontSize: 18,
-              //     ),
-              //   ),
-              // )
-            ],
+                GestureDetector(
+                  onTap: () async {
+                    final productDetails =
+                        await subscriptionController.loadPurchases();
+                    if (productDetails != null || productDetails!.isNotEmpty) {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (_) => ShowSubscriptionSheet(
+                                productDetails: productDetails,
+                              ));
+                    } else {
+                      print('No products found');
+                    }
+                  },
+                  child: Container(
+                    height: Get.height * 0.07,
+                    width: Get.width * 0.9,
+                    decoration: BoxDecoration(
+                      color: KColor.orange,
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    child: Center(
+                      child: GetBuilder<SubscriptionController>(
+                        id: kProductDetailBuilder,
+                        builder: (controller) => controller.isLoading
+                            ? const CircularProgressIndicator(
+                                color: KColor.white,
+                              )
+                            : Text(
+                                'Start Your 3-Day Trial',
+                                style: KTextStyle.headline1
+                                    .copyWith(fontSize: 22.0),
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: Text(
+                    isYearlySubscription == false
+                        ? "\$4.99 will be charged to your iTunes account at the end of your free trial in 3 days. The Best of Logan Membership will give you full access to our in-app content for 1 month. Your renewal will be charged 24-hours prior to the end of the current period. Your subscription will auto-renew annually, unless you turn off auto-renewal in your App Store Account Settings at least 24-hours before the end of the current period. Once subscribed you can only cancel your next renewal, not your currently active one. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable"
+                        : "\$55 will be charged to your iTunes account at the end of your free trial in 3 days. The Best of Logan Membership will give you full access to our in-app content for 12 months. Your renewal will be charged 24-hours prior to the end of the current period. Your subscription will auto-renew annually, unless you turn off auto-renewal in your App Store Account Settings at least 24-hours before the end of the current period. Once subscribed you can only cancel your next renewal, not your currently active one. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                // GestureDetector(
+                //   onTap: () {
+                //     Get.back();
+                //   },
+                //   child: Text(
+                //     'No Thanks',
+                //     style: KTextStyle.headline6.copyWith(
+                //       color: Colors.grey.withOpacity(0.7),
+                //       fontSize: 18,
+                //     ),
+                //   ),
+                // )
+              ],
+            ),
           ),
         ),
       ),
