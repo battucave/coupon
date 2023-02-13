@@ -280,37 +280,48 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                   image: AssetPath.clock,
                   tapState: TapState.other,
                 ),
+
                 //subtitle: "123 somewhere pl, Logan, Ut 12345",
-                ServiceDescriptionComponent(
-                  title: "",
-                  subtitle: vendorController.vendor.value.street1 +
-                      "\n" +
-                      vendorController.vendor.value.state +
-                      " " +
-                      vendorController.vendor.value.city +
-                      " " +
-                      vendorController.vendor.value.zipCode,
-                  image: AssetPath.address,
-                  tapState: TapState.address,
-                ),
-                ServiceDescriptionComponent(
-                  title: "",
-                  subtitle: vendorController.vendor.value.phone,
-                  image: AssetPath.phone1,
-                  tapState: TapState.phone,
-                ),
-                ServiceDescriptionComponent(
-                  title: "",
-                  subtitle: vendorController.vendor.value.email,
-                  image: AssetPath.mail,
-                  tapState: TapState.email,
-                ),
-                ServiceDescriptionComponent(
-                  title: "",
-                  subtitle: 'https://${vendorController.vendor.value.website}/',
-                  image: AssetPath.website,
-                  tapState: TapState.website,
-                ),
+                vendorController.vendor.value.state.isNotEmpty ||
+                        vendorController.vendor.value.city.isNotEmpty
+                    ? ServiceDescriptionComponent(
+                        title: "",
+                        subtitle: vendorController.vendor.value.street1 +
+                            "\n" +
+                            vendorController.vendor.value.state +
+                            " " +
+                            vendorController.vendor.value.city +
+                            " " +
+                            vendorController.vendor.value.zipCode,
+                        image: AssetPath.address,
+                        tapState: TapState.address,
+                      )
+                    : const SizedBox(),
+                vendorController.vendor.value.phone.isNotEmpty
+                    ? ServiceDescriptionComponent(
+                        title: "",
+                        subtitle: vendorController.vendor.value.phone,
+                        image: AssetPath.phone1,
+                        tapState: TapState.phone,
+                      )
+                    : const SizedBox(),
+                vendorController.vendor.value.email.isNotEmpty
+                    ? ServiceDescriptionComponent(
+                        title: "",
+                        subtitle: vendorController.vendor.value.email,
+                        image: AssetPath.mail,
+                        tapState: TapState.email,
+                      )
+                    : const SizedBox(),
+                vendorController.vendor.value.website.isNotEmpty
+                    ? ServiceDescriptionComponent(
+                        title: "",
+                        subtitle:
+                            'https://${vendorController.vendor.value.website}/',
+                        image: AssetPath.website,
+                        tapState: TapState.website,
+                      )
+                    : const SizedBox(),
               ]),
             ),
 
