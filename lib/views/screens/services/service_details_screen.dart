@@ -328,67 +328,87 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // spacing: 20,
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // alignment: WrapAlignment.center,
                 children: [
-                  vendorController.vendor.value.instagram != null
-                      ? GestureDetector(
-                          onTap: () async {
-                            if (vendorController.vendor.value.instagram !=
-                                null) {
-                              await launchUrlString(checkHttpsProtocol(
-                                  vendorController.vendor.value.instagram!));
-                            }
-                          },
-                          child: const FaIcon(
-                            FontAwesomeIcons.instagram,
-                            color: Colors.redAccent,
-                            size: 34,
+                  vendorController.vendor.value.instagram != null &&
+                          vendorController.vendor.value.instagram!.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (vendorController.vendor.value.instagram !=
+                                  null) {
+                                await launchUrlString(checkHttpsProtocol(
+                                    vendorController.vendor.value.instagram!));
+                              }
+                            },
+                            child: const FaIcon(
+                              FontAwesomeIcons.instagram,
+                              color: Colors.redAccent,
+                              size: 34,
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                  vendorController.vendor.value.facebook != null &&
+                          vendorController.vendor.value.facebook!.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (vendorController.vendor.value.facebook !=
+                                  null) {
+                                await launchUrlString(checkHttpsProtocol(
+                                    vendorController.vendor.value.facebook!));
+                              }
+                            },
+                            child: const FaIcon(
+                              FontAwesomeIcons.facebook,
+                              color: Colors.blue,
+                              size: 34,
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                  vendorController.vendor.value.youtube != null &&
+                          vendorController.vendor.value.youtube!.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (vendorController.vendor.value.youtube !=
+                                  null) {
+                                await launchUrlString(checkHttpsProtocol(
+                                    vendorController.vendor.value.youtube!));
+                              }
+                            },
+                            child: const FaIcon(
+                              FontAwesomeIcons.youtube,
+                              color: Colors.red,
+                              size: 34,
+                            ),
                           ),
                         )
                       : const SizedBox(),
-                  vendorController.vendor.value.facebook != null
-                      ? GestureDetector(
-                          onTap: () async {
-                            if (vendorController.vendor.value.facebook !=
-                                null) {
-                              await launchUrlString(checkHttpsProtocol(
-                                  vendorController.vendor.value.facebook!));
-                            }
-                          },
-                          child: const FaIcon(
-                            FontAwesomeIcons.facebook,
-                            color: Colors.blue,
-                            size: 34,
-                          ),
-                        )
-                      : const SizedBox(),
-                  vendorController.vendor.value.youtube != null
-                      ? GestureDetector(
-                          onTap: () async {
-                            if (vendorController.vendor.value.youtube != null) {
-                              await launchUrlString(checkHttpsProtocol(
-                                  vendorController.vendor.value.youtube!));
-                            }
-                          },
-                          child: const FaIcon(
-                            FontAwesomeIcons.youtube,
-                            color: Colors.red,
-                            size: 34,
-                          ),
-                        )
-                      : const SizedBox(),
-                  vendorController.vendor.value.twitter != null
-                      ? GestureDetector(
-                          onTap: () async {
-                            if (vendorController.vendor.value.twitter != null) {
-                              await launchUrlString(checkHttpsProtocol(
-                                  vendorController.vendor.value.twitter!));
-                            }
-                          },
-                          child: const FaIcon(
-                            FontAwesomeIcons.twitter,
-                            color: Colors.blue,
-                            size: 34,
+                  vendorController.vendor.value.twitter != null &&
+                          vendorController.vendor.value.twitter!.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: GestureDetector(
+                            onTap: () async {
+                              if (vendorController.vendor.value.twitter !=
+                                  null) {
+                                await launchUrlString(checkHttpsProtocol(
+                                    vendorController.vendor.value.twitter!));
+                              }
+                            },
+                            child: const FaIcon(
+                              FontAwesomeIcons.twitter,
+                              color: Colors.blue,
+                              size: 34,
+                            ),
                           ),
                         )
                       : const SizedBox(),
