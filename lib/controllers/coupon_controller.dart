@@ -123,6 +123,7 @@ class CouponController extends GetxController {
     Response response = await NetWorkHandler().get(ApiRoutes.allCoupon);
     if (response.statusCode == 200 || response.statusCode == 201) {
       allCoupon.value = couponModelFromJson(response.body);
+      log('ALL COUPONS:: ${allCoupon.map((element) => element.toJson())}');
       return response.statusCode;
     } else {
       return response.statusCode;

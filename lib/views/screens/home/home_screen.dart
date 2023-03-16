@@ -160,12 +160,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         .elementAt(index)
                                         .vendorLogPath,
                                     vid: vendorController.featuredVendorList
-                                        .firstWhere((element) =>
-                                            element.vendorName ==
-                                            couponController.featured2CouponList
-                                                .elementAt(index)
-                                                .vendorName)
-                                        .vid,
+                                        .firstWhereOrNull(
+                                          (element) =>
+                                              element.vendorName ==
+                                              couponController
+                                                  .featured2CouponList
+                                                  .elementAt(index)
+                                                  .vendorName,
+                                        )
+                                        ?.vid,
                                     vendorName: couponController
                                         .featured2CouponList
                                         .elementAt(index)
