@@ -1,3 +1,7 @@
+// import 'dart:math';
+
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -80,6 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    log('${profileController.aws_Link.value}');
     return WillPopScope(
       onWillPop: () {
         FocusScope.of(context).unfocus();
@@ -143,35 +148,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             backgroundColor: Colors.white,
                             radius: 50,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: (profileController
-                                      .aws_Link.value.isNotEmpty)
-                                  ? ImageNetwork(
-                                      image: profileController.aws_Link.value,
-                                      imageCache: CachedNetworkImageProvider(
-                                          profileController.aws_Link.value),
-                                      height: 100,
-                                      width: 100,
-                                      duration: 1500,
-                                      curve: Curves.easeIn,
-                                      onPointer: true,
-                                      debugPrint: false,
-                                      fullScreen: false,
-                                      fitAndroidIos: BoxFit.scaleDown,
-                                      fitWeb: BoxFitWeb.scaleDown,
-                                      borderRadius: BorderRadius.circular(70),
-                                      onLoading:
-                                          const CircularProgressIndicator(
-                                        color: KColor.primary,
-                                      ),
-                                      onError: const Icon(
-                                        Icons.error,
-                                        color: Colors.red,
-                                      ),
-                                      onTap: () {},
-                                    )
-                                  : Image.asset(AssetPath.profileImg),
-                            ),
+                                borderRadius: BorderRadius.circular(50),
+                                child: Obx(
+                                  () => (profileController
+                                          .aws_Link.value.isNotEmpty)
+                                      ? ImageNetwork(
+                                          image:
+                                              profileController.aws_Link.value,
+                                          // imageCache: CachedNetworkImageProvider(
+                                          //     profileController.aws_Link.value),
+                                          height: 100,
+                                          width: 100,
+                                          duration: 1500,
+                                          curve: Curves.easeIn,
+                                          onPointer: true,
+                                          debugPrint: false,
+                                          fullScreen: false,
+                                          fitAndroidIos: BoxFit.fill,
+                                          fitWeb: BoxFitWeb.scaleDown,
+                                          borderRadius:
+                                              BorderRadius.circular(70),
+                                          onLoading:
+                                              const CircularProgressIndicator(
+                                            color: KColor.primary,
+                                          ),
+                                          onError: const Icon(
+                                            Icons.error,
+                                            color: Colors.red,
+                                          ),
+                                          onTap: () {},
+                                        )
+                                      : Image.asset(AssetPath.profileImg),
+                                )),
                           ),
                         ))
                   ],

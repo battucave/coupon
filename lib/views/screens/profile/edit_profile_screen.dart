@@ -16,7 +16,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../controllers/profile_controller.dart';
 
-
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
 
@@ -26,28 +25,31 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
+
   /// Used to format numbers as mobile or land line
   PhoneNumberType globalPhoneType = PhoneNumberType.mobile;
+
   /// Use international or national phone format
   PhoneNumberFormat globalPhoneFormat = PhoneNumberFormat.international;
+
   /// Current selected country
   CountryWithPhoneCode currentSelectedCountry = const CountryWithPhoneCode.us();
   bool inputContainsCountryCode = true;
-  ProfileController editProfileController=Get.put(ProfileController());
-  bool isLoading=false;
-  void stopLoading( ){
+  ProfileController editProfileController = Get.put(ProfileController());
+  bool isLoading = false;
+  void stopLoading() {
     setState(() {
-      isLoading=false;
+      isLoading = false;
     });
     Navigator.pop(context);
   }
 
-  void startLoading(){
+  void startLoading() {
     setState(() {
-      isLoading=true;
+      isLoading = true;
     });
     showDialog(
-      // The user CANNOT close this dialog  by pressing outsite it
+        // The user CANNOT close this dialog  by pressing outsite it
         barrierDismissible: false,
         context: context,
         builder: (_) {
@@ -60,19 +62,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: const [
                   // The loading indicator
-                  CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(KColor.primary)),
-
+                  CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(KColor.primary)),
                 ],
               ),
             ),
           );
         });
   }
-  void snackMessage( String  msg){
-    final snackBar = SnackBar(content: Text(msg),duration : const Duration(milliseconds: 3000));
+
+  void snackMessage(String msg) {
+    final snackBar = SnackBar(
+        content: Text(msg), duration: const Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-
 
   File? image;
   final picker = ImagePicker();
@@ -83,26 +87,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     setState(() {
       if (pickedImage != null) {
         image = File(pickedImage.path);
-
       }
     });
 
     startLoading();
-     if(pickedImage!=null){
-       var result=await editProfileController.uploadProfileImage(pickedImage.path, pickedImage.path, );
-       if(result==200 || result==201){
-         stopLoading();
-       }
-     }
-
-
+    if (pickedImage != null) {
+      var result = await editProfileController.uploadProfileImage(
+        pickedImage.path,
+        pickedImage.path,
+      );
+      if (result == 200 || result == 201) {
+        stopLoading();
+      }
+    }
   }
+
   bool validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
     RegExp regex = RegExp(pattern.toString());
     return (regex.hasMatch(value)) ? true : false;
   }
+
   @override
   void initState() {
     super.initState();
@@ -127,29 +133,47 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 children: [
                   Container(
                     margin: const EdgeInsets.only(bottom: 100),
-                    padding: const EdgeInsets.only(top: 75, bottom: 25, left: 25, right: 25),
+                    padding: const EdgeInsets.only(
+                        top: 75, bottom: 25, left: 25, right: 25),
                     decoration: BoxDecoration(
-                      boxShadow: [BoxShadow(color: KColor.black.withOpacity(0.16), blurRadius: 6, spreadRadius: 5)],
+                      boxShadow: [
+                        BoxShadow(
+                            color: KColor.black.withOpacity(0.16),
+                            blurRadius: 6,
+                            spreadRadius: 5)
+                      ],
                       color: KColor.primary,
-                      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
+                      borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
                     ),
-                    child: const Align(alignment: Alignment.bottomLeft, child: KBackButton()),
+                    child: const Align(
+                        alignment: Alignment.bottomLeft, child: KBackButton()),
                   ),
                   Positioned(
                     bottom: 55,
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: [
-                        Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: (image == null && editProfileController.aws_Link.value.isEmpty) ? const AssetImage(AssetPath.profileImg) :
-                              (image ==null && editProfileController.aws_Link.value.isNotEmpty)?NetworkImage(editProfileController.aws_Link.value)
-                                  :FileImage(image!) as ImageProvider ,
+                        Obx(
+                          () => Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: (image == null &&
+                                        editProfileController
+                                            .aws_Link.value.isEmpty)
+                                    ? const AssetImage(AssetPath.profileImg)
+                                    : (image == null &&
+                                            editProfileController
+                                                .aws_Link.value.isNotEmpty)
+                                        ? NetworkImage(editProfileController
+                                            .aws_Link.value)
+                                        : FileImage(image!) as ImageProvider,
+                              ),
                             ),
                           ),
                         ),
@@ -160,7 +184,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             onTap: () {
                               getMyImage();
                             },
-                            child: Image.asset(AssetPath.camera, height: 40, width: 40),
+                            child: Image.asset(AssetPath.camera,
+                                height: 40, width: 40),
                           ),
                         )
                       ],
@@ -168,9 +193,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 ],
               ),
-
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: KSize.getWidth(context, 25)),
+                padding: EdgeInsets.symmetric(
+                    horizontal: KSize.getWidth(context, 25)),
                 child: Column(
                   children: [
                     KTextField(
@@ -192,8 +217,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           phoneNumberType: globalPhoneType,
                           phoneNumberFormat: globalPhoneFormat,
                           country: currentSelectedCountry,
-                          inputContainsCountryCode:
-                          inputContainsCountryCode,
+                          inputContainsCountryCode: inputContainsCountryCode,
                           additionalDigits: 3,
                           shouldKeepCursorAtEndOfInput: false,
                         ),
@@ -220,13 +244,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               width: 20,
                               color: KColor.orange,
                             ),
-                            onChanged: (value){
+                            onChanged: (value) {
                               _formKey.currentState!.validate();
-                              setState(() {   });
-
+                              setState(() {});
                             },
-                            validator: (v){
-                              if( !validateEmail(editProfileController.mailController.text)){
+                            validator: (v) {
+                              if (!validateEmail(
+                                  editProfileController.mailController.text)) {
                                 return 'invalid email';
                               }
                             },
@@ -264,18 +288,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         Expanded(
                           child: KButton(
                             isCoupon: true,
-                            onPressed: () async{
+                            onPressed: () async {
                               startLoading();
-                              var editResult=await editProfileController.EditProfile(image!=null);
-                              if(editResult==200 || editResult==201){
+                              var editResult =
+                                  await editProfileController.EditProfile(
+                                      image != null);
+                              if (editResult == 200 || editResult == 201) {
                                 snackMessage("User updated successfully");
                                 stopLoading();
                                 Navigator.pop(context);
-                              }else{
+                              } else {
                                 stopLoading();
-                                snackMessage("Update failed. Please try again.");
+                                snackMessage(
+                                    "Update failed. Please try again.");
                               }
-
                             },
                             text: "Confirm",
                           ),

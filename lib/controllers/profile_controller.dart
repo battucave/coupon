@@ -46,6 +46,7 @@ class ProfileController extends GetxController {
       email.value = data["email"];
       phone.value = data["phone"];
       if (data["profile_logo_path"] != null) {
+        aws_Link.value = '';
         aws_Link.value = data["profile_logo_path"];
       }
       if (data["zip"] != null) {

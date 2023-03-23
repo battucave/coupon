@@ -54,7 +54,7 @@ android {
         targetSdkVersion 32
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        versionCode 1
+        versionCode 5
         versionName "1.0.0"
     }
 
