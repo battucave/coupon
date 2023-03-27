@@ -250,7 +250,8 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab> {
                                                                 .allCoupon
                                                                 .elementAt(
                                                                     index)
-                                                                .couponId);
+                                                                .couponId,
+                                                            true);
                                                 if (result == 200 ||
                                                     result == 201) {
                                                   stopLoading();

@@ -232,6 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .elementAt(index)
                                           .categoryName ==
                                       "Featured") {
+                                    log('Featured');
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(

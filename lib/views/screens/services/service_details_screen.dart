@@ -518,11 +518,13 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                                           .couponCode,
                                       onPressed: () async {
                                         startLoading();
-                                        int? result = await couponController
-                                            .claimCoupon(couponController
-                                                .vendorCouponList
-                                                .elementAt(0)
-                                                .couponId);
+                                        int? result =
+                                            await couponController.claimCoupon(
+                                                couponController
+                                                    .vendorCouponList
+                                                    .elementAt(0)
+                                                    .couponId,
+                                                false);
                                         if (result == 200 || result == 201) {
                                           stopLoading();
                                           Navigator.pop(context);

@@ -6,6 +6,7 @@ import 'package:get/state_manager.dart';
 import 'package:logan/controllers/builder_ids/builder_ids.dart';
 import 'package:logan/models/api/category_model.dart';
 import 'package:logan/models/api/featured_coupon_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constant/api_routes.dart';
 import '../models/api/claim_model.dart';
 import '../models/api/claimed_coupon_model.dart';
@@ -57,6 +58,7 @@ class CouponController extends GetxController {
     foundFeaturedCouponList = featured2CouponList;
     if (foundBySubCategory.isNotEmpty) {
       if (foundBySubCategory.first.vendorsAndCouponsList.isNotEmpty) {
+        log('IN IF');
         vendorAndCouponList.value =
             foundBySubCategory.first.vendorsAndCouponsList;
       }
@@ -102,14 +104,25 @@ class CouponController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("CouponBySubCat");
       print(response.body);
-
       foundBySubCategory.value = subCatCouponModelFromJson(response.body);
       foundBySubCategory.value = foundBySubCategory.value
           .where((element) => element.subCategoryId == subcatId)
           .toList();
 
-      vendorAndCouponList.value =
-          foundBySubCategory.value.first.vendorsAndCouponsList;
+      final coupons = await getLocalClaimedCoupons();
+      if (coupons.isEmpty) {
+        log('EMPTY');
+        vendorAndCouponList.value =
+            foundBySubCategory.value.first.vendorsAndCouponsList;
+      } else {
+        final vendorCouponList = foundBySubCategory.first.vendorsAndCouponsList;
+        for (final coupon in coupons) {
+          vendorCouponList
+              .removeWhere((element) => element.couponId == coupon.couponId);
+        }
+        vendorAndCouponList.value = vendorCouponList;
+      }
+      log('VENDOR COUPON LIST:: ${vendorAndCouponList.map((element) => element.toJson())}');
       print(foundBySubCategory.first.vendorsAndCouponsList.length);
 
       //filterSubCategoryCoupon.value=subCatCouponModelFromJson(response.body);
@@ -152,6 +165,7 @@ class CouponController extends GetxController {
   // }
 
   Future<int?> getCouponByVendorId(int vendorId) async {
+    log('VENDOR ID:: $vendorId');
     Response response = await NetWorkHandler()
         .getWithParameters(ApiRoutes.couponByVendorId, vendorId, false);
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -162,11 +176,16 @@ class CouponController extends GetxController {
     }
   }
 
-  Future<int?> claimCoupon(int coupon_id) async {
+  Future<int?> claimCoupon(int coupon_id, bool isFromAvailableCoupons) async {
     ClaimModel claimModel = ClaimModel(couponId: coupon_id);
     Response response = await NetWorkHandler().postWithAuthorization(
         claimModelToJson(claimModel), ApiRoutes.claimCoupon);
     print("CLAIM COUPON POST REQUEST ::: ${response.body}");
+    if (jsonDecode(response.body)['detail'] == "Coupon Already Claimed") {
+      if (!isFromAvailableCoupons) {
+        await removeClaimedCoupon(couponId: coupon_id);
+      }
+    }
     if (response.statusCode == 200 || response.statusCode == 201) {
       await getClaimCoupon();
       return response.statusCode;
@@ -208,5 +227,37 @@ class CouponController extends GetxController {
     print(response.body);
     singleCouponModel.value = singleCouponModelFromJson(response.body);
     return singleCouponModel.value;
+  }
+
+  Future<bool> checkIfCouponSingleUse(int couponId) async {
+    Response response = await NetWorkHandler()
+        .getWithParameters(ApiRoutes.couponById, couponId, true);
+    print(response.body);
+    final singleCouponModel = singleCouponModelFromJson(response.body);
+    return singleCouponModel.singleUse;
+  }
+
+  Future<void> removeClaimedCoupon({required int couponId}) async {
+    log('COUPON ID: $couponId');
+    List<VendorsAndCouponsList> coupons = List.empty(growable: true);
+    final prefs = await SharedPreferences.getInstance();
+    coupons = await getLocalClaimedCoupons();
+    final coupon = vendorAndCouponList
+        .firstWhere((element) => element.couponId == couponId);
+    coupons.add(coupon);
+    prefs.setString('claimed_coupons', jsonEncode(coupons));
+    vendorAndCouponList.removeWhere((element) => element.couponId == couponId);
+    log('${coupon.toJson()}');
+  }
+
+  Future<List<VendorsAndCouponsList>> getLocalClaimedCoupons() async {
+    final prefs = await SharedPreferences.getInstance();
+    final coupons = prefs.getString('claimed_coupons');
+    if (coupons == null) {
+      return [];
+    }
+    return (jsonDecode(coupons) as List<dynamic>)
+        .map((e) => VendorsAndCouponsList.fromJson(e))
+        .toList();
   }
 }

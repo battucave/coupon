@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:drop_shadow/drop_shadow.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +84,7 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                     children: [
                       Text(
                         widget.vendorName ?? "Discount",
-                        style: KTextStyle.headline5.copyWith(fontSize: 36),
+                        style: KTextStyle.headline5.copyWith(fontSize: 30),
                       ),
                     ],
                   ),
@@ -92,7 +94,7 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                     children: [
                       Text(
                         '${widget.percent} % off',
-                        style: KTextStyle.headline5.copyWith(fontSize: 26.0),
+                        style: KTextStyle.headline5.copyWith(fontSize: 24.0),
                         textAlign: TextAlign.left,
                       ),
                     ],

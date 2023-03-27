@@ -384,7 +384,10 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
                 ? GetBuilder<CouponController>(
                     id: kCouponClaimCardBuilder,
                     builder: (controller) => Container(
-                        color: Colors.white, child: const TimerWidget()),
+                        color: Colors.white,
+                        child: TimerWidget(
+                          couponId: widget.coupon_id,
+                        )),
                   )
                 : const SizedBox(),
             !widget.couponDetails
@@ -504,8 +507,11 @@ class _KCouponClaimCardState extends State<KCouponClaimCard> {
 
 class TimerWidget extends StatefulWidget {
   const TimerWidget({
+    required this.couponId,
     Key? key,
   }) : super(key: key);
+
+  final int? couponId;
 
   @override
   State<TimerWidget> createState() => _TimerWidgetState();
@@ -536,8 +542,18 @@ class _TimerWidgetState extends State<TimerWidget> {
       });
     });
 
-    sub.onDone(() {
+    sub.onDone(() async {
       Navigator.pop(context);
+      if (widget.couponId != null) {
+        final isSingleUse =
+            await couponController.checkIfCouponSingleUse(widget.couponId!);
+        if (isSingleUse) {
+          log('SINGLE USE');
+          await couponController.removeClaimedCoupon(
+              couponId: widget.couponId!);
+        }
+      }
+
       sub.cancel();
     });
   }

@@ -121,6 +121,7 @@ class _ServicesScreen extends State<ServicesScreen> {
       categoryController.getSubCategory(widget.catId).then((value) => {
             if (categoryController.subCategory.isNotEmpty)
               {
+                log('SCID::::::::::::::::::::::::::::::::::::::::::::: '),
                 couponController.getCouponBySubCategory(widget.catId,
                     categoryController.subCategory.elementAt(0).scid),
               }
@@ -155,7 +156,7 @@ class _ServicesScreen extends State<ServicesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("here");
+    log("SERVICE SCREEN ");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: KColor.white,
@@ -210,6 +211,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                               children: List.generate(
                                   categoryController.subCategory.length,
                                   (index) {
+                                log('NOT FEATURED');
                                 if (categoryController
                                     .subCategory[index].subCategoryName
                                     .startsWith("Default-")) {
@@ -347,6 +349,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                               sliver: SliverList(
                                   delegate: SliverChildBuilderDelegate(
                                 (BuildContext buildContext, int index) {
+                                  log('THIS SLIVER LIES');
                                   const itemHeight = 220.0;
                                   const heightFactor = 0.8;
                                   final itemPositionOffset =
@@ -375,8 +378,6 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                   0.7,
                                               child: KServicesManCard(
                                                 onProfilePressed: () {
-                                                  log("${couponController.vendorAndCouponList.elementAt(index).endDate}");
-                                                  log("${couponController.vendorAndCouponList.elementAt(index)}");
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -497,7 +498,8 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                                     .vendorAndCouponList
                                                                     .elementAt(
                                                                         0)
-                                                                    .couponId);
+                                                                    .couponId,
+                                                                false);
                                                             if (result == 200 ||
                                                                 result == 201) {
                                                               stopLoading();
@@ -570,6 +572,7 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                               _controllerCenter
                                                                   .play();
                                                             } else {
+                                                              Get.back();
                                                               stopLoading();
                                                               snackMessage(
                                                                   "Fail to claim coupon");
@@ -710,7 +713,8 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                                     .foundFeaturedCouponList
                                                                     .elementAt(
                                                                         index)
-                                                                    .couponId);
+                                                                    .couponId,
+                                                                false);
                                                         if (result == 200 ||
                                                             result == 201) {
                                                           stopLoading();
