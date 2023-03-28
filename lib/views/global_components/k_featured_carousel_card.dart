@@ -89,15 +89,14 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                     ],
                   ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${widget.percent} % off',
-                        style: KTextStyle.headline5.copyWith(fontSize: 24.0),
-                        textAlign: TextAlign.left,
-                      ),
-                    ],
+                  SizedBox(
+                    width: Get.width * 0.6,
+                    child: Text(
+                      '${widget.percent} % off',
+                      style: KTextStyle.headline5.copyWith(fontSize: 24.0),
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   const SizedBox(height: 10.0),
                   // Row(

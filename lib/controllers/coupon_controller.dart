@@ -170,6 +170,10 @@ class CouponController extends GetxController {
         .getWithParameters(ApiRoutes.couponByVendorId, vendorId, false);
     if (response.statusCode == 200 || response.statusCode == 201) {
       vendorCouponList.value = couponModelFromJson(response.body);
+      log(vendorAndCouponList
+          .map((element) => element.toJson())
+          .toList()
+          .toString());
       return response.statusCode;
     } else {
       return response.statusCode;

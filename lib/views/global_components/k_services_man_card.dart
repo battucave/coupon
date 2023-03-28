@@ -464,7 +464,7 @@ class _KServicesManCardState extends State<KServicesManCard>
               ],
             ),
           ),
-          SizedBox(height: KSize.getHeight(context, 15)),
+          // SizedBox(height: KSize.getHeight(context, 15)),
         ],
       ),
     );

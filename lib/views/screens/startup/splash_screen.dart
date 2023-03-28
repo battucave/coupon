@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/instance_manager.dart';
 import 'package:logan/constant/asset_path.dart';
@@ -29,16 +31,19 @@ class _SplashScreenState extends State<SplashScreen> {
     String? session = await NetWorkHandler.getToken();
 
     if (session != null) {
+      log('SESSION IS NULL');
       //If user already have session, and subscription go to Home
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         int subscriptonResponse =
             await subscriptionController.getSubscription();
         if (subscriptonResponse == 200 || subscriptonResponse == 201) {
+          log('SUBSCRIPTION SCREEN');
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => const KBottomNavigationBar()));
         } else {
+          log('UNSUBSCRIPTION SCREEN');
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
