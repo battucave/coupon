@@ -137,6 +137,7 @@ class CouponController extends GetxController {
     if (response.statusCode == 200 || response.statusCode == 201) {
       allCoupon.value = couponModelFromJson(response.body);
       log('ALL COUPONS:: ${allCoupon.map((element) => element.toJson())}');
+      allCoupon.removeWhere((element) => element.isActive == false);
       return response.statusCode;
     } else {
       return response.statusCode;
