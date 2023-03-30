@@ -36,13 +36,14 @@ class ResetPasswordController extends GetxController {
   }
 
   Future<int?> verifyPasswordOtp() async {
+    log('IN VERIFY OTP PASSWORD');
     VerifyOtpModel otpModel = VerifyOtpModel(
         recipientId: emailPhoneController.text,
         sessionId: data2["session_id"],
         otpCode: passCodeController.text);
     Response response = await NetWorkHandler.post(
         verifyOtpModelToJson(otpModel), ApiRoutes.verifyPasswordOtp);
-    print(response.body);
+    log('VERTIFY PASSWORD OTP:: ${response.body} ${response.statusCode}');
     if (response.statusCode == 200 || response.statusCode == 201) {
       resetPwdToken = jsonDecode(response.body)["reset_password_token"];
       return response.statusCode;

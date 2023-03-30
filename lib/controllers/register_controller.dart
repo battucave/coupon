@@ -35,12 +35,14 @@ class RegisterController extends GetxController {
   }
 
   Future<int?> verifyOtp() async {
+    log('IN VERIFY OTP');
     VerifyOtpModel otpModel = VerifyOtpModel(
         recipientId: emailController.text,
         sessionId: data["session_id"],
         otpCode: passCodeController.text);
     Response response = await NetWorkHandler.post(
         verifyOtpModelToJson(otpModel), ApiRoutes.verifyOtp);
+    log('OTP RESPONE::: ${response.body} ${response.statusCode}');
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response.statusCode;
     } else {

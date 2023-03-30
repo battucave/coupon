@@ -121,7 +121,7 @@ class _ServicesScreen extends State<ServicesScreen> {
       categoryController.getSubCategory(widget.catId).then((value) => {
             if (categoryController.subCategory.isNotEmpty)
               {
-                log('SCID::::::::::::::::::::::::::::::::::::::::::::: '),
+                log('SCID::::::::::::::::::::::::::::::::::::::::::::: ${widget.catId} '),
                 couponController.getCouponBySubCategory(widget.catId,
                     categoryController.subCategory.elementAt(0).scid),
               }

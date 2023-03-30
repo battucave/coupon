@@ -231,11 +231,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             SizedBox(height: KSize.getHeight(context, 56)),
                             isSignupScreen
-                                ? Column(
-                                    children: [
-                                      Form(
-                                        key: _formKey,
-                                        child: Column(
+                                ? Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      children: [
+                                        Column(
                                           children: <Widget>[
                                             KTextField(
                                               hintText: "Email Address",
@@ -248,120 +248,151 @@ class _LoginScreenState extends State<LoginScreen> {
                                               controller: registerController
                                                   .emailController,
                                               onChanged: (value) {
-                                                _formKey.currentState!
-                                                    .validate();
-                                                setState(() {});
+                                                // _formKey.currentState!
+                                                //     .validate();
+                                                // setState(() {});
                                               },
                                               validator: (v) {
-                                                if (!validateEmail(
-                                                    registerController
-                                                        .emailController
-                                                        .text)) {
+                                                if (!validateEmail(v!)) {
                                                   return 'invalid email';
                                                 }
+                                                return null;
                                               },
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      SizedBox(
-                                          height: KSize.getHeight(context, 30)),
-                                      KTextField(
-                                        hintText: "Phone Number",
-                                        prefixIcon: Image.asset(AssetPath.phone,
-                                            height: 20, width: 20),
-                                        keyboardType: TextInputType.phone,
-                                        controller:
-                                            registerController.phoneController,
-                                        onChanged: (v) {
-                                          registerController
-                                                  .phoneController.selection =
-                                              TextSelection.fromPosition(
-                                                  TextPosition(
-                                                      offset: registerController
-                                                          .phoneController
-                                                          .text
-                                                          .length));
-                                        },
-                                        format: [
-                                          LibPhonenumberTextFormatter(
-                                            phoneNumberType: globalPhoneType,
-                                            phoneNumberFormat:
-                                                PhoneNumberFormat.national,
-                                            country: currentSelectedCountry,
-                                            inputContainsCountryCode:
-                                                inputContainsCountryCode,
-                                            // additionalDigits: 3,
-                                            shouldKeepCursorAtEndOfInput: false,
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height: KSize.getHeight(context, 30)),
-                                      KTextField(
-                                        passWordField: true,
-                                        hintText: "Password",
-                                        prefixIcon: Image.asset(
-                                            AssetPath.lockIcon,
-                                            height: 20,
-                                            width: 16),
-                                        controller: registerController
-                                            .passwordController,
-                                      ),
-                                      SizedBox(
-                                          height: KSize.getHeight(context, 85)),
-                                    ],
-                                  )
-                                : Column(
-                                    children: [
-                                      KTextField(
-                                        hintText: "Email Address",
-                                        prefixIcon: Image.asset(
-                                            AssetPath.mailIcon,
-                                            height: 16,
-                                            width: 22),
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        controller:
-                                            loginController.emailController,
-                                      ),
-                                      SizedBox(
-                                          height: KSize.getHeight(context, 30)),
-                                      KTextField(
-                                        passWordField: true,
-                                        hintText: "Password",
-                                        prefixIcon: Image.asset(
-                                            AssetPath.lockIcon,
+                                        SizedBox(
                                             height:
-                                                KSize.getHeight(context, 20),
-                                            width: 16),
-                                        controller:
-                                            loginController.passwordController,
-                                      ),
-                                      SizedBox(
-                                          height: KSize.getHeight(context, 10)),
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const ForgotPasswordScreen()));
+                                                KSize.getHeight(context, 30)),
+                                        KTextField(
+                                          hintText: "Phone Number",
+                                          prefixIcon: Image.asset(
+                                              AssetPath.phone,
+                                              height: 20,
+                                              width: 20),
+                                          keyboardType: TextInputType.phone,
+                                          controller: registerController
+                                              .phoneController,
+                                          onChanged: (v) {
+                                            registerController
+                                                    .phoneController.selection =
+                                                TextSelection.fromPosition(
+                                                    TextPosition(
+                                                        offset:
+                                                            registerController
+                                                                .phoneController
+                                                                .text
+                                                                .length));
                                           },
-                                          child: Text(
-                                            "Forgot Password?",
-                                            style: KTextStyle.headline2
-                                                .copyWith(
-                                                    fontSize: 14,
-                                                    color: KColor.primary),
+                                          format: [
+                                            LibPhonenumberTextFormatter(
+                                              phoneNumberType: globalPhoneType,
+                                              phoneNumberFormat:
+                                                  PhoneNumberFormat.national,
+                                              country: currentSelectedCountry,
+                                              inputContainsCountryCode:
+                                                  inputContainsCountryCode,
+                                              // additionalDigits: 3,
+                                              shouldKeepCursorAtEndOfInput:
+                                                  false,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                KSize.getHeight(context, 30)),
+                                        KTextField(
+                                          passWordField: true,
+                                          hintText: "Password",
+                                          prefixIcon: Image.asset(
+                                              AssetPath.lockIcon,
+                                              height: 20,
+                                              width: 16),
+                                          controller: registerController
+                                              .passwordController,
+                                          validator: (value) {
+                                            if (value!.isEmpty ||
+                                                value.length < 6) {
+                                              return 'Password must be at least 6 characters';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                KSize.getHeight(context, 85)),
+                                      ],
+                                    ),
+                                  )
+                                : Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      children: [
+                                        KTextField(
+                                          hintText: "Email Address",
+                                          prefixIcon: Image.asset(
+                                              AssetPath.mailIcon,
+                                              height: 16,
+                                              width: 22),
+                                          keyboardType:
+                                              TextInputType.emailAddress,
+                                          controller:
+                                              loginController.emailController,
+                                          validator: (v) {
+                                            if (!validateEmail(v!)) {
+                                              return 'invalid email';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                KSize.getHeight(context, 30)),
+                                        KTextField(
+                                          passWordField: true,
+                                          hintText: "Password",
+                                          prefixIcon: Image.asset(
+                                              AssetPath.lockIcon,
+                                              height:
+                                                  KSize.getHeight(context, 20),
+                                              width: 16),
+                                          controller: loginController
+                                              .passwordController,
+                                          validator: (value) {
+                                            if (value!.isEmpty ||
+                                                value.length < 6) {
+                                              return 'Password must be at least 6 characters';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        SizedBox(
+                                            height:
+                                                KSize.getHeight(context, 10)),
+                                        Align(
+                                          alignment: Alignment.centerRight,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const ForgotPasswordScreen()));
+                                            },
+                                            child: Text(
+                                              "Forgot Password?",
+                                              style: KTextStyle.headline2
+                                                  .copyWith(
+                                                      fontSize: 14,
+                                                      color: KColor.primary),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                          height: KSize.getHeight(context, 80)),
-                                    ],
+                                        SizedBox(
+                                            height:
+                                                KSize.getHeight(context, 80)),
+                                      ],
+                                    ),
                                   )
                           ],
                         ),
@@ -371,6 +402,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: KArrowGoButton(
                           isLoading: isLoading,
                           onpressed: () async {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            }
                             //TODO: REMOVE [TESTING ROUTING]
                             // Navigator.pushReplacement(
                             //     context,

@@ -100,6 +100,7 @@ class CouponController extends GetxController {
   Future<int?> getCouponBySubCategory(int categoryId, int subcatId) async {
     Response response = (await NetWorkHandler()
         .getWithParameters(ApiRoutes.subCatCouponList, categoryId, true));
+    log('RESPONSE CODE::: ${response.statusCode} RESPONSE BODY;:: ${response.body}');
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("CouponBySubCat");
@@ -108,6 +109,8 @@ class CouponController extends GetxController {
       foundBySubCategory.value = foundBySubCategory.value
           .where((element) => element.subCategoryId == subcatId)
           .toList();
+
+      log('FOUND BY SUBCATEGORY LIST::::   ${foundBySubCategory.value.first.vendorsAndCouponsList.map((element) => element.toJson()).toList().toString()}');
 
       final coupons = await getLocalClaimedCoupons();
       if (coupons.isEmpty) {

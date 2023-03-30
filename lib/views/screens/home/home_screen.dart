@@ -133,6 +133,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     (index) {
                                   return KFeaturedCarouselCard(
                                     onTap: () {
+                                      log(couponController
+                                          .featured2CouponList[index]
+                                          .toJson()
+                                          .toString());
+                                      log(vendorController.featuredVendorList
+                                          .map((element) => element.toJson())
+                                          .toList()
+                                          .toString());
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

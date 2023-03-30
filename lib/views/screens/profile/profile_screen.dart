@@ -398,7 +398,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               topRight: Radius.circular(15),
                                               topLeft: Radius.circular(15))),
                                       child: Center(
-                                        child: Text("Alert Title Here",
+                                        child: Text("Delete Account",
                                             style: KTextStyle.headline4
                                                 .copyWith(
                                                     fontSize: 24,
@@ -410,7 +410,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 18),
                                       child: Text(
-                                        "Alert message here. I will give a list of what text to use.",
+                                        "Are you sure you want to delete your account?",
                                         textAlign: TextAlign.center,
                                         style: KTextStyle.headline2.copyWith(
                                             fontSize: 18, color: KColor.black),
