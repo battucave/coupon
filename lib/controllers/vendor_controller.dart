@@ -55,6 +55,8 @@ class VendorController extends GetxController {
           isActive: true)
       .obs;
 
+  RxBool isLoading = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -73,12 +75,15 @@ class VendorController extends GetxController {
   // }
 
   Future<int?> getVendorById(int vendorId) async {
+    isLoading.value = true;
     Response response = await NetWorkHandler()
         .getWithParameters(ApiRoutes.vendorById, vendorId, true);
     if (response.statusCode == 200 || response.statusCode == 201) {
       vendor.value = singleVendorModelFromJson(response.body);
+      isLoading.value = false;
       return response.statusCode;
     } else {
+      isLoading.value = false;
       return response.statusCode;
     }
   }
