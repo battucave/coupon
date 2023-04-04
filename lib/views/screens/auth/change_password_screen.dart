@@ -157,6 +157,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         isLoading: isLoading,
                         onpressed: () async {
                           if (resetPasswordController
+                                  .confirmPasswordController.text !=
+                              resetPasswordController
+                                  .newPasswordController.text) {
+                            snackMessage("Passwords must be the same!");
+                            return;
+                          }
+                          if (resetPasswordController
                                   .newPasswordController.text.isNotEmpty &&
                               resetPasswordController
                                   .confirmPasswordController.text.isNotEmpty) {
@@ -178,11 +185,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               snackMessage(
                                   "Reset password token has expired, please request a new one.");
                             }
-                          } else if (resetPasswordController
-                                  .newPasswordController.text !=
-                              resetPasswordController
-                                  .confirmPasswordController.text) {
-                            snackMessage("Passwords must be the same!");
                           } else {
                             snackMessage("Fields are required");
                           }

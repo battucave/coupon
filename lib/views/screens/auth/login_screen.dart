@@ -265,39 +265,46 @@ class _LoginScreenState extends State<LoginScreen> {
                                             height:
                                                 KSize.getHeight(context, 30)),
                                         KTextField(
-                                          hintText: "Phone Number",
-                                          prefixIcon: Image.asset(
-                                              AssetPath.phone,
-                                              height: 20,
-                                              width: 20),
-                                          keyboardType: TextInputType.phone,
-                                          controller: registerController
-                                              .phoneController,
-                                          onChanged: (v) {
-                                            registerController
-                                                    .phoneController.selection =
-                                                TextSelection.fromPosition(
-                                                    TextPosition(
-                                                        offset:
-                                                            registerController
-                                                                .phoneController
-                                                                .text
-                                                                .length));
-                                          },
-                                          format: [
-                                            LibPhonenumberTextFormatter(
-                                              phoneNumberType: globalPhoneType,
-                                              phoneNumberFormat:
-                                                  PhoneNumberFormat.national,
-                                              country: currentSelectedCountry,
-                                              inputContainsCountryCode:
-                                                  inputContainsCountryCode,
-                                              // additionalDigits: 3,
-                                              shouldKeepCursorAtEndOfInput:
-                                                  false,
-                                            ),
-                                          ],
-                                        ),
+                                            hintText: "Phone Number",
+                                            prefixIcon: Image.asset(
+                                                AssetPath.phone,
+                                                height: 20,
+                                                width: 20),
+                                            keyboardType: TextInputType.phone,
+                                            controller: registerController
+                                                .phoneController,
+                                            onChanged: (v) {
+                                              registerController.phoneController
+                                                      .selection =
+                                                  TextSelection.fromPosition(
+                                                      TextPosition(
+                                                          offset:
+                                                              registerController
+                                                                  .phoneController
+                                                                  .text
+                                                                  .length));
+                                            },
+                                            format: [
+                                              LibPhonenumberTextFormatter(
+                                                phoneNumberType:
+                                                    globalPhoneType,
+                                                phoneNumberFormat:
+                                                    PhoneNumberFormat.national,
+                                                country: currentSelectedCountry,
+                                                inputContainsCountryCode:
+                                                    inputContainsCountryCode,
+                                                // additionalDigits: 3,
+                                                shouldKeepCursorAtEndOfInput:
+                                                    false,
+                                              ),
+                                            ],
+                                            validator: (value) {
+                                              final usPhone = RegExp(
+                                                  r'^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$');
+                                              if (!usPhone.hasMatch(value!)) {
+                                                return 'Invalid Phone';
+                                              }
+                                            }),
                                         SizedBox(
                                             height:
                                                 KSize.getHeight(context, 30)),

@@ -114,7 +114,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log('Service deatils screen');
+    log('Service deatils screen ${couponController.vendorCouponList.length}');
     return Scaffold(
         body: GetX<VendorController>(
       init: VendorController(),
