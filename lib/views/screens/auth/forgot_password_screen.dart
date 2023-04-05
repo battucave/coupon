@@ -19,7 +19,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   bool isSignupScreen = true;
-  bool usePhone = false;
+  // bool usePhone = false;
   //TextEditingController emailPhoneController = TextEditingController();
   ResetPasswordController resetPasswordController =
       Get.put(ResetPasswordController());
@@ -139,36 +139,43 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           Column(
                             children: [
                               KTextField(
-                                prefixIcon: usePhone
-                                    ? Image.asset(AssetPath.phone,
-                                        height: 20, width: 20)
-                                    : Image.asset(AssetPath.mailIcon,
+                                prefixIcon:
+                                    // usePhone
+                                    //     ? Image.asset(AssetPath.phone,
+                                    //         height: 20, width: 20)
+                                    //     :
+                                    Image.asset(AssetPath.mailIcon,
                                         height: 16, width: 22),
                                 hintText:
-                                    usePhone ? "Phone Number" : "Email Address",
-                                keyboardType: usePhone
-                                    ? TextInputType.phone
-                                    : TextInputType.emailAddress,
+                                    // usePhone ?
+                                    // "Phone Number" :
+                                    "Email Address",
+                                keyboardType:
+                                    // usePhone
+                                    //     ?
+                                    //     TextInputType.phone
+                                    //     :
+                                    TextInputType.emailAddress,
                                 controller: resetPasswordController
                                     .emailPhoneController,
                               ),
                               SizedBox(height: KSize.getHeight(context, 10)),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        usePhone = !usePhone;
-                                      });
-                                    },
-                                    child: Text(
-                                      usePhone
-                                          ? "Use email address"
-                                          : "Use phone number ",
-                                      style: KTextStyle.headline2.copyWith(
-                                          fontSize: 14, color: KColor.primary),
-                                    )),
-                              ),
+                              // Align(
+                              //   alignment: Alignment.centerRight,
+                              //   child: GestureDetector(
+                              //       onTap: () {
+                              //         setState(() {
+                              //           // usePhone = !usePhone;
+                              //         });
+                              //       },
+                              //       child: Text(
+                              //         usePhone
+                              //             ? "Use email address"
+                              //             : "Use phone number ",
+                              //         style: KTextStyle.headline2.copyWith(
+                              //             fontSize: 14, color: KColor.primary),
+                              //       )),
+                              // ),
                               SizedBox(height: KSize.getHeight(context, 50)),
                             ],
                           )

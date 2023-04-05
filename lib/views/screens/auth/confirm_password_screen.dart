@@ -113,7 +113,7 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                 ),
                 SizedBox(height: KSize.getHeight(context, 8)),
                 Text(
-                  "Please enter 4 digit code you received",
+                  "Please enter 6 digit code you received",
                   style: KTextStyle.headline2
                       .copyWith(fontSize: 18, color: KColor.white),
                 ),
