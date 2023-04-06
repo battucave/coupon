@@ -82,7 +82,7 @@ class _KTextFieldState extends State<KTextField> {
                     _password();
                   },
                   icon: Icon(
-                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    _obscureText ? Icons.visibility_off : Icons.visibility,
                     color: KColor.primary,
                     size: 24.0,
                   ),
