@@ -303,7 +303,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Signed Out",
+                                    "Sign Out",
                                     style: KTextStyle.headline2.copyWith(
                                         fontSize: 18, color: Colors.black),
                                   )

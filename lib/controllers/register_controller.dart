@@ -50,7 +50,7 @@ class RegisterController extends GetxController {
     }
   }
 
-  Future<int?> Register() async {
+  Future<Response> Register() async {
     RegisterModel registerModel = RegisterModel(
         email: emailController.text,
         password: passwordController.text,
@@ -59,11 +59,11 @@ class RegisterController extends GetxController {
         registerModelToJson(registerModel), ApiRoutes.register);
     if (response.statusCode == 200 || response.statusCode == 201) {
       log('REGISTER RESPONSE::: ${response.body}');
-      return response.statusCode;
+      return response;
     } else {
       log('RESPONSE::: ${response.statusCode}');
       log('RESPONSE::: ${response.body}');
-      return response.statusCode;
+      return response;
     }
   }
 }

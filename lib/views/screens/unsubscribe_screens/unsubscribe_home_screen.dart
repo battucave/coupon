@@ -126,18 +126,6 @@ class _UnsubscribeHomeScreenState extends State<UnsubscribeHomeScreen> {
                                 items: List.generate(
                                     couponController.featured2CouponList.length,
                                     (index) {
-                                  print(vendorController
-                                      .featuredVendorList.first
-                                      .toJson());
-                                  print(vendorController
-                                      .featuredVendorList.length
-                                      .toString());
-                                  print(couponController
-                                      .featured2CouponList.length
-                                      .toString());
-                                  print(couponController
-                                      .featured2CouponList[index].percentageOff
-                                      .toString());
                                   return KFeaturedCarouselCard(
                                     onTap: () {
                                       //TODO: Subscribe dialog
@@ -169,6 +157,8 @@ class _UnsubscribeHomeScreenState extends State<UnsubscribeHomeScreen> {
                                     // vid: featured2CouponList,
                                     // .elementAt(index)
                                     // .v,
+
+                                    onImageTap: () {},
                                   );
                                 }),
                                 options: CarouselOptions(

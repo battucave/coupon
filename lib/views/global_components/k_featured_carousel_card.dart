@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:confetti/confetti.dart';
 import 'package:drop_shadow/drop_shadow.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,8 +12,14 @@ import 'package:logan/views/screens/services/service_details_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 
 import '../../constant/asset_path.dart';
+import '../../controllers/coupon_controller.dart';
 import '../../controllers/vendor_controller.dart';
+import '../../models/api/featured_coupon_model.dart';
 import '../../models/api/single_vendor_model.dart';
+import '../animation/confetti_handler.dart';
+import 'confirm_coupon_dialogue.dart';
+import 'k_coupon_claim_card.dart';
+import 'k_dialog.dart';
 
 class KFeaturedCarouselCard extends StatefulWidget {
   final String? percent;
@@ -20,12 +27,17 @@ class KFeaturedCarouselCard extends StatefulWidget {
   final int? vid;
   final String? vendorName;
   final VoidCallback onTap;
+  final FeaturedCouponModel? featuredCoupon;
+  final VoidCallback? onImageTap;
+
   const KFeaturedCarouselCard(
       {Key? key,
       this.image,
       this.percent,
       this.vid,
       this.vendorName,
+      this.featuredCoupon,
+      this.onImageTap,
       required this.onTap})
       : super(key: key);
 
@@ -35,14 +47,68 @@ class KFeaturedCarouselCard extends StatefulWidget {
 
 class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
   VendorController vendorController = Get.put(VendorController());
+  CouponController couponController = Get.find<CouponController>();
   Future<SingleVendorModel> getVendor() async {
     return await vendorController.getVendorProfileById(widget.vid!);
   }
+
+  void snackMessage(String msg) {
+    final snackBar =
+        SnackBar(content: Text(msg), duration: Duration(milliseconds: 3000));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void stopLoading() {
+    Navigator.pop(context);
+  }
+
+  void startLoading() {
+    setState(() {
+      showDialog(
+          // The user CANNOT close this dialog  by pressing outsite it
+          barrierDismissible: false,
+          context: context,
+          builder: (_) {
+            return Dialog(
+              // The background color
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    // The loading indicator
+                    CircularProgressIndicator(
+                        valueColor:
+                            AlwaysStoppedAnimation<Color>(KColor.primary)),
+                  ],
+                ),
+              ),
+            );
+          });
+    });
+  }
+
+  late ConfettiController _controllerCenter;
+  late ConfettiController _controllerCenterRight;
+  late ConfettiController _controllerCenterLeft;
+  late ConfettiController _controllerTopCenter;
+  late ConfettiController _controllerBottomCenter;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _controllerCenter =
+        ConfettiController(duration: const Duration(seconds: 1));
+    _controllerCenterRight =
+        ConfettiController(duration: const Duration(seconds: 1));
+    _controllerCenterLeft =
+        ConfettiController(duration: const Duration(seconds: 1));
+    _controllerTopCenter =
+        ConfettiController(duration: const Duration(seconds: 1));
+    _controllerBottomCenter =
+        ConfettiController(duration: const Duration(seconds: 1));
   }
 
   @override
@@ -216,17 +282,103 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                     Icons.error,
                     color: Colors.red,
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ServiceDetailsScreen(
-                          color: KColor.blueGreen,
-                          vendorId: widget.vid!,
-                        ),
-                      ),
-                    );
-                  },
+                  onTap: widget.onImageTap ??
+                      () {
+                        showConfirmClaimDialogue(context, onpressed: () {
+                          KDialog.kShowDialog(
+                            context: context,
+                            dialogContent: Dialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      15.0)), //this right here
+                              child: KCouponClaimCard(
+                                name: widget.vendorName,
+                                percent: widget.percent,
+                                color: KColor.blueGreen,
+                                buttonText: "Claim This Coupon",
+                                date:
+                                    "${widget.featuredCoupon!.endDate.day}-${widget.featuredCoupon!.endDate.month}-${widget.featuredCoupon!.endDate.year}",
+                                // date:
+                                // "${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
+                                //  couponController.vendorCouponList
+                                //     .elementAt(0)
+                                //     .endDate
+                                //     .toString(),
+                                image: widget.image,
+                                couponCode: null,
+                                onPressed: () async {
+                                  startLoading();
+                                  int? result =
+                                      await couponController.claimCoupon(
+                                          widget.featuredCoupon!.couponId,
+                                          false);
+                                  if (result == 200 || result == 201) {
+                                    stopLoading();
+                                    Navigator.pop(context);
+                                    KDialog.kShowDialog(
+                                      context: context,
+                                      dialogContent: Dialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                15.0)), //this right here
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: ConfettiWidget(
+                                            confettiController:
+                                                _controllerCenter,
+                                            blastDirectionality: BlastDirectionality
+                                                .explosive, // don't specify a direction, blast randomly
+                                            shouldLoop:
+                                                false, // start again as soon as the animation is finished
+                                            colors: ConfettiHandler
+                                                .starColors, // manually specify the colors to be used
+                                            createParticlePath:
+                                                ConfettiHandler.drawStar,
+                                            child: KCouponClaimCard(
+                                              showGreyOut: true,
+                                              couponDetails: true,
+                                              name: widget.vendorName,
+                                              percent: widget.percent,
+                                              color: KColor.blueGreen,
+                                              buttonText: "Coupon Claimed",
+                                              date: widget
+                                                  .featuredCoupon!.endDate
+                                                  .toString(),
+                                              image: widget.image,
+                                              //TODO:
+                                              couponCode: null,
+                                              onPressed: () {
+                                                // Navigator.of(context).pushAndRemoveUntil(
+                                                //     MaterialPageRoute(
+                                                //         builder: (context) =>
+                                                //         const KBottomNavigationBar()),
+                                                //         (Route<dynamic> route) => false);
+                                              },
+                                            ), // define a custom shape/path.
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                    _controllerCenter.play();
+                                  } else {
+                                    stopLoading();
+                                    snackMessage("Fail to claim coupon");
+                                  }
+                                },
+                              ),
+                            ),
+                          );
+                        });
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => ServiceDetailsScreen(
+                        //       color: KColor.blueGreen,
+                        //       vendorId: widget.vid!,
+                        //     ),
+                        //   ),
+                        // );
+                      },
                 ),
               ),
             ],

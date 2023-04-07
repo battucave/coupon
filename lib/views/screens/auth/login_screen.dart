@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 
@@ -455,11 +457,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                 startLoading();
 
-                                int? registerResult =
+                                final registerResult =
                                     await registerController.Register();
 
-                                if (registerResult == 200 ||
-                                    registerResult == 201) {
+                                if (registerResult.statusCode == 200 ||
+                                    registerResult.statusCode == 201) {
                                   stopLoading();
                                   setState(() {
                                     isSignupScreen = false;
@@ -469,6 +471,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   registerController.emailController.clear();
                                   registerController.phoneController.clear();
                                   registerController.passCodeController.clear();
+                                } else if (jsonDecode(
+                                        registerResult.body)['message'] ==
+                                    "User Already Registered!") {
+                                  stopLoading();
+                                  snackMessage('User Already Registered');
                                 } else {
                                   stopLoading();
                                   snackMessage("Registration failed");
@@ -597,8 +604,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Text(
                         isSignupScreen
-                            ? "Already have acount?"
-                            : "Don’t have acount?",
+                            ? "Already have account?"
+                            : "Don’t have account?",
                         style: KTextStyle.headline2.copyWith(
                             color: KColor.black.withOpacity(0.7), fontSize: 14),
                       ),

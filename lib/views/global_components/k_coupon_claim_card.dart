@@ -523,19 +523,20 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   final couponController = Get.find<CouponController>();
 
+  late StreamSubscription<CountdownTimer> sub;
+
   @override
   void initState() {
+    CountdownTimer countDownTimer = CountdownTimer(
+      Duration(seconds: _start),
+      const Duration(seconds: 1),
+    );
+    sub = countDownTimer.listen(null);
     startTimer();
     super.initState();
   }
 
   void startTimer() {
-    CountdownTimer countDownTimer = CountdownTimer(
-      Duration(seconds: _start),
-      const Duration(seconds: 1),
-    );
-
-    var sub = countDownTimer.listen(null);
     sub.onData((duration) {
       setState(() {
         _current = _start - duration.elapsed.inSeconds;
@@ -553,9 +554,14 @@ class _TimerWidgetState extends State<TimerWidget> {
               couponId: widget.couponId!);
         }
       }
-
       sub.cancel();
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    sub.cancel();
   }
 
   @override

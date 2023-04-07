@@ -19,6 +19,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   bool isSignupScreen = true;
+  final fromKey = GlobalKey<FormState>();
   // bool usePhone = false;
   //TextEditingController emailPhoneController = TextEditingController();
   ResetPasswordController resetPasswordController =
@@ -35,6 +36,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     final snackBar =
         SnackBar(content: Text(msg), duration: Duration(milliseconds: 3000));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  bool validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = RegExp(pattern.toString());
+    return (regex.hasMatch(value)) ? true : false;
   }
 
   void startLoading() {
@@ -136,48 +144,57 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       child: Column(
                         children: [
                           SizedBox(height: KSize.getHeight(context, 30)),
-                          Column(
-                            children: [
-                              KTextField(
-                                prefixIcon:
-                                    // usePhone
-                                    //     ? Image.asset(AssetPath.phone,
-                                    //         height: 20, width: 20)
-                                    //     :
-                                    Image.asset(AssetPath.mailIcon,
-                                        height: 16, width: 22),
-                                hintText:
-                                    // usePhone ?
-                                    // "Phone Number" :
-                                    "Email Address",
-                                keyboardType:
-                                    // usePhone
-                                    //     ?
-                                    //     TextInputType.phone
-                                    //     :
-                                    TextInputType.emailAddress,
-                                controller: resetPasswordController
-                                    .emailPhoneController,
-                              ),
-                              SizedBox(height: KSize.getHeight(context, 10)),
-                              // Align(
-                              //   alignment: Alignment.centerRight,
-                              //   child: GestureDetector(
-                              //       onTap: () {
-                              //         setState(() {
-                              //           // usePhone = !usePhone;
-                              //         });
-                              //       },
-                              //       child: Text(
-                              //         usePhone
-                              //             ? "Use email address"
-                              //             : "Use phone number ",
-                              //         style: KTextStyle.headline2.copyWith(
-                              //             fontSize: 14, color: KColor.primary),
-                              //       )),
-                              // ),
-                              SizedBox(height: KSize.getHeight(context, 50)),
-                            ],
+                          Form(
+                            key: fromKey,
+                            child: Column(
+                              children: [
+                                KTextField(
+                                  prefixIcon:
+                                      // usePhone
+                                      //     ? Image.asset(AssetPath.phone,
+                                      //         height: 20, width: 20)
+                                      //     :
+                                      Image.asset(AssetPath.mailIcon,
+                                          height: 16, width: 22),
+                                  hintText:
+                                      // usePhone ?
+                                      // "Phone Number" :
+                                      "Email Address",
+                                  keyboardType:
+                                      // usePhone
+                                      //     ?
+                                      //     TextInputType.phone
+                                      //     :
+                                      TextInputType.emailAddress,
+                                  controller: resetPasswordController
+                                      .emailPhoneController,
+                                  validator: (value) {
+                                    if (!validateEmail(value!)) {
+                                      return 'invalid email';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(height: KSize.getHeight(context, 10)),
+                                // Align(
+                                //   alignment: Alignment.centerRight,
+                                //   child: GestureDetector(
+                                //       onTap: () {
+                                //         setState(() {
+                                //           // usePhone = !usePhone;
+                                //         });
+                                //       },
+                                //       child: Text(
+                                //         usePhone
+                                //             ? "Use email address"
+                                //             : "Use phone number ",
+                                //         style: KTextStyle.headline2.copyWith(
+                                //             fontSize: 14, color: KColor.primary),
+                                //       )),
+                                // ),
+                                SizedBox(height: KSize.getHeight(context, 50)),
+                              ],
+                            ),
                           )
                         ],
                       ),
@@ -189,6 +206,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         child: KArrowGoButton(
                           isLoading: isLoading,
                           onpressed: () async {
+                            if (!fromKey.currentState!.validate()) {
+                              return;
+                            }
                             if (resetPasswordController
                                 .emailPhoneController.text.isNotEmpty) {
                               startLoading();

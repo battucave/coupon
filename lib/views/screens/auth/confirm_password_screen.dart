@@ -195,10 +195,10 @@ class _ConfirmPasswordScreenState extends State<ConfirmPasswordScreen> {
                                     await registerController.verifyOtp();
                                 if (otpResult == 200 || otpResult == 201) {
                                   snackMessage("OTP verified successfully");
-                                  int? registerResult =
+                                  final registerResult =
                                       await registerController.Register();
-                                  if (registerResult == 200 ||
-                                      registerResult == 201) {
+                                  if (registerResult.statusCode == 200 ||
+                                      registerResult.statusCode == 201) {
                                     ///Remove credential
                                     registerController.emailController.text =
                                         "";
