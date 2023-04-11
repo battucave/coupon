@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:get/state_manager.dart';
@@ -43,6 +44,11 @@ class CategoryController extends GetxController {
         }
       }
 
+      List<CategoryModel> categories = List.empty(growable: true);
+      for (int i = 0; i < 9; i++) {
+        categories.add(allCategory[i]);
+      }
+      allCategory.value = List.from(categories);
       return response.statusCode;
     } else {
       return response.statusCode;

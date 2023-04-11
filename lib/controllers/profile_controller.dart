@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
-import 'package:get/state_manager.dart';
+import 'package:logan/controllers/register_controller.dart';
+import 'package:logan/views/screens/auth/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constant/api_routes.dart';
 import '../models/api/profile_model.dart';
 import '../network_services/network_handler.dart';
@@ -59,8 +61,9 @@ class ProfileController extends GetxController {
       phoneController.text = data["phone"];
       mailController.text = data["email"];
       return response.statusCode;
+    } else if (response.statusCode == 401) {
+      await signOut();
     } else {
-      log('IN PROFILE:: ${response.statusCode} ${response.body}');
       return response.statusCode;
     }
   }
@@ -134,5 +137,17 @@ class ProfileController extends GetxController {
     } else {
       return response.statusCode;
     }
+  }
+
+  Future<void> signOut() async {
+    aws_Link.value = "";
+    phoneController.text = "";
+    mailController.text = "";
+    nameController.text = "";
+    cardController.text = "";
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove("token");
+    await prefs.clear();
+    Get.offAll(() => LoginScreen());
   }
 }

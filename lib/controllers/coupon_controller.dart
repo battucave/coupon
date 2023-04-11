@@ -218,7 +218,7 @@ class CouponController extends GetxController {
     Response response =
         await NetWorkHandler().get(ApiRoutes.featuredCouponApps);
     print("FEATUREDDD");
-    print(response.body);
+    print('LOG FEATURED COUPONS::: ${response.body}');
     if (response.statusCode == 200 || response.statusCode == 201) {
       featured2CouponList.value = featuredCouponModelFromJson(response.body);
       print(featured2CouponList.length);

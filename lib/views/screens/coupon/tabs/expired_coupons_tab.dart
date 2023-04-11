@@ -83,7 +83,7 @@ class _ExpiredCouponsTabState extends State<ExpiredCouponsTab> {
                 sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                         (BuildContext buildContext, int index) {
-                  const itemHeight = 210.0;
+                  const itemHeight = 240.0;
                   const heightFactor = 0.86;
                   final itemPositionOffset = index * itemHeight * heightFactor;
                   final difference = (scrollOffset - 20) - itemPositionOffset;

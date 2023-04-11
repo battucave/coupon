@@ -39,6 +39,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   CarouselController buttonCarouselController = CarouselController();
+
   bool viewScreens = false;
   List<Color> colors = [
     const Color(0xFFE8804B),
