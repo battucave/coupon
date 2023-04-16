@@ -212,152 +212,154 @@ class _HomeScreenState extends State<HomeScreen> {
                                           .toJson()
                                           .toString());
 
-                                      showConfirmClaimDialogue(context,
-                                          onpressed: () {
-                                        KDialog.kShowDialog(
-                                          context: context,
-                                          dialogContent: Dialog(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        15.0)), //this right here
-                                            child: KCouponClaimCard(
-                                              name: vendorController
-                                                  .featuredVendorList
-                                                  .firstWhere((element) =>
-                                                      element.vendorName ==
-                                                      couponController
-                                                          .featured2CouponList
-                                                          .elementAt(index)
-                                                          .vendorName)
-                                                  .vendorName,
-                                              percent: couponController
-                                                  .featured2CouponList
-                                                  .elementAt(index)
-                                                  .percentageOff,
-                                              color: KColor.blueGreen,
-                                              buttonText: "Claim This Coupon",
-                                              date:
-                                                  "${couponController.featured2CouponList.elementAt(index).endDate.day}-${couponController.featured2CouponList.elementAt(index).endDate.month}-${couponController.featured2CouponList.elementAt(index).endDate.year}",
-                                              // date:
-                                              // "${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
-                                              //  couponController.vendorCouponList
-                                              //     .elementAt(0)
-                                              //     .endDate
-                                              //     .toString(),
-                                              image: couponController
-                                                  .featured2CouponList
-                                                  .elementAt(index)
-                                                  .vendorLogPath,
-                                              couponCode: null,
-                                              onPressed: () async {
-                                                startLoading();
-                                                int? result = await couponController
-                                                    .claimCoupon(
-                                                        couponController
-                                                            .featured2CouponList
-                                                            .elementAt(index)
-                                                            .couponId,
-                                                        false);
-                                                if (result == 200 ||
-                                                    result == 201) {
-                                                  stopLoading();
-                                                  Navigator.pop(context);
-                                                  KDialog.kShowDialog(
-                                                    context: context,
-                                                    dialogContent: Dialog(
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  15.0)), //this right here
-                                                      child: Align(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: ConfettiWidget(
-                                                          confettiController:
-                                                              _controllerCenter,
-                                                          blastDirectionality:
-                                                              BlastDirectionality
-                                                                  .explosive, // don't specify a direction, blast randomly
-                                                          shouldLoop:
-                                                              false, // start again as soon as the animation is finished
-                                                          colors: ConfettiHandler
-                                                              .starColors, // manually specify the colors to be used
-                                                          createParticlePath:
-                                                              ConfettiHandler
-                                                                  .drawStar,
-                                                          child:
-                                                              KCouponClaimCard(
-                                                            showGreyOut: true,
-                                                            couponDetails: true,
-                                                            name: couponController
-                                                                .featured2CouponList
-                                                                .elementAt(
-                                                                    index)
-                                                                .vendorName,
-                                                            percent: couponController
-                                                                .featured2CouponList
-                                                                .elementAt(
-                                                                    index)
-                                                                .percentageOff,
-                                                            color: KColor
-                                                                .blueGreen,
-                                                            buttonText:
-                                                                "Coupon Claimed",
-                                                            date: couponController
-                                                                .featured2CouponList
-                                                                .elementAt(
-                                                                    index)
-                                                                .endDate
-                                                                .toString(),
-                                                            image: couponController
-                                                                .featured2CouponList
-                                                                .elementAt(
-                                                                    index)
-                                                                .vendorLogPath,
-                                                            //TODO:
-                                                            couponCode: null,
-                                                            onPressed: () {
-                                                              // Navigator.of(context).pushAndRemoveUntil(
-                                                              //     MaterialPageRoute(
-                                                              //         builder: (context) =>
-                                                              //         const KBottomNavigationBar()),
-                                                              //         (Route<dynamic> route) => false);
-                                                            },
-                                                          ), // define a custom shape/path.
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                  _controllerCenter.play();
-                                                } else {
-                                                  stopLoading();
-                                                  snackMessage(
-                                                      "Fail to claim coupon");
-                                                }
-                                              },
-                                            ),
-                                          ),
-                                        );
-                                      });
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) =>
-                                      //         ServiceDetailsScreen(
-                                      //       color: KColor.blueGreen,
-                                      //       vendorId: vendorController
-                                      //           .featuredVendorList
-                                      //           .firstWhere((element) =>
-                                      //               element.vendorName ==
-                                      //               couponController
-                                      //                   .featured2CouponList
-                                      //                   .elementAt(index)
-                                      //                   .vendorName)
-                                      //           .vid,
+                                      //Claim featured coupon directly
+
+                                      // showConfirmClaimDialogue(context,
+                                      //     onpressed: () {
+                                      //   KDialog.kShowDialog(
+                                      //     context: context,
+                                      //     dialogContent: Dialog(
+                                      //       shape: RoundedRectangleBorder(
+                                      //           borderRadius:
+                                      //               BorderRadius.circular(
+                                      //                   15.0)), //this right here
+                                      //       child: KCouponClaimCard(
+                                      //         name: vendorController
+                                      //             .featuredVendorList
+                                      //             .firstWhere((element) =>
+                                      //                 element.vendorName ==
+                                      //                 couponController
+                                      //                     .featured2CouponList
+                                      //                     .elementAt(index)
+                                      //                     .vendorName)
+                                      //             .vendorName,
+                                      //         percent: couponController
+                                      //             .featured2CouponList
+                                      //             .elementAt(index)
+                                      //             .percentageOff,
+                                      //         color: KColor.blueGreen,
+                                      //         buttonText: "Claim This Coupon",
+                                      //         date:
+                                      //             "${couponController.featured2CouponList.elementAt(index).endDate.day}-${couponController.featured2CouponList.elementAt(index).endDate.month}-${couponController.featured2CouponList.elementAt(index).endDate.year}",
+                                      //         // date:
+                                      //         // "${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
+                                      //         //  couponController.vendorCouponList
+                                      //         //     .elementAt(0)
+                                      //         //     .endDate
+                                      //         //     .toString(),
+                                      //         image: couponController
+                                      //             .featured2CouponList
+                                      //             .elementAt(index)
+                                      //             .vendorLogPath,
+                                      //         couponCode: null,
+                                      //         onPressed: () async {
+                                      //           startLoading();
+                                      //           int? result = await couponController
+                                      //               .claimCoupon(
+                                      //                   couponController
+                                      //                       .featured2CouponList
+                                      //                       .elementAt(index)
+                                      //                       .couponId,
+                                      //                   false);
+                                      //           if (result == 200 ||
+                                      //               result == 201) {
+                                      //             stopLoading();
+                                      //             Navigator.pop(context);
+                                      //             KDialog.kShowDialog(
+                                      //               context: context,
+                                      //               dialogContent: Dialog(
+                                      //                 shape: RoundedRectangleBorder(
+                                      //                     borderRadius:
+                                      //                         BorderRadius.circular(
+                                      //                             15.0)), //this right here
+                                      //                 child: Align(
+                                      //                   alignment:
+                                      //                       Alignment.center,
+                                      //                   child: ConfettiWidget(
+                                      //                     confettiController:
+                                      //                         _controllerCenter,
+                                      //                     blastDirectionality:
+                                      //                         BlastDirectionality
+                                      //                             .explosive, // don't specify a direction, blast randomly
+                                      //                     shouldLoop:
+                                      //                         false, // start again as soon as the animation is finished
+                                      //                     colors: ConfettiHandler
+                                      //                         .starColors, // manually specify the colors to be used
+                                      //                     createParticlePath:
+                                      //                         ConfettiHandler
+                                      //                             .drawStar,
+                                      //                     child:
+                                      //                         KCouponClaimCard(
+                                      //                       showGreyOut: true,
+                                      //                       couponDetails: true,
+                                      //                       name: couponController
+                                      //                           .featured2CouponList
+                                      //                           .elementAt(
+                                      //                               index)
+                                      //                           .vendorName,
+                                      //                       percent: couponController
+                                      //                           .featured2CouponList
+                                      //                           .elementAt(
+                                      //                               index)
+                                      //                           .percentageOff,
+                                      //                       color: KColor
+                                      //                           .blueGreen,
+                                      //                       buttonText:
+                                      //                           "Coupon Claimed",
+                                      //                       date: couponController
+                                      //                           .featured2CouponList
+                                      //                           .elementAt(
+                                      //                               index)
+                                      //                           .endDate
+                                      //                           .toString(),
+                                      //                       image: couponController
+                                      //                           .featured2CouponList
+                                      //                           .elementAt(
+                                      //                               index)
+                                      //                           .vendorLogPath,
+                                      //                       //TODO:
+                                      //                       couponCode: null,
+                                      //                       onPressed: () {
+                                      //                         // Navigator.of(context).pushAndRemoveUntil(
+                                      //                         //     MaterialPageRoute(
+                                      //                         //         builder: (context) =>
+                                      //                         //         const KBottomNavigationBar()),
+                                      //                         //         (Route<dynamic> route) => false);
+                                      //                       },
+                                      //                     ), // define a custom shape/path.
+                                      //                   ),
+                                      //                 ),
+                                      //               ),
+                                      //             );
+                                      //             _controllerCenter.play();
+                                      //           } else {
+                                      //             stopLoading();
+                                      //             snackMessage(
+                                      //                 "Fail to claim coupon");
+                                      //           }
+                                      //         },
+                                      //       ),
                                       //     ),
-                                      //   ),
-                                      // );
+                                      //   );
+                                      // });
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ServiceDetailsScreen(
+                                            color: KColor.blueGreen,
+                                            vendorId: vendorController
+                                                .featuredVendorList
+                                                .firstWhere((element) =>
+                                                    element.vendorName ==
+                                                    couponController
+                                                        .featured2CouponList
+                                                        .elementAt(index)
+                                                        .vendorName)
+                                                .vid,
+                                          ),
+                                        ),
+                                      );
                                     },
                                     featuredCoupon: couponController
                                         .featured2CouponList

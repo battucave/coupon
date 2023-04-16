@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:logan/controllers/register_controller.dart';
 import 'package:logan/views/screens/auth/login_screen.dart';
@@ -62,6 +63,7 @@ class ProfileController extends GetxController {
       mailController.text = data["email"];
       return response.statusCode;
     } else if (response.statusCode == 401) {
+      Fluttertoast.showToast(msg: 'Session Expired. Please login again');
       await signOut();
     } else {
       return response.statusCode;
