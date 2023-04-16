@@ -33,6 +33,7 @@ class ApiRoutes {
       "api/v1/apps/coupon/claimed/current_user"; //"api/v1/apps/coupon/claimed/";
   static const subCatCouponList = "api/v1/apps/coupons/all/";
   static const featuredCouponApps = "api/v1/apps/coupons/featured/all/apps";
+  // static const featuredCouponApps = "api/v1/coupons/admin/featured/all";
   static const couponById = "api/v1/coupon/";
 
   ///Vendor
