@@ -329,8 +329,10 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                       vendorController.vendor.value.website.isNotEmpty
                           ? ServiceDescriptionComponent(
                               title: "",
-                              subtitle:
-                                  '${vendorController.vendor.value.website}/',
+                              subtitle: vendorController.vendor.value.website
+                                      .contains('https://')
+                                  ? '${vendorController.vendor.value.website}/'
+                                  : 'https://${vendorController.vendor.value.website}/',
                               image: AssetPath.website,
                               tapState: TapState.website,
                             )
