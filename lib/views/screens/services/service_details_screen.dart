@@ -330,7 +330,7 @@ class _ServicesDetailsScreenState extends State<ServiceDetailsScreen> {
                           ? ServiceDescriptionComponent(
                               title: "",
                               subtitle:
-                                  'https://${vendorController.vendor.value.website}/',
+                                  '${vendorController.vendor.value.website}/',
                               image: AssetPath.website,
                               tapState: TapState.website,
                             )
