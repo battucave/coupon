@@ -107,7 +107,7 @@ class SubscriptionController extends GetxController {
     //TODO: save Subscription details
     final response = await network.getSubscription(ApiRoutes.getSubscription);
     log('SUBSCRIPTION::: ${response.statusCode.toString()}');
-    log('SUBSCRIPTIOIN::: ${response.body}');
+
     return response.statusCode;
   }
 

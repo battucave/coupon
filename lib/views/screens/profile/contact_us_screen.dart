@@ -83,7 +83,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                               onPressed: () {
                                 if (index == 0) {
                                   launchUrlString(
-                                      "mailto:info@thebestoflogan.com");
+                                      "mailto:marketing@thebestoflogan.com");
                                 } else if (index == 1) {
                                   launchUrl(
                                       Uri.parse('https://thebestoflogan.com/'));

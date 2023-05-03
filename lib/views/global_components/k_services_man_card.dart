@@ -85,36 +85,39 @@ class _KServicesManCardState extends State<KServicesManCard>
   String returnFormatedDate(String? dateString) {
     if (dateString != "-----------") {
       DateTime date = DateFormat("yyyy-MM-dd").parse(dateString!);
-      return date.day.toString() +
-          (date.month == 1
-              ? " Jan " + date.year.toString()
-              : date.month == 2
-                  ? " Feb " + date.year.toString()
-                  : date.month == 3
-                      ? " Mar " + date.year.toString()
-                      : date.month == 4
-                          ? " Apr " + date.year.toString()
-                          : date.month == 5
-                              ? " May " + date.year.toString()
-                              : date.month == 6
-                                  ? " Jun " + date.year.toString()
-                                  : date.month == 7
-                                      ? " Jul " + date.year.toString()
-                                      : date.month == 8
-                                          ? " Aug " + date.year.toString()
-                                          : date.month == 9
-                                              ? " Sep " + date.year.toString()
-                                              : date.month == 10
-                                                  ? " Oct " +
+      return (date.month == 1
+          ? " Jan ${date.day.toString()} " + date.year.toString()
+          : date.month == 2
+              ? " Feb ${date.day.toString()} " + date.year.toString()
+              : date.month == 3
+                  ? " Mar ${date.day.toString()} " + date.year.toString()
+                  : date.month == 4
+                      ? " Apr ${date.day.toString()} " + date.year.toString()
+                      : date.month == 5
+                          ? " May ${date.day.toString()} " +
+                              date.year.toString()
+                          : date.month == 6
+                              ? " Jun ${date.day.toString()} " +
+                                  date.year.toString()
+                              : date.month == 7
+                                  ? " Jul ${date.day.toString()} " +
+                                      date.year.toString()
+                                  : date.month == 8
+                                      ? " Aug ${date.day.toString()} " +
+                                          date.year.toString()
+                                      : date.month == 9
+                                          ? " Sep ${date.day.toString()} " +
+                                              date.year.toString()
+                                          : date.month == 10
+                                              ? " Oct ${date.day.toString()} " +
+                                                  date.year.toString()
+                                              : date.month == 11
+                                                  ? " Nov ${date.day.toString()} " +
                                                       date.year.toString()
-                                                  : date.month == 11
-                                                      ? " Nov " +
+                                                  : date.month == 12
+                                                      ? " Dec ${date.day.toString()} " +
                                                           date.year.toString()
-                                                      : date.month == 12
-                                                          ? " Dec " +
-                                                              date.year
-                                                                  .toString()
-                                                          : "");
+                                                      : "");
     } else {
       return "";
     }
@@ -153,6 +156,7 @@ class _KServicesManCardState extends State<KServicesManCard>
               children: [
                 GestureDetector(
                   onTap: () {
+                    if (widget.vid == null) return;
                     Navigator.push(
                       context,
                       MaterialPageRoute(

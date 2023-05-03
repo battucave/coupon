@@ -250,7 +250,8 @@ class CouponController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     coupons = await getLocalClaimedCoupons();
     final coupon = vendorAndCouponList
-        .firstWhere((element) => element.couponId == couponId);
+        .firstWhereOrNull((element) => element.couponId == couponId);
+    if (coupon == null) return;
     coupons.add(coupon);
     prefs.setString('claimed_coupons', jsonEncode(coupons));
     vendorAndCouponList.removeWhere((element) => element.couponId == couponId);

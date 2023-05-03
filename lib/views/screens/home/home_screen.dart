@@ -207,10 +207,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       //     .map((element) => element.toJson())
                                       //     .toList()
                                       //     .toString());
-                                      log(couponController.featured2CouponList
-                                          .elementAt(index)
-                                          .toJson()
-                                          .toString());
 
                                       //Claim featured coupon directly
 
@@ -446,20 +442,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                       "Featured") {
                                     log('Featured');
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ServicesScreen(
-                                                  catId: categoryController
-                                                      .allCategory
-                                                      .elementAt(index)
-                                                      .cid,
-                                                  isFeatured: true,
-                                                  title: categoryController
-                                                      .allCategory
-                                                      .elementAt(index)
-                                                      .categoryName,
-                                                )));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ServicesScreen(
+                                          catId: categoryController.allCategory
+                                              .elementAt(index)
+                                              .cid,
+                                          isFeatured: true,
+                                          title: categoryController.allCategory
+                                              .elementAt(index)
+                                              .categoryName,
+                                        ),
+                                      ),
+                                    );
                                   } else {
                                     Navigator.push(
                                         context,

@@ -771,12 +771,8 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                                         .elementAt(
                                                                             index)
                                                                         .percentageOff,
-                                                                    date: couponController
-                                                                        .foundFeaturedCouponList
-                                                                        .elementAt(
-                                                                            index)
-                                                                        .endDate
-                                                                        .toString(),
+                                                                    date:
+                                                                        '${couponController.foundFeaturedCouponList.elementAt(index).endDate.month}-${couponController.foundFeaturedCouponList.elementAt(index).endDate.day}-${couponController.foundFeaturedCouponList.elementAt(index).endDate.year}',
                                                                     coupon_id: couponController
                                                                         .foundFeaturedCouponList
                                                                         .elementAt(

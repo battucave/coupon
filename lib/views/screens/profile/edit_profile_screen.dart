@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_network/image_network.dart';
 import 'package:logan/constant/asset_path.dart';
 import 'package:logan/network_services/network_handler.dart';
 import 'package:logan/utils/extensions.dart';
@@ -155,28 +156,72 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: [
-                        Obx(
-                          () => Container(
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: (image == null &&
+                        Obx(() => (image == null &&
+                                    editProfileController
+                                        .aws_Link.value.isEmpty)
+                                ? const Image(
+                                    image: AssetImage(AssetPath.profileImg))
+                                : (image == null &&
                                         editProfileController
-                                            .aws_Link.value.isEmpty)
-                                    ? const AssetImage(AssetPath.profileImg)
-                                    : (image == null &&
-                                            editProfileController
-                                                .aws_Link.value.isNotEmpty)
-                                        ? NetworkImage(editProfileController
-                                            .aws_Link.value)
-                                        : FileImage(image!) as ImageProvider,
-                              ),
+                                            .aws_Link.value.isNotEmpty)
+                                    ? ImageNetwork(
+                                        image: editProfileController
+                                            .aws_Link.value,
+                                        // imageCache: CachedNetworkImageProvider(
+                                        //     profileController.aws_Link.value),
+                                        height: 100,
+                                        width: 100,
+                                        duration: 1500,
+
+                                        curve: Curves.easeIn,
+                                        onPointer: true,
+                                        debugPrint: false,
+                                        fullScreen: false,
+                                        // fitAndroidIos: BoxFit.fill,
+                                        fitWeb: BoxFitWeb.scaleDown,
+                                        borderRadius: BorderRadius.circular(70),
+                                        onLoading:
+                                            const CircularProgressIndicator(
+                                          color: KColor.primary,
+                                        ),
+                                        onError: const Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                        ),
+                                        onTap: () {},
+                                      )
+                                    : Container(
+                                        height: 100.0,
+                                        width: 100.0,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                fit: BoxFit.cover,
+                                                image: FileImage(image!)),
+                                            shape: BoxShape.circle),
+                                      )
+                            //  Container(
+                            //   height: 100,
+                            //   width: 100,
+                            //   decoration: BoxDecoration(
+                            //     shape: BoxShape.circle,
+                            //     image: DecorationImage(
+                            //       fit: BoxFit.cover,
+                            //       image: (image == null &&
+                            //               editProfileController
+                            //                   .aws_Link.value.isEmpty)
+                            //           ? const AssetImage(AssetPath.profileImg)
+                            //           : (image == null &&
+                            //                   editProfileController
+                            //                       .aws_Link.value.isNotEmpty)
+                            //               ? NetworkImage(
+                            //                   editProfileController
+                            //                       .aws_Link.value,
+                            //                 )
+                            //               : FileImage(image!) as ImageProvider,
+                            //     ),
+                            //   ),
+                            // ),
                             ),
-                          ),
-                        ),
                         Positioned(
                           right: 5,
                           bottom: -10,

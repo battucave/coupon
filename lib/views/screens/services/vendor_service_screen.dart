@@ -230,7 +230,7 @@ class _VendorServiceSreen extends State<VendorServiceSreen> {
                                                         couponColors.length)),
                                                 buttonText: "Claim This Coupon",
                                                 date:
-                                                    "${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
+                                                    "${couponController.vendorCouponList.elementAt(0).endDate.month}-${couponController.vendorCouponList.elementAt(0).endDate.day}-${couponController.vendorCouponList.elementAt(0).endDate.year}",
                                                 // couponController
                                                 //     .vendorCouponList
                                                 //     .elementAt(index)
@@ -294,12 +294,8 @@ class _VendorServiceSreen extends State<VendorServiceSreen> {
                                                                               .length)),
                                                               buttonText:
                                                                   "Coupon Claimed",
-                                                              date: couponController
-                                                                  .vendorCouponList
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .endDate
-                                                                  .toString(),
+                                                              date:
+                                                                  '${couponController.vendorCouponList.elementAt(index).endDate.month}-${couponController.vendorCouponList.elementAt(index).endDate.day}-${couponController.vendorCouponList.elementAt(index).endDate.year}',
                                                               image:
                                                                   widget.image,
                                                               couponCode:

@@ -201,9 +201,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(height: KSize.getHeight(context, 23)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _kContact(context, profileController.phone.value,
-                        AssetPath.phone1, KColor.orange.withOpacity(0.1)),
+                  children: const [
+                    //TODO: NOT NEEDED FOR NOW
+
+                    // _kContact(context, profileController.phone.value,
+                    //     AssetPath.phone1, KColor.orange.withOpacity(0.1)),
                     // const SizedBox(width: 30),
                     // _kContact(context, profileController.card.value, AssetPath.card, KColor.blue.withOpacity(0.2))
                   ],
