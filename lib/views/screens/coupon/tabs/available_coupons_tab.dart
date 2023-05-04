@@ -297,12 +297,10 @@ class _AvailableCouponsTabState extends State<AvailableCouponsTab> {
                                                             buttonText:
                                                                 "Coupon Claimed",
                                                             date:
-                                                                couponController
-                                                                    .allCoupon
-                                                                    .elementAt(
-                                                                        index)
-                                                                    .endDate
-                                                                    .toString(),
+                                                                "${couponController.allCoupon.elementAt(index).endDate.month}-${couponController.allCoupon.elementAt(index).endDate.day}-${couponController.allCoupon.elementAt(index).endDate.year}",
+
+                                                            //     .endDate
+                                                            //     .toString(),
                                                             couponCode:
                                                                 couponController
                                                                     .allCoupon
