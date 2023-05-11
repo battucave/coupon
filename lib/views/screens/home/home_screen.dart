@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     couponController.featured2CouponList.length,
                                     (index) {
                                   return KFeaturedCarouselCard(
-                                    onTap: () {
+                                    onTap: () async {
                                       // log(couponController
                                       //     .featured2CouponList[index]
                                       //     .toJson()
@@ -338,20 +338,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                       //     ),
                                       //   );
                                       // });
+
+                                      if (couponController
+                                          .adminFeatureCouponsList.isEmpty) {
+                                        await couponController
+                                            .getAdminFeaturedCoupons();
+                                      }
+
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               ServiceDetailsScreen(
                                             color: KColor.blueGreen,
-                                            vendorId: vendorController
-                                                .featuredVendorList
+                                            vendorId: couponController
+                                                .adminFeatureCouponsList
                                                 .firstWhere((element) =>
-                                                    element.vendorName ==
+                                                    element.couponId ==
                                                     couponController
                                                         .featured2CouponList
                                                         .elementAt(index)
-                                                        .vendorName)
+                                                        .couponId)
                                                 .vid,
                                           ),
                                         ),
@@ -367,16 +374,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                     image: couponController.featured2CouponList
                                         .elementAt(index)
                                         .vendorLogPath,
-                                    vid: vendorController.featuredVendorList
-                                        .firstWhereOrNull(
-                                          (element) =>
-                                              element.vendorName ==
-                                              couponController
-                                                  .featured2CouponList
-                                                  .elementAt(index)
-                                                  .vendorName,
-                                        )
-                                        ?.vid,
+                                    vid: couponController
+                                        .adminFeatureCouponsList
+                                        .firstWhere((element) =>
+                                            element.couponId ==
+                                            couponController.featured2CouponList
+                                                .elementAt(index)
+                                                .couponId)
+                                        .vid,
                                     vendorName: couponController
                                         .featured2CouponList
                                         .elementAt(index)

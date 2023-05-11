@@ -371,6 +371,9 @@ class _KFeaturedCarouselCardState extends State<KFeaturedCarouselCard> {
                         //     ),
                         //   );
                         // });
+                        if (widget.vid == null) {
+                          return;
+                        }
                         Navigator.push(
                           context,
                           MaterialPageRoute(

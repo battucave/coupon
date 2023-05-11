@@ -35,6 +35,7 @@ class ApiRoutes {
   static const featuredCouponApps = "api/v1/apps/coupons/featured/all/apps";
   // static const featuredCouponApps = "api/v1/coupons/admin/featured/all";
   static const couponById = "api/v1/coupon/";
+  static const adminFeatured = "api/v1/coupons/admin/featured/all";
 
   ///Vendor
   static const vendor = "vendors/all/";

@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:get/state_manager.dart';
+import 'package:logan/common/ui.dart';
 import 'package:logan/controllers/builder_ids/builder_ids.dart';
+import 'package:logan/models/api/admin_featured_coupon.dart';
 import 'package:logan/models/api/category_model.dart';
 import 'package:logan/models/api/featured_coupon_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,6 +47,9 @@ class CouponController extends GetxController {
 
   RxList<VendorsAndCouponsList> vendorAndCouponList =
       <VendorsAndCouponsList>[].obs;
+
+  RxList<AdminFeaturedCoupon> adminFeatureCouponsList =
+      <AdminFeaturedCoupon>[].obs;
 
   @override
   void onInit() {
@@ -217,14 +222,29 @@ class CouponController extends GetxController {
   Future<int?> getFeaturedCoupon() async {
     Response response =
         await NetWorkHandler().get(ApiRoutes.featuredCouponApps);
-    print("FEATUREDDD");
-    print('LOG FEATURED COUPONS::: ${response.body}');
+    await getAdminFeaturedCoupons();
     if (response.statusCode == 200 || response.statusCode == 201) {
       featured2CouponList.value = featuredCouponModelFromJson(response.body);
       print(featured2CouponList.length);
       return response.statusCode;
     } else {
       return response.statusCode;
+    }
+  }
+
+  Future<void> getAdminFeaturedCoupons() async {
+    try {
+      Response adminFeaturedResponse =
+          await NetWorkHandler().get(ApiRoutes.adminFeatured);
+      if (adminFeaturedResponse.statusCode == 200 ||
+          adminFeaturedResponse.statusCode == 201) {
+        adminFeatureCouponsList.value =
+            adminFeaturedCouponModelFromJson(adminFeaturedResponse.body);
+      } else {
+        throw 'An Error Occured. Please try again';
+      }
+    } catch (e) {
+      Get.showSnackbar(Ui.ErrorSnackBar(message: '$e'));
     }
   }
 
