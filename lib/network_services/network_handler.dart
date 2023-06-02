@@ -68,7 +68,7 @@ class NetWorkHandler {
   Future<http.Response> getWithParameters(
       String endpoint, int param, bool paramIsAtEnd) async {
     await setHeaderToken();
-    log(buildUrlWithParameters(endpoint, param, paramIsAtEnd).toString());
+    log('URL:: ${buildUrlWithParameters(endpoint, param, paramIsAtEnd).toString()}');
     http.Response response = await client.get(
         buildUrlWithParameters(endpoint, param, paramIsAtEnd),
         headers: headers);

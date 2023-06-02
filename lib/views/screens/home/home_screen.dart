@@ -15,6 +15,7 @@ import 'package:logan/views/global_components/k_vendor_brands_list_component.dar
 import 'package:logan/views/screens/services/services_screen.dart';
 import 'package:logan/views/styles/b_style.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../controllers/category_controller.dart';
 import '../../../controllers/coupon_controller.dart';
@@ -460,22 +461,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                     );
+                                  } else if (categoryController.allCategory
+                                          .elementAt(index)
+                                          .categoryName ==
+                                      'Best of Logan') {
+                                    launchUrl(Uri.parse(
+                                        'https://thebestoflogan.com/'));
                                   } else {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ServicesScreen(
-                                                  catId: categoryController
-                                                      .allCategory
-                                                      .elementAt(index)
-                                                      .cid,
-                                                  title: categoryController
-                                                      .allCategory
-                                                      .elementAt(index)
-                                                      .categoryName,
-                                                  isFeatured: false,
-                                                )));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ServicesScreen(
+                                          catId: categoryController.allCategory
+                                              .elementAt(index)
+                                              .cid,
+                                          title: categoryController.allCategory
+                                              .elementAt(index)
+                                              .categoryName,
+                                          isFeatured: false,
+                                        ),
+                                      ),
+                                    );
                                   }
                                 },
                                 child: viewScreens
@@ -522,6 +528,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
+                                              log('CATEGORY NAME;: ${categoryController.allCategory.elementAt(index).categoryName}');
+
                                               if (categoryController.allCategory
                                                       .elementAt(index)
                                                       .categoryName ==
@@ -542,6 +550,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 .elementAt(
                                                                     index)
                                                                 .categoryName)));
+                                              } else if (categoryController
+                                                      .allCategory
+                                                      .elementAt(index)
+                                                      .categoryName ==
+                                                  'Best of Logan') {
+                                                launchUrl(Uri.parse(
+                                                    'https://thebestoflogan.com/'));
                                               } else {
                                                 Navigator.push(
                                                     context,

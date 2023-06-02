@@ -571,6 +571,12 @@ class _ServicesScreen extends State<ServicesScreen> {
                                                               );
                                                               _controllerCenter
                                                                   .play();
+                                                            } else if (result ==
+                                                                100) {
+                                                              Get.back();
+                                                              stopLoading();
+                                                              snackMessage(
+                                                                  "Coupon already claimed");
                                                             } else {
                                                               Get.back();
                                                               stopLoading();

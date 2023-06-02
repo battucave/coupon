@@ -197,6 +197,7 @@ class CouponController extends GetxController {
       if (!isFromAvailableCoupons) {
         await removeClaimedCoupon(couponId: coupon_id);
       }
+      return 100;
     }
     if (response.statusCode == 200 || response.statusCode == 201) {
       await getClaimCoupon();
